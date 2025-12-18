@@ -25,7 +25,7 @@ public sealed class UserEntityConfiguration : IEntityTypeConfiguration<MarketUse
         b.Property(x => x.IsManager)
             .HasDefaultValue(false);
 
-        b.Property(x => x.IsEmployee)
+        b.Property(x => x.IsPublicUser)
             .HasDefaultValue(true); // Default: regular user
 
         b.Property(x => x.TokenVersion)

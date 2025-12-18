@@ -45,7 +45,7 @@ export class AuthFacadeService {
   isAuthenticated = computed(() => !!this._currentUser());
   isAdmin = computed(() => this._currentUser()?.isAdmin ?? false);
   isManager = computed(() => this._currentUser()?.isManager ?? false);
-  isEmployee = computed(() => this._currentUser()?.isEmployee ?? false);
+  isPublicUser = computed(() => this._currentUser()?.isPublicUser ?? false);
 
   constructor() {
     // pokušaj inicijalizacije iz postojećeg access tokena
@@ -157,7 +157,7 @@ export class AuthFacadeService {
         email: payload.email,
         isAdmin: payload.is_admin === 'true',
         isManager: payload.is_manager === 'true',
-        isEmployee: payload.is_employee === 'true',
+        isPublicUser: payload.is_public_user === 'true',
         tokenVersion: Number(payload.ver),
       };
 

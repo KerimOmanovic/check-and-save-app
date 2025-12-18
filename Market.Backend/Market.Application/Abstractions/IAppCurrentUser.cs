@@ -33,5 +33,5 @@ public interface IAppCurrentUser
     /// <summary>
     /// Indicates whether the user is a regular employee.
     /// </summary>
-    bool IsEmployee { get; }
+    bool IsPublicUser { get; }
 }

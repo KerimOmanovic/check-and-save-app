@@ -3,6 +3,6 @@ export interface CurrentUserDto {
   email: string;
   isAdmin: boolean;
   isManager: boolean;
-  isEmployee: boolean;
+  isPublicUser: boolean;
   tokenVersion: number;
 }
