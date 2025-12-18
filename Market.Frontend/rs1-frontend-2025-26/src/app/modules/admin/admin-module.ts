@@ -4,12 +4,14 @@ import {AdminRoutingModule} from './admin-routing-module';
 import {AdminLayoutComponent} from './admin-layout/admin-layout.component';
 import {AdminSettingsComponent} from './admin-settings/admin-settings.component';
 import {SharedModule} from '../shared/shared-module';
+import { CategoryComponent } from './category/category.component';
 
 
 @NgModule({
   declarations: [
     AdminLayoutComponent,
     AdminSettingsComponent,
+    CategoryComponent,
   ],
   imports: [
     AdminRoutingModule,

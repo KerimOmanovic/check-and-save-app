@@ -17,7 +17,7 @@ namespace Market.API.Controllers
         }
 
         [HttpGet()]
-        public async Task<ActionResult<PageResult<ListCategoriesQueryDto>>> GetCategories(ListCategoriesQuery query, CancellationToken ct)
+        public async Task<ActionResult<PageResult<ListCategoriesQueryDto>>> GetCategories([FromQuery] ListCategoriesQuery query, CancellationToken ct)
         {
             var res = await sender.Send(query);
             return Ok(res);
