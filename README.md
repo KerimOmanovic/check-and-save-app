@@ -1,4 +1,4 @@
-# Market Frontend - Brzi Vodic
+# Market Frontend - Brzi Vodič
 
 Angular admin panel za upravljanje proizvodima i narudžbama.
 
