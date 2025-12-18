@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Market.Domain.Entities.Identity;
+using Market.Domain.Entities.ProductEntities;
 
 namespace Market.Infrastructure.Database.Seeders;
 
@@ -16,52 +17,48 @@ public static class DynamicDataSeeder
         // Osiguraj da baza postoji (bez migracija)
         await context.Database.EnsureCreatedAsync();
 
-        //await SeedProductCategoriesAsync(context);
+        await SeedProductCategoriesAsync(context);
         await SeedUsersAsync(context);
         //await SeedProductsAsync(context);
         //await SeedOrdersAsync(context);
     }
 
-    //private static async Task SeedProductCategoriesAsync(DatabaseContext context)
-    //{
-    //    if (!await context.ProductCategories.AnyAsync())
-    //    {
-    //        context.ProductCategories.AddRange(
-    //            new ProductCategoryEntity
-    //            {
-    //                Name = "Računari",
-    //                IsEnabled = true,
-    //                CreatedAtUtc = DateTime.UtcNow
-    //            },
-    //            new ProductCategoryEntity
-    //            {
-    //                Name = "Mobilni uređaji",
-    //                IsEnabled = true,
-    //                CreatedAtUtc = DateTime.UtcNow
-    //            },
-    //            new ProductCategoryEntity
-    //            {
-    //                Name = "Periferija",
-    //                IsEnabled = true,
-    //                CreatedAtUtc = DateTime.UtcNow
-    //            },
-    //            new ProductCategoryEntity
-    //            {
-    //                Name = "Komponente",
-    //                IsEnabled = true,
-    //                CreatedAtUtc = DateTime.UtcNow
-    //            },
-    //            new ProductCategoryEntity
-    //            {
-    //                Name = "Audio oprema",
-    //                IsEnabled = false,
-    //                CreatedAtUtc = DateTime.UtcNow
-    //            }
-    //        );
-    //        await context.SaveChangesAsync();
-    //        Console.WriteLine("✅ Dynamic seed: product categories added.");
-    //    }
-    //}
+    private static async Task SeedProductCategoriesAsync(DatabaseContext context)
+    {
+        if (!await context.Categories.AnyAsync())
+        {
+            context.Categories.AddRange(
+                new Category
+                {
+                    Name = "Računari",
+                    Description = "Racunari",
+                    CreatedAtUtc = DateTime.UtcNow
+                },
+                new Category
+                {
+                    Name = "Mobilni uređaji",
+                    CreatedAtUtc = DateTime.UtcNow
+                },
+                new Category
+                {
+                    Name = "Periferija",
+                    CreatedAtUtc = DateTime.UtcNow
+                },
+                new Category
+                {
+                    Name = "Komponente",
+                    CreatedAtUtc = DateTime.UtcNow
+                },
+                new Category
+                {
+                    Name = "Audio oprema",
+                    CreatedAtUtc = DateTime.UtcNow
+                }
+            );
+            await context.SaveChangesAsync();
+            Console.WriteLine("✅ Dynamic seed: product categories added.");
+        }
+    }
 
     /// <summary>
     /// Kreira demo korisnike ako ih još nema u bazi.
