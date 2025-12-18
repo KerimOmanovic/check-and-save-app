@@ -36,7 +36,7 @@ public sealed class JwtTokenService : IJwtTokenService
             new(ClaimTypes.Email,            user.Email),
             new("is_admin",    user.IsAdmin.ToString().ToLowerInvariant()),
             new("is_manager",  user.IsManager.ToString().ToLowerInvariant()),
-            new("is_employee", user.IsEmployee.ToString().ToLowerInvariant()),
+            new("is_public_user", user.IsPublicUser.ToString().ToLowerInvariant()),
             new("ver",         user.TokenVersion.ToString()),
             new(JwtRegisteredClaimNames.Iat, ToUnixTimeSeconds(nowInstant).ToString(), ClaimValueTypes.Integer64),
             new(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString("N")),

@@ -10,7 +10,7 @@ export const myAuthGuard: CanActivateFn = (route: ActivatedRouteSnapshot) => {
   const requireAuth = route.data['requireAuth'] === true;
   const requireAdmin = route.data['requireAdmin'] === true;
   const requireManager = route.data['requireManager'] === true;
-  const requireEmployee = route.data['requireEmployee'] === true;
+  const requirePublicUser = route.data['requirePublicUser'] === true;
 
   const isAuth = currentUser.isAuthenticated();
 
@@ -25,7 +25,7 @@ export const myAuthGuard: CanActivateFn = (route: ActivatedRouteSnapshot) => {
     return true;
   }
 
-  // 2) role check – admin > manager > employee
+  // 2) role check – admin > manager > public user
   const user = currentUser.snapshot;
   if (!user) {
     router.navigate(['/auth/login']);
@@ -42,7 +42,7 @@ export const myAuthGuard: CanActivateFn = (route: ActivatedRouteSnapshot) => {
     return false;
   }
 
-  if (requireEmployee && !user.isEmployee) {
+  if (requirePublicUser && !user.isPublicUser) {
     router.navigate([currentUser.getDefaultRoute()]);
     return false;
   }
@@ -54,7 +54,7 @@ export interface MyAuthRouteData {
   requireAuth?: boolean;
   requireAdmin?: boolean;
   requireManager?: boolean;
-  requireEmployee?: boolean;
+  requirePublicUser?: boolean;
 }
 
 export function myAuthData(data: MyAuthRouteData): { auth: MyAuthRouteData } {

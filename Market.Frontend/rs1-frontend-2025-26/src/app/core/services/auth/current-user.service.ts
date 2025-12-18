@@ -12,7 +12,7 @@ export class CurrentUserService {
   isAuthenticated = computed(() => this.auth.isAuthenticated());
   isAdmin = computed(() => this.auth.isAdmin());
   isManager = computed(() => this.auth.isManager());
-  isEmployee = computed(() => this.auth.isEmployee());
+  isPublicUser = computed(() => this.auth.isPublicUser());
 
   get snapshot() {
     return this.auth.currentUser();
@@ -23,6 +23,7 @@ export class CurrentUserService {
     const user = this.snapshot;
     if (!user) return '/login';
 
+    // Napraviti u ovisnosti od uloge
     if (user.isAdmin) return '/admin';
     return '/client';
   }
