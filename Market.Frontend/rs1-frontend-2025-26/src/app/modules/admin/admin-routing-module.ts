@@ -3,6 +3,7 @@ import { RouterModule, Routes } from '@angular/router';
 
 import { AdminLayoutComponent } from './admin-layout/admin-layout.component';
 import {AdminSettingsComponent} from './admin-settings/admin-settings.component';
+import {CategoryComponent} from './category/category.component';
 
 const routes: Routes = [
   {
@@ -14,10 +15,14 @@ const routes: Routes = [
         path: 'settings',
         component: AdminSettingsComponent,
       },
+      {
+        path: 'categories',
+        component: CategoryComponent,
+      },
       // default admin route → /admin/products
       {
         path: '',
-        redirectTo: 'settings',
+        redirectTo: 'categories',
         pathMatch: 'full',
       },
     ],
