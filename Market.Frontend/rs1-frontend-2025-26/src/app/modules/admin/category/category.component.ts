@@ -1,7 +1,7 @@
-import {Component, inject} from '@angular/core';
+import {Component, inject, OnInit} from '@angular/core';
 import {CategoriesApiService} from '../../../api-services/category/category-api.service';
 import {Observable} from 'rxjs';
-import {ListCategoriesQueryResponse} from '../../../api-services/category/category-api.model';
+import {ListCategoriesQueryDto, ListCategoriesQueryResponse} from '../../../api-services/category/category-api.model';
 
 @Component({
   selector: 'app-category',
@@ -9,7 +9,12 @@ import {ListCategoriesQueryResponse} from '../../../api-services/category/catego
   templateUrl: './category.component.html',
   styleUrl: './category.component.scss',
 })
-export class CategoryComponent {
+export class CategoryComponent implements OnInit  {
     private apiService = inject(CategoriesApiService);
-    public categories: ListCategoriesQueryResponse[] = [];
+    public categories: ListCategoriesQueryDto[] = [];
+    ngOnInit(){
+      this.apiService.list().subscribe((res)=>{
+        this.categories = res.items;
+      })
+    }
 }
