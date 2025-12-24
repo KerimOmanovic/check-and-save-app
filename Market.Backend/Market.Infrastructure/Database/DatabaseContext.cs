@@ -8,7 +8,7 @@ public partial class DatabaseContext : DbContext, IAppDbContext
     public DbSet<MarketUserEntity> Users => Set<MarketUserEntity>();
     public DbSet<RefreshTokenEntity> RefreshTokens => Set<RefreshTokenEntity>();
 
-    public DbSet<Category> Categories => Set<Category>();
+    public DbSet<CategoryEntity> Categories => Set<CategoryEntity>();
 
     private readonly TimeProvider _clock;
 

@@ -11,7 +11,7 @@ namespace Market.Application.Modules.Products.Category.Commands.Create
     {
         public async Task<int> Handle(CreateCategoryCommand request, CancellationToken cancellationToken)
         {
-            var category = new Market.Domain.Entities.ProductEntities.Category
+            var category = new Market.Domain.Entities.ProductEntities.CategoryEntity
             {
                 Name = request.Name,
                 Description = request.Description,
