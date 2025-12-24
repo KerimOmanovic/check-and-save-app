@@ -8,7 +8,7 @@ public interface IAppDbContext
     DbSet<MarketUserEntity> Users { get; }
 
     DbSet<RefreshTokenEntity> RefreshTokens { get; }
-    DbSet<Category> Categories { get; }
+    DbSet<CategoryEntity> Categories { get; }
 
     Task<int> SaveChangesAsync(CancellationToken ct);
 }

@@ -7,9 +7,9 @@ using System.Threading.Tasks;
 
 namespace Market.Domain.Entities.ProductEntities
 {
-    public class Category : BaseEntity
+    public class ComparisonEntity : BaseEntity
     {
-        public string Name { get; set; }
-        public string? Description { get; set; }
+        public int CustomerEntityId { get; set; }
+        public DateTime Date {  get; set; }
     }
 }
