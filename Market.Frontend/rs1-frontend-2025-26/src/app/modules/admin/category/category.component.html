@@ -4,9 +4,10 @@
     <th>Name</th>
     <th>Description</th>
   </tr>
-  <tr>
-    <td>Id</td>
+  <tr *ngFor="let category of categories" >
+    <td>{{category.name}}</td>
     <td>Ime</td>
+    <td>{{category.description}}</td>
     <td>Opis</td>
   </tr>
 </table>
