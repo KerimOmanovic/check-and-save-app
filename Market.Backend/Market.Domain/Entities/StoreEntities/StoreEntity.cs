@@ -13,7 +13,7 @@ namespace Market.Domain.Entities.StoreEntities
         public string Contact { get; set; }
         public string Email { get; set; }
         public bool IsActive { get; set; }
-        public int CityId { get; set; }
-        //public CityEntity? City { get; set; }
+        public int CityEntityId { get; set; }
+        public CityEntity? CityEntity { get; set; }
     }
 }
