@@ -11,5 +11,8 @@ namespace Market.Domain.Entities.StoreEntities
     {
         public string Name { get; set; }
         public int PostalCode { get; set; }
+        public ICollection<StoreEntity> Stores { get; set; } = new List<StoreEntity>();
+        public ICollection<BranchEntity> Branches { get; set; } = new List<BranchEntity>();
     }
+}
 }

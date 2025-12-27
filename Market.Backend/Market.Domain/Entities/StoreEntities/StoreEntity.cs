@@ -1,4 +1,6 @@
 ﻿using Market.Domain.Common;
+using Market.Domain.Entities.Identity;
+using Market.Domain.Entities.ProductEntities;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -15,5 +17,8 @@ namespace Market.Domain.Entities.StoreEntities
         public bool IsActive { get; set; }
         public int CityEntityId { get; set; }
         public CityEntity? CityEntity { get; set; }
+        public ICollection<BranchEntity> Branches { get; set; } = new List<BranchEntity>();
+        public ICollection<ManagerEntity> Managers { get; set; } = new List<ManagerEntity>();
+        public ICollection<ProductEntity> Products { get; set; } = new List<ProductEntity>();
     }
 }
