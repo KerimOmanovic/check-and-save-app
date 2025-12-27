@@ -1,4 +1,5 @@
 ﻿using Market.Domain.Common;
+using Market.Domain.Entities.Identity;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,8 +10,8 @@ namespace Market.Domain.Entities.ProductEntities
 {
     public class FavoritesEntity : BaseEntity
     {
-        public int CustomerEntityId { get; set; }
-        //public CustomerEntity? CustomerEntity { get; set;}
+        public int PublicUserEntityId { get; set; }
+        public PublicUserEntity? PublicUserEntity { get; set;}
         public int ProductEntityId { get; set; }
         public ProductEntity? ProductEntity { get; set; }   
         public DateTime DateAdded { get; set; } 
