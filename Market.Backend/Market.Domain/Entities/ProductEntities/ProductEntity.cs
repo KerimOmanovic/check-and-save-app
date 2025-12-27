@@ -22,5 +22,11 @@ namespace Market.Domain.Entities.ProductEntities
         public string Description { get; set; } = null!;
         public string ImageURL { get; set; }
         public DateTime DateAdded { get; set; }
+
+        public ICollection<PriceEntity> Prices { get; set; } = new List<PriceEntity>();
+        public ICollection<ReviewEntity> Reviews { get; set; } = new List<ReviewEntity>();
+        public ICollection<FavoritesEntity> Favorites { get; set; } = new List<FavoritesEntity>();
+        public ICollection<ItemComparisonEntity> ItemComparison { get; set; } = new List<ItemComparisonEntity>();
+        //public ICollection<SalesStatisticsEntity> SalesStatistics { get; set; } = new List<SalesStatisticsEntity>();
     }
 }

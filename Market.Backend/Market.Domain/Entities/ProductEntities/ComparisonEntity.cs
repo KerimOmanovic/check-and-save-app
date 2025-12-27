@@ -11,5 +11,7 @@ namespace Market.Domain.Entities.ProductEntities
     {
         public int CustomerEntityId { get; set; }
         public DateTime Date {  get; set; }
+
+        public ICollection<ItemComparisonEntity> Items { get; set; } = new List<ItemComparisonEntity>();
     }
 }
