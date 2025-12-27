@@ -9,6 +9,7 @@ public sealed class MarketUserEntity : BaseEntity
     public string Lastname { get; set; } = string.Empty;
     public string Email { get; set; } = string.Empty;
     public string PasswordHash { get; set; } = string.Empty;
+    public DateTime RegistrationDate { get; set; }
     public bool IsAdmin { get; set; }
     public bool IsManager { get; set; }
     public bool IsPublicUser { get; set; }
