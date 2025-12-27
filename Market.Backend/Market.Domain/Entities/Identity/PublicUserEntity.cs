@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Market.Domain.Entities.Identity
 {
-    public class CustomerEntity : BaseEntity
+    public class PublicUserEntity : BaseEntity
     {
         public int MarketUserEntityId { get; set; }
         public MarketUserEntity?MarketUserEntity { get; set; }
