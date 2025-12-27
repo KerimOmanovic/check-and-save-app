@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Market.Domain.Entities.StoreEntities
 {
-    public class City : BaseEntity
+    public class CityEntity : BaseEntity
     {
         public string Name { get; set; }
         public int PostalCode { get; set; }
