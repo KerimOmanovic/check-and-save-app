@@ -15,4 +15,3 @@ namespace Market.Domain.Entities.StoreEntities
         public ICollection<BranchEntity> Branches { get; set; } = new List<BranchEntity>();
     }
 }
-}
