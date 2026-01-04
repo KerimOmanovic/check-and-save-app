@@ -1,4 +1,5 @@
 ﻿using Market.Domain.Common;
+using Market.Domain.Entities.ProductEntities;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -17,5 +18,6 @@ namespace Market.Domain.Entities.StoreEntities
         public string Contact { get; set; }
         public string Email { get; set; }
         public bool IsActive { get; set; }
+        public ICollection<ProductEntity> Products { get; set; } = new List<ProductEntity>();
     }
 }
