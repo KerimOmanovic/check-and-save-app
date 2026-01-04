@@ -221,35 +221,6 @@ namespace Market.Infrastructure.Migrations
                         .HasColumnType("datetime2");
 
                     b.Property<string>("Description")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<bool>("IsDeleted")
-                        .HasColumnType("bit");
-
-                    b.Property<DateTime?>("ModifiedAtUtc")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("BrandEntity");
-                });
-
-            modelBuilder.Entity("Market.Domain.Entities.ProductEntities.CategoryEntity", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<DateTime>("CreatedAtUtc")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("Description")
                         .HasMaxLength(1000)
                         .HasColumnType("nvarchar(1000)");
 
@@ -439,6 +410,9 @@ namespace Market.Infrastructure.Migrations
                     b.Property<int>("BranchEntityId")
                         .HasColumnType("int");
 
+                    b.Property<int?>("BranchEntityId1")
+                        .HasColumnType("int");
+
                     b.Property<int>("BrandEntityId")
                         .HasColumnType("int");
 
@@ -475,15 +449,22 @@ namespace Market.Infrastructure.Migrations
                     b.Property<int>("StoreEntityId")
                         .HasColumnType("int");
 
+                    b.Property<int?>("StoreEntityId1")
+                        .HasColumnType("int");
+
                     b.HasKey("Id");
 
                     b.HasIndex("BranchEntityId");
+
+                    b.HasIndex("BranchEntityId1");
 
                     b.HasIndex("BrandEntityId");
 
                     b.HasIndex("CategoryEntityId");
 
                     b.HasIndex("StoreEntityId");
+
+                    b.HasIndex("StoreEntityId1");
 
                     b.ToTable("Products", (string)null);
                 });
@@ -528,383 +509,6 @@ namespace Market.Infrastructure.Migrations
                     b.HasIndex("PublicUserEntityId");
 
                     b.ToTable("Reviews", (string)null);
-                });
-
-            modelBuilder.Entity("Market.Domain.Entities.StoreEntities.BranchEntity", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<string>("Address")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("CityEntityId")
-                        .HasColumnType("int");
-
-                    b.Property<string>("Contact")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<DateTime>("CreatedAtUtc")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("Email")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<bool>("IsActive")
-                        .HasColumnType("bit");
-
-                    b.Property<bool>("IsDeleted")
-                        .HasColumnType("bit");
-
-                    b.Property<DateTime?>("ModifiedAtUtc")
-                        .HasColumnType("datetime2");
-
-                    b.Property<int>("StoreEntityId")
-                        .HasColumnType("int");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("CityEntityId");
-
-                    b.HasIndex("StoreEntityId");
-
-                    b.ToTable("BranchEntity");
-                });
-
-            modelBuilder.Entity("Market.Domain.Entities.StoreEntities.CityEntity", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<DateTime>("CreatedAtUtc")
-                        .HasColumnType("datetime2");
-
-                    b.Property<bool>("IsDeleted")
-                        .HasColumnType("bit");
-
-                    b.Property<DateTime?>("ModifiedAtUtc")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("PostalCode")
-                        .HasColumnType("int");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("CityEntity");
-                });
-
-            modelBuilder.Entity("Market.Domain.Entities.StoreEntities.StoreEntity", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<int>("CityEntityId")
-                        .HasColumnType("int");
-
-                    b.Property<string>("Contact")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<DateTime>("CreatedAtUtc")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("Email")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<bool>("IsActive")
-                        .HasColumnType("bit");
-
-                    b.Property<bool>("IsDeleted")
-                        .HasColumnType("bit");
-
-                    b.Property<DateTime?>("ModifiedAtUtc")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("CityEntityId");
-
-                    b.ToTable("StoreEntity");
-                });
-
-            modelBuilder.Entity("Market.Domain.Entities.Identity.ManagerEntity", b =>
-                {
-                    b.HasOne("Market.Domain.Entities.Identity.MarketUserEntity", "MarketUserEntity")
-                        .WithOne("ManagerEntity")
-                        .HasForeignKey("Market.Domain.Entities.Identity.ManagerEntity", "MarketUserEntityId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("Market.Domain.Entities.StoreEntities.StoreEntity", "StoreEntity")
-                        .WithMany()
-                        .HasForeignKey("StoreEntityId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("MarketUserEntity");
-
-                    b.Navigation("StoreEntity");
-                });
-
-            modelBuilder.Entity("Market.Domain.Entities.Identity.PublicUserEntity", b =>
-                {
-                    b.HasOne("Market.Domain.Entities.Identity.MarketUserEntity", "MarketUserEntity")
-                        .WithOne("PublicUserEntity")
-                        .HasForeignKey("Market.Domain.Entities.Identity.PublicUserEntity", "MarketUserEntityId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("MarketUserEntity");
-                });
-
-            modelBuilder.Entity("Market.Domain.Entities.ProductEntities.ComparisonEntity", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<DateTime>("CreatedAtUtc")
-                        .HasColumnType("datetime2");
-
-                    b.Property<int>("CustomerEntityId")
-                        .HasColumnType("int");
-
-                    b.Property<DateTime>("Date")
-                        .HasColumnType("datetime2");
-
-                    b.Property<bool>("IsDeleted")
-                        .HasColumnType("bit");
-
-                    b.Property<DateTime?>("ModifiedAtUtc")
-                        .HasColumnType("datetime2");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("ComparisonEntity");
-                });
-
-            modelBuilder.Entity("Market.Domain.Entities.ProductEntities.FavoritesEntity", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<DateTime>("CreatedAtUtc")
-                        .HasColumnType("datetime2");
-
-                    b.Property<DateTime>("DateAdded")
-                        .HasColumnType("datetime2");
-
-                    b.Property<bool>("IsDeleted")
-                        .HasColumnType("bit");
-
-                    b.Property<DateTime?>("ModifiedAtUtc")
-                        .HasColumnType("datetime2");
-
-                    b.Property<int>("ProductEntityId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("PublicUserEntityId")
-                        .HasColumnType("int");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("ProductEntityId");
-
-                    b.HasIndex("PublicUserEntityId");
-
-                    b.ToTable("FavoritesEntity");
-                });
-
-            modelBuilder.Entity("Market.Domain.Entities.ProductEntities.ItemComparisonEntity", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<int>("ComparisonEntityId")
-                        .HasColumnType("int");
-
-                    b.Property<DateTime>("CreatedAtUtc")
-                        .HasColumnType("datetime2");
-
-                    b.Property<bool>("IsDeleted")
-                        .HasColumnType("bit");
-
-                    b.Property<DateTime?>("ModifiedAtUtc")
-                        .HasColumnType("datetime2");
-
-                    b.Property<int?>("ProductEntityId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("ProductId")
-                        .HasColumnType("int");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("ComparisonEntityId");
-
-                    b.HasIndex("ProductEntityId");
-
-                    b.ToTable("ItemComparisonEntity");
-                });
-
-            modelBuilder.Entity("Market.Domain.Entities.ProductEntities.PriceEntity", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<int>("Amount")
-                        .HasColumnType("int");
-
-                    b.Property<DateTime>("CreatedAtUtc")
-                        .HasColumnType("datetime2");
-
-                    b.Property<DateTime>("DateUpdated")
-                        .HasColumnType("datetime2");
-
-                    b.Property<bool>("IsDeleted")
-                        .HasColumnType("bit");
-
-                    b.Property<DateTime?>("ModifiedAtUtc")
-                        .HasColumnType("datetime2");
-
-                    b.Property<int>("ProductEntityId")
-                        .HasColumnType("int");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("ProductEntityId");
-
-                    b.ToTable("PriceEntity");
-                });
-
-            modelBuilder.Entity("Market.Domain.Entities.ProductEntities.ProductEntity", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<int>("BranchEntityId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("BrandEntityId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("CategoryEntityId")
-                        .HasColumnType("int");
-
-                    b.Property<DateTime>("CreatedAtUtc")
-                        .HasColumnType("datetime2");
-
-                    b.Property<DateTime>("DateAdded")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("Description")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("ImageURL")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<bool>("IsDeleted")
-                        .HasColumnType("bit");
-
-                    b.Property<DateTime?>("ModifiedAtUtc")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("StoreEntityId")
-                        .HasColumnType("int");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("BranchEntityId");
-
-                    b.HasIndex("BrandEntityId");
-
-                    b.HasIndex("CategoryEntityId");
-
-                    b.HasIndex("StoreEntityId");
-
-                    b.ToTable("ProductEntity");
-                });
-
-            modelBuilder.Entity("Market.Domain.Entities.ProductEntities.ReviewEntity", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<string>("Comment")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<DateTime>("CreatedAtUtc")
-                        .HasColumnType("datetime2");
-
-                    b.Property<DateTime>("Date")
-                        .HasColumnType("datetime2");
-
-                    b.Property<bool>("IsDeleted")
-                        .HasColumnType("bit");
-
-                    b.Property<DateTime?>("ModifiedAtUtc")
-                        .HasColumnType("datetime2");
-
-                    b.Property<int>("ProductEntityId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("PublicUserEntityId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("Rating")
-                        .HasColumnType("int");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("ProductEntityId");
-
-                    b.HasIndex("PublicUserEntityId");
-
-                    b.ToTable("ReviewEntity");
                 });
 
             modelBuilder.Entity("Market.Domain.Entities.StoreEntities.BranchEntity", b =>
@@ -1108,9 +712,7 @@ namespace Market.Infrastructure.Migrations
                         .WithMany("ItemComparison")
                         .HasForeignKey("ProductId")
                         .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired()
-                
-                        .HasForeignKey("ProductEntityId");
+                        .IsRequired();
 
                     b.Navigation("ComparisonEntity");
 
@@ -1131,11 +733,14 @@ namespace Market.Infrastructure.Migrations
             modelBuilder.Entity("Market.Domain.Entities.ProductEntities.ProductEntity", b =>
                 {
                     b.HasOne("Market.Domain.Entities.StoreEntities.BranchEntity", "BranchEntity")
-               
-                .WithMany("Products")
-                .HasForeignKey("BranchEntityId")
-                .OnDelete(DeleteBehavior.Cascade)
-                .IsRequired();
+                        .WithMany()
+                        .HasForeignKey("BranchEntityId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Market.Domain.Entities.StoreEntities.BranchEntity", null)
+                        .WithMany("Products")
+                        .HasForeignKey("BranchEntityId1");
 
                     b.HasOne("Market.Domain.Entities.ProductEntities.BrandEntity", "BrandEntity")
                         .WithMany("Products")
@@ -1150,11 +755,14 @@ namespace Market.Infrastructure.Migrations
                         .IsRequired();
 
                     b.HasOne("Market.Domain.Entities.StoreEntities.StoreEntity", "StoreEntity")
-                       
-                        .WithMany("Products")
+                        .WithMany()
                         .HasForeignKey("StoreEntityId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.HasOne("Market.Domain.Entities.StoreEntities.StoreEntity", null)
+                        .WithMany("Products")
+                        .HasForeignKey("StoreEntityId1");
 
                     b.Navigation("BranchEntity");
 
@@ -1187,16 +795,7 @@ namespace Market.Infrastructure.Migrations
             modelBuilder.Entity("Market.Domain.Entities.StoreEntities.BranchEntity", b =>
                 {
                     b.HasOne("Market.Domain.Entities.StoreEntities.CityEntity", "CityEntity")
-                        .WithMany()
-                        .HasForeignKey("CityEntityId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("Market.Domain.Entities.StoreEntities.StoreEntity", "StoreEntity")
-                        
                         .WithMany("Branches")
-                        .HasForeignKey("StoreEntityId")
-                        .OnDelete(DeleteBehavior.Cascade)
                         .HasForeignKey("CityEntityId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
@@ -1215,10 +814,7 @@ namespace Market.Infrastructure.Migrations
             modelBuilder.Entity("Market.Domain.Entities.StoreEntities.StoreEntity", b =>
                 {
                     b.HasOne("Market.Domain.Entities.StoreEntities.CityEntity", "CityEntity")
-                        
                         .WithMany("Stores")
-                        .HasForeignKey("CityEntityId")
-                        .OnDelete(DeleteBehavior.Cascade)
                         .HasForeignKey("CityEntityId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();

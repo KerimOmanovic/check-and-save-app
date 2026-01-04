@@ -6,33 +6,43 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace Market.Infrastructure.Migrations
 {
     /// <inheritdoc />
-    public partial class S1_AddCityStoreBranch : Migration
+    public partial class InitialClean : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.AddColumn<DateTime>(
-                name: "RegistrationDate",
-                table: "Users",
-                type: "datetime2",
-                nullable: false,
-                defaultValue: new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified));
-
             migrationBuilder.CreateTable(
-                name: "BrandEntity",
+                name: "Brands",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Description = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Name = table.Column<string>(type: "nvarchar(200)", maxLength: 200, nullable: false),
+                    Description = table.Column<string>(type: "nvarchar(1000)", maxLength: 1000, nullable: true),
                     IsDeleted = table.Column<bool>(type: "bit", nullable: false),
                     CreatedAtUtc = table.Column<DateTime>(type: "datetime2", nullable: false),
                     ModifiedAtUtc = table.Column<DateTime>(type: "datetime2", nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_BrandEntity", x => x.Id);
+                    table.PrimaryKey("PK_Brands", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Categories",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Name = table.Column<string>(type: "nvarchar(200)", maxLength: 200, nullable: false),
+                    Description = table.Column<string>(type: "nvarchar(1000)", maxLength: 1000, nullable: true),
+                    IsDeleted = table.Column<bool>(type: "bit", nullable: false),
+                    CreatedAtUtc = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    ModifiedAtUtc = table.Column<DateTime>(type: "datetime2", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Categories", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -53,7 +63,7 @@ namespace Market.Infrastructure.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "ComparisonEntity",
+                name: "Comparisons",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
@@ -66,7 +76,58 @@ namespace Market.Infrastructure.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_ComparisonEntity", x => x.Id);
+                    table.PrimaryKey("PK_Comparisons", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Users",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Firstname = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Lastname = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Email = table.Column<string>(type: "nvarchar(200)", maxLength: 200, nullable: false),
+                    PasswordHash = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    RegistrationDate = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    IsAdmin = table.Column<bool>(type: "bit", nullable: false, defaultValue: false),
+                    IsManager = table.Column<bool>(type: "bit", nullable: false, defaultValue: false),
+                    IsPublicUser = table.Column<bool>(type: "bit", nullable: false, defaultValue: true),
+                    TokenVersion = table.Column<int>(type: "int", nullable: false, defaultValue: 0),
+                    IsEnabled = table.Column<bool>(type: "bit", nullable: false, defaultValue: true),
+                    IsDeleted = table.Column<bool>(type: "bit", nullable: false),
+                    CreatedAtUtc = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    ModifiedAtUtc = table.Column<DateTime>(type: "datetime2", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Users", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Store",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Name = table.Column<string>(type: "nvarchar(150)", maxLength: 150, nullable: false),
+                    Contact = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
+                    Email = table.Column<string>(type: "nvarchar(150)", maxLength: 150, nullable: false),
+                    IsActive = table.Column<bool>(type: "bit", nullable: false, defaultValue: true),
+                    CityEntityId = table.Column<int>(type: "int", nullable: false),
+                    IsDeleted = table.Column<bool>(type: "bit", nullable: false),
+                    CreatedAtUtc = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    ModifiedAtUtc = table.Column<DateTime>(type: "datetime2", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Store", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Store_City_CityEntityId",
+                        column: x => x.CityEntityId,
+                        principalTable: "City",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
@@ -94,29 +155,30 @@ namespace Market.Infrastructure.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Store",
+                name: "RefreshTokens",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    Name = table.Column<string>(type: "nvarchar(150)", maxLength: 150, nullable: false),
-                    Contact = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
-                    Email = table.Column<string>(type: "nvarchar(150)", maxLength: 150, nullable: false),
-                    IsActive = table.Column<bool>(type: "bit", nullable: false, defaultValue: true),
-                    CityEntityId = table.Column<int>(type: "int", nullable: false),
+                    TokenHash = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    ExpiresAtUtc = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    IsRevoked = table.Column<bool>(type: "bit", nullable: false, defaultValue: false),
+                    UserId = table.Column<int>(type: "int", nullable: false),
+                    Fingerprint = table.Column<string>(type: "nvarchar(200)", maxLength: 200, nullable: true),
+                    RevokedAtUtc = table.Column<DateTime>(type: "datetime2", nullable: true),
                     IsDeleted = table.Column<bool>(type: "bit", nullable: false),
                     CreatedAtUtc = table.Column<DateTime>(type: "datetime2", nullable: false),
                     ModifiedAtUtc = table.Column<DateTime>(type: "datetime2", nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Store", x => x.Id);
+                    table.PrimaryKey("PK_RefreshTokens", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Store_City_CityEntityId",
-                        column: x => x.CityEntityId,
-                        principalTable: "City",
+                        name: "FK_RefreshTokens_Users_UserId",
+                        column: x => x.UserId,
+                        principalTable: "Users",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -183,7 +245,7 @@ namespace Market.Infrastructure.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "ProductEntity",
+                name: "Products",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
@@ -192,45 +254,57 @@ namespace Market.Infrastructure.Migrations
                     BranchEntityId = table.Column<int>(type: "int", nullable: false),
                     CategoryEntityId = table.Column<int>(type: "int", nullable: false),
                     BrandEntityId = table.Column<int>(type: "int", nullable: false),
-                    Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Description = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    ImageURL = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Name = table.Column<string>(type: "nvarchar(200)", maxLength: 200, nullable: false),
+                    Description = table.Column<string>(type: "nvarchar(2000)", maxLength: 2000, nullable: false),
+                    ImageURL = table.Column<string>(type: "nvarchar(500)", maxLength: 500, nullable: false),
                     DateAdded = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    BranchEntityId1 = table.Column<int>(type: "int", nullable: true),
+                    StoreEntityId1 = table.Column<int>(type: "int", nullable: true),
                     IsDeleted = table.Column<bool>(type: "bit", nullable: false),
                     CreatedAtUtc = table.Column<DateTime>(type: "datetime2", nullable: false),
                     ModifiedAtUtc = table.Column<DateTime>(type: "datetime2", nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_ProductEntity", x => x.Id);
+                    table.PrimaryKey("PK_Products", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_ProductEntity_Branch_BranchEntityId",
+                        name: "FK_Products_Branch_BranchEntityId",
                         column: x => x.BranchEntityId,
                         principalTable: "Branch",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_ProductEntity_BrandEntity_BrandEntityId",
+                        name: "FK_Products_Branch_BranchEntityId1",
+                        column: x => x.BranchEntityId1,
+                        principalTable: "Branch",
+                        principalColumn: "Id");
+                    table.ForeignKey(
+                        name: "FK_Products_Brands_BrandEntityId",
                         column: x => x.BrandEntityId,
-                        principalTable: "BrandEntity",
+                        principalTable: "Brands",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_ProductEntity_Categories_CategoryEntityId",
+                        name: "FK_Products_Categories_CategoryEntityId",
                         column: x => x.CategoryEntityId,
                         principalTable: "Categories",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_ProductEntity_Store_StoreEntityId",
+                        name: "FK_Products_Store_StoreEntityId",
                         column: x => x.StoreEntityId,
                         principalTable: "Store",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_Products_Store_StoreEntityId1",
+                        column: x => x.StoreEntityId1,
+                        principalTable: "Store",
+                        principalColumn: "Id");
                 });
 
             migrationBuilder.CreateTable(
-                name: "FavoritesEntity",
+                name: "Favorites",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
@@ -244,15 +318,15 @@ namespace Market.Infrastructure.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_FavoritesEntity", x => x.Id);
+                    table.PrimaryKey("PK_Favorites", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_FavoritesEntity_ProductEntity_ProductEntityId",
+                        name: "FK_Favorites_Products_ProductEntityId",
                         column: x => x.ProductEntityId,
-                        principalTable: "ProductEntity",
+                        principalTable: "Products",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_FavoritesEntity_PublicUserEntity_PublicUserEntityId",
+                        name: "FK_Favorites_PublicUserEntity_PublicUserEntityId",
                         column: x => x.PublicUserEntityId,
                         principalTable: "PublicUserEntity",
                         principalColumn: "Id",
@@ -260,36 +334,36 @@ namespace Market.Infrastructure.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "ItemComparisonEntity",
+                name: "ItemComparisons",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     ComparisonEntityId = table.Column<int>(type: "int", nullable: false),
                     ProductId = table.Column<int>(type: "int", nullable: false),
-                    ProductEntityId = table.Column<int>(type: "int", nullable: true),
                     IsDeleted = table.Column<bool>(type: "bit", nullable: false),
                     CreatedAtUtc = table.Column<DateTime>(type: "datetime2", nullable: false),
                     ModifiedAtUtc = table.Column<DateTime>(type: "datetime2", nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_ItemComparisonEntity", x => x.Id);
+                    table.PrimaryKey("PK_ItemComparisons", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_ItemComparisonEntity_ComparisonEntity_ComparisonEntityId",
+                        name: "FK_ItemComparisons_Comparisons_ComparisonEntityId",
                         column: x => x.ComparisonEntityId,
-                        principalTable: "ComparisonEntity",
+                        principalTable: "Comparisons",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_ItemComparisonEntity_ProductEntity_ProductEntityId",
-                        column: x => x.ProductEntityId,
-                        principalTable: "ProductEntity",
-                        principalColumn: "Id");
+                        name: "FK_ItemComparisons_Products_ProductId",
+                        column: x => x.ProductId,
+                        principalTable: "Products",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
-                name: "PriceEntity",
+                name: "Prices",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
@@ -303,17 +377,17 @@ namespace Market.Infrastructure.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_PriceEntity", x => x.Id);
+                    table.PrimaryKey("PK_Prices", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_PriceEntity_ProductEntity_ProductEntityId",
+                        name: "FK_Prices_Products_ProductEntityId",
                         column: x => x.ProductEntityId,
-                        principalTable: "ProductEntity",
+                        principalTable: "Products",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
-                name: "ReviewEntity",
+                name: "Reviews",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
@@ -321,7 +395,7 @@ namespace Market.Infrastructure.Migrations
                     PublicUserEntityId = table.Column<int>(type: "int", nullable: false),
                     ProductEntityId = table.Column<int>(type: "int", nullable: false),
                     Rating = table.Column<int>(type: "int", nullable: false),
-                    Comment = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Comment = table.Column<string>(type: "nvarchar(2000)", maxLength: 2000, nullable: true),
                     Date = table.Column<DateTime>(type: "datetime2", nullable: false),
                     IsDeleted = table.Column<bool>(type: "bit", nullable: false),
                     CreatedAtUtc = table.Column<DateTime>(type: "datetime2", nullable: false),
@@ -329,15 +403,15 @@ namespace Market.Infrastructure.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_ReviewEntity", x => x.Id);
+                    table.PrimaryKey("PK_Reviews", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_ReviewEntity_ProductEntity_ProductEntityId",
+                        name: "FK_Reviews_Products_ProductEntityId",
                         column: x => x.ProductEntityId,
-                        principalTable: "ProductEntity",
+                        principalTable: "Products",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_ReviewEntity_PublicUserEntity_PublicUserEntityId",
+                        name: "FK_Reviews_PublicUserEntity_PublicUserEntityId",
                         column: x => x.PublicUserEntityId,
                         principalTable: "PublicUserEntity",
                         principalColumn: "Id",
@@ -355,24 +429,24 @@ namespace Market.Infrastructure.Migrations
                 column: "StoreEntityId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_FavoritesEntity_ProductEntityId",
-                table: "FavoritesEntity",
+                name: "IX_Favorites_ProductEntityId",
+                table: "Favorites",
                 column: "ProductEntityId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_FavoritesEntity_PublicUserEntityId",
-                table: "FavoritesEntity",
+                name: "IX_Favorites_PublicUserEntityId",
+                table: "Favorites",
                 column: "PublicUserEntityId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_ItemComparisonEntity_ComparisonEntityId",
-                table: "ItemComparisonEntity",
+                name: "IX_ItemComparisons_ComparisonEntityId",
+                table: "ItemComparisons",
                 column: "ComparisonEntityId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_ItemComparisonEntity_ProductEntityId",
-                table: "ItemComparisonEntity",
-                column: "ProductEntityId");
+                name: "IX_ItemComparisons_ProductId",
+                table: "ItemComparisons",
+                column: "ProductId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_ManagerEntity_MarketUserEntityId",
@@ -386,29 +460,39 @@ namespace Market.Infrastructure.Migrations
                 column: "StoreEntityId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_PriceEntity_ProductEntityId",
-                table: "PriceEntity",
+                name: "IX_Prices_ProductEntityId",
+                table: "Prices",
                 column: "ProductEntityId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_ProductEntity_BranchEntityId",
-                table: "ProductEntity",
+                name: "IX_Products_BranchEntityId",
+                table: "Products",
                 column: "BranchEntityId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_ProductEntity_BrandEntityId",
-                table: "ProductEntity",
+                name: "IX_Products_BranchEntityId1",
+                table: "Products",
+                column: "BranchEntityId1");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Products_BrandEntityId",
+                table: "Products",
                 column: "BrandEntityId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_ProductEntity_CategoryEntityId",
-                table: "ProductEntity",
+                name: "IX_Products_CategoryEntityId",
+                table: "Products",
                 column: "CategoryEntityId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_ProductEntity_StoreEntityId",
-                table: "ProductEntity",
+                name: "IX_Products_StoreEntityId",
+                table: "Products",
                 column: "StoreEntityId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Products_StoreEntityId1",
+                table: "Products",
+                column: "StoreEntityId1");
 
             migrationBuilder.CreateIndex(
                 name: "IX_PublicUserEntity_MarketUserEntityId",
@@ -417,44 +501,59 @@ namespace Market.Infrastructure.Migrations
                 unique: true);
 
             migrationBuilder.CreateIndex(
-                name: "IX_ReviewEntity_ProductEntityId",
-                table: "ReviewEntity",
+                name: "IX_RefreshTokens_UserId_TokenHash",
+                table: "RefreshTokens",
+                columns: new[] { "UserId", "TokenHash" },
+                unique: true);
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Reviews_ProductEntityId",
+                table: "Reviews",
                 column: "ProductEntityId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_ReviewEntity_PublicUserEntityId",
-                table: "ReviewEntity",
+                name: "IX_Reviews_PublicUserEntityId",
+                table: "Reviews",
                 column: "PublicUserEntityId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Store_CityEntityId",
                 table: "Store",
                 column: "CityEntityId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Users_Email",
+                table: "Users",
+                column: "Email",
+                unique: true);
         }
 
         /// <inheritdoc />
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "FavoritesEntity");
+                name: "Favorites");
 
             migrationBuilder.DropTable(
-                name: "ItemComparisonEntity");
+                name: "ItemComparisons");
 
             migrationBuilder.DropTable(
                 name: "ManagerEntity");
 
             migrationBuilder.DropTable(
-                name: "PriceEntity");
+                name: "Prices");
 
             migrationBuilder.DropTable(
-                name: "ReviewEntity");
+                name: "RefreshTokens");
 
             migrationBuilder.DropTable(
-                name: "ComparisonEntity");
+                name: "Reviews");
 
             migrationBuilder.DropTable(
-                name: "ProductEntity");
+                name: "Comparisons");
+
+            migrationBuilder.DropTable(
+                name: "Products");
 
             migrationBuilder.DropTable(
                 name: "PublicUserEntity");
@@ -463,17 +562,19 @@ namespace Market.Infrastructure.Migrations
                 name: "Branch");
 
             migrationBuilder.DropTable(
-                name: "BrandEntity");
+                name: "Brands");
+
+            migrationBuilder.DropTable(
+                name: "Categories");
+
+            migrationBuilder.DropTable(
+                name: "Users");
 
             migrationBuilder.DropTable(
                 name: "Store");
 
             migrationBuilder.DropTable(
                 name: "City");
-
-            migrationBuilder.DropColumn(
-                name: "RegistrationDate",
-                table: "Users");
         }
     }
 }

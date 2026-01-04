@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Market.Infrastructure.Migrations
 {
     [DbContext(typeof(DatabaseContext))]
-    [Migration("20251227205325_S1_AddCityStoreBranch")]
-    partial class S1_AddCityStoreBranch
+    [Migration("20260104191156_InitialClean")]
+    partial class InitialClean
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -224,7 +224,8 @@ namespace Market.Infrastructure.Migrations
                         .HasColumnType("datetime2");
 
                     b.Property<string>("Description")
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(1000)
+                        .HasColumnType("nvarchar(1000)");
 
                     b.Property<bool>("IsDeleted")
                         .HasColumnType("bit");
@@ -234,11 +235,12 @@ namespace Market.Infrastructure.Migrations
 
                     b.Property<string>("Name")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(200)
+                        .HasColumnType("nvarchar(200)");
 
                     b.HasKey("Id");
 
-                    b.ToTable("BrandEntity");
+                    b.ToTable("Brands", (string)null);
                 });
 
             modelBuilder.Entity("Market.Domain.Entities.ProductEntities.CategoryEntity", b =>
@@ -253,7 +255,8 @@ namespace Market.Infrastructure.Migrations
                         .HasColumnType("datetime2");
 
                     b.Property<string>("Description")
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(1000)
+                        .HasColumnType("nvarchar(1000)");
 
                     b.Property<bool>("IsDeleted")
                         .HasColumnType("bit");
@@ -263,11 +266,12 @@ namespace Market.Infrastructure.Migrations
 
                     b.Property<string>("Name")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(200)
+                        .HasColumnType("nvarchar(200)");
 
                     b.HasKey("Id");
 
-                    b.ToTable("Categories");
+                    b.ToTable("Categories", (string)null);
                 });
 
             modelBuilder.Entity("Market.Domain.Entities.ProductEntities.ComparisonEntity", b =>
@@ -295,7 +299,7 @@ namespace Market.Infrastructure.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("ComparisonEntity");
+                    b.ToTable("Comparisons", (string)null);
                 });
 
             modelBuilder.Entity("Market.Domain.Entities.ProductEntities.FavoritesEntity", b =>
@@ -330,7 +334,7 @@ namespace Market.Infrastructure.Migrations
 
                     b.HasIndex("PublicUserEntityId");
 
-                    b.ToTable("FavoritesEntity");
+                    b.ToTable("Favorites", (string)null);
                 });
 
             modelBuilder.Entity("Market.Domain.Entities.ProductEntities.ItemComparisonEntity", b =>
@@ -353,9 +357,6 @@ namespace Market.Infrastructure.Migrations
                     b.Property<DateTime?>("ModifiedAtUtc")
                         .HasColumnType("datetime2");
 
-                    b.Property<int?>("ProductEntityId")
-                        .HasColumnType("int");
-
                     b.Property<int>("ProductId")
                         .HasColumnType("int");
 
@@ -363,9 +364,9 @@ namespace Market.Infrastructure.Migrations
 
                     b.HasIndex("ComparisonEntityId");
 
-                    b.HasIndex("ProductEntityId");
+                    b.HasIndex("ProductId");
 
-                    b.ToTable("ItemComparisonEntity");
+                    b.ToTable("ItemComparisons", (string)null);
                 });
 
             modelBuilder.Entity("Market.Domain.Entities.ProductEntities.PriceEntity", b =>
@@ -398,7 +399,7 @@ namespace Market.Infrastructure.Migrations
 
                     b.HasIndex("ProductEntityId");
 
-                    b.ToTable("PriceEntity");
+                    b.ToTable("Prices", (string)null);
                 });
 
             modelBuilder.Entity("Market.Domain.Entities.ProductEntities.ProductEntity", b =>
@@ -410,6 +411,9 @@ namespace Market.Infrastructure.Migrations
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<int>("BranchEntityId")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("BranchEntityId1")
                         .HasColumnType("int");
 
                     b.Property<int>("BrandEntityId")
@@ -426,11 +430,13 @@ namespace Market.Infrastructure.Migrations
 
                     b.Property<string>("Description")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(2000)
+                        .HasColumnType("nvarchar(2000)");
 
                     b.Property<string>("ImageURL")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(500)
+                        .HasColumnType("nvarchar(500)");
 
                     b.Property<bool>("IsDeleted")
                         .HasColumnType("bit");
@@ -440,14 +446,20 @@ namespace Market.Infrastructure.Migrations
 
                     b.Property<string>("Name")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(200)
+                        .HasColumnType("nvarchar(200)");
 
                     b.Property<int>("StoreEntityId")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("StoreEntityId1")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
 
                     b.HasIndex("BranchEntityId");
+
+                    b.HasIndex("BranchEntityId1");
 
                     b.HasIndex("BrandEntityId");
 
@@ -455,7 +467,9 @@ namespace Market.Infrastructure.Migrations
 
                     b.HasIndex("StoreEntityId");
 
-                    b.ToTable("ProductEntity");
+                    b.HasIndex("StoreEntityId1");
+
+                    b.ToTable("Products", (string)null);
                 });
 
             modelBuilder.Entity("Market.Domain.Entities.ProductEntities.ReviewEntity", b =>
@@ -467,7 +481,8 @@ namespace Market.Infrastructure.Migrations
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<string>("Comment")
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(2000)
+                        .HasColumnType("nvarchar(2000)");
 
                     b.Property<DateTime>("CreatedAtUtc")
                         .HasColumnType("datetime2");
@@ -496,7 +511,7 @@ namespace Market.Infrastructure.Migrations
 
                     b.HasIndex("PublicUserEntityId");
 
-                    b.ToTable("ReviewEntity");
+                    b.ToTable("Reviews", (string)null);
                 });
 
             modelBuilder.Entity("Market.Domain.Entities.StoreEntities.BranchEntity", b =>
@@ -698,7 +713,9 @@ namespace Market.Infrastructure.Migrations
 
                     b.HasOne("Market.Domain.Entities.ProductEntities.ProductEntity", "ProductEntity")
                         .WithMany("ItemComparison")
-                        .HasForeignKey("ProductEntityId");
+                        .HasForeignKey("ProductId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.Navigation("ComparisonEntity");
 
@@ -719,10 +736,14 @@ namespace Market.Infrastructure.Migrations
             modelBuilder.Entity("Market.Domain.Entities.ProductEntities.ProductEntity", b =>
                 {
                     b.HasOne("Market.Domain.Entities.StoreEntities.BranchEntity", "BranchEntity")
-                        .WithMany("Products")
+                        .WithMany()
                         .HasForeignKey("BranchEntityId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.HasOne("Market.Domain.Entities.StoreEntities.BranchEntity", null)
+                        .WithMany("Products")
+                        .HasForeignKey("BranchEntityId1");
 
                     b.HasOne("Market.Domain.Entities.ProductEntities.BrandEntity", "BrandEntity")
                         .WithMany("Products")
@@ -737,10 +758,14 @@ namespace Market.Infrastructure.Migrations
                         .IsRequired();
 
                     b.HasOne("Market.Domain.Entities.StoreEntities.StoreEntity", "StoreEntity")
-                        .WithMany("Products")
+                        .WithMany()
                         .HasForeignKey("StoreEntityId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.HasOne("Market.Domain.Entities.StoreEntities.StoreEntity", null)
+                        .WithMany("Products")
+                        .HasForeignKey("StoreEntityId1");
 
                     b.Navigation("BranchEntity");
 
