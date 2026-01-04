@@ -1108,7 +1108,8 @@ namespace Market.Infrastructure.Migrations
                         .WithMany("ItemComparison")
                         .HasForeignKey("ProductId")
                         .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .IsRequired()
+                
                         .HasForeignKey("ProductEntityId");
 
                     b.Navigation("ComparisonEntity");
@@ -1130,11 +1131,11 @@ namespace Market.Infrastructure.Migrations
             modelBuilder.Entity("Market.Domain.Entities.ProductEntities.ProductEntity", b =>
                 {
                     b.HasOne("Market.Domain.Entities.StoreEntities.BranchEntity", "BranchEntity")
-                        .WithMany()
-                        .WithMany("Products")
-                        .HasForeignKey("BranchEntityId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+               
+                .WithMany("Products")
+                .HasForeignKey("BranchEntityId")
+                .OnDelete(DeleteBehavior.Cascade)
+                .IsRequired();
 
                     b.HasOne("Market.Domain.Entities.ProductEntities.BrandEntity", "BrandEntity")
                         .WithMany("Products")
@@ -1149,7 +1150,7 @@ namespace Market.Infrastructure.Migrations
                         .IsRequired();
 
                     b.HasOne("Market.Domain.Entities.StoreEntities.StoreEntity", "StoreEntity")
-                        .WithMany()
+                       
                         .WithMany("Products")
                         .HasForeignKey("StoreEntityId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -1192,10 +1193,10 @@ namespace Market.Infrastructure.Migrations
                         .IsRequired();
 
                     b.HasOne("Market.Domain.Entities.StoreEntities.StoreEntity", "StoreEntity")
-                        .WithMany()
+                        
+                        .WithMany("Branches")
                         .HasForeignKey("StoreEntityId")
                         .OnDelete(DeleteBehavior.Cascade)
-                        .WithMany("Branches")
                         .HasForeignKey("CityEntityId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
@@ -1214,10 +1215,10 @@ namespace Market.Infrastructure.Migrations
             modelBuilder.Entity("Market.Domain.Entities.StoreEntities.StoreEntity", b =>
                 {
                     b.HasOne("Market.Domain.Entities.StoreEntities.CityEntity", "CityEntity")
-                        .WithMany()
+                        
+                        .WithMany("Stores")
                         .HasForeignKey("CityEntityId")
                         .OnDelete(DeleteBehavior.Cascade)
-                        .WithMany("Stores")
                         .HasForeignKey("CityEntityId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
