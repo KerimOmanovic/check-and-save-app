@@ -9,7 +9,13 @@ public partial class DatabaseContext : DbContext, IAppDbContext
     public DbSet<RefreshTokenEntity> RefreshTokens => Set<RefreshTokenEntity>();
 
     public DbSet<CategoryEntity> Categories => Set<CategoryEntity>();
-
+    public DbSet<BrandEntity> Brands => Set<BrandEntity>();
+    public DbSet<ComparisonEntity> Comparisons => Set<ComparisonEntity>();
+    public DbSet<FavoritesEntity> Favorites => Set<FavoritesEntity>();
+    public DbSet<ItemComparisonEntity> ItemComparasions => Set<ItemComparisonEntity>();
+    public DbSet<PriceEntity> Prices => Set<PriceEntity>();
+    public DbSet<ProductEntity> Products => Set<ProductEntity>();
+    public DbSet<ReviewEntity> Reviews => Set<ReviewEntity>();
     private readonly TimeProvider _clock;
 
     public DatabaseContext(DbContextOptions<DatabaseContext> options, TimeProvider clock) : base(options)
