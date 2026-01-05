@@ -11,7 +11,6 @@
             if (entity is null)
                 throw new MarketNotFoundException($"Manager (ID={request.Id}) nije pronađen.");
 
-            // Store ne smije biti već dodijeljen drugom manageru
             var storeTaken = await ctx.Managers.AnyAsync(x =>
                 x.Id != request.Id && x.StoreEntityId == request.StoreEntityId, ct);
 
