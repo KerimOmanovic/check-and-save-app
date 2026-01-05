@@ -20,4 +20,10 @@ public sealed class MarketUserEntity : BaseEntity
     public PublicUserEntity? PublicUserEntity {get;set;}
     public ManagerEntity?ManagerEntity { get; set; }
 
+    public static class Constraints
+    {
+        public const int FirstnameMaxLength = 100;
+        public const int LastnameMaxLength = 100;
+        public const int EmailMaxLength = 320;
+    }
 }
