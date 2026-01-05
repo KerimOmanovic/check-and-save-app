@@ -27,6 +27,15 @@ namespace Market.Domain.Entities.ProductEntities
         public ICollection<ReviewEntity> Reviews { get; set; } = new List<ReviewEntity>();
         public ICollection<FavoritesEntity> Favorites { get; set; } = new List<FavoritesEntity>();
         public ICollection<ItemComparisonEntity> ItemComparison { get; set; } = new List<ItemComparisonEntity>();
+
         //public ICollection<SalesStatisticsEntity> SalesStatistics { get; set; } = new List<SalesStatisticsEntity>();
+
+        public static class Constraints
+        {
+            public const int NameMaxLength = 200;
+            public const int DescriptionMaxLength = 2000;
+            public const int ImageUrlMaxLength = 500;
+        }
+
     }
 }

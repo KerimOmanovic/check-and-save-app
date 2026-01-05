@@ -18,5 +18,12 @@ namespace Market.Domain.Entities.ProductEntities
         public string? Comment { get; set; }
         public DateTime Date {  get; set; }
 
+        public static class Constraints
+        {
+            public const int CommentMaxLength = 2000;
+            public const int RatingMin = 1;
+            public const int RatingMax = 5;
+        }
+
     }
 }
