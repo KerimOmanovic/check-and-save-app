@@ -1,7 +1,4 @@
-﻿using MediatR;
-using Microsoft.EntityFrameworkCore;
-using Market.Application.Abstractions;
-using Market.Application.Common.Paging; // PageResult
+﻿
 
 namespace Market.Application.Modules.Store.Cities.Queries.List;
 
