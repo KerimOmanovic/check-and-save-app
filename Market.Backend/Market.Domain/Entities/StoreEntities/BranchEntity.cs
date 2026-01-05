@@ -19,5 +19,12 @@ namespace Market.Domain.Entities.StoreEntities
         public string Email { get; set; }
         public bool IsActive { get; set; }
         public ICollection<ProductEntity> Products { get; set; } = new List<ProductEntity>();
+
+        public static class Constraints
+        {
+            public const int AddressMaxLength = 200;
+            public const int ContactMaxLength = 100;
+            public const int EmailMaxLength = 200;
+        }
     }
 }
