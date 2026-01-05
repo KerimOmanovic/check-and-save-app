@@ -1,4 +1,5 @@
 ﻿using Market.Domain.Entities.ProductEntities;
+using Market.Domain.Entities.StoreEntities;
 
 namespace Market.Application.Abstractions;
 
@@ -20,8 +21,10 @@ public interface IAppDbContext
     DbSet<ManagerEntity> Managers { get; }
     DbSet<PublicUserEntity> PublicUsers { get; }
     DbSet<SecurityQuestionEntity> SecurityQuestions { get; }
-    
 
+    DbSet<CityEntity> Cities { get; }
+    DbSet<BranchEntity> Branches { get; }
+    DbSet<StoreEntity> Stores { get; }
 
     Task<int> SaveChangesAsync(CancellationToken ct);
 }
