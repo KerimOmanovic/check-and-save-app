@@ -1,6 +1,6 @@
 ﻿namespace Market.Application.Modules.Identity.SecurityQuestions.Queries.List;
 
-public sealed class ListSecurityQuestionsQueryDto
+public sealed class ListSecQQueryDto
 {
     public int Id { get; init; }
     public int MarketUserEntityId { get; init; }

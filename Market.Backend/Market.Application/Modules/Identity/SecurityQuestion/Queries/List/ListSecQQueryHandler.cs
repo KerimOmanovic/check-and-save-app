@@ -1,10 +1,10 @@
 ﻿namespace Market.Application.Modules.Identity.SecurityQuestions.Queries.List;
 
 public sealed class ListSecurityQuestionsQueryHandler(IAppDbContext ctx)
-    : IRequestHandler<ListSecurityQuestionsQuery, PageResult<ListSecurityQuestionsQueryDto>>
+    : IRequestHandler<ListSecQQuery, PageResult<ListSecQQueryDto>>
 {
-    public async Task<PageResult<ListSecurityQuestionsQueryDto>> Handle(
-        ListSecurityQuestionsQuery request, CancellationToken ct)
+    public async Task<PageResult<ListSecQQueryDto>> Handle(
+        ListSecQQuery request, CancellationToken ct)
     {
         var q = ctx.SecurityQuestions.AsNoTracking();
 
@@ -20,7 +20,7 @@ public sealed class ListSecurityQuestionsQueryHandler(IAppDbContext ctx)
         var projected = q
             .OrderBy(x => x.MarketUserEntityId)
             .ThenBy(x => x.Id)
-            .Select(x => new ListSecurityQuestionsQueryDto
+            .Select(x => new ListSecQQueryDto
             {
                 Id = x.Id,
                 MarketUserEntityId = x.MarketUserEntityId,
@@ -28,7 +28,7 @@ public sealed class ListSecurityQuestionsQueryHandler(IAppDbContext ctx)
                 Answer = x.Answer
             });
 
-        return await PageResult<ListSecurityQuestionsQueryDto>.FromQueryableAsync(
+        return await PageResult<ListSecQQueryDto>.FromQueryableAsync(
             projected,
             request.Paging,
             ct);

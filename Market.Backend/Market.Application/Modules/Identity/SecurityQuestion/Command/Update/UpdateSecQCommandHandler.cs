@@ -1,9 +1,9 @@
 ﻿namespace Market.Application.Modules.Identity.SecurityQuestions.Commands.Update;
 
 public sealed class UpdateSecurityQuestionCommandHandler(IAppDbContext ctx)
-    : IRequestHandler<UpdateSecurityQuestionCommand, Unit>
+    : IRequestHandler<UpdateSecQCommand, Unit>
 {
-    public async Task<Unit> Handle(UpdateSecurityQuestionCommand request, CancellationToken ct)
+    public async Task<Unit> Handle(UpdateSecQCommand request, CancellationToken ct)
     {
         var entity = await ctx.SecurityQuestions
             .FirstOrDefaultAsync(x => x.Id == request.Id, ct);

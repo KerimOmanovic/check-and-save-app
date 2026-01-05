@@ -1,9 +1,9 @@
 ﻿namespace Market.Application.Modules.Identity.SecurityQuestions.Commands.Update;
 
-public sealed class UpdateSecurityQuestionCommandValidator
-    : AbstractValidator<UpdateSecurityQuestionCommand>
+public sealed class UpdateSecQCommandValidator
+    : AbstractValidator<UpdateSecQCommand>
 {
-    public UpdateSecurityQuestionCommandValidator()
+    public UpdateSecQCommandValidator()
     {
         RuleFor(x => x.Id)
             .GreaterThan(0);

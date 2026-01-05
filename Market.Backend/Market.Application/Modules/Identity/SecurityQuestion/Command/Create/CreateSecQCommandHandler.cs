@@ -1,9 +1,9 @@
 ﻿namespace Market.Application.Modules.Identity.SecurityQuestions.Commands.Create;
 
 public sealed class CreateSecurityQuestionCommandHandler(IAppDbContext ctx)
-    : IRequestHandler<CreateSecurityQuestionCommand, int>
+    : IRequestHandler<CreateSecQCommand, int>
 {
-    public async Task<int> Handle(CreateSecurityQuestionCommand request, CancellationToken ct)
+    public async Task<int> Handle(CreateSecQCommand request, CancellationToken ct)
     {
         var exists = await ctx.SecurityQuestions
             .AnyAsync(x => x.MarketUserEntityId == request.MarketUserEntityId, ct);

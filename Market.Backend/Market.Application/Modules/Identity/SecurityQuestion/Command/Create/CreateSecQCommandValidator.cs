@@ -1,9 +1,9 @@
 ﻿namespace Market.Application.Modules.Identity.SecurityQuestions.Commands.Create;
 
-public sealed class CreateSecurityQuestionCommandValidator
-    : AbstractValidator<CreateSecurityQuestionCommand>
+public sealed class CreateSecQCommandValidator
+    : AbstractValidator<CreateSecQCommand>
 {
-    public CreateSecurityQuestionCommandValidator()
+    public CreateSecQCommandValidator()
     {
         RuleFor(x => x.MarketUserEntityId)
             .GreaterThan(0);

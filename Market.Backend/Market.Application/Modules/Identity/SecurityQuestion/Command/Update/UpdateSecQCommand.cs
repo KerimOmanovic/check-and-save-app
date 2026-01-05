@@ -1,6 +1,6 @@
 ﻿namespace Market.Application.Modules.Identity.SecurityQuestions.Commands.Update;
 
-public sealed class UpdateSecurityQuestionCommand : IRequest<Unit>
+public sealed class UpdateSecQCommand : IRequest<Unit>
 {
     [JsonIgnore]
     public int Id { get; set; }

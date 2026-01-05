@@ -1,10 +1,10 @@
 ﻿namespace Market.Application.Modules.Identity.SecurityQuestions.Queries.GetById;
 
 public sealed class GetSecurityQuestionByIdQueryHandler(IAppDbContext ctx)
-    : IRequestHandler<GetSecurityQuestionByIdQuery, GetSecurityQuestionByIdQueryDto>
+    : IRequestHandler<GetSecQByIdQuery, GetSecurityQuestionByIdQueryDto>
 {
     public async Task<GetSecurityQuestionByIdQueryDto> Handle(
-        GetSecurityQuestionByIdQuery request, CancellationToken ct)
+        GetSecQByIdQuery request, CancellationToken ct)
     {
         var entity = await ctx.SecurityQuestions
             .AsNoTracking()

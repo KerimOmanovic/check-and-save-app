@@ -1,9 +1,9 @@
 ﻿namespace Market.Application.Modules.Identity.SecurityQuestions.Commands.Delete;
 
 public sealed class DeleteSecurityQuestionCommandHandler(IAppDbContext ctx)
-    : IRequestHandler<DeleteSecurityQuestionCommand, Unit>
+    : IRequestHandler<DeleteSecQCommand, Unit>
 {
-    public async Task<Unit> Handle(DeleteSecurityQuestionCommand request, CancellationToken ct)
+    public async Task<Unit> Handle(DeleteSecQCommand request, CancellationToken ct)
     {
         var entity = await ctx.SecurityQuestions
             .FirstOrDefaultAsync(x => x.Id == request.Id, ct);
