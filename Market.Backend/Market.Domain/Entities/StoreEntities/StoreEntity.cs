@@ -20,5 +20,12 @@ namespace Market.Domain.Entities.StoreEntities
         public ICollection<BranchEntity> Branches { get; set; } = new List<BranchEntity>();
         public ICollection<ManagerEntity> Managers { get; set; } = new List<ManagerEntity>();
         public ICollection<ProductEntity> Products { get; set; } = new List<ProductEntity>();
+
+        public static class Constraints
+        {
+            public const int NameMaxLength = 100;
+            public const int ContactMaxLength = 100;
+            public const int EmailMaxLength = 200;
+        }
     }
 }
