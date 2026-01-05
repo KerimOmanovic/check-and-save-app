@@ -5,6 +5,6 @@
         public string? Search { get; set; } 
         public bool? IsEnabled { get; set; }
         public bool? IsAdmin { get; set; }
-        public PageRequest Page { get; internal set; }
+        public PageRequest? Page { get; internal set; }
     }
 }
