@@ -9,7 +9,20 @@ public interface IAppDbContext
     DbSet<MarketUserEntity> Users { get; }
 
     DbSet<RefreshTokenEntity> RefreshTokens { get; }
+    DbSet<ComparisonEntity> Comparisons { get; }
+    DbSet<FavoritesEntity> Favorites { get; }
+    DbSet<ItemComparisonEntity> ItemComparisons { get; }
+    DbSet<PriceEntity> Prices { get; }
+    DbSet<ProductEntity> Products { get; }
+    DbSet<ReviewEntity> Reviews { get; }
+    DbSet<BrandEntity> Brands { get; }
     DbSet<CategoryEntity> Categories { get; }
+    DbSet<ActivityEntity> Activities { get; }
+    DbSet<ManagerEntity> Managers { get; }
+    DbSet<PublicUserEntity> PublicUsers { get; }
+    DbSet<SecurityQuestionEntity> SecurityQuestions { get; }
+    
+
     DbSet<CityEntity> Cities { get; }
     DbSet<BranchEntity> Branches { get; }
     DbSet<StoreEntity> Stores { get; }

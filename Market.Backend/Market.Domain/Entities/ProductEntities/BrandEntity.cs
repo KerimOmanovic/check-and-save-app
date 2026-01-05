@@ -14,4 +14,9 @@ namespace Market.Domain.Entities.ProductEntities
 
         public ICollection<ProductEntity> Products { get; set; } = new List<ProductEntity>();
     }
+    public static class Constraints
+    {
+        public const int NameMaxLength = 200;
+        public const int DescriptionMaxLength = 1000;
+    }
 }
