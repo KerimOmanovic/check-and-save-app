@@ -13,12 +13,13 @@ public sealed class MarketUserEntity : BaseEntity
     public bool IsAdmin { get; set; }
     public bool IsManager { get; set; }
     public bool IsPublicUser { get; set; }
-    public int TokenVersion { get; set; } = 0;// For global revocation
+    public int TokenVersion { get; set; } = 0;
     public bool IsEnabled { get; set; }
     public ICollection<RefreshTokenEntity> RefreshTokens { get; private set; } = new List<RefreshTokenEntity>();
 
-    public PublicUserEntity? PublicUserEntity {get;set;}
-    public ManagerEntity?ManagerEntity { get; set; }
+    public PublicUserEntity? PublicUserEntity { get; set; }
+    public ManagerEntity? ManagerEntity { get; set; }
+    public SecurityQuestionEntity? SecurityQuestion { get; set; }
 
     public static class Constraints
     {
