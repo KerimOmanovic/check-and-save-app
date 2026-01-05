@@ -1,7 +1,7 @@
 ﻿namespace Market.Application.Modules.Identity.SecurityQuestions.Queries.GetById;
 
 public sealed class GetSecurityQuestionByIdQueryValidator
-    : AbstractValidator<GetSecurityQuestionByIdQuery>
+    : AbstractValidator<GetSecQByIdQuery>
 {
     public GetSecurityQuestionByIdQueryValidator()
     {
