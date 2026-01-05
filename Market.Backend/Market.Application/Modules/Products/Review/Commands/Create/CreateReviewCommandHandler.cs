@@ -6,7 +6,7 @@ namespace Market.Application.Modules.Products.Review.Commands.Create
     {
         public async Task<int> Handle(CreateReviewCommand request, CancellationToken ct)
         {
-            // Jedan user može ostaviti jednu recenziju po produktu (po potrebi)
+           
             var exists = await ctx.Reviews.AnyAsync(x =>
                 x.PublicUserEntityId == request.PublicUserEntityId &&
                 x.ProductEntityId == request.ProductEntityId, ct);
