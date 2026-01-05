@@ -10,7 +10,7 @@ public sealed class SecurityQuestionEntityConfiguration
         b.HasKey(x => x.Id);
 
         b.HasOne(x => x.MarketUserEntity)
-            .WithOne(x => x.SecurityQuestionEntity)
+            .WithOne(x => x.SecurityQuestion)
             .HasForeignKey<SecurityQuestionEntity>(x => x.MarketUserEntityId)
             .OnDelete(DeleteBehavior.Cascade);
 
