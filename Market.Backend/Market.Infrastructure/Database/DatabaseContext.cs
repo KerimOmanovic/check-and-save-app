@@ -6,6 +6,12 @@ namespace Market.Infrastructure.Database;
 
 public partial class DatabaseContext : DbContext, IAppDbContext
 {
+    public DbSet<ItemComparisonEntity> ItemComparisons { get; set; } = default!;
+    public DbSet<ActivityEntity> Activities { get; set; } = default!;
+    public DbSet<ManagerEntity> Managers { get; set; } = default!;
+    public DbSet<PublicUserEntity> PublicUsers { get; set; } = default!;
+    public DbSet<SecurityQuestionEntity> SecurityQuestions { get; set; } = default!;
+
     public DbSet<MarketUserEntity> Users => Set<MarketUserEntity>();
     public DbSet<RefreshTokenEntity> RefreshTokens => Set<RefreshTokenEntity>();
 
