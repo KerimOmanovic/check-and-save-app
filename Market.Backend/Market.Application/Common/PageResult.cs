@@ -1,4 +1,6 @@
 ﻿using Market.Application.Modules.Identity.Activity.Queries.List;
+using Market.Application.Modules.Identity.Manager.Queries.List;
+using Market.Application.Modules.Identity.User.Queries.List;
 using Market.Application.Modules.Products.Comparison.Queries.List;
 using Market.Application.Modules.Products.Favorites.Queries.List;
 using Market.Application.Modules.Products.ItemComparison.Queries.List;
@@ -76,6 +78,16 @@ public sealed class PageResult<T>
     }
 
     internal static async Task<PageResult<ListActivitiesQueryDto>> FromQueryableAsync(IQueryable<ListActivitiesQueryDto> pq, object page, CancellationToken ct)
+    {
+        throw new NotImplementedException();
+    }
+
+    internal static async Task<PageResult<ListManagersQueryDto>> FromQueryableAsync(IQueryable<ListManagersQueryDto> pq, object page, CancellationToken ct)
+    {
+        throw new NotImplementedException();
+    }
+
+    internal static async Task<PageResult<ListMarketUsersQueryDto>> FromQueryableAsync(IQueryable<ListMarketUsersQueryDto> pq, object page, CancellationToken ct)
     {
         throw new NotImplementedException();
     }
