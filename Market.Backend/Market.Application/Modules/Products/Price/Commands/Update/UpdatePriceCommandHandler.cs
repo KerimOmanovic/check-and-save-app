@@ -11,7 +11,6 @@
             if (entity is null)
                 throw new MarketNotFoundException($"Price (ID={request.Id}) nije pronađen.");
 
-            // Opcionalno: spriječi duplikat (isti product, isti date, drugi zapis)
             var exists = await ctx.Prices
                 .AnyAsync(x => x.Id != request.Id
                             && x.ProductEntityId == entity.ProductEntityId
