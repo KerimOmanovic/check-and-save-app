@@ -21,7 +21,6 @@ public interface IAppDbContext
     DbSet<ManagerEntity> Managers { get; }
     DbSet<PublicUserEntity> PublicUsers { get; }
     DbSet<SecurityQuestionEntity> SecurityQuestions { get; }
-    
 
     DbSet<CityEntity> Cities { get; }
     DbSet<BranchEntity> Branches { get; }
