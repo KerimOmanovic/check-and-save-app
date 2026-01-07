@@ -1,6 +1,6 @@
 ﻿
 
-namespace Market.Application.Modules.Store.Cities.Queries.List;
+namespace Market.Application.Modules.Stores.City.Queries.List;
 
 public sealed class ListCitiesQueryHandler(IAppDbContext ctx)
     : IRequestHandler<ListCitiesQuery, PageResult<ListCitiesQueryDto>>

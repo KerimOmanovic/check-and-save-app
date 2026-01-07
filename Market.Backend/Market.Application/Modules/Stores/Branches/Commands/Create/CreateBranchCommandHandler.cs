@@ -1,6 +1,6 @@
 ﻿using Market.Domain.Entities.StoreEntities;
 
-namespace Market.Application.Modules.Store.Branches.Commands.Create;
+namespace Market.Application.Modules.Stores.Branches.Commands.Create;
 
 public class CreateBranchCommandHandler(IAppDbContext ctx)
     : IRequestHandler<CreateBranchCommand, int>

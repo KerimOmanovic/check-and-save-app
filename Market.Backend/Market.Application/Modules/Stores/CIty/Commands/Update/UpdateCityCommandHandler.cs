@@ -1,4 +1,4 @@
-﻿namespace Market.Application.Modules.Store.Cities.Commands.Update;
+﻿namespace Market.Application.Modules.Stores.City.Commands.Update;
 
 public sealed class UpdateCityCommandHandler(IAppDbContext ctx)
     : IRequestHandler<UpdateCityCommand, Unit>

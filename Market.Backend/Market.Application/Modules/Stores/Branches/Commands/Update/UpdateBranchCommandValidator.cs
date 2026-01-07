@@ -1,10 +1,9 @@
 ﻿using FluentValidation;
 using Market.Domain.Entities.StoreEntities;
 
-namespace Market.Application.Modules.Store.Branches.Commands.Update;
+namespace Market.Application.Modules.Stores.Branches.Commands.Update;
 
-public sealed class UpdateBranchCommandValidator
-    : AbstractValidator<UpdateBranchCommand>
+public sealed class UpdateBranchCommandValidator : AbstractValidator<UpdateBranchCommand>
 {
     public UpdateBranchCommandValidator()
     {

@@ -11,6 +11,7 @@
             if (entity is null)
                 throw new MarketNotFoundException($"Brend (ID={request.Id}) nije pronađen.");
 
+            // Opcionalno (preporučeno) – zabrani brisanje ako postoje Products:
             var hasProducts = await ctx.Products.AnyAsync(p => p.BrandEntityId == request.Id, ct);
             if (hasProducts)
                 throw new MarketConflictException("Brand cannot be deleted because it has products.");

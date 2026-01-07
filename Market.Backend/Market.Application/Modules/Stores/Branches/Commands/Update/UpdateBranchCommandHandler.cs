@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore;
 using Market.Application.Abstractions;
 using Market.Domain.Entities.StoreEntities;
 
-namespace Market.Application.Modules.Store.Branches.Commands.Update;
+namespace Market.Application.Modules.Stores.Branches.Commands.Update;
 
 public sealed class UpdateBranchCommandHandler(IAppDbContext ctx)
     : IRequestHandler<UpdateBranchCommand, Unit>

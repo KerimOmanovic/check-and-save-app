@@ -1,8 +1,6 @@
-﻿using MediatR;
-using Microsoft.EntityFrameworkCore;
-using Market.Application.Abstractions;
+﻿
 
-namespace Market.Application.Modules.Store.Cities.Commands.Delete;
+namespace Market.Application.Modules.Stores.City.Commands.Delete;
 
 public class DeleteCityCommandHandler(IAppDbContext context)
     : IRequestHandler<DeleteCityCommand, Unit>
