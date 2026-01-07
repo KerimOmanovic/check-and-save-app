@@ -1,9 +1,4 @@
-﻿using MediatR;
-using Microsoft.EntityFrameworkCore;
-using Market.Application.Abstractions;
-using Market.Domain.Entities.Identity;
-
-namespace Market.Application.Modules.Auth.RefreshTokens.Commands.Create;
+﻿namespace Market.Application.Modules.Identity.RefreshToken.Commands.Create;
 
 public sealed class CreateRefreshTokenCommandHandler(IAppDbContext ctx)
     : IRequestHandler<CreateRefreshTokenCommand, int>

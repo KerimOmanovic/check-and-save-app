@@ -1,4 +1,4 @@
-﻿namespace Market.Application.Modules.Identity.SecurityQuestions.Commands.Update;
+﻿namespace Market.Application.Modules.Identity.SecurityQuestion.Command.Update;
 
 public sealed class UpdateSecQCommandHandler(IAppDbContext ctx)
     : IRequestHandler<UpdateSecQCommand, Unit>

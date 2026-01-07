@@ -1,4 +1,4 @@
-﻿namespace Market.Application.Modules.Auth.RefreshTokens.Queries.List;
+﻿namespace Market.Application.Modules.Identity.RefreshToken.Queries.List;
 
 public sealed class ListRefreshTokensQuery : BasePagedQuery<ListRefreshTokensQueryDto>
 {

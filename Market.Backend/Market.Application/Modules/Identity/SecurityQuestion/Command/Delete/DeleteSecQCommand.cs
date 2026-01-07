@@ -1,4 +1,4 @@
-﻿namespace Market.Application.Modules.Identity.SecurityQuestions.Commands.Delete;
+﻿namespace Market.Application.Modules.Identity.SecurityQuestion.Command.Delete;
 
 public sealed class DeleteSecQCommand : IRequest<Unit>
 {

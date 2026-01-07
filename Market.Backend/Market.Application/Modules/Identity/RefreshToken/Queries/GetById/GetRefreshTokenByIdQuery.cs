@@ -1,4 +1,4 @@
-﻿namespace Market.Application.Modules.Auth.RefreshTokens.Queries.GetById;
+﻿namespace Market.Application.Modules.Identity.RefreshToken.Queries.GetById;
 
 public sealed class GetRefreshTokenByIdQuery : IRequest<GetRefreshTokenByIdQueryDto>
 {
