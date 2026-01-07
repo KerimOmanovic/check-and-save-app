@@ -1,4 +1,4 @@
-﻿namespace Market.Application.Modules.Store.Cities.Commands.Delete;
+﻿namespace Market.Application.Modules.Stores.City.Commands.Delete;
 
 public class DeleteCityCommand : IRequest<Unit>
 {

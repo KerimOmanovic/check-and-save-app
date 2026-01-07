@@ -1,7 +1,7 @@
 ﻿using System.Text.Json.Serialization;
 using MediatR;
 
-namespace Market.Application.Modules.Store.Branches.Commands.Update;
+namespace Market.Application.Modules.Stores.Branches.Commands.Update;
 
 public sealed class UpdateBranchCommand : IRequest<Unit>
 {

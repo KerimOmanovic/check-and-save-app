@@ -1,7 +1,7 @@
-﻿using Market.Application.Modules.Stores.CIty.Commands.Create;
+﻿using Market.Application.Modules.Stores.City.Commands.Create;
 using Market.Domain.Entities.StoreEntities;
 
-namespace Market.Application.Modules.Store.Cities.Commands.Create;
+namespace Market.Application.Modules.Stores.Cities.Commands.Create;
 
 public class CreateCityCommandHandler(IAppDbContext context)
     : IRequestHandler<CreateCityCommand, int>

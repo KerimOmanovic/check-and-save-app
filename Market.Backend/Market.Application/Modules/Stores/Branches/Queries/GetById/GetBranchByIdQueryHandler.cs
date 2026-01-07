@@ -1,4 +1,4 @@
-﻿namespace Market.Application.Modules.Store.Branches.Queries.GetById;
+﻿namespace Market.Application.Modules.Stores.Branches.Queries.GetById;
 
 public class GetBranchByIdQueryHandler(IAppDbContext ctx)
     : IRequestHandler<GetBranchByIdQuery, GetBranchByIdQueryDto>
