@@ -1,4 +1,4 @@
-﻿namespace Market.Application.Modules.Identity.PublicUsers.Commands.Update;
+﻿namespace Market.Application.Modules.Identity.PublicUser.Commands.Update;
 
 public sealed class UpdatePublicUserCommandHandler(IAppDbContext ctx)
     : IRequestHandler<UpdatePublicUserCommand, Unit>

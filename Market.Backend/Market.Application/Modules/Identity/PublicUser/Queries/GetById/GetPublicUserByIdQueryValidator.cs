@@ -1,4 +1,4 @@
-﻿namespace Market.Application.Modules.Identity.PublicUsers.Queries.GetById;
+﻿namespace Market.Application.Modules.Identity.PublicUser.Queries.GetById;
 
 public sealed class GetPublicUserByIdQueryValidator : AbstractValidator<GetPublicUserByIdQuery>
 {

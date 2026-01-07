@@ -1,4 +1,4 @@
-﻿namespace Market.Application.Modules.Auth.RefreshTokens.Commands.Create;
+﻿namespace Market.Application.Modules.Identity.RefreshToken.Commands.Create;
 
 public sealed class CreateRefreshTokenCommandValidator
     : AbstractValidator<CreateRefreshTokenCommand>
