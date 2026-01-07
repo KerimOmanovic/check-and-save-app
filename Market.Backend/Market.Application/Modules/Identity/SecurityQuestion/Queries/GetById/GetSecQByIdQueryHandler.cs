@@ -1,6 +1,5 @@
 ﻿namespace Market.Application.Modules.Identity.SecurityQuestion.Queries.GetById;
 
-public sealed class GetSecQByIdQueryHandler(IAppDbContext ctx): IRequestHandler<GetSecQByIdQuery, GetSecQByIdQueryDto>
 public sealed class GetSecQByIdQueryHandler(IAppDbContext ctx)
     : IRequestHandler<GetSecQByIdQuery, GetSecQByIdQueryDto>
 {
