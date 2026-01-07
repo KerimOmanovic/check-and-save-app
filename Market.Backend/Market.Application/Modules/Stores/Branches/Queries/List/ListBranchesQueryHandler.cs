@@ -1,4 +1,4 @@
-﻿namespace Market.Application.Modules.Store.Branches.Queries.List;
+﻿namespace Market.Application.Modules.Stores.Branches.Queries.List;
 
 public sealed class ListBranchesQueryHandler(IAppDbContext ctx)
     : IRequestHandler<ListBranchesQuery, PageResult<ListBranchesQueryDto>>

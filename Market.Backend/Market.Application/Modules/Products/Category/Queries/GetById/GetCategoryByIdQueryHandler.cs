@@ -1,4 +1,4 @@
-﻿namespace Market.Application.Modules.Products.Category.Queries.GetById.GetById
+﻿namespace Market.Application.Modules.Products.Category.Queries.GetById
 {
     public sealed class GetCategoryByIdQueryHandler(IAppDbContext context) : IRequestHandler<GetCategoryByIdQuery, GetCategoryByIdQueryDto>
     {
