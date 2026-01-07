@@ -1,4 +1,4 @@
-﻿namespace Market.Application.Modules.Store.Cities.Queries.GetById;
+﻿namespace Market.Application.Modules.Stores.City.Queries.GetById;
 
 public sealed class GetCityByIdQueryValidator : AbstractValidator<GetCityByIdQuery>
 {

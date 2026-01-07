@@ -1,6 +1,6 @@
 ﻿namespace Market.Application.Modules.Identity.SecurityQuestions.Queries.List;
 
-public sealed class ListSecurityQuestionsQueryHandler(IAppDbContext ctx)
+public sealed class ListSecQQueryHandler(IAppDbContext ctx)
     : IRequestHandler<ListSecQQuery, PageResult<ListSecQQueryDto>>
 {
     public async Task<PageResult<ListSecQQueryDto>> Handle(

@@ -1,4 +1,4 @@
-﻿namespace Market.Application.Modules.Stores.CIty.Commands.Create
+﻿namespace Market.Application.Modules.Stores.City.Commands.Create
 {
     public sealed class CreateCityCommand : IRequest<int>
     {

@@ -1,6 +1,5 @@
-﻿using FluentValidation;
-
-namespace Market.Application.Modules.Store.Cities.Commands.Update;
+﻿
+namespace Market.Application.Modules.Stores.City.Commands.Update;
 
 public sealed class UpdateCityCommandValidator
     : AbstractValidator<UpdateCityCommand>

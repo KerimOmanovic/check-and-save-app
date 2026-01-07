@@ -1,4 +1,4 @@
-﻿namespace Market.Application.Modules.Store.Branches.Commands.Delete;
+﻿namespace Market.Application.Modules.Stores.Branches.Commands.Delete;
 
 public class DeleteBranchCommandHandler(IAppDbContext ctx)
     : IRequestHandler<DeleteBranchCommand, Unit>

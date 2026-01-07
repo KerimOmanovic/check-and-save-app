@@ -1,4 +1,4 @@
-﻿namespace Market.Application.Modules.Store.Branches.Commands.Create;
+﻿namespace Market.Application.Modules.Stores.Branches.Commands.Create;
 
 public class CreateBranchCommand : IRequest<int>
 {
