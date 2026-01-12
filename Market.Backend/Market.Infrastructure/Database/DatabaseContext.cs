@@ -1,5 +1,6 @@
 ﻿using Market.Application.Abstractions;
 using Market.Domain.Entities.NotificationEntities;
+using Market.Domain.Entities.Analytics;
 using Market.Domain.Entities.ProductEntities;
 using Market.Domain.Entities.StoreEntities;
 
@@ -7,6 +8,12 @@ namespace Market.Infrastructure.Database;
 
 public partial class DatabaseContext : DbContext, IAppDbContext
 {
+    public DbSet<ItemComparisonEntity> ItemComparisons { get; set; } = default!;
+    public DbSet<ActivityEntity> Activities { get; set; } = default!;
+    public DbSet<ManagerEntity> Managers { get; set; } = default!;
+    public DbSet<PublicUserEntity> PublicUsers { get; set; } = default!;
+    public DbSet<SecurityQuestionEntity> SecurityQuestions { get; set; } = default!;
+
     public DbSet<MarketUserEntity> Users => Set<MarketUserEntity>();
     public DbSet<RefreshTokenEntity> RefreshTokens => Set<RefreshTokenEntity>();
 
@@ -36,6 +43,8 @@ public partial class DatabaseContext : DbContext, IAppDbContext
 
     public DbSet<NotificationTypeEntity> NotificationTypes => throw new NotImplementedException();
 
+    public DbSet<SalesStatisticEntity> SalesStatistics { get; set; } = default!;
+    public DbSet<ReportEntity> Report { get; set; } = default!;
     private readonly TimeProvider _clock;
 
     public DatabaseContext(DbContextOptions<DatabaseContext> options, TimeProvider clock) : base(options)

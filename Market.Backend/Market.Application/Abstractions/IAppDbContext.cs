@@ -4,7 +4,7 @@ using Market.Domain.Entities.StoreEntities;
 
 namespace Market.Application.Abstractions;
 
-// Application layer
+
 public interface IAppDbContext
 {
     DbSet<MarketUserEntity> Users { get; }

@@ -1,6 +1,6 @@
-﻿namespace Market.Application.Modules.Identity.SecurityQuestions.Commands.Update;
+﻿namespace Market.Application.Modules.Identity.SecurityQuestion.Command.Update;
 
-public sealed class UpdateSecurityQuestionCommandHandler(IAppDbContext ctx)
+public sealed class UpdateSecQCommandHandler(IAppDbContext ctx)
     : IRequestHandler<UpdateSecQCommand, Unit>
 {
     public async Task<Unit> Handle(UpdateSecQCommand request, CancellationToken ct)

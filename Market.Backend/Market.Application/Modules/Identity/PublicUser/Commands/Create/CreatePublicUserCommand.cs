@@ -1,4 +1,4 @@
-﻿namespace Market.Application.Modules.Identity.PublicUsers.Commands.Create;
+﻿namespace Market.Application.Modules.Identity.PublicUser.Commands.Create;
 
 public class CreatePublicUserCommand : IRequest<int>
 {

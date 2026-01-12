@@ -1,4 +1,4 @@
-﻿namespace Market.Application.Modules.Identity.PublicUsers.Queries.GetById;
+﻿namespace Market.Application.Modules.Identity.PublicUser.Queries.GetById;
 
 public class GetPublicUserByIdQueryHandler(IAppDbContext ctx)
     : IRequestHandler<GetPublicUserByIdQuery, GetPublicUserByIdQueryDto>

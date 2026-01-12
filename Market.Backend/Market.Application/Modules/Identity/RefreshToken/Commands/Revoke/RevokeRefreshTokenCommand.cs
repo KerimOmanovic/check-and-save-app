@@ -1,4 +1,4 @@
-﻿namespace Market.Application.Modules.Auth.RefreshTokens.Commands.Revoke;
+﻿namespace Market.Application.Modules.Identity.RefreshToken.Commands.Revoke;
 
 public sealed class RevokeRefreshTokenCommand : IRequest<Unit>
 {

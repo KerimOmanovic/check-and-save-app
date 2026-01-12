@@ -1,4 +1,4 @@
-﻿namespace Market.Application.Modules.Identity.PublicUsers.Queries.List;
+﻿namespace Market.Application.Modules.Identity.PublicUser.Queries.List;
 
 public sealed class ListPublicUsersQueryHandler(IAppDbContext ctx)
     : IRequestHandler<ListPublicUsersQuery, PageResult<ListPublicUsersQueryDto>>

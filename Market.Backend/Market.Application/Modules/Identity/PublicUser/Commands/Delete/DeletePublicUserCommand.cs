@@ -1,4 +1,4 @@
-﻿namespace Market.Application.Modules.Identity.PublicUsers.Commands.Delete;
+﻿namespace Market.Application.Modules.Identity.PublicUser.Commands.Delete;
 
 public class DeletePublicUserCommand : IRequest<Unit>
 {
