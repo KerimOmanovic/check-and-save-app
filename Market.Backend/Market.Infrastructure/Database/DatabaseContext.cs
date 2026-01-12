@@ -1,4 +1,5 @@
 ﻿using Market.Application.Abstractions;
+using Market.Domain.Entities.NotificationEntities;
 using Market.Domain.Entities.ProductEntities;
 using Market.Domain.Entities.StoreEntities;
 
@@ -30,6 +31,10 @@ public partial class DatabaseContext : DbContext, IAppDbContext
     public DbSet<PublicUserEntity> PublicUsers => throw new NotImplementedException();
 
     public DbSet<SecurityQuestionEntity> SecurityQuestions => throw new NotImplementedException();
+
+    public DbSet<NotificationEntity> Notifications => throw new NotImplementedException();
+
+    public DbSet<NotificationTypeEntity> NotificationTypes => throw new NotImplementedException();
 
     private readonly TimeProvider _clock;
 

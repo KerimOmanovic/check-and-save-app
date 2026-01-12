@@ -1,5 +1,6 @@
 ﻿// MarketUserEntity.cs
 using Market.Domain.Common;
+using Market.Domain.Entities.NotificationEntities;
 
 namespace Market.Domain.Entities.Identity;
 
@@ -16,6 +17,7 @@ public sealed class MarketUserEntity : BaseEntity
     public int TokenVersion { get; set; } = 0;// For global revocation
     public bool IsEnabled { get; set; }
     public ICollection<RefreshTokenEntity> RefreshTokens { get; private set; } = new List<RefreshTokenEntity>();
+    public ICollection<NotificationEntity> Notifications { get; private set; } = new List<NotificationEntity>();
 
     public PublicUserEntity? PublicUserEntity {get;set;}
     public ManagerEntity?ManagerEntity { get; set; }
