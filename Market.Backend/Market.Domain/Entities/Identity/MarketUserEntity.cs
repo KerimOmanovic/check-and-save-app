@@ -1,5 +1,6 @@
 ﻿// MarketUserEntity.cs
 using Market.Domain.Common;
+using Market.Domain.Entities.Analytics;
 
 namespace Market.Domain.Entities.Identity;
 
@@ -16,6 +17,7 @@ public sealed class MarketUserEntity : BaseEntity
     public int TokenVersion { get; set; } = 0;
     public bool IsEnabled { get; set; }
     public ICollection<RefreshTokenEntity> RefreshTokens { get; private set; } = new List<RefreshTokenEntity>();
+    public ICollection<ReportEntity> Reports { get; set; } = new List<ReportEntity>();
 
     public PublicUserEntity? PublicUserEntity { get; set; }
     public ManagerEntity? ManagerEntity { get; set; }

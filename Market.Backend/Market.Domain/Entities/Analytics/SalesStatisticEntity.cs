@@ -17,7 +17,7 @@ namespace Market.Domain.Entities.Analytics
         public DateTime? ModifiedAt { get; set; }
         public bool IsDeleted { get; set; }
 
-        public ManagerEntity? ManagerEntity { get; set; } = default!;
-        public ProductEntity? ProductEntity { get; set; } = default!;
+        public ManagerEntity ManagerEntity { get; set; } = default!;
+        public ProductEntity ProductEntity { get; set; } = default!;
     }
 }
