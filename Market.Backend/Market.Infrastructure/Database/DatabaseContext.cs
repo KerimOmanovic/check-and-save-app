@@ -29,16 +29,7 @@ public partial class DatabaseContext : DbContext, IAppDbContext
     public DbSet<StoreEntity> Stores => Set<StoreEntity>();
     public DbSet<BranchEntity> Branches => Set<BranchEntity>();
 
-    public DbSet<ItemComparisonEntity> ItemComparisons => throw new NotImplementedException();
-
-    public DbSet<ActivityEntity> Activities => throw new NotImplementedException();
-
-    public DbSet<ManagerEntity> Managers => throw new NotImplementedException();
-
-    public DbSet<PublicUserEntity> PublicUsers => throw new NotImplementedException();
-
-    public DbSet<SecurityQuestionEntity> SecurityQuestions => throw new NotImplementedException();
-
+ 
     public DbSet<NotificationEntity> Notifications => throw new NotImplementedException();
 
     public DbSet<NotificationTypeEntity> NotificationTypes => throw new NotImplementedException();
