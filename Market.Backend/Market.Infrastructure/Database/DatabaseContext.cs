@@ -1,4 +1,5 @@
 ﻿using Market.Application.Abstractions;
+using Market.Domain.Entities.Analytics;
 using Market.Domain.Entities.ProductEntities;
 using Market.Domain.Entities.StoreEntities;
 
@@ -26,7 +27,8 @@ public partial class DatabaseContext : DbContext, IAppDbContext
     public DbSet<CityEntity> Cities => Set<CityEntity>();
     public DbSet<StoreEntity> Stores => Set<StoreEntity>();
     public DbSet<BranchEntity> Branches => Set<BranchEntity>();
-
+    public DbSet<SalesStatisticEntity> SalesStatistics { get; set; } = default!;
+    public DbSet<ReportEntity> Report { get; set; } = default!;
     private readonly TimeProvider _clock;
 
     public DatabaseContext(DbContextOptions<DatabaseContext> options, TimeProvider clock) : base(options)
