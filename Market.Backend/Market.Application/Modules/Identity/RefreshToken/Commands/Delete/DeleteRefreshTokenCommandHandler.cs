@@ -1,4 +1,4 @@
-﻿namespace Market.Application.Modules.Auth.RefreshTokens.Commands.Delete;
+﻿namespace Market.Application.Modules.Identity.RefreshToken.Commands.Delete;
 
 public sealed class DeleteRefreshTokenCommandHandler(IAppDbContext ctx)
     : IRequestHandler<DeleteRefreshTokenCommand, Unit>

@@ -1,6 +1,7 @@
-﻿namespace Market.Application.Modules.Identity.SecurityQuestions.Queries.GetById;
+﻿namespace Market.Application.Modules.Identity.SecurityQuestion.Queries.GetById;
 
-public sealed class GetSecQByIdQueryHandler(IAppDbContext ctx): IRequestHandler<GetSecQByIdQuery, GetSecQByIdQueryDto>
+public sealed class GetSecQByIdQueryHandler(IAppDbContext ctx)
+    : IRequestHandler<GetSecQByIdQuery, GetSecQByIdQueryDto>
 {
     public async Task<GetSecQByIdQueryDto> Handle(
         GetSecQByIdQuery request, CancellationToken ct)

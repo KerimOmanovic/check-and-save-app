@@ -1,6 +1,6 @@
-﻿namespace Market.Application.Modules.Identity.SecurityQuestions.Commands.Create;
+﻿namespace Market.Application.Modules.Identity.SecurityQuestion.Command.Create;
 
-public sealed class CreateSecurityQuestionCommandHandler(IAppDbContext ctx)
+public sealed class CreateSecQCommandHandler(IAppDbContext ctx)
     : IRequestHandler<CreateSecQCommand, int>
 {
     public async Task<int> Handle(CreateSecQCommand request, CancellationToken ct)

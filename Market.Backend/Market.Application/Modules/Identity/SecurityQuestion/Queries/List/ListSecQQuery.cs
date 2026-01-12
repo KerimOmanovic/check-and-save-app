@@ -1,4 +1,4 @@
-﻿namespace Market.Application.Modules.Identity.SecurityQuestions.Queries.List;
+﻿namespace Market.Application.Modules.Identity.SecurityQuestion.Queries.List;
 
 public sealed class ListSecQQuery : BasePagedQuery<ListSecQQueryDto>
 {
