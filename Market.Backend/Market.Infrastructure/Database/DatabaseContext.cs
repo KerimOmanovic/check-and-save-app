@@ -27,8 +27,8 @@ public partial class DatabaseContext : DbContext, IAppDbContext
     public DbSet<CityEntity> Cities => Set<CityEntity>();
     public DbSet<StoreEntity> Stores => Set<StoreEntity>();
     public DbSet<BranchEntity> Branches => Set<BranchEntity>();
-    public DbSet<SalesStatisticEntity> SalesStatistics { get; set; } = default!;
-    public DbSet<ReportEntity> Report { get; set; } = default!;
+    public DbSet<SalesStatisticEntity> SaleStatistics => Set<SalesStatisticEntity>();
+    public DbSet<ReportEntity> Reports => Set<ReportEntity>();
     private readonly TimeProvider _clock;
 
     public DatabaseContext(DbContextOptions<DatabaseContext> options, TimeProvider clock) : base(options)
