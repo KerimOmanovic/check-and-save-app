@@ -5,10 +5,8 @@ using Market.Application.Modules.Notifications.Notification.Queries.GetById;
 using Market.Application.Modules.Notifications.Notification.Queries.List;
 
 namespace Market.API.Controllers;
-
 [ApiController]
 [Route("[controller]")]
-
 public class NotificationsController(ISender sender) : ControllerBase
 {
     [HttpPost]
