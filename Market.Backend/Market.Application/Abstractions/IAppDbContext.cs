@@ -1,8 +1,8 @@
-﻿using Market.Domain.Entities.ProductEntities;
+﻿using Market.Domain.Entities.Analytics;
+using Market.Domain.Entities.ProductEntities;
 using Market.Domain.Entities.StoreEntities;
 
 namespace Market.Application.Abstractions;
-
 
 public interface IAppDbContext
 {
@@ -25,6 +25,8 @@ public interface IAppDbContext
     DbSet<CityEntity> Cities { get; }
     DbSet<BranchEntity> Branches { get; }
     DbSet<StoreEntity> Stores { get; }
+    DbSet<ReportEntity> Reports { get; }
+    DbSet<SalesStatisticEntity> SaleStatistics { get; }
 
     Task<int> SaveChangesAsync(CancellationToken ct);
 }
