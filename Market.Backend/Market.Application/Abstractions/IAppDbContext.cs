@@ -1,3 +1,4 @@
+﻿using Market.Domain.Entities.NotificationEntities;
 ﻿using Market.Domain.Entities.Analytics;
 using Market.Domain.Entities.ProductEntities;
 using Market.Domain.Entities.StoreEntities;
@@ -21,6 +22,8 @@ public interface IAppDbContext
     DbSet<ManagerEntity> Managers { get; }
     DbSet<PublicUserEntity> PublicUsers { get; }
     DbSet<SecurityQuestionEntity> SecurityQuestions { get; }
+    DbSet<NotificationEntity> Notifications { get; }
+    DbSet<NotificationTypeEntity> NotificationTypes { get; }
 
     DbSet<CityEntity> Cities { get; }
     DbSet<BranchEntity> Branches { get; }

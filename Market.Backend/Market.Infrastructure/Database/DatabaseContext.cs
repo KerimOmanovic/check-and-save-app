@@ -1,4 +1,5 @@
 ﻿using Market.Application.Abstractions;
+using Market.Domain.Entities.NotificationEntities;
 using Market.Domain.Entities.Analytics;
 using Market.Domain.Entities.ProductEntities;
 using Market.Domain.Entities.StoreEntities;
@@ -27,6 +28,14 @@ public partial class DatabaseContext : DbContext, IAppDbContext
     public DbSet<CityEntity> Cities => Set<CityEntity>();
     public DbSet<StoreEntity> Stores => Set<StoreEntity>();
     public DbSet<BranchEntity> Branches => Set<BranchEntity>();
+
+ 
+    public DbSet<NotificationEntity> Notifications => throw new NotImplementedException();
+
+    public DbSet<NotificationTypeEntity> NotificationTypes => throw new NotImplementedException();
+
+    public DbSet<SalesStatisticEntity> SalesStatistics { get; set; } = default!;
+    public DbSet<ReportEntity> Report { get; set; } = default!;
     public DbSet<SalesStatisticEntity> SaleStatistics => Set<SalesStatisticEntity>();
     public DbSet<ReportEntity> Reports => Set<ReportEntity>();
     private readonly TimeProvider _clock;
