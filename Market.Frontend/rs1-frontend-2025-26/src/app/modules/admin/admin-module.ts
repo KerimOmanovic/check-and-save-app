@@ -20,7 +20,7 @@ import { StoresEditComponent } from './stores/stores-edit/stores-edit.component'
     AdminLayoutComponent,
     AdminSettingsComponent,
     CategoryComponent,
-    BrandComponent
+    BrandComponent,
     CitiesComponent,
     CitiesAddComponent,
     CitiesEditComponent,

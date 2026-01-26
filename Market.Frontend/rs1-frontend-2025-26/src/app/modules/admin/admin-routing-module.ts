@@ -28,7 +28,9 @@ const routes: Routes = [
       },
       {
         path: 'brands',
-        component: BrandComponent,
+        component: BrandComponent
+      },
+      {
         path: 'cities',
         component: CitiesComponent,
       },
