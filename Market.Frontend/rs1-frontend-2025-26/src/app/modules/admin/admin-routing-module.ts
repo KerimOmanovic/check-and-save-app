@@ -4,6 +4,7 @@ import { RouterModule, Routes } from '@angular/router';
 import { AdminLayoutComponent } from './admin-layout/admin-layout.component';
 import {AdminSettingsComponent} from './admin-settings/admin-settings.component';
 import {CategoryComponent} from './category/category.component';
+import { BrandComponent } from './brand/brand.component';
 import {CitiesComponent} from './cities/cities.component';
 import {CitiesAddComponent} from './cities/cities-add/cities-add.component';
 import {CitiesEditComponent} from './cities/cities-edit/cities-edit.component';
@@ -27,6 +28,8 @@ const routes: Routes = [
         component: CategoryComponent,
       },
       {
+        path: 'brands',
+        component: BrandComponent,
         path: 'cities',
         component: CitiesComponent,
       },
