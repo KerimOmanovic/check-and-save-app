@@ -13,7 +13,7 @@ import { buildHttpParams } from '../../core/models/build-http-params';
   providedIn: 'root',
 })
 export class CategoriesApiService {
-  private readonly baseUrl = `${environment.apiUrl}/ProductCategories`;
+  private readonly baseUrl = `${environment.apiUrl}/Category`;
   private http = inject(HttpClient);
 
   /**
@@ -52,12 +52,19 @@ export class CategoriesApiService {
   delete(id: number): Observable<void> {
     return this.http.delete<void>(`${this.baseUrl}/${id}`);
   }
+  create(payload: any): Observable<number> {
+    return this.http.post<number>(this.baseUrl, payload);
+  }
+
+  update(id: number, payload: any): Observable<void> {
+    return this.http.put<void>(`${this.baseUrl}/${id}`, payload);
+  }
 
   /**
    * PUT /ProductCategories/{id}/disable
    * Disable a category.
    */
-  disable(id: number): Observable<void> {
+  /*disable(id: number): Observable<void> {
     return this.http.put<void>(`${this.baseUrl}/${id}/disable`, {});
   }
 
@@ -65,7 +72,8 @@ export class CategoriesApiService {
    * PUT /ProductCategories/{id}/enable
    * Enable a category.
    */
-  enable(id: number): Observable<void> {
+  /*enable(id: number): Observable<void> {
     return this.http.put<void>(`${this.baseUrl}/${id}/enable`, {});
-  }
+  }*/
 }
+
