@@ -5,7 +5,8 @@ import { environment } from '../../../environments/environment';
 import {
   ListCategoriesQueryDto,
   ListCategoriesQueryResponse,
-  ListCategoriesQuery
+  ListCategoriesQuery,
+  UpsertCategoryCommand
 } from './category-api.model';
 import { buildHttpParams } from '../../core/models/build-http-params';
 
@@ -52,11 +53,11 @@ export class CategoriesApiService {
   delete(id: number): Observable<void> {
     return this.http.delete<void>(`${this.baseUrl}/${id}`);
   }
-  create(payload: any): Observable<number> {
+  create(payload: UpsertCategoryCommand): Observable<number> {
     return this.http.post<number>(this.baseUrl, payload);
   }
 
-  update(id: number, payload: any): Observable<void> {
+  update(id: number, payload: UpsertCategoryCommand): Observable<void> {
     return this.http.put<void>(`${this.baseUrl}/${id}`, payload);
   }
 
