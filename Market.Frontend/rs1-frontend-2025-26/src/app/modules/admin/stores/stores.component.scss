@@ -22,7 +22,7 @@ $hover-bg: rgba(73, 118, 181, 0.04);
 
 .container {
   padding: 24px;
-  max-width: 1200px;
+  max-width: 1400px;
   margin: 0 auto;
   background: linear-gradient(135deg, $bg-gradient-start 0%, $bg-gradient-end 100%);
   min-height: 100vh;
@@ -74,7 +74,7 @@ $hover-bg: rgba(73, 118, 181, 0.04);
       position: relative;
 
       &::after {
-        content: 'location_city';
+        content: 'storefront';
         font-family: 'Material Icons';
         font-size: 28px;
         color: white;
@@ -246,6 +246,20 @@ $hover-bg: rgba(73, 118, 181, 0.04);
         color: $text-primary;
       }
 
+      .icon-enabled {
+        color: $success-color;
+        font-size: 24px;
+        width: 24px;
+        height: 24px;
+      }
+
+      .icon-disabled {
+        color: $text-disabled;
+        font-size: 24px;
+        width: 24px;
+        height: 24px;
+      }
+
       button[mat-icon-button] {
         width: 40px;
         height: 40px;
@@ -297,7 +311,7 @@ $hover-bg: rgba(73, 118, 181, 0.04);
         font-size: 16px;
 
         &::before {
-          content: 'location_city';
+          content: 'storefront';
           font-family: 'Material Icons';
           font-size: 64px;
           color: rgba(73, 118, 181, 0.3);

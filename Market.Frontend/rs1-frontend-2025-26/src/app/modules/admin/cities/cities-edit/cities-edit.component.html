@@ -1,0 +1,63 @@
+<div class="container">
+  <div class="header-card mat-elevation-z2">
+    <h1>{{ 'CITIES.EDIT.TITLE' | translate }}</h1>
+  </div>
+
+  <div class="form-card mat-elevation-z2">
+    <form [formGroup]="form" (ngSubmit)="onSubmit()" *ngIf="!isLoading || form">
+      <div *ngIf="errorMessage" class="error-banner">
+        <mat-icon>error</mat-icon>
+        <span>{{ errorMessage }}</span>
+      </div>
+
+      <mat-form-field appearance="outline" class="full-width">
+        <mat-label>{{ 'CITIES.FORM.NAME' | translate }}</mat-label>
+        <input
+          matInput
+          formControlName="name"
+          [placeholder]="'CITIES.FORM.NAME_PLACEHOLDER' | translate"
+        />
+        <mat-icon matSuffix>location_city</mat-icon>
+        <mat-error *ngIf="hasError('name')">
+          {{ getErrorMessage('name') }}
+        </mat-error>
+      </mat-form-field>
+
+      <mat-form-field appearance="outline" class="full-width">
+        <mat-label>{{ 'CITIES.FORM.POSTAL_CODE' | translate }}</mat-label>
+        <input
+          matInput
+          type="number"
+          formControlName="postalCode"
+          [placeholder]="'CITIES.FORM.POSTAL_CODE_PLACEHOLDER' | translate"
+        />
+        <mat-icon matSuffix>local_post_office</mat-icon>
+        <mat-error *ngIf="hasError('postalCode')">
+          {{ getErrorMessage('postalCode') }}
+        </mat-error>
+      </mat-form-field>
+
+      <div class="form-actions">
+        <button type="button" mat-stroked-button (click)="onCancel()" [disabled]="isLoading">
+          <mat-icon>close</mat-icon>
+          {{ 'CITIES.FORM.CANCEL' | translate }}
+        </button>
+
+        <button
+          type="submit"
+          mat-raised-button
+          color="primary"
+          [disabled]="form.invalid || isLoading"
+        >
+          <mat-icon>save</mat-icon>
+          {{ 'CITIES.FORM.UPDATE' | translate }}
+        </button>
+      </div>
+    </form>
+
+    <div *ngIf="isLoading && !form" class="loading-overlay">
+      <mat-spinner diameter="50"></mat-spinner>
+      <p>{{ 'CITIES.EDIT.LOADING' | translate }}</p>
+    </div>
+  </div>
+</div>
