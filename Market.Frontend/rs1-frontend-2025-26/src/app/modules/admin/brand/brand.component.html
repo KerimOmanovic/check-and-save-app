@@ -1,0 +1,117 @@
+<section class="admin-page">
+  <header class="page-header">
+    <div class="page-title">
+      <h1>{{ 'PRODUCT_BRANDS.TITLE' | translate }}</h1>
+      <p>{{ 'PRODUCT_BRANDS.SUBTITLE' | translate }}</p>
+    </div>
+    <button mat-raised-button color="primary" type="button" (click)="startCreate()">
+      <mat-icon>add</mat-icon>
+      {{ 'PRODUCT_BRANDS.NEW_BRAND' | translate }}
+    </button>
+  </header>
+
+  <mat-card class="filter-card">
+    <mat-form-field appearance="outline">
+      <mat-label>{{ 'PRODUCT_BRANDS.SEARCH_PLACEHOLDER' | translate }}</mat-label>
+      <input
+        matInput
+        [formControl]="searchControl"
+        [placeholder]="'PRODUCT_BRANDS.SEARCH_INPUT_PLACEHOLDER' | translate"
+      />
+      <button
+        mat-icon-button
+        matSuffix
+        type="button"
+        *ngIf="searchControl.value"
+        (click)="clearSearch()"
+        aria-label="Clear search"
+      >
+        <mat-icon>close</mat-icon>
+      </button>
+    </mat-form-field>
+  </mat-card>
+
+  <div class="content-grid">
+    <mat-card class="list-card">
+      <div class="card-header">
+        <h2>{{ 'PRODUCT_BRANDS.TITLE' | translate }}</h2>
+      </div>
+
+      <mat-progress-bar *ngIf="isLoading" mode="indeterminate"></mat-progress-bar>
+      <div class="error-message" *ngIf="!isLoading && errorMessage">{{ errorMessage }}</div>
+
+      <div class="table-wrapper" *ngIf="!isLoading && !errorMessage">
+        <table class="data-table" *ngIf="brands.length > 0; else emptyState">
+          <thead>
+          <tr>
+            <th>{{ 'PRODUCT_BRANDS.TABLE.NAME' | translate }}</th>
+            <th>{{ 'COMMON.DESCRIPTION' | translate }}</th>
+            <th class="actions">{{ 'PRODUCT_BRANDS.TABLE.ACTIONS' | translate }}</th>
+          </tr>
+          </thead>
+          <tbody>
+          <tr *ngFor="let brand of brands">
+            <td>{{ brand.name }}</td>
+            <td>{{ brand.description || '-' }}</td>
+            <td class="actions">
+              <button mat-icon-button color="primary" (click)="editBrand(brand)">
+                <mat-icon>edit</mat-icon>
+              </button>
+              <button mat-icon-button color="warn" (click)="deleteBrand(brand)">
+                <mat-icon>delete</mat-icon>
+              </button>
+            </td>
+          </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <ng-template #emptyState>
+        <div class="empty-state">
+          {{ 'PRODUCT_BRANDS.NO_DATA' | translate }}
+        </div>
+      </ng-template>
+    </mat-card>
+
+    <mat-card class="form-card">
+      <div class="card-header">
+        <h2>
+          {{ editingBrand ? ('PRODUCT_BRANDS.FORM.UPDATE' | translate) : ('PRODUCT_BRANDS.ADD_NEW' | translate) }}
+        </h2>
+      </div>
+
+      <form [formGroup]="form" (ngSubmit)="submit()">
+        <mat-form-field appearance="outline">
+          <mat-label>{{ 'PRODUCT_BRANDS.FORM.NAME' | translate }}</mat-label>
+          <input
+            matInput
+            formControlName="name"
+            [placeholder]="'PRODUCT_BRANDS.FORM.NAME_PLACEHOLDER' | translate"
+          />
+          <mat-error *ngIf="form.get('name')?.hasError('required')">
+            {{ 'VALIDATION.REQUIRED' | translate }}
+          </mat-error>
+        </mat-form-field>
+
+        <mat-form-field appearance="outline">
+          <mat-label>{{ 'COMMON.DESCRIPTION' | translate }}</mat-label>
+          <textarea
+            matInput
+            formControlName="description"
+            rows="4"
+            [placeholder]="'COMMON.OPTIONAL' | translate"
+          ></textarea>
+        </mat-form-field>
+
+        <div class="form-actions">
+          <button mat-stroked-button type="button" (click)="startCreate()">
+            {{ 'PRODUCT_BRANDS.FORM.CANCEL' | translate }}
+          </button>
+          <button mat-raised-button color="primary" type="submit" [disabled]="form.invalid || isSaving">
+            {{ editingBrand ? ('PRODUCT_BRANDS.FORM.UPDATE' | translate) : ('PRODUCT_BRANDS.FORM.SAVE' | translate) }}
+          </button>
+        </div>
+      </form>
+    </mat-card>
+  </div>
+</section>

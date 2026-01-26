@@ -1,13 +1,272 @@
-<table>
-  <tr>
-    <th>Id</th>
-    <th>Name</th>
-    <th>Description</th>
-  </tr>
-  <tr *ngFor="let category of categories" >
-    <td>{{category.name}}</td>
-    <td>Ime</td>
-    <td>{{category.description}}</td>
-    <td>Opis</td>
-  </tr>
-</table>
+<!--&lt;!&ndash;<div *ngIf="isLoading">Loading...</div>&ndash;&gt;-->
+<!--&lt;!&ndash;<div *ngIf="!isLoading && errorMessage">{{ errorMessage }}</div>&ndash;&gt;-->
+
+<!--&lt;!&ndash;<table *ngIf="!isLoading && !errorMessage">&ndash;&gt;-->
+<!--&lt;!&ndash;  <thead>&ndash;&gt;-->
+<!--&lt;!&ndash;  <tr>&ndash;&gt;-->
+<!--&lt;!&ndash;    <th>Id</th>&ndash;&gt;-->
+<!--&lt;!&ndash;    <th>Name</th>&ndash;&gt;-->
+<!--&lt;!&ndash;    <th>Description</th>&ndash;&gt;-->
+<!--&lt;!&ndash;  </tr>&ndash;&gt;-->
+<!--&lt;!&ndash;  </thead>&ndash;&gt;-->
+
+<!--&lt;!&ndash;  <tbody>&ndash;&gt;-->
+<!--&lt;!&ndash;  <tr *ngFor="let category of categories">&ndash;&gt;-->
+<!--&lt;!&ndash;    <td>{{ category.id }}</td>&ndash;&gt;-->
+<!--&lt;!&ndash;    <td>{{ category.name }}</td>&ndash;&gt;-->
+<!--&lt;!&ndash;    <td>{{ category.description }}</td>&ndash;&gt;-->
+<!--&lt;!&ndash;  </tr>&ndash;&gt;-->
+<!--&lt;!&ndash;  </tbody>&ndash;&gt;-->
+<!--&lt;!&ndash;</table>&ndash;&gt;-->
+<!--<section class="admin-page">-->
+<!--  <header class="page-header">-->
+<!--    <div class="page-title">-->
+<!--      <h1>{{ 'PRODUCT_CATEGORIES.TITLE' | translate }}</h1>-->
+<!--      <p>{{ 'PRODUCT_CATEGORIES.SUBTITLE' | translate }}</p>-->
+<!--    </div>-->
+<!--    <button mat-raised-button color="primary" type="button" (click)="startCreate()">-->
+<!--      <mat-icon>add</mat-icon>-->
+<!--      {{ 'PRODUCT_CATEGORIES.NEW_CATEGORY' | translate }}-->
+<!--    </button>-->
+<!--  </header>-->
+
+<!--  <mat-card class="filter-card">-->
+<!--    <mat-form-field appearance="outline">-->
+<!--      <mat-label>{{ 'PRODUCT_CATEGORIES.SEARCH_PLACEHOLDER' | translate }}</mat-label>-->
+<!--      <input-->
+<!--        matInput-->
+<!--        [formControl]="searchControl"-->
+<!--        [placeholder]="'PRODUCT_CATEGORIES.SEARCH_INPUT_PLACEHOLDER' | translate"-->
+<!--      />-->
+<!--      <button-->
+<!--        mat-icon-button-->
+<!--        matSuffix-->
+<!--        type="button"-->
+<!--        *ngIf="searchControl.value"-->
+<!--        (click)="clearSearch()"-->
+<!--        aria-label="Clear search"-->
+<!--      >-->
+<!--        <mat-icon>close</mat-icon>-->
+<!--      </button>-->
+<!--    </mat-form-field>-->
+<!--  </mat-card>-->
+
+<!--  <div class="content-grid">-->
+<!--    <mat-card class="list-card">-->
+<!--      <div class="card-header">-->
+<!--        <h2>{{ 'PRODUCT_CATEGORIES.TITLE' | translate }}</h2>-->
+<!--      </div>-->
+
+<!--      <mat-progress-bar *ngIf="isLoading" mode="indeterminate"></mat-progress-bar>-->
+<!--      <div class="error-message" *ngIf="!isLoading && errorMessage">{{ errorMessage }}</div>-->
+
+<!--      <div class="table-wrapper" *ngIf="!isLoading && !errorMessage">-->
+<!--        <table class="data-table" *ngIf="categories.length > 0; else emptyState">-->
+<!--          <thead>-->
+<!--          <tr>-->
+<!--            <th>{{ 'PRODUCT_CATEGORIES.TABLE.NAME' | translate }}</th>-->
+<!--            <th>{{ 'COMMON.DESCRIPTION' | translate }}</th>-->
+<!--            <th class="actions">{{ 'PRODUCT_CATEGORIES.TABLE.ACTIONS' | translate }}</th>-->
+<!--          </tr>-->
+<!--          </thead>-->
+<!--          <tbody>-->
+<!--          <tr *ngFor="let category of categories">-->
+<!--            <td>{{ category.name }}</td>-->
+<!--            <td>{{ category.description || '-' }}</td>-->
+<!--            <td class="actions">-->
+<!--              <button mat-icon-button color="primary" (click)="editCategory(category)">-->
+<!--                <mat-icon>edit</mat-icon>-->
+<!--              </button>-->
+<!--              <button mat-icon-button color="warn" (click)="deleteCategory(category)">-->
+<!--                <mat-icon>delete</mat-icon>-->
+<!--              </button>-->
+<!--            </td>-->
+<!--          </tr>-->
+<!--          </tbody>-->
+<!--        </table>-->
+<!--      </div>-->
+
+<!--      <ng-template #emptyState>-->
+<!--        <div class="empty-state">-->
+<!--          {{ 'PRODUCT_CATEGORIES.NO_DATA' | translate }}-->
+<!--        </div>-->
+<!--      </ng-template>-->
+<!--    </mat-card>-->
+
+<!--    <mat-card class="form-card">-->
+<!--      <div class="card-header">-->
+<!--        <h2>-->
+<!--          {{ editingCategory ? ('PRODUCT_CATEGORIES.FORM.UPDATE' | translate) : ('PRODUCT_CATEGORIES.ADD_NEW' | translate) }}-->
+<!--        </h2>-->
+<!--      </div>-->
+
+<!--      <form [formGroup]="form" (ngSubmit)="submit()">-->
+<!--        <mat-form-field appearance="outline">-->
+<!--          <mat-label>{{ 'PRODUCT_CATEGORIES.FORM.NAME' | translate }}</mat-label>-->
+<!--          <input-->
+<!--            matInput-->
+<!--            formControlName="name"-->
+<!--            [placeholder]="'PRODUCT_CATEGORIES.FORM.NAME_PLACEHOLDER' | translate"-->
+<!--          />-->
+<!--          <mat-error *ngIf="form.get('name')?.hasError('required')">-->
+<!--            {{ 'VALIDATION.REQUIRED' | translate }}-->
+<!--          </mat-error>-->
+<!--        </mat-form-field>-->
+
+<!--        <mat-form-field appearance="outline">-->
+<!--          <mat-label>{{ 'COMMON.DESCRIPTION' | translate }}</mat-label>-->
+<!--          <textarea-->
+<!--            matInput-->
+<!--            formControlName="description"-->
+<!--            rows="4"-->
+<!--            [placeholder]="'COMMON.OPTIONAL' | translate"-->
+<!--          ></textarea>-->
+<!--        </mat-form-field>-->
+
+<!--        <div class="form-actions">-->
+<!--          <button mat-stroked-button type="button" (click)="startCreate()">-->
+<!--            {{ 'PRODUCT_CATEGORIES.FORM.CANCEL' | translate }}-->
+<!--          </button>-->
+<!--          <button mat-raised-button color="primary" type="submit" [disabled]="form.invalid || isSaving">-->
+<!--            {{ editingCategory ? ('PRODUCT_CATEGORIES.FORM.UPDATE' | translate) : ('PRODUCT_CATEGORIES.FORM.SAVE' | translate) }}-->
+<!--          </button>-->
+<!--        </div>-->
+<!--      </form>-->
+<!--    </mat-card>-->
+<!--  </div>-->
+<!--</section>-->
+<section class="admin-page">
+  <!-- TOP BAR -->
+  <header class="topbar">
+    <div class="topbar-left">
+      <div class="logo">
+        <span class="logo-mark">CS</span>
+        <span class="logo-text">Check&Save</span>
+      </div>
+
+      <div class="topbar-links">
+        <span class="link is-active">{{ 'PRODUCT_CATEGORIES.TITLE' | translate }}</span>
+        <span class="link">Brendovi</span>
+        <span class="link">Proizvodi</span>
+      </div>
+    </div>
+
+    <div class="topbar-right">
+      <mat-form-field class="search-field" appearance="outline">
+        <mat-label>Pretraži kategorije</mat-label>
+        <input
+          matInput
+          [formControl]="searchControl"
+          placeholder="npr. Računari, Mliječno…"
+        />
+        <button
+          mat-icon-button
+          matSuffix
+          type="button"
+          *ngIf="searchControl.value"
+          (click)="clearSearch()"
+          aria-label="Clear search"
+        >
+          <mat-icon>close</mat-icon>
+        </button>
+      </mat-form-field>
+
+      <button mat-raised-button class="btn-add" type="button" (click)="startCreate()">
+        <mat-icon>add</mat-icon>
+        Nova Kategorija
+      </button>
+    </div>
+  </header>
+
+  <!-- CONTENT -->
+  <div class="content">
+    <!-- LEFT -->
+    <mat-card class="main-card">
+      <div class="section-head">
+        <div class="titles">
+          <h1>Kategorije Proizvoda</h1>
+          <p>Upravljanje kategorijama proizvoda</p>
+        </div>
+
+        <div class="badges">
+          <span class="badge" *ngIf="isLoading">Loading…</span>
+          <span class="badge badge-error" *ngIf="!isLoading && errorMessage">{{ errorMessage }}</span>
+          <span class="badge badge-count" *ngIf="!isLoading && !errorMessage">{{ categories.length }}</span>
+        </div>
+      </div>
+
+      <mat-progress-bar *ngIf="isLoading" mode="indeterminate"></mat-progress-bar>
+
+      <!-- GRID CARDS -->
+      <div class="grid" *ngIf="!isLoading && !errorMessage">
+        <ng-container *ngIf="categories.length > 0; else emptyState">
+          <mat-card class="cat-card" *ngFor="let category of categories">
+            <div class="cat-top">
+              <div class="cat-icon">
+                {{ (category.name || '?').slice(0, 1) | uppercase }}
+              </div>
+
+              <div class="cat-meta">
+                <div class="cat-name">{{ category.name }}</div>
+                <div class="cat-desc">{{ category.description || '-' }}</div>
+              </div>
+            </div>
+
+            <div class="cat-actions">
+              <button mat-stroked-button class="btn-outline" type="button" (click)="editCategory(category)">
+                <mat-icon>edit</mat-icon>
+                Uredi
+              </button>
+
+              <button mat-stroked-button class="btn-outline-danger" type="button" (click)="deleteCategory(category)">
+                <mat-icon>delete</mat-icon>
+                Obriši
+              </button>
+            </div>
+          </mat-card>
+        </ng-container>
+
+        <ng-template #emptyState>
+          <div class="empty-state">
+            Nema kategorija za prikaz.
+          </div>
+        </ng-template>
+      </div>
+    </mat-card>
+
+    <!-- RIGHT -->
+    <mat-card class="side-card">
+      <div class="side-head">
+        <h2>{{ editingCategory ? 'Uredi kategoriju' : 'Dodaj Kategoriju' }}</h2>
+        <p class="muted">
+          {{ editingCategory ? 'Promijeni podatke i sačuvaj.' : 'Unesi naziv i opcionalni opis.' }}
+        </p>
+      </div>
+
+      <form [formGroup]="form" (ngSubmit)="submit()" class="form">
+        <mat-form-field appearance="outline">
+          <mat-label>Naziv kategorije *</mat-label>
+          <input matInput formControlName="name" placeholder="npr. Računari" />
+          <mat-error *ngIf="form.get('name')?.hasError('required')">
+            Naziv je obavezan.
+          </mat-error>
+        </mat-form-field>
+
+        <mat-form-field appearance="outline">
+          <mat-label>Opis</mat-label>
+          <textarea matInput formControlName="description" rows="6" placeholder="Opcionalno…"></textarea>
+        </mat-form-field>
+
+        <div class="form-actions">
+          <button mat-stroked-button class="btn-outline" type="button" (click)="startCreate()">
+            Otkaži
+          </button>
+
+          <button mat-raised-button class="btn-save" type="submit" [disabled]="form.invalid || isSaving">
+            {{ isSaving ? 'Čuvam…' : (editingCategory ? 'Sačuvaj izmjene' : 'Sačuvaj') }}
+          </button>
+        </div>
+      </form>
+    </mat-card>
+  </div>
+</section>
