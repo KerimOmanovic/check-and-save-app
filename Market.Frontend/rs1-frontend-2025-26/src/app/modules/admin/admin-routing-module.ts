@@ -4,6 +4,7 @@ import { RouterModule, Routes } from '@angular/router';
 import { AdminLayoutComponent } from './admin-layout/admin-layout.component';
 import {AdminSettingsComponent} from './admin-settings/admin-settings.component';
 import {CategoryComponent} from './category/category.component';
+import { BrandComponent } from './brand/brand.component';
 
 const routes: Routes = [
   {
@@ -18,6 +19,10 @@ const routes: Routes = [
       {
         path: 'categories',
         component: CategoryComponent,
+      },
+      {
+        path: 'brands',
+        component: BrandComponent,
       },
       // default admin route → /admin/products
       {

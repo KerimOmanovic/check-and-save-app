@@ -5,6 +5,7 @@ import {AdminLayoutComponent} from './admin-layout/admin-layout.component';
 import {AdminSettingsComponent} from './admin-settings/admin-settings.component';
 import {SharedModule} from '../shared/shared-module';
 import { CategoryComponent } from './category/category.component';
+import { BrandComponent } from './brand/brand.component';
 
 
 @NgModule({
@@ -12,6 +13,7 @@ import { CategoryComponent } from './category/category.component';
     AdminLayoutComponent,
     AdminSettingsComponent,
     CategoryComponent,
+    BrandComponent
   ],
   imports: [
     AdminRoutingModule,

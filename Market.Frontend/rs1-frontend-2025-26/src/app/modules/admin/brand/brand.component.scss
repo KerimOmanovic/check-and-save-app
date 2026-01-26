@@ -1,0 +1,90 @@
+:host {
+  display: block;
+  padding: 24px;
+}
+
+.admin-page {
+  display: grid;
+  gap: 24px;
+}
+
+.page-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 16px;
+
+  h1 {
+    margin: 0;
+    font-size: 28px;
+  }
+
+  p {
+    margin: 4px 0 0;
+    color: #6b6f76;
+  }
+}
+
+.filter-card {
+  padding: 16px;
+
+  mat-form-field {
+    width: 100%;
+  }
+}
+
+.content-grid {
+  display: grid;
+  gap: 24px;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+}
+
+.list-card,
+.form-card {
+  padding: 16px;
+}
+
+.card-header {
+  margin-bottom: 12px;
+
+  h2 {
+    margin: 0;
+    font-size: 20px;
+  }
+}
+
+.table-wrapper {
+  overflow-x: auto;
+}
+
+.data-table {
+  width: 100%;
+  border-collapse: collapse;
+
+  th,
+  td {
+    padding: 12px 8px;
+    border-bottom: 1px solid #e3e5e8;
+    text-align: left;
+  }
+
+  th.actions,
+  td.actions {
+    text-align: right;
+    width: 120px;
+  }
+}
+
+.form-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 12px;
+  margin-top: 16px;
+}
+
+.empty-state,
+.error-message {
+  padding: 16px 0;
+  color: #6b6f76;
+}
