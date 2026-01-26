@@ -1,10 +1,89 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <title>Title</title>
-</head>
-<body>
+<div class="container">
+  <div class="header-card mat-elevation-z2">
+    <div class="header-card-content">
+      <h1>{{ 'CITIES.TITLE' | translate }}</h1>
 
-</body>
-</html>
+      <div class="actions-container">
+        <mat-form-field class="search-field" appearance="fill">
+          <mat-label>{{ 'CITIES.SEARCH_PLACEHOLDER' | translate }}</mat-label>
+          <input
+            matInput
+            [placeholder]="'CITIES.SEARCH_INPUT_PLACEHOLDER' | translate"
+            (keyup.enter)="onSearch()"
+            [(ngModel)]="request.search"
+          />
+          <mat-icon matSuffix>search</mat-icon>
+        </mat-form-field>
+
+        <button mat-raised-button color="primary" (click)="onCreate()">
+          <mat-icon>add</mat-icon>
+          {{ 'CITIES.NEW_CITY' | translate }}
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <div *ngIf="isLoading" class="loading">
+    {{ 'CITIES.LOADING' | translate }}
+  </div>
+
+  <div *ngIf="!isLoading && errorMessage" class="error">
+    {{ errorMessage }}
+  </div>
+
+  <div class="mat-elevation-z8" *ngIf="!isLoading && !errorMessage">
+    <table mat-table [dataSource]="items">
+      <ng-container matColumnDef="name">
+        <th mat-header-cell *matHeaderCellDef>{{ 'CITIES.TABLE.NAME' | translate }}</th>
+        <td mat-cell *matCellDef="let city">
+          <span class="name-cell">{{ city.name }}</span>
+        </td>
+      </ng-container>
+
+      <ng-container matColumnDef="postalCode">
+        <th mat-header-cell *matHeaderCellDef>{{ 'CITIES.TABLE.POSTAL_CODE' | translate }}</th>
+        <td mat-cell *matCellDef="let city">
+          {{ city.postalCode }}
+        </td>
+      </ng-container>
+
+      <ng-container matColumnDef="actions">
+        <th mat-header-cell *matHeaderCellDef>{{ 'CITIES.TABLE.ACTIONS' | translate }}</th>
+        <td mat-cell *matCellDef="let city">
+          <button
+            mat-icon-button
+            color="primary"
+            (click)="onEdit(city)"
+            [matTooltip]="'CITIES.ACTIONS.EDIT_TOOLTIP' | translate"
+          >
+            <mat-icon>edit</mat-icon>
+          </button>
+          <button
+            mat-icon-button
+            color="warn"
+            (click)="onDelete(city)"
+            [matTooltip]="'CITIES.ACTIONS.DELETE_TOOLTIP' | translate"
+          >
+            <mat-icon>delete</mat-icon>
+          </button>
+        </td>
+      </ng-container>
+
+      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+      <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+
+      <tr class="mat-row" *matNoDataRow>
+        <td class="mat-cell" colspan="3">
+          <ng-container *ngIf="request.search; else noDataDefault">
+            {{ 'CITIES.NO_DATA_FILTER' | translate }}
+          </ng-container>
+          <ng-template #noDataDefault>
+            {{ 'CITIES.NO_DATA' | translate }}
+          </ng-template>
+        </td>
+      </tr>
+    </table>
+
+    <app-fit-paginator-bar [vm]="this" />
+  </div>
+</div>

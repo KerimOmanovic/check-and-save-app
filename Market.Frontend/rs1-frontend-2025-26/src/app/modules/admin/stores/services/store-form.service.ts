@@ -1,37 +1,35 @@
 import { Injectable, inject } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { GetCityByIdQueryDto } from '../../../../api-services/cities/cities-api.models';
+import { GetStoreByIdQueryDto } from '../../../../api-services/stores/stores-api.models';
 
 /**
- * Service for creating and managing city forms.
+ * Service for creating and managing store forms.
  * Provides reusable form creation with validation for Add and Edit components.
  */
 @Injectable()
-export class CityFormService {
+export class StoreFormService {
   private fb = inject(FormBuilder);
 
   /**
-   * Create a city form with validation.
-   * If city data is provided, the form is pre-filled (edit mode).
+   * Create a store form with validation.
+   * If store data is provided, the form is pre-filled (edit mode).
    */
-  createCityForm(city?: GetCityByIdQueryDto): FormGroup {
+  createStoreForm(store?: GetStoreByIdQueryDto): FormGroup {
     return this.fb.group({
       name: [
-        city?.name ?? '',
-        [
-          Validators.required,
-          Validators.minLength(2),
-          Validators.maxLength(120)
-        ]
+        store?.name ?? '',
+        [Validators.required, Validators.minLength(2), Validators.maxLength(120)]
       ],
-      postalCode: [
-        city?.postalCode ?? null,
-        [
-          Validators.required,
-          Validators.min(1),
-          Validators.max(99999)
-        ]
-      ]
+      contact: [
+        store?.contact ?? '',
+        [Validators.required, Validators.minLength(3), Validators.maxLength(120)]
+      ],
+      email: [
+        store?.email ?? '',
+        [Validators.required, Validators.email, Validators.maxLength(120)]
+      ],
+      cityEntityId: [store?.cityEntityId ?? null, [Validators.required]],
+      isActive: [store?.isActive ?? true]
     });
   }
 
@@ -55,11 +53,8 @@ export class CityFormService {
     if (errors['maxlength']) {
       return `Maximum ${errors['maxlength'].requiredLength} characters allowed`;
     }
-    if (errors['min']) {
-      return `Minimum value is ${errors['min'].min}`;
-    }
-    if (errors['max']) {
-      return `Maximum value is ${errors['max'].max}`;
+    if (errors['email']) {
+      return 'Invalid email format';
     }
 
     return 'Invalid value';
