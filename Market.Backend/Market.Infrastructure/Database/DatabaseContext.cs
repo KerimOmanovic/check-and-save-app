@@ -29,10 +29,9 @@ public partial class DatabaseContext : DbContext, IAppDbContext
     public DbSet<StoreEntity> Stores => Set<StoreEntity>();
     public DbSet<BranchEntity> Branches => Set<BranchEntity>();
 
- 
-    public DbSet<NotificationEntity> Notifications => throw new NotImplementedException();
+    public DbSet<NotificationEntity> Notifications =>Set<NotificationEntity>();
 
-    public DbSet<NotificationTypeEntity> NotificationTypes => throw new NotImplementedException();
+    public DbSet<NotificationTypeEntity> NotificationTypes => Set<NotificationTypeEntity>();
 
     public DbSet<SalesStatisticEntity> SalesStatistics { get; set; } = default!;
     public DbSet<ReportEntity> Report { get; set; } = default!;

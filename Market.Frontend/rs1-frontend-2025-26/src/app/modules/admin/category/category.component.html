@@ -1,13 +1,20 @@
-<table>
+<div *ngIf="isLoading">Loading...</div>
+<div *ngIf="!isLoading && errorMessage">{{ errorMessage }}</div>
+
+<table *ngIf="!isLoading && !errorMessage">
+  <thead>
   <tr>
     <th>Id</th>
     <th>Name</th>
     <th>Description</th>
   </tr>
-  <tr *ngFor="let category of categories" >
-    <td>{{category.name}}</td>
-    <td>Ime</td>
-    <td>{{category.description}}</td>
-    <td>Opis</td>
+  </thead>
+
+  <tbody>
+  <tr *ngFor="let category of categories">
+    <td>{{ category.id }}</td>
+    <td>{{ category.name }}</td>
+    <td>{{ category.description }}</td>
   </tr>
+  </tbody>
 </table>
