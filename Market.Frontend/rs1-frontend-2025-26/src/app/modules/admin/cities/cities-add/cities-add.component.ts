@@ -48,11 +48,11 @@ export class CitiesAddComponent
     this.api.create(command).subscribe({
       next: () => {
         this.stopLoading();
-        this.toaster.success('City created successfully');
+        this.toaster.success('Grad je uspješno dodan');
         this.router.navigate(['/admin/cities']);
       },
       error: (err) => {
-        this.stopLoading('Failed to create city');
+        this.stopLoading('Greška pri dodavanju grada');
         console.error('Create city error:', err);
       }
     });
