@@ -8,6 +8,7 @@ import { DialogHelperService } from '../../shared/services/dialog-helper.service
 import { DialogButton } from '../../shared/models/dialog-config.model';
 import { PageRequest } from '../../../core/models/paging/page-request';
 
+
 @Component({
   selector: 'app-brand',
   standalone: false,
