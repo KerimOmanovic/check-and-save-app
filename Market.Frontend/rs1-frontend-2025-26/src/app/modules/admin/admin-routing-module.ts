@@ -4,13 +4,13 @@ import { RouterModule, Routes } from '@angular/router';
 import { AdminLayoutComponent } from './admin-layout/admin-layout.component';
 import {AdminSettingsComponent} from './admin-settings/admin-settings.component';
 import {CategoryComponent} from './category/category.component';
-import { BrandComponent } from './brand/brand.component';
 import {CitiesComponent} from './cities/cities.component';
 import {CitiesAddComponent} from './cities/cities-add/cities-add.component';
 import {CitiesEditComponent} from './cities/cities-edit/cities-edit.component';
 import {StoresComponent} from './stores/stores.component';
 import {StoresAddComponent} from './stores/stores-add/stores-add.component';
 import {StoresEditComponent} from './stores/stores-edit/stores-edit.component';
+import { BrandComponent } from './brand/brand.component';
 
 const routes: Routes = [
   {
@@ -52,7 +52,11 @@ const routes: Routes = [
       },
       {
         path: 'stores/:id/edit',
-        component: StoresEditComponent,
+        component: StoresEditComponent
+      },
+      {
+        path: 'brands',
+        component: BrandComponent,
       },
       // default admin route → /admin/products
       {
