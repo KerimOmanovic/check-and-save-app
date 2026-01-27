@@ -23,7 +23,6 @@ export class BrandsApiService {
     return this.http.get<ListBrandsQueryResponse>(this.baseUrl, { params });
   }
 
-
   getById(id: number): Observable<GetBrandByIdQueryDto> {
     return this.http.get<GetBrandByIdQueryDto>(`${this.baseUrl}/${id}`);
   }

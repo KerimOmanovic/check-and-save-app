@@ -1,77 +1,86 @@
 // brand-edit.component.ts
-import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { Router, ActivatedRoute } from '@angular/router';
+import { Component, inject, OnInit } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
+
+import { BaseFormComponent } from '../../../../core/components/base-classes/base-form-component';
+
+import {
+  GetBrandByIdQueryDto,
+  UpsertBrandCommand
+} from '../../../../api-services/brand/brand-api.model';
+
+import { BrandsApiService } from '../../../../api-services/brand/brand-api.service';
 import { BrandFormService } from '../services/brand-form.service';
+import { ToasterService } from '../../../../core/services/toaster.service';
 
 @Component({
   selector: 'app-brand-edit',
+  standalone: false,
   templateUrl: './brand-edit.component.html',
-  styleUrls: ['./brand-edit.component.scss']
+  styleUrl: './brand-edit.component.scss',
+  providers: [BrandFormService]
 })
-export class BrandEditComponent implements OnInit {
-  form: FormGroup;
-  isSaving = false;
-  brandId: number;
+export class BrandEditComponent
+  extends BaseFormComponent<GetBrandByIdQueryDto>
+  implements OnInit {
 
-  constructor(
-    private fb: FormBuilder,
-    private router: Router,
-    private route: ActivatedRoute,
-    private brandService: BrandFormService
-  ) {
-    this.form = this.fb.group({
-      name: ['', Validators.required],
-      description: ['']
-    });
-    this.brandId = 0;
-  }
+  private api = inject(BrandsApiService);
+  private formService = inject(BrandFormService);
+  private route = inject(ActivatedRoute);
+  private router = inject(Router);
+  private toaster = inject(ToasterService);
+
+  brandId!: number;
 
   ngOnInit(): void {
-    this.route.params.subscribe(params => {
-      if (params['id']) {
-        this.brandId = +params['id'];
-        this.loadBrandData(this.brandId);
-      }
-    });
+    this.brandId = Number(this.route.snapshot.params['id']);
+    this.initForm(true);
   }
 
-  loadBrandData(id: number): void {
-    this.brandService.getBrandById(id).subscribe({
-      next: (brand) => {
-        this.form.patchValue({
-          name: brand.name,
-          description: brand.description
-        });
+  protected loadData(): void {
+    this.startLoading();
+
+    this.api.getById(this.brandId).subscribe({
+      next: (brand: GetBrandByIdQueryDto) => {
+        this.model = brand;
+        this.form = this.formService.createBrandForm(brand);
+        this.stopLoading();
       },
-      error: (error) => {
-        alert('Greška pri učitavanju brenda');
-        this.goBack();
+      error: (err: any) => {
+        this.stopLoading('Greška pri učitavanju brenda');
+        this.toaster.error('Brend nije pronađen');
+        console.error('Load brand error:', err);
+        this.router.navigate(['/admin/brands']);
       }
     });
   }
 
-  submit(): void {
-    if (this.form.invalid) {
-      return;
-    }
+  protected save(): void {
+    if (this.form.invalid || this.isLoading) return;
 
-    this.isSaving = true;
-    const formData = this.form.value;
+    this.startLoading();
 
-    this.brandService.updateBrand(this.brandId, formData).subscribe({
+    const command: UpsertBrandCommand =
+      this.form.getRawValue() as UpsertBrandCommand;
+
+    this.api.update(this.brandId, command).subscribe({
       next: () => {
-        this.isSaving = false;
-        this.goBack();
+        this.stopLoading();
+        this.toaster.success('Brend je uspješno ažuriran');
+        this.router.navigate(['/admin/brands']);
       },
-      error: (error) => {
-        this.isSaving = false;
-        alert('Greška pri ažuriranju brenda');
+      error: (err: any) => {
+        this.stopLoading('Greška pri ažuriranju brenda');
+        console.error('Update brand error:', err);
       }
     });
   }
 
-  goBack(): void {
-    this.router.navigate(['/brand']);
+  onCancel(): void {
+    this.router.navigate(['/admin/brands']); //
+  }
+
+  getErrorMessage(controlName: string): string {
+    return this.formService.getErrorMessage(this.form, controlName);
   }
 }

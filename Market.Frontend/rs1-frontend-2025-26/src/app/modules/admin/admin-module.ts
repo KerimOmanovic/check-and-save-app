@@ -27,14 +27,16 @@ import {BrandEditComponent} from './brand/brand-edit/brand-edit.component';
     CitiesEditComponent,
     StoresComponent,
     StoresAddComponent,
-    StoresEditComponent
+    StoresEditComponent,
+    BrandComponent,
+    BrandAddComponent,
+    BrandEditComponent
   ],
   imports: [
     AdminRoutingModule,
     SharedModule,
     MatIconModule,
-    BrandEditComponent,
-    BrandAddComponent// ✅ ovdje ide
+    //
   ]
 })
 export class AdminModule { }
