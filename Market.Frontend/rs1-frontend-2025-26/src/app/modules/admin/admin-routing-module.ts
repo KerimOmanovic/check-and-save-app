@@ -54,10 +54,7 @@ const routes: Routes = [
         path: 'stores/:id/edit',
         component: StoresEditComponent
       },
-      {
-        path: 'brands',
-        component: BrandComponent,
-      },
+
       // default admin route → /admin/products
       {
         path: '',
