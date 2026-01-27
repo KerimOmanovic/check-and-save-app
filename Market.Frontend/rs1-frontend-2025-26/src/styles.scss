@@ -1,39 +1,75 @@
-
 // Include theming for Angular Material with `mat.theme()`.
-// This Sass mixin will define CSS variables that are used for styling Angular Material
-// components according to the Material 3 design spec.
-// Learn more about theming and how to use it for your application's
-// custom components at https://material.angular.dev/guide/theming
 @use '@angular/material' as mat;
+
+// ============================================
+// CUSTOM GREEN COLOR PALETTE
+// ============================================
+
+$custom-green-palette: (
+  0: #000000,
+  10: #00210d,
+  20: #003919,
+  25: #004621,
+  30: #00522a,
+  35: #005f33,
+  40: #0f3d2e,  // Tvoja glavna zelena
+  50: #1f5a45,  // Svjetlija verzija
+  60: #2d7159,
+  70: #3d8869,
+  80: #4ea07a,
+  90: #a5d6c0,
+  95: #c9e8d8,
+  98: #e9f5ef,
+  99: #f3faf6,
+  100: #ffffff,
+);
+
+$custom-secondary-palette: (
+  0: #000000,
+  10: #1f1b13,
+  20: #352f22,
+  25: #413a2c,
+  30: #4d4637,
+  35: #595142,
+  40: #665d4d,
+  50: #807665,
+  60: #9a8f7d,
+  70: #b5aa97,
+  80: #cdbb9a,  // Tvoja secondary boja
+  90: #d9c9ad,
+  95: #ebe0cc,
+  98: #f6f3ec,
+  99: #faf8f2,
+  100: #ffffff,
+);
+
+// ============================================
+// APPLY MATERIAL THEME
+// ============================================
 
 html {
   @include mat.theme((
     color: (
-      primary: mat.$azure-palette,
-      tertiary: mat.$blue-palette,
+      primary: $custom-green-palette,
+      secondary: $custom-secondary-palette,
+      tertiary: $custom-green-palette,
     ),
     typography: Roboto,
     density: 0,
   ));
 }
 
+// ============================================
+// BODY & HTML BASE STYLES
+// ============================================
+
 body {
-  // Default the application to a light color theme. This can be changed to
-  // `dark` to enable the dark color theme, or to `light dark` to defer to the
-  // user's system settings.
   color-scheme: light;
-
-  // Set a default background, font and text colors for the application using
-  // Angular Material's system-level CSS variables. Learn more about these
-  // variables at https://material.angular.dev/guide/system-variables
-  background-color: var(--mat-sys-surface);
-  color: var(--mat-sys-on-surface);
+  background-color: #f6f3ec;
+  color: #1f2a24;
   font: var(--mat-sys-body-medium);
-
-  // Reset the user agent margin.
   margin: 0;
 }
-
 
 html, body {
   height: 100%;
@@ -44,20 +80,21 @@ body {
   font-family: Roboto, "Helvetica Neue", sans-serif;
 }
 
+// ============================================
+// COLOR VARIABLES
+// ============================================
 
+$primary-color: #0f3d2e;
+$primary-light: #1f5a45;
+$primary-dark: #0b2e23;
+$secondary-color: #cdbb9a;
 
-html, body { height: 100%; }
-body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
-
-
-// Add this to your global styles.scss
-
-// ===========================
+// ============================================
 // TOASTER / SNACKBAR STYLES
-// ===========================
+// ============================================
 
 .snackbar-success {
-  background-color: #4caf50 !important;
+  background-color: $primary-color !important;
   color: white !important;
 
   .mat-mdc-snack-bar-label {
@@ -65,12 +102,12 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
   }
 
   .mat-mdc-button {
-    color: white !important;
+    color: $secondary-color !important;
   }
 }
 
 .snackbar-error {
-  background-color: #f44336 !important;
+  background-color: #ef5350 !important;
   color: white !important;
 
   .mat-mdc-snack-bar-label {
@@ -83,7 +120,7 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
 }
 
 .snackbar-warning {
-  background-color: #ff9800 !important;
+  background-color: #ffa726 !important;
   color: white !important;
 
   .mat-mdc-snack-bar-label {
@@ -96,7 +133,7 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
 }
 
 .snackbar-info {
-  background-color: #2196f3 !important;
+  background-color: $primary-color !important;
   color: white !important;
 
   .mat-mdc-snack-bar-label {
@@ -104,6 +141,186 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
   }
 
   .mat-mdc-button {
+    color: $secondary-color !important;
+  }
+}
+
+// ============================================
+// GLOBALNI PAGINATOR STYLING - ZELENA BOJA
+// ============================================
+
+// Custom paginator - page-indicator klasa
+.paginator-bar .paginator-actions .nav-buttons .page-indicator {
+  background: linear-gradient(135deg, $primary-color 0%, $primary-light 100%) !important;
+  box-shadow: 0 2px 8px rgba(15, 61, 46, 0.3) !important;
+
+  &:hover {
+    background: linear-gradient(135deg, $primary-dark 0%, $primary-color 100%) !important;
+    box-shadow: 0 4px 12px rgba(15, 61, 46, 0.4) !important;
+  }
+}
+
+// Material paginator buttons
+.mat-mdc-paginator {
+  .mat-mdc-icon-button {
+    color: $primary-color !important;
+
+    &:hover:not([disabled]) {
+      background-color: rgba(15, 61, 46, 0.1) !important;
+    }
+  }
+
+  .mat-mdc-button:not(.mat-mdc-icon-button) {
+    background: linear-gradient(135deg, $primary-color 0%, $primary-light 100%) !important;
     color: white !important;
+    font-weight: 700 !important;
+    border-radius: 8px !important;
+
+    &:hover {
+      background: linear-gradient(135deg, $primary-dark 0%, $primary-color 100%) !important;
+      box-shadow: 0 4px 12px rgba(15, 61, 46, 0.3) !important;
+    }
+  }
+}
+
+// App-fit-paginator-bar komponenta
+app-fit-paginator-bar {
+  .page-indicator {
+    background: linear-gradient(135deg, $primary-color 0%, $primary-light 100%) !important;
+    box-shadow: 0 2px 8px rgba(15, 61, 46, 0.3) !important;
+
+    &:hover {
+      background: linear-gradient(135deg, $primary-dark 0%, $primary-color 100%) !important;
+      box-shadow: 0 4px 12px rgba(15, 61, 46, 0.4) !important;
+    }
+  }
+
+  .mat-mdc-icon-button {
+    color: $primary-color !important;
+
+    &:hover:not([disabled]) {
+      background-color: rgba(15, 61, 46, 0.1) !important;
+    }
+  }
+}
+
+// Fallback za sve paginatore
+[class*="paginator"] {
+  .page-indicator,
+  [class*="page-indicator"] {
+    background: linear-gradient(135deg, $primary-color 0%, $primary-light 100%) !important;
+    box-shadow: 0 2px 8px rgba(15, 61, 46, 0.3) !important;
+
+    &:hover {
+      background: linear-gradient(135deg, $primary-dark 0%, $primary-color 100%) !important;
+      box-shadow: 0 4px 12px rgba(15, 61, 46, 0.4) !important;
+    }
+  }
+}
+
+// ============================================
+// GLOBALNI BUTTON STYLING - ZELENA BOJA
+// ============================================
+
+.mat-mdc-raised-button.mat-primary {
+  background: linear-gradient(135deg, $primary-color 0%, $primary-light 100%) !important;
+  color: white !important;
+
+  &:hover:not([disabled]) {
+    background: linear-gradient(135deg, $primary-dark 0%, $primary-color 100%) !important;
+    box-shadow: 0 4px 12px rgba(15, 61, 46, 0.3) !important;
+  }
+}
+
+.mat-mdc-button.mat-primary {
+  color: $primary-color !important;
+}
+
+.mat-mdc-icon-button.mat-primary {
+  color: $primary-color !important;
+}
+
+// ============================================
+// FORM FIELDS - ZELENA BOJA ZA FOCUS
+// ============================================
+
+.mat-mdc-form-field.mat-focused {
+  .mdc-notched-outline__leading,
+  .mdc-notched-outline__notch,
+  .mdc-notched-outline__trailing {
+    border-color: $primary-color !important;
+  }
+
+  .mat-mdc-floating-label {
+    color: $primary-color !important;
+  }
+}
+
+.mat-mdc-form-field {
+  .mat-mdc-form-field-icon-suffix {
+    color: $primary-color !important;
+  }
+}
+
+// ============================================
+// CHECKBOXES & RADIO BUTTONS
+// ============================================
+
+.mat-mdc-checkbox.mat-primary {
+  --mdc-checkbox-selected-icon-color: #{$primary-color};
+  --mdc-checkbox-selected-hover-icon-color: #{$primary-dark};
+  --mdc-checkbox-selected-focus-icon-color: #{$primary-color};
+  --mdc-checkbox-selected-pressed-icon-color: #{$primary-dark};
+}
+
+.mat-mdc-radio-button.mat-primary {
+  --mdc-radio-selected-icon-color: #{$primary-color};
+  --mdc-radio-selected-hover-icon-color: #{$primary-dark};
+  --mdc-radio-selected-focus-icon-color: #{$primary-color};
+  --mdc-radio-selected-pressed-icon-color: #{$primary-dark};
+}
+
+// ============================================
+// SLIDERS & PROGRESS BARS
+// ============================================
+
+.mat-mdc-slider.mat-primary {
+  --mdc-slider-handle-color: #{$primary-color};
+  --mdc-slider-focus-handle-color: #{$primary-dark};
+  --mdc-slider-hover-handle-color: #{$primary-dark};
+  --mdc-slider-active-track-color: #{$primary-color};
+  --mdc-slider-inactive-track-color: rgba(15, 61, 46, 0.3);
+}
+
+.mat-mdc-progress-bar.mat-primary {
+  --mdc-linear-progress-active-indicator-color: #{$primary-color};
+}
+
+.mat-mdc-progress-spinner.mat-primary {
+  --mdc-circular-progress-active-indicator-color: #{$primary-color};
+}
+
+// ============================================
+// TABS
+// ============================================
+
+.mat-mdc-tab-group.mat-primary {
+  --mat-tab-header-active-label-text-color: #{$primary-color};
+  --mat-tab-header-active-ripple-color: #{$primary-color};
+  --mat-tab-header-active-focus-label-text-color: #{$primary-dark};
+  --mat-tab-header-active-hover-label-text-color: #{$primary-dark};
+}
+
+// ============================================
+// LINKS
+// ============================================
+
+a {
+  color: $primary-color;
+  text-decoration: none;
+
+  &:hover {
+    color: $primary-dark;
+    text-decoration: underline;
   }
 }
