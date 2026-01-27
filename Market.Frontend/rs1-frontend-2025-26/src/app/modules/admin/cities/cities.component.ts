@@ -45,7 +45,7 @@ export class CitiesComponent
         this.stopLoading();
       },
       error: (err) => {
-        this.stopLoading('Failed to load cities');
+        this.stopLoading('Greška pri učitavanju gradova');
         console.error('Load cities error:', err);
       }
     });
@@ -72,14 +72,14 @@ export class CitiesComponent
 
     this.api.delete(city.id).subscribe({
       next: () => {
-        this.toaster.success('City deleted successfully');
+        this.toaster.success('Grad je uspješno obrisan');
         this.loadPagedData();
       },
       error: (err) => {
         this.stopLoading();
         this.dialogHelper.showError(
-          'DIALOGS.TITLES.ERROR',
-          'CITIES.DIALOGS.ERROR_DELETE'
+          'Greška',
+          'Došlo je do greške pri brisanju grada'
         ).subscribe();
         console.error('Delete city error:', err);
       }
@@ -87,6 +87,12 @@ export class CitiesComponent
   }
 
   onSearch(): void {
+    this.request.paging.page = 1;
+    this.loadPagedData();
+  }
+
+  clearSearch(): void {
+    this.request.search = '';
     this.request.paging.page = 1;
     this.loadPagedData();
   }

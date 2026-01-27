@@ -43,8 +43,8 @@ export class CitiesEditComponent
         this.stopLoading();
       },
       error: (err) => {
-        this.stopLoading('Failed to load city');
-        this.toaster.error('City not found');
+        this.stopLoading('Greška pri učitavanju grada');
+        this.toaster.error('Grad nije pronađen');
         console.error('Load city error:', err);
         this.router.navigate(['/admin/cities']);
       }
@@ -66,11 +66,11 @@ export class CitiesEditComponent
     this.api.update(this.cityId, command).subscribe({
       next: () => {
         this.stopLoading();
-        this.toaster.success('City updated successfully');
+        this.toaster.success('Grad je uspješno ažuriran');
         this.router.navigate(['/admin/cities']);
       },
       error: (err) => {
-        this.stopLoading('Failed to update city');
+        this.stopLoading('Greška pri ažuriranju grada');
         console.error('Update city error:', err);
       }
     });

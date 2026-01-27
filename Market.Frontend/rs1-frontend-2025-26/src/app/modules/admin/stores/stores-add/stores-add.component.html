@@ -1,9 +1,9 @@
 <div class="container">
-  <div class="header-card mat-elevation-z2">
-    <h1>{{ 'STORES.ADD.TITLE' | translate }}</h1>
+  <div class="header-card">
+    <h1>Dodaj Prodavnicu</h1>
   </div>
 
-  <div class="form-card mat-elevation-z2">
+  <div class="form-card">
     <form [formGroup]="form" (ngSubmit)="onSubmit()">
       <div *ngIf="errorMessage" class="error-banner">
         <mat-icon>error</mat-icon>
@@ -12,15 +12,15 @@
 
       <div *ngIf="isLoading" class="loading-overlay">
         <mat-spinner diameter="50"></mat-spinner>
-        <p>{{ 'STORES.ADD.SAVING' | translate }}</p>
+        <p>Čuvanje podataka...</p>
       </div>
 
       <mat-form-field appearance="outline" class="full-width">
-        <mat-label>{{ 'STORES.FORM.NAME' | translate }}</mat-label>
+        <mat-label>Naziv prodavnice *</mat-label>
         <input
           matInput
           formControlName="name"
-          [placeholder]="'STORES.FORM.NAME_PLACEHOLDER' | translate"
+          placeholder="npr. Bingo Centar"
         />
         <mat-icon matSuffix>storefront</mat-icon>
         <mat-error *ngIf="hasError('name')">
@@ -29,11 +29,11 @@
       </mat-form-field>
 
       <mat-form-field appearance="outline" class="full-width">
-        <mat-label>{{ 'STORES.FORM.CONTACT' | translate }}</mat-label>
+        <mat-label>Kontakt telefon *</mat-label>
         <input
           matInput
           formControlName="contact"
-          [placeholder]="'STORES.FORM.CONTACT_PLACEHOLDER' | translate"
+          placeholder="npr. +387 33 123 456"
         />
         <mat-icon matSuffix>phone</mat-icon>
         <mat-error *ngIf="hasError('contact')">
@@ -42,11 +42,11 @@
       </mat-form-field>
 
       <mat-form-field appearance="outline" class="full-width">
-        <mat-label>{{ 'STORES.FORM.EMAIL' | translate }}</mat-label>
+        <mat-label>Email adresa *</mat-label>
         <input
           matInput
           formControlName="email"
-          [placeholder]="'STORES.FORM.EMAIL_PLACEHOLDER' | translate"
+          placeholder="npr. kontakt@prodavnica.ba"
         />
         <mat-icon matSuffix>email</mat-icon>
         <mat-error *ngIf="hasError('email')">
@@ -55,7 +55,7 @@
       </mat-form-field>
 
       <mat-form-field appearance="outline" class="full-width">
-        <mat-label>{{ 'STORES.FORM.CITY' | translate }}</mat-label>
+        <mat-label>Grad *</mat-label>
         <mat-select formControlName="cityEntityId">
           <mat-option *ngFor="let city of cities" [value]="city.id">
             {{ city.name }}
@@ -70,17 +70,16 @@
       <div class="form-actions">
         <button type="button" mat-stroked-button (click)="onCancel()" [disabled]="isLoading">
           <mat-icon>close</mat-icon>
-          {{ 'STORES.FORM.CANCEL' | translate }}
+          Otkaži
         </button>
 
         <button
           type="submit"
           mat-raised-button
-          color="primary"
           [disabled]="form.invalid || isLoading"
         >
           <mat-icon>save</mat-icon>
-          {{ 'STORES.FORM.SAVE' | translate }}
+          Sačuvaj
         </button>
       </div>
     </form>
