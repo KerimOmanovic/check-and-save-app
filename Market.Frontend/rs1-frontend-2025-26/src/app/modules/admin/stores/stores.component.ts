@@ -91,6 +91,12 @@ export class StoresComponent
     this.loadPagedData();
   }
 
+  clearSearch(): void {
+    this.request.search = '';
+    this.request.paging.page = 1;
+    this.loadPagedData();
+  }
+
   private loadCities(): void {
     this.citiesApi.list({ paging: largePaging }).subscribe({
       next: (response) => {
