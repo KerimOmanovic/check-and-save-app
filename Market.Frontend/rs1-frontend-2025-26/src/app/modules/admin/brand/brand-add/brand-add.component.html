@@ -1,0 +1,57 @@
+<!-- brand-add.component.html -->
+<section class="admin-page">
+  <header class="topbar">
+    <div class="topbar-inner">
+      <div class="topbar-left">
+        <div class="logo">
+          <span class="logo-mark">CS</span>
+          <span class="logo-text">Check&Save</span>
+        </div>
+        <div class="topbar-links">
+          <span class="link">Kategorije Proizvoda</span>
+          <span class="link is-active">Brendovi</span>
+          <span class="link">Proizvodi</span>
+        </div>
+      </div>
+      <div class="topbar-right">
+        <button mat-stroked-button class="btn-back" type="button" (click)="goBack()">
+          <mat-icon>arrow_back</mat-icon>
+          Nazad na listu
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <div class="content-center">
+    <mat-card class="form-card">
+      <div class="form-head">
+        <h1>Dodaj Novi Brend</h1>
+        <p class="muted">Unesi naziv brenda i opcionalni opis.</p>
+      </div>
+
+      <form [formGroup]="form" (ngSubmit)="submit()" class="form">
+        <mat-form-field appearance="outline">
+          <mat-label>Naziv Brenda *</mat-label>
+          <input matInput formControlName="name" placeholder="npr. Samsung, Apple" />
+          <mat-error *ngIf="form.get('name')?.hasError('required')">Naziv je obavezan.</mat-error>
+        </mat-form-field>
+
+        <mat-form-field appearance="outline">
+          <mat-label>Opis</mat-label>
+          <textarea matInput formControlName="description" rows="8" placeholder="Unesite opis brenda (opcionalno)"></textarea>
+        </mat-form-field>
+
+        <div class="form-actions">
+          <button mat-stroked-button class="btn-cancel" type="button" (click)="goBack()">
+            <mat-icon>close</mat-icon>
+            Otkaži
+          </button>
+          <button mat-raised-button class="btn-save" type="submit" [disabled]="form.invalid || isSaving">
+            <mat-icon>{{ isSaving ? 'hourglass_empty' : 'check' }}</mat-icon>
+            {{ isSaving ? 'Čuvam…' : 'Sačuvaj brend' }}
+          </button>
+        </div>
+      </form>
+    </mat-card>
+  </div>
+</section>

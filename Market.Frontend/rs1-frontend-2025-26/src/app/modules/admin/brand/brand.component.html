@@ -1,117 +1,227 @@
+<!--<section class="admin-page">-->
+<!--  &lt;!&ndash; Top navigation bar &ndash;&gt;-->
+<!--  <header class="topbar">-->
+<!--    <div class="topbar-inner">-->
+
+<!--      &lt;!&ndash; Left side: logo + navigation links &ndash;&gt;-->
+<!--      <div class="topbar-left">-->
+<!--        <div class="logo">-->
+<!--          <span class="logo-mark">CS</span>-->
+<!--          <span class="logo-text">Check&Save</span>-->
+<!--        </div>-->
+
+<!--        <div class="topbar-links">-->
+<!--          <span class="link">Kategorije Proizvoda</span>-->
+<!--          <span class="link is-active">Brendovi</span>-->
+<!--          <span class="link">Proizvodi</span>-->
+<!--        </div>-->
+<!--      </div>-->
+
+<!--      &lt;!&ndash; Right side: search + add button &ndash;&gt;-->
+<!--      <div class="topbar-right">-->
+<!--        <mat-form-field class="search-field" appearance="outline">-->
+<!--          <mat-label>Pretraži brendove</mat-label>-->
+<!--          <input-->
+<!--            matInput-->
+<!--            [formControl]="searchControl"-->
+<!--            placeholder="npr. Samsung, Apple…"-->
+<!--          />-->
+<!--          <button-->
+<!--            mat-icon-button-->
+<!--            matSuffix-->
+<!--            type="button"-->
+<!--            *ngIf="searchControl.value"-->
+<!--            (click)="clearSearch()"-->
+<!--            aria-label="Clear search"-->
+<!--          >-->
+<!--            <mat-icon>close</mat-icon>-->
+<!--          </button>-->
+<!--        </mat-form-field>-->
+
+<!--        <button mat-raised-button class="btn-add" type="button" (click)="startCreate()">-->
+<!--          <mat-icon>add</mat-icon>-->
+<!--          Novi Brend-->
+<!--        </button>-->
+<!--      </div>-->
+
+<!--    </div>-->
+<!--  </header>-->
+
+<!--  &lt;!&ndash; Main content &ndash;&gt;-->
+<!--  <div class="content">-->
+
+<!--    &lt;!&ndash; Left panel: brands &ndash;&gt;-->
+<!--    <mat-card class="main-card">-->
+
+<!--      <div class="section-head">-->
+<!--        <div class="titles">-->
+<!--          <h1>Brendovi</h1>-->
+<!--          <p>Upravljanje brendovima proizvoda</p>-->
+<!--        </div>-->
+
+<!--        <div class="badges">-->
+<!--          <span class="badge" *ngIf="isLoading">Loading…</span>-->
+<!--          <span class="badge badge-error" *ngIf="!isLoading && errorMessage">{{ errorMessage }}</span>-->
+<!--          <span class="badge badge-count" *ngIf="!isLoading && !errorMessage">{{ brands.length }}</span>-->
+<!--        </div>-->
+<!--      </div>-->
+
+<!--      <mat-progress-bar *ngIf="isLoading" mode="indeterminate"></mat-progress-bar>-->
+
+<!--      &lt;!&ndash; Brands grid &ndash;&gt;-->
+<!--      <div class="grid" *ngIf="!isLoading && !errorMessage">-->
+
+<!--        <ng-container *ngIf="brands.length > 0; else emptyState">-->
+<!--          <mat-card class="brand-card" *ngFor="let brand of brands">-->
+
+<!--            <div class="brand-top">-->
+<!--              <div class="brand-icon">-->
+<!--                {{ (brand.name || '?').slice(0, 1) | uppercase }}-->
+<!--              </div>-->
+
+<!--              <div class="brand-meta">-->
+<!--                <div class="brand-name">{{ brand.name }}</div>-->
+<!--                <div class="brand-desc">{{ brand.description || '-' }}</div>-->
+<!--              </div>-->
+<!--            </div>-->
+
+<!--            <div class="brand-actions">-->
+<!--              <button mat-stroked-button class="btn-outline" type="button" (click)="editBrand(brand)">-->
+<!--                <mat-icon>edit</mat-icon>-->
+<!--                Uredi-->
+<!--              </button>-->
+
+<!--              <button mat-stroked-button class="btn-outline-danger" type="button" (click)="deleteBrand(brand)">-->
+<!--                <mat-icon>delete</mat-icon>-->
+<!--                Obriši-->
+<!--              </button>-->
+<!--            </div>-->
+
+<!--          </mat-card>-->
+<!--        </ng-container>-->
+
+<!--        <ng-template #emptyState>-->
+<!--          <div class="empty-state">-->
+<!--            Nema brendova za prikaz.-->
+<!--          </div>-->
+<!--        </ng-template>-->
+
+<!--      </div>-->
+<!--    </mat-card>-->
+
+<!--    &lt;!&ndash; Right panel: add/edit form &ndash;&gt;-->
+<!--    <mat-card class="side-card">-->
+
+<!--      <div class="side-head">-->
+<!--        <h2>{{ editingBrand ? 'Uredi Brend' : 'Dodaj Brend' }}</h2>-->
+<!--        <p class="muted">-->
+<!--          {{ editingBrand ? 'Promijeni podatke i sačuvaj.' : 'Unesi naziv i opcionalni opis.' }}-->
+<!--        </p>-->
+<!--      </div>-->
+
+<!--      <form [formGroup]="form" (ngSubmit)="submit()" class="form">-->
+
+<!--        <mat-form-field appearance="outline">-->
+<!--          <mat-label>Naziv Brenda *</mat-label>-->
+<!--          <input matInput formControlName="name" placeholder="npr. Samsung" />-->
+<!--          <mat-error *ngIf="form.get('name')?.hasError('required')">-->
+<!--            Naziv je obavezan.-->
+<!--          </mat-error>-->
+<!--        </mat-form-field>-->
+
+<!--        <mat-form-field appearance="outline">-->
+<!--          <mat-label>Opis</mat-label>-->
+<!--          <textarea matInput formControlName="description" rows="6" placeholder="Opcionalno…"></textarea>-->
+<!--        </mat-form-field>-->
+
+<!--        <div class="form-actions">-->
+<!--          <button mat-stroked-button class="btn-outline" type="button" (click)="startCreate()">-->
+<!--            Otkaži-->
+<!--          </button>-->
+
+<!--          <button mat-raised-button class="btn-save" type="submit" [disabled]="form.invalid || isSaving">-->
+<!--            {{ isSaving ? 'Čuvam…' : (editingBrand ? 'Sačuvaj izmjene' : 'Sačuvaj') }}-->
+<!--          </button>-->
+<!--        </div>-->
+
+<!--      </form>-->
+<!--    </mat-card>-->
+
+<!--  </div>-->
+<!--</section>-->
+<!-- brand.component.html -->
 <section class="admin-page">
-  <header class="page-header">
-    <div class="page-title">
-      <h1>{{ 'PRODUCT_BRANDS.TITLE' | translate }}</h1>
-      <p>{{ 'PRODUCT_BRANDS.SUBTITLE' | translate }}</p>
+  <header class="topbar">
+    <div class="topbar-inner">
+      <div class="topbar-left">
+        <div class="logo">
+          <span class="logo-mark">CS</span>
+          <span class="logo-text">Check&Save</span>
+        </div>
+        <div class="topbar-links">
+          <span class="link">Kategorije Proizvoda</span>
+          <span class="link is-active">Brendovi</span>
+          <span class="link">Proizvodi</span>
+        </div>
+      </div>
+      <div class="topbar-right">
+        <mat-form-field class="search-field" appearance="outline">
+          <mat-label>Pretraži brendove</mat-label>
+          <input matInput [formControl]="searchControl" placeholder="npr. Samsung, Apple…" />
+          <button mat-icon-button matSuffix type="button" *ngIf="searchControl.value" (click)="clearSearch()">
+            <mat-icon>close</mat-icon>
+          </button>
+        </mat-form-field>
+        <button mat-raised-button class="btn-add" type="button" (click)="goToAddBrand()">
+          <mat-icon>add</mat-icon>
+          Novi Brend
+        </button>
+      </div>
     </div>
-    <button mat-raised-button color="primary" type="button" (click)="startCreate()">
-      <mat-icon>add</mat-icon>
-      {{ 'PRODUCT_BRANDS.NEW_BRAND' | translate }}
-    </button>
   </header>
 
-  <mat-card class="filter-card">
-    <mat-form-field appearance="outline">
-      <mat-label>{{ 'PRODUCT_BRANDS.SEARCH_PLACEHOLDER' | translate }}</mat-label>
-      <input
-        matInput
-        [formControl]="searchControl"
-        [placeholder]="'PRODUCT_BRANDS.SEARCH_INPUT_PLACEHOLDER' | translate"
-      />
-      <button
-        mat-icon-button
-        matSuffix
-        type="button"
-        *ngIf="searchControl.value"
-        (click)="clearSearch()"
-        aria-label="Clear search"
-      >
-        <mat-icon>close</mat-icon>
-      </button>
-    </mat-form-field>
-  </mat-card>
-
-  <div class="content-grid">
-    <mat-card class="list-card">
-      <div class="card-header">
-        <h2>{{ 'PRODUCT_BRANDS.TITLE' | translate }}</h2>
+  <div class="content-full">
+    <mat-card class="brands-card">
+      <div class="section-head">
+        <div class="titles">
+          <h1>Brendovi</h1>
+          <p>Upravljanje brendovima proizvoda</p>
+        </div>
+        <div class="badges">
+          <span class="badge" *ngIf="isLoading">Loading…</span>
+          <span class="badge badge-error" *ngIf="!isLoading && errorMessage">{{ errorMessage }}</span>
+          <span class="badge badge-count" *ngIf="!isLoading && !errorMessage">{{ filteredBrands.length }}</span>
+        </div>
       </div>
 
       <mat-progress-bar *ngIf="isLoading" mode="indeterminate"></mat-progress-bar>
-      <div class="error-message" *ngIf="!isLoading && errorMessage">{{ errorMessage }}</div>
 
-      <div class="table-wrapper" *ngIf="!isLoading && !errorMessage">
-        <table class="data-table" *ngIf="brands.length > 0; else emptyState">
-          <thead>
-          <tr>
-            <th>{{ 'PRODUCT_BRANDS.TABLE.NAME' | translate }}</th>
-            <th>{{ 'COMMON.DESCRIPTION' | translate }}</th>
-            <th class="actions">{{ 'PRODUCT_BRANDS.TABLE.ACTIONS' | translate }}</th>
-          </tr>
-          </thead>
-          <tbody>
-          <tr *ngFor="let brand of brands">
-            <td>{{ brand.name }}</td>
-            <td>{{ brand.description || '-' }}</td>
-            <td class="actions">
-              <button mat-icon-button color="primary" (click)="editBrand(brand)">
+      <div class="grid" *ngIf="!isLoading && !errorMessage">
+        <ng-container *ngIf="filteredBrands.length > 0; else emptyState">
+          <mat-card class="brand-card" *ngFor="let brand of filteredBrands">
+            <div class="brand-top">
+              <div class="brand-icon">{{ (brand.name || '?').slice(0, 1) | uppercase }}</div>
+              <div class="brand-meta">
+                <div class="brand-name">{{ brand.name }}</div>
+                <div class="brand-desc">{{ brand.description || '-' }}</div>
+              </div>
+            </div>
+            <div class="brand-actions">
+              <button mat-stroked-button class="btn-outline" type="button" (click)="goToEditBrand(brand.id)">
                 <mat-icon>edit</mat-icon>
+                Uredi
               </button>
-              <button mat-icon-button color="warn" (click)="deleteBrand(brand)">
+              <button mat-stroked-button class="btn-outline-danger" type="button" (click)="deleteBrand(brand)">
                 <mat-icon>delete</mat-icon>
+                Obriši
               </button>
-            </td>
-          </tr>
-          </tbody>
-        </table>
+            </div>
+          </mat-card>
+        </ng-container>
+        <ng-template #emptyState>
+          <div class="empty-state">Nema brendova za prikaz.</div>
+        </ng-template>
       </div>
-
-      <ng-template #emptyState>
-        <div class="empty-state">
-          {{ 'PRODUCT_BRANDS.NO_DATA' | translate }}
-        </div>
-      </ng-template>
-    </mat-card>
-
-    <mat-card class="form-card">
-      <div class="card-header">
-        <h2>
-          {{ editingBrand ? ('PRODUCT_BRANDS.FORM.UPDATE' | translate) : ('PRODUCT_BRANDS.ADD_NEW' | translate) }}
-        </h2>
-      </div>
-
-      <form [formGroup]="form" (ngSubmit)="submit()">
-        <mat-form-field appearance="outline">
-          <mat-label>{{ 'PRODUCT_BRANDS.FORM.NAME' | translate }}</mat-label>
-          <input
-            matInput
-            formControlName="name"
-            [placeholder]="'PRODUCT_BRANDS.FORM.NAME_PLACEHOLDER' | translate"
-          />
-          <mat-error *ngIf="form.get('name')?.hasError('required')">
-            {{ 'VALIDATION.REQUIRED' | translate }}
-          </mat-error>
-        </mat-form-field>
-
-        <mat-form-field appearance="outline">
-          <mat-label>{{ 'COMMON.DESCRIPTION' | translate }}</mat-label>
-          <textarea
-            matInput
-            formControlName="description"
-            rows="4"
-            [placeholder]="'COMMON.OPTIONAL' | translate"
-          ></textarea>
-        </mat-form-field>
-
-        <div class="form-actions">
-          <button mat-stroked-button type="button" (click)="startCreate()">
-            {{ 'PRODUCT_BRANDS.FORM.CANCEL' | translate }}
-          </button>
-          <button mat-raised-button color="primary" type="submit" [disabled]="form.invalid || isSaving">
-            {{ editingBrand ? ('PRODUCT_BRANDS.FORM.UPDATE' | translate) : ('PRODUCT_BRANDS.FORM.SAVE' | translate) }}
-          </button>
-        </div>
-      </form>
     </mat-card>
   </div>
 </section>
