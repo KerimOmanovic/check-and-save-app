@@ -1,28 +1,35 @@
-$primary-color: #4976b5;
-$primary-light: #6b96d1;
-$primary-lighter: #e8f0f9;
-$primary-dark: #3a5e91;
+$primary-color: #0f3d2e;
+$primary-light: #1f5a45;
+$primary-lighter: #e9efe9;
+$primary-dark: #0b2e23;
 
-$secondary-color: #5a8ac9;
-$accent-color: #7ba7db;
+$secondary-color: #cdbb9a;
+$accent-color: #d9c9ad;
 
-$bg-gradient-start: #f0f5fb;
-$bg-gradient-end: #e3ecf7;
+$bg-gradient-start: #f6f3ec;
+$bg-gradient-end: #efe7db;
 
-$text-primary: #2c3e50;
-$text-secondary: #546e7a;
-$text-disabled: #90a4ae;
+$text-primary: #1f2a24;
+$text-secondary: #4e5d55;
+$text-disabled: #94a39a;
 
 $success-color: #66bb6a;
 $error-color: #ef5350;
 $warning-color: #ffa726;
 
-$border-color: rgba(73, 118, 181, 0.15);
-$hover-bg: rgba(73, 118, 181, 0.04);
+$border-color: rgba(205, 187, 154, 0.55);
+$hover-bg: rgba(15, 61, 46, 0.06);
+
+$shadow-soft: rgba(15, 61, 46, 0.10);
+$shadow-mid: rgba(15, 61, 46, 0.18);
+
+:host {
+  display: block;
+}
 
 .container {
   padding: 24px;
-  max-width: 900px;
+  max-width: 1400px;
   margin: 0 auto;
   background: linear-gradient(135deg, $bg-gradient-start 0%, $bg-gradient-end 100%);
   min-height: 100vh;
@@ -33,12 +40,12 @@ $hover-bg: rgba(73, 118, 181, 0.04);
   border-radius: 16px;
   padding: 24px 32px;
   margin-bottom: 24px;
-  box-shadow: 0 2px 8px rgba(73, 118, 181, 0.08), 0 1px 3px rgba(0, 0, 0, 0.06);
+  box-shadow: 0 2px 8px $shadow-soft, 0 1px 3px rgba(0, 0, 0, 0.06);
   border: 1px solid $border-color;
   transition: all 0.3s ease;
 
   &:hover {
-    box-shadow: 0 4px 16px rgba(73, 118, 181, 0.12), 0 2px 6px rgba(0, 0, 0, 0.08);
+    box-shadow: 0 4px 16px $shadow-mid, 0 2px 6px rgba(0, 0, 0, 0.08);
   }
 
   h1 {
@@ -50,6 +57,7 @@ $hover-bg: rgba(73, 118, 181, 0.04);
     display: flex;
     align-items: center;
     gap: 16px;
+    position: relative;
 
     &::before {
       content: '';
@@ -60,14 +68,12 @@ $hover-bg: rgba(73, 118, 181, 0.04);
       display: inline-flex;
       align-items: center;
       justify-content: center;
-      box-shadow: 0 4px 12px rgba(73, 118, 181, 0.25);
+      box-shadow: 0 4px 12px rgba(15, 61, 46, 0.25);
       flex-shrink: 0;
     }
 
-    position: relative;
-
     &::after {
-      content: 'add_location_alt';
+      content: 'add_circle';
       font-family: 'Material Icons';
       font-size: 28px;
       color: white;
@@ -83,7 +89,7 @@ $hover-bg: rgba(73, 118, 181, 0.04);
   background: white;
   border-radius: 16px;
   padding: 32px;
-  box-shadow: 0 2px 8px rgba(73, 118, 181, 0.08), 0 1px 3px rgba(0, 0, 0, 0.06);
+  box-shadow: 0 2px 8px $shadow-soft, 0 1px 3px rgba(0, 0, 0, 0.06);
   border: 1px solid $border-color;
   position: relative;
 
@@ -165,7 +171,7 @@ $hover-bg: rgba(73, 118, 181, 0.04);
           &.mat-focused {
             .mat-mdc-text-field-wrapper {
               background-color: white;
-              box-shadow: 0 4px 12px rgba(73, 118, 181, 0.12);
+              box-shadow: 0 4px 12px $shadow-soft;
             }
 
             .mdc-notched-outline__leading,
@@ -275,7 +281,7 @@ $hover-bg: rgba(73, 118, 181, 0.04);
         &[mat-raised-button] {
           background: linear-gradient(135deg, $primary-color 0%, $primary-light 100%);
           color: white;
-          box-shadow: 0 4px 12px rgba($primary-color, 0.3);
+          box-shadow: 0 4px 12px rgba(15, 61, 46, 0.30);
           border: none;
 
           mat-icon {
@@ -284,12 +290,12 @@ $hover-bg: rgba(73, 118, 181, 0.04);
 
           &:hover:not([disabled]) {
             background: linear-gradient(135deg, $primary-dark 0%, $primary-color 100%);
-            box-shadow: 0 6px 16px rgba($primary-color, 0.4);
+            box-shadow: 0 6px 16px rgba(15, 61, 46, 0.40);
             transform: translateY(-2px);
           }
 
           &[disabled] {
-            background: linear-gradient(135deg, lighten($border-color, 5%) 0%, $border-color 100%);
+            background: linear-gradient(135deg, rgba(205, 187, 154, 0.55) 0%, rgba(205, 187, 154, 0.55) 100%);
             color: $text-disabled;
             box-shadow: none;
             cursor: not-allowed;
@@ -369,5 +375,58 @@ $hover-bg: rgba(73, 118, 181, 0.04);
 
   .form-card {
     padding: 20px 16px;
+  }
+}
+
+// Paginator styling - zelena boja
+:host ::ng-deep {
+  .mat-mdc-paginator {
+    background: transparent;
+
+    .mat-mdc-paginator-page-size-label,
+    .mat-mdc-paginator-range-label {
+      color: $text-primary;
+      font-weight: 500;
+    }
+
+    .mat-mdc-icon-button {
+      color: $primary-color;
+
+      &:hover:not([disabled]) {
+        background-color: rgba(15, 61, 46, 0.1);
+      }
+
+      &[disabled] {
+        color: $text-disabled;
+      }
+    }
+
+    .mat-mdc-button-touch-target {
+      width: 40px;
+      height: 40px;
+    }
+  }
+
+  // Zeleni broj trenutne stranice
+  .mat-mdc-paginator-container {
+    .mat-mdc-button-base {
+      &.mat-mdc-button-disabled {
+        color: $text-disabled;
+      }
+
+      &:not(.mat-mdc-button-disabled) {
+        background: linear-gradient(135deg, $primary-color 0%, $primary-light 100%);
+        color: white;
+        font-weight: 700;
+        border-radius: 8px;
+        min-width: 40px;
+        height: 40px;
+
+        &:hover {
+          background: linear-gradient(135deg, $primary-dark 0%, $primary-color 100%);
+          box-shadow: 0 4px 12px rgba(15, 61, 46, 0.3);
+        }
+      }
+    }
   }
 }
