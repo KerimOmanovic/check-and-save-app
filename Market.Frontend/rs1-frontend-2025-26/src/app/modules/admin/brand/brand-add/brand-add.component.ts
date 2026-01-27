@@ -44,7 +44,7 @@ export class BrandAddComponent
       next: () => {
         this.stopLoading();
         this.toaster.success('Brend je uspješno dodan');
-        this.router.navigate(['/admin/brands']); 
+        this.router.navigate(['/admin/brands']);
       },
       error: (err: any) => {
         this.stopLoading('Greška pri dodavanju brenda');
