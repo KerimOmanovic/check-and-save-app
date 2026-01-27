@@ -85,9 +85,14 @@ export class BrandComponent implements OnInit {
       return;
     }
 
+    const name = this.form.value.name?.trim();
+    if (!name) {
+      return;
+    }
+
     const payload: UpsertBrandCommand = {
-      name: this.form.value.name ?? undefined,
-      description: this.form.value.description ?? undefined
+      name,
+      description: this.form.value.description?.trim() || undefined
     };
 
     this.isSaving = true;

@@ -6,7 +6,7 @@ import {
   ListBrandsQuery,
   ListBrandsQueryResponse,
   UpsertBrandCommand,
-  ListBrandsQueryDto
+  GetBrandByIdQueryDto
 } from './brand-api.model';
 import { buildHttpParams } from '../../core/models/build-http-params';
 
@@ -23,12 +23,13 @@ export class BrandsApiService {
     return this.http.get<ListBrandsQueryResponse>(this.baseUrl, { params });
   }
 
-  getById(id: number): Observable<ListBrandsQueryDto> {
-    return this.http.get<ListBrandsQueryDto>(`${this.baseUrl}/${id}`);
+
+  getById(id: number): Observable<GetBrandByIdQueryDto> {
+    return this.http.get<GetBrandByIdQueryDto>(`${this.baseUrl}/${id}`);
   }
 
-  create(payload: UpsertBrandCommand): Observable<number> {
-    return this.http.post<number>(this.baseUrl, payload);
+  create(payload: UpsertBrandCommand): Observable<{ id: number }> {
+    return this.http.post<{ id: number }>(this.baseUrl, payload);
   }
 
   update(id: number, payload: UpsertBrandCommand): Observable<void> {

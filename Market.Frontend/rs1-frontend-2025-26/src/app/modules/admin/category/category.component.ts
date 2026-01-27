@@ -44,17 +44,13 @@ import { debounceTime, distinctUntilChanged } from 'rxjs';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 import { CategoriesApiService } from '../../../api-services/category/category-api.service';
-import { ListCategoriesQueryDto } from '../../../api-services/category/category-api.model';
+import { ListCategoriesQueryDto, UpsertCategoryCommand } from '../../../api-services/category/category-api.model';
 
 import { DialogHelperService } from '../../shared/services/dialog-helper.service';
 import { DialogButton } from '../../shared/models/dialog-config.model';
 import { PageRequest } from '../../../core/models/paging/page-request';
 
-// Lokalni tip (da ne puca import dok ne središ model)
-type UpsertCategoryCommand = {
-  name: string;
-  description?: string;
-};
+
 
 @Component({
   selector: 'app-category',

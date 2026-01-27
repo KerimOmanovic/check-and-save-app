@@ -6,6 +6,11 @@ export interface ListBrandsQueryDto {
   name: string;
   description: string | null;
 }
+export interface GetBrandByIdQueryDto {
+  id: number;
+  name: string;
+  description?: string | null;
+}
 
 export interface ListBrandsQuery extends BasePagedQuery {
   search?: string;
@@ -14,6 +19,6 @@ export interface ListBrandsQuery extends BasePagedQuery {
 export type ListBrandsQueryResponse = PageResult<ListBrandsQueryDto>;
 
 export interface UpsertBrandCommand {
-  name?: string | null;
+  name: string;
   description?: string | null;
 }

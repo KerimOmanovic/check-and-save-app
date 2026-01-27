@@ -7,6 +7,12 @@ export interface ListCategoriesQueryDto {
   description: string;
 }
 
+export interface GetCategoryByIdQueryDto {
+  id: number;
+  name: string;
+  description?: string | null;
+}
+
 export interface ListCategoriesQuery extends BasePagedQuery {
   search?: string;
 }
@@ -15,5 +21,5 @@ export type ListCategoriesQueryResponse = PageResult<ListCategoriesQueryDto>;
 
 export interface UpsertCategoryCommand {
   name: string;
-  description?: string;
+  description?: string | null;
 }
