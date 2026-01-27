@@ -1,171 +1,150 @@
-$primary-color: #0f3d2e;
-$primary-light: #1f5a45;
-$primary-lighter: #e9efe9;
-$primary-dark: #0b2e23;
-
-$secondary-color: #cdbb9a;
-$accent-color: #d9c9ad;
-
-$bg-gradient-start: #f6f3ec;
-$bg-gradient-end: #efe7db;
-
-$text-primary: #1f2a24;
-$text-secondary: #4e5d55;
-$text-disabled: #94a39a;
-
-$success-color: #66bb6a;
-$error-color: #ef5350;
-$warning-color: #ffa726;
-
-$border-color: rgba(205, 187, 154, 0.55);
-$hover-bg: rgba(15, 61, 46, 0.06);
-
-$shadow-soft: rgba(15, 61, 46, 0.10);
-$shadow-mid: rgba(15, 61, 46, 0.18);
-
 :host {
   display: block;
 }
 
-.container {
-  padding: 24px;
-  max-width: 1400px;
-  margin: 0 auto;
-  background: linear-gradient(135deg, $bg-gradient-start 0%, $bg-gradient-end 100%);
+.admin-page {
   min-height: 100vh;
+  background: #f3efe6;
 }
 
-.header-card {
-  background: white;
+// ===== TOPBAR STILOVI =====
+.topbar {
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  background: #0f3d2e;
+  border-bottom: 3px solid #cdbb9a;
+}
+
+.topbar-inner {
+  max-width: 100%;
+  margin: 0;
+  padding: 20px 40px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 40px;
+  color: #fff;
+}
+
+.topbar-left {
+  display: flex;
+  align-items: center;
+  gap: 48px;
+  flex: 0 0 auto;
+}
+
+.logo {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  cursor: pointer;
+}
+
+.logo-mark {
+  width: 56px;
+  height: 56px;
+  display: grid;
+  place-items: center;
   border-radius: 16px;
-  padding: 24px 32px;
-  margin-bottom: 24px;
-  box-shadow: 0 2px 8px $shadow-soft, 0 1px 3px rgba(0, 0, 0, 0.06);
-  border: 1px solid $border-color;
-  transition: all 0.3s ease;
+  background: #cdbb9a;
+  color: #0f3d2e;
+  font-weight: 950;
+  font-size: 24px;
+}
 
-  &:hover {
-    box-shadow: 0 4px 16px $shadow-mid, 0 2px 6px rgba(0, 0, 0, 0.08);
-  }
+.logo-text {
+  font-size: 26px;
+  font-weight: 950;
+  letter-spacing: -0.5px;
+}
 
-  .header-content {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    gap: 24px;
+.topbar-links {
+  display: flex;
+  gap: 12px;
+}
 
-    h1 {
-      margin: 0;
-      font-size: 28px;
-      font-weight: 600;
-      color: $text-primary;
-      letter-spacing: -0.5px;
-      display: flex;
-      align-items: center;
-      gap: 16px;
-      position: relative;
+.link {
+  padding: 12px 20px;
+  border-radius: 14px;
+  font-weight: 700;
+  white-space: nowrap;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  font-size: 15px;
+  text-decoration: none;
+  color: #fff;
+}
 
-      &::before {
-        content: '';
-        width: 48px;
-        height: 48px;
-        background: linear-gradient(135deg, $primary-color 0%, $primary-light 100%);
-        border-radius: 12px;
-        display: inline-flex;
-        align-items: center;
-        justify-content: center;
-        box-shadow: 0 4px 12px rgba(15, 61, 46, 0.25);
-        flex-shrink: 0;
-      }
+.link:hover:not(.is-active) {
+  background: rgba(205, 187, 154, 0.15);
+}
 
-      &::after {
-        content: 'location_city';
-        font-family: 'Material Icons';
-        font-size: 28px;
-        color: white;
-        position: absolute;
-        left: 10px;
-        top: 50%;
-        transform: translateY(-50%);
-      }
-    }
-  }
+.link.is-active {
+  background: rgba(205, 187, 154, 0.3);
+  border: 1px solid rgba(205, 187, 154, 0.5);
+}
 
-  .header-actions {
-    display: flex;
-    align-items: center;
-    gap: 16px;
-  }
+.topbar-right {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin-left: auto;
+  flex: 0 0 auto;
+}
 
-  .search-field {
-    width: 320px;
-  }
+.search-field {
+  width: 380px;
+}
 
-  ::ng-deep .search-field {
-    .mat-mdc-text-field-wrapper {
-      background: $primary-lighter;
-      border-radius: 12px;
-      height: 48px;
-    }
+:host ::ng-deep .search-field .mat-mdc-text-field-wrapper {
+  background: #f3efe6;
+  border-radius: 14px;
+  height: 52px;
+}
 
-    input {
-      color: $text-primary;
-      font-weight: 600;
-      font-size: 15px;
-    }
+:host ::ng-deep .search-field input {
+  color: #0f172a;
+  font-weight: 600;
+  font-size: 15px;
+}
 
-    .mdc-notched-outline__leading,
-    .mdc-notched-outline__notch,
-    .mdc-notched-outline__trailing {
-      border-color: $border-color !important;
-    }
+:host ::ng-deep .search-field .mat-mdc-form-field-subscript-wrapper {
+  display: none;
+}
 
-    &.mat-focused {
-      .mdc-notched-outline__leading,
-      .mdc-notched-outline__notch,
-      .mdc-notched-outline__trailing {
-        border-color: $primary-color !important;
-        border-width: 2px !important;
-      }
-    }
+.btn-add {
+  height: 52px !important;
+  padding: 0 24px !important;
+  border-radius: 14px !important;
+  background: #cdbb9a !important;
+  color: #0f3d2e !important;
+  font-weight: 800 !important;
+  font-size: 15px !important;
+  white-space: nowrap !important;
+  transition: all 0.2s ease !important;
+}
 
-    .mat-mdc-form-field-subscript-wrapper {
-      display: none;
-    }
-  }
+.btn-add:hover {
+  background: #d4c5a8 !important;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
 
-  .btn-add {
-    height: 48px !important;
-    padding: 0 24px !important;
-    border-radius: 12px !important;
-    background: linear-gradient(135deg, $primary-color 0%, $primary-light 100%) !important;
-    color: white !important;
-    font-weight: 700 !important;
-    font-size: 14px !important;
-    white-space: nowrap !important;
-    box-shadow: 0 4px 12px rgba(15, 61, 46, 0.30);
-    transition: all 0.3s ease !important;
-
-    &:hover:not([disabled]) {
-      background: linear-gradient(135deg, $primary-dark 0%, $primary-color 100%) !important;
-      box-shadow: 0 6px 16px rgba(15, 61, 46, 0.40);
-      transform: translateY(-2px);
-    }
-
-    mat-icon {
-      margin-right: 8px;
-      color: white;
-    }
-  }
+// ===== SADRŽAJ =====
+.content {
+  max-width: 100%;
+  margin: 0;
+  padding: 32px 40px;
 }
 
 .loading-state,
 .error-state {
-  background: white;
-  border-radius: 16px;
+  background: #fbfaf7;
+  border-radius: 24px;
   padding: 60px 32px;
-  box-shadow: 0 2px 8px $shadow-soft;
-  border: 1px solid $border-color;
+  box-shadow: 0 8px 32px rgba(15, 23, 42, 0.08);
+  border: 1px solid rgba(205, 187, 154, 0.35);
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -174,14 +153,14 @@ $shadow-mid: rgba(15, 61, 46, 0.18);
 
   mat-spinner {
     ::ng-deep circle {
-      stroke: $primary-color;
+      stroke: #0f3d2e;
     }
   }
 
   p {
-    color: $text-secondary;
+    color: #6b7280;
     font-size: 16px;
-    font-weight: 500;
+    font-weight: 600;
     margin: 0;
   }
 }
@@ -191,26 +170,26 @@ $shadow-mid: rgba(15, 61, 46, 0.18);
     font-size: 48px;
     width: 48px;
     height: 48px;
-    color: $error-color;
+    color: #ef5350;
   }
 
   p {
-    color: $error-color;
+    color: #ef5350;
   }
 }
 
 .table-card {
-  background: white;
-  border-radius: 16px;
-  box-shadow: 0 2px 8px $shadow-soft, 0 1px 3px rgba(0, 0, 0, 0.06);
-  border: 1px solid $border-color;
+  background: #fbfaf7;
+  border-radius: 24px;
+  box-shadow: 0 8px 32px rgba(15, 23, 42, 0.08);
+  border: 1px solid rgba(205, 187, 154, 0.35);
   overflow: hidden;
 
   table {
     width: 100%;
 
     th {
-      background: linear-gradient(135deg, $primary-color 0%, $primary-light 100%);
+      background: #0f3d2e;
       color: white;
       font-weight: 700;
       font-size: 14px;
@@ -221,7 +200,7 @@ $shadow-mid: rgba(15, 61, 46, 0.18);
 
     td {
       padding: 16px 24px;
-      color: $text-primary;
+      color: #1f2a24;
       font-weight: 500;
       border-bottom: 1px solid rgba(205, 187, 154, 0.2);
     }
@@ -231,13 +210,13 @@ $shadow-mid: rgba(15, 61, 46, 0.18);
     }
 
     .mat-mdc-row:hover {
-      background-color: $primary-lighter;
+      background-color: rgba(205, 187, 154, 0.1);
       transition: background-color 0.2s ease;
     }
 
     .name-cell {
       font-weight: 600;
-      color: $primary-color;
+      color: #0f3d2e;
     }
 
     .action-buttons {
@@ -246,7 +225,7 @@ $shadow-mid: rgba(15, 61, 46, 0.18);
     }
 
     .btn-edit {
-      color: $primary-color;
+      color: #0f3d2e;
 
       &:hover {
         background-color: rgba(15, 61, 46, 0.1);
@@ -254,7 +233,7 @@ $shadow-mid: rgba(15, 61, 46, 0.18);
     }
 
     .btn-delete {
-      color: $error-color;
+      color: #ef5350;
 
       &:hover {
         background-color: rgba(239, 83, 80, 0.1);
@@ -274,154 +253,58 @@ $shadow-mid: rgba(15, 61, 46, 0.18);
       flex-direction: column;
       align-items: center;
       gap: 12px;
-      color: $text-secondary;
-      font-weight: 500;
+      color: #6b7280;
+      font-weight: 600;
       font-size: 15px;
 
       mat-icon {
         font-size: 48px;
         width: 48px;
         height: 48px;
-        color: $text-disabled;
+        color: #94a39a;
       }
     }
+  }
+}
+
+// ===== RESPONSIVE =====
+@media (max-width: 1100px) {
+  .topbar-links {
+    flex-wrap: wrap;
   }
 }
 
 @media (max-width: 768px) {
-  .container {
-    padding: 16px;
+  .topbar-inner {
+    padding: 16px 20px;
+    flex-direction: column;
+    align-items: stretch;
+    gap: 20px;
   }
 
-  .header-card {
+  .topbar-left {
+    flex-direction: column;
+    gap: 20px;
+  }
+
+  .topbar-links {
+    flex-wrap: wrap;
+  }
+
+  .search-field {
+    width: 100%;
+  }
+
+  .btn-add {
+    width: 100%;
+    justify-content: center;
+  }
+
+  .content {
     padding: 20px;
-    border-radius: 12px;
-
-    .header-content {
-      flex-direction: column;
-      align-items: stretch;
-
-      h1 {
-        font-size: 24px;
-
-        &::before {
-          width: 40px;
-          height: 40px;
-        }
-
-        &::after {
-          font-size: 24px;
-          left: 8px;
-        }
-      }
-    }
-
-    .header-actions {
-      flex-direction: column;
-      width: 100%;
-
-      .search-field {
-        width: 100%;
-      }
-
-      .btn-add {
-        width: 100%;
-      }
-    }
   }
 
   .table-card {
-    border-radius: 12px;
-  }
-}
-
-@media (max-width: 480px) {
-  .header-card {
-    .header-content {
-      h1 {
-        font-size: 20px;
-
-        &::before {
-          width: 36px;
-          height: 36px;
-        }
-
-        &::after {
-          font-size: 20px;
-          left: 8px;
-        }
-      }
-    }
-  }
-}
-
-// Paginator styling - ZELENA BOJA ZA BROJ STRANICE
-:host ::ng-deep {
-  .mat-mdc-paginator {
-    background: transparent;
-
-    .mat-mdc-paginator-page-size-label,
-    .mat-mdc-paginator-range-label {
-      color: $text-primary;
-      font-weight: 500;
-    }
-
-    .mat-mdc-icon-button {
-      color: $primary-color;
-
-      &:hover:not([disabled]) {
-        background-color: rgba(15, 61, 46, 0.1);
-      }
-
-      &[disabled] {
-        color: $text-disabled;
-      }
-    }
-  }
-
-  // Styling za broj trenutne stranice (1, 2, 3...)
-  app-fit-paginator-bar {
-    .mdc-button {
-      background: linear-gradient(135deg, $primary-color 0%, $primary-light 100%) !important;
-      color: white !important;
-      font-weight: 700 !important;
-      border-radius: 8px !important;
-      min-width: 40px !important;
-      height: 40px !important;
-
-      &:hover {
-        background: linear-gradient(135deg, $primary-dark 0%, $primary-color 100%) !important;
-        box-shadow: 0 4px 12px rgba(15, 61, 46, 0.3) !important;
-      }
-    }
-
-    button:not([disabled]):not(.mat-mdc-icon-button) {
-      background: linear-gradient(135deg, $primary-color 0%, $primary-light 100%) !important;
-      color: white !important;
-      font-weight: 700 !important;
-      border-radius: 8px !important;
-      min-width: 40px !important;
-      height: 40px !important;
-
-      &:hover {
-        background: linear-gradient(135deg, $primary-dark 0%, $primary-color 100%) !important;
-        box-shadow: 0 4px 12px rgba(15, 61, 46, 0.3) !important;
-      }
-    }
-  }
-
-  // Alternative - direktno targetiranje svih non-icon dugmadi u paginatoru
-  .mat-mdc-paginator-range-actions {
-    button.mat-mdc-button:not(.mat-mdc-icon-button) {
-      background: linear-gradient(135deg, $primary-color 0%, $primary-light 100%) !important;
-      color: white !important;
-      font-weight: 700 !important;
-      border-radius: 8px !important;
-
-      &:hover {
-        background: linear-gradient(135deg, $primary-dark 0%, $primary-color 100%) !important;
-        box-shadow: 0 4px 12px rgba(15, 61, 46, 0.3) !important;
-      }
-    }
+    border-radius: 16px;
   }
 }

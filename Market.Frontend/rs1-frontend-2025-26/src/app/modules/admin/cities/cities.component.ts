@@ -90,4 +90,10 @@ export class CitiesComponent
     this.request.paging.page = 1;
     this.loadPagedData();
   }
+
+  clearSearch(): void {
+    this.request.search = '';
+    this.request.paging.page = 1;
+    this.loadPagedData();
+  }
 }
