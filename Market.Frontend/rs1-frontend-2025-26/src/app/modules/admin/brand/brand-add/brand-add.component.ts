@@ -1,52 +1,69 @@
-// brand-add.component.ts
-import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { Component, inject, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { BaseFormComponent } from '../../../../core/components/base-classes/base-form-component';
+
+import { UpsertBrandCommand } from '../../../../api-services/brand/brand-api.model';
+import { BrandsApiService } from '../../../../api-services/brand/brand-api.service';
+
+import { ToasterService } from '../../../../core/services/toaster.service';
 import { BrandFormService } from '../services/brand-form.service';
 
 @Component({
   selector: 'app-brand-add',
+  standalone: false,
   templateUrl: './brand-add.component.html',
-  styleUrls: ['./brand-add.component.scss']
+  styleUrl: './brand-add.component.scss',
+  providers: [BrandFormService]
 })
-export class BrandAddComponent implements OnInit {
-  form: FormGroup;
-  isSaving = false;
+export class BrandAddComponent
+  extends BaseFormComponent<any>
+  implements OnInit {
 
-  constructor(
-    private fb: FormBuilder,
-    private router: Router,
-    private brandService: BrandFormService
-  ) {
-    this.form = this.fb.group({
-      name: ['', Validators.required],
-      description: ['']
-    });
+  private api = inject(BrandsApiService);
+  private formService = inject(BrandFormService);
+  private router = inject(Router);
+  private toaster = inject(ToasterService);
+
+  ngOnInit(): void {
+    this.initForm(false);
   }
 
-  ngOnInit(): void {}
+  protected loadData(): void {
+    // ništa – add mode
+  }
 
-  submit(): void {
-    if (this.form.invalid) {
-      return;
-    }
+  protected save(): void {
+    if (this.form.invalid || this.isLoading) return;
 
-    this.isSaving = true;
-    const formData = this.form.value;
+    this.startLoading();
 
-    this.brandService.createBrand(formData).subscribe({
+    const command: UpsertBrandCommand =
+      this.form.getRawValue() as UpsertBrandCommand;
+
+    this.api.create(command).subscribe({
       next: () => {
-        this.isSaving = false;
-        this.goBack();
+        this.stopLoading();
+        this.toaster.success('Brend je uspješno dodan');
+        this.router.navigate(['/admin/brands']); 
       },
-      error: (error) => {
-        this.isSaving = false;
-        alert('Greška pri kreiranju brenda');
+      error: (err: any) => {
+        this.stopLoading('Greška pri dodavanju brenda');
+        console.error('Create brand error:', err);
       }
     });
   }
 
-  goBack(): void {
-    this.router.navigate(['/brand']);
+  protected override initForm(isEdit: boolean): void {
+    super.initForm(isEdit);
+    this.form = this.formService.createBrandForm();
+  }
+
+  onCancel(): void {
+    this.router.navigate(['/admin/brands']);
+  }
+
+  getErrorMessage(controlName: string): string {
+    return this.formService.getErrorMessage(this.form, controlName);
   }
 }
+

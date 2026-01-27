@@ -1,46 +1,60 @@
-import { inject, Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
-import { Observable } from 'rxjs';
-import { environment } from '../../../../../environments/environment';
+import { Injectable, inject } from '@angular/core';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { GetBrandByIdQueryDto } from '../../../../api-services/brand/brand-api.model';
 
 
-export interface Brand {
-  id: number;
-  name: string;
-  description: string;
-}
-
-@Injectable({
-  providedIn: 'root',
-})
+/**
+ * Service for creating and managing brand forms.
+ * Provides reusable form creation with validation for Add and Edit components.
+ */
+@Injectable()
 export class BrandFormService {
-  // Use the same API base as your other services (Category: /Category)
-  private readonly baseUrl = `${environment.apiUrl}/Brand`;
-  private http = inject(HttpClient);
+  private fb = inject(FormBuilder);
 
-  // GET /Brand
-  getBrands(): Observable<Brand[]> {
-    return this.http.get<Brand[]>(this.baseUrl);
+  /**
+   * Create a brand form with validation.
+   * If brand data is provided, the form is pre-filled (edit mode).
+   */
+  createBrandForm(brand?: GetBrandByIdQueryDto): FormGroup {
+    return this.fb.group({
+      name: [
+        brand?.name ?? '',
+        [
+          Validators.required,
+          Validators.minLength(2),
+          Validators.maxLength(120)
+        ]
+      ],
+      description: [
+        brand?.description ?? '',
+        [
+          Validators.maxLength(500)
+        ]
+      ]
+    });
   }
 
-  // GET /Brand/{id}
-  getBrandById(id: number): Observable<Brand> {
-    return this.http.get<Brand>(`${this.baseUrl}/${id}`);
-  }
+  /**
+   * Get validation error message for a form control.
+   */
+  getErrorMessage(form: FormGroup, controlName: string): string {
+    const control = form.get(controlName);
+    if (!control || !control.errors || !control.touched) {
+      return '';
+    }
 
-  // POST /Brand
-  // If your backend returns created ID -> keep Observable<number>
-  createBrand(brand: Partial<Brand>): Observable<number> {
-    return this.http.post<number>(this.baseUrl, brand);
-  }
+    const errors = control.errors;
 
-  // PUT /Brand/{id}
-  updateBrand(id: number, brand: Partial<Brand>): Observable<void> {
-    return this.http.put<void>(`${this.baseUrl}/${id}`, brand);
-  }
+    if (errors['required']) {
+      return 'This field is required';
+    }
+    if (errors['minlength']) {
+      return `Minimum ${errors['minlength'].requiredLength} characters required`;
+    }
+    if (errors['maxlength']) {
+      return `Maximum ${errors['maxlength'].requiredLength} characters allowed`;
+    }
 
-  // DELETE /Brand/{id}
-  deleteBrand(id: number): Observable<void> {
-    return this.http.delete<void>(`${this.baseUrl}/${id}`);
+    return 'Invalid value';
   }
 }

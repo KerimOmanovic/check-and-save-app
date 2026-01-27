@@ -11,6 +11,8 @@ import {StoresComponent} from './stores/stores.component';
 import {StoresAddComponent} from './stores/stores-add/stores-add.component';
 import {StoresEditComponent} from './stores/stores-edit/stores-edit.component';
 import { BrandComponent } from './brand/brand.component';
+import {BrandAddComponent} from './brand/brand-add/brand-add.component';
+import {BrandEditComponent} from './brand/brand-edit/brand-edit.component';
 
 const routes: Routes = [
   {
@@ -29,6 +31,14 @@ const routes: Routes = [
       {
         path: 'brands',
         component: BrandComponent
+      },
+      {
+        path: 'brands/add',
+        component: BrandAddComponent,
+      },
+      {
+        path: 'brands/:id/edit',
+        component: BrandEditComponent,
       },
       {
         path: 'cities',
