@@ -13,6 +13,8 @@ import {StoresEditComponent} from './stores/stores-edit/stores-edit.component';
 import { BrandComponent } from './brand/brand.component';
 import {BrandAddComponent} from './brand/brand-add/brand-add.component';
 import {BrandEditComponent} from './brand/brand-edit/brand-edit.component';
+import {CategoryAddComponent} from './category/category-add/category-add.component';
+import {CategoryEditComponent} from './category/category-edit/category-edit.component';
 
 const routes: Routes = [
   {
@@ -27,6 +29,14 @@ const routes: Routes = [
       {
         path: 'categories',
         component: CategoryComponent,
+      },
+      {
+        path: 'categories/add',
+        component:CategoryAddComponent,
+      },
+      {
+        path: 'categories/:id/edit',
+        component: CategoryEditComponent
       },
       {
         path: 'brands',
@@ -64,6 +74,7 @@ const routes: Routes = [
         path: 'stores/:id/edit',
         component: StoresEditComponent
       },
+
 
       // default admin route → /admin/products
       {

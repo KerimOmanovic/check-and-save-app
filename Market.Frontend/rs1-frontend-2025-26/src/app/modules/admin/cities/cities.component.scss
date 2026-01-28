@@ -7,7 +7,7 @@
   background: #f3efe6;
 }
 
-// ===== TOPBAR STILOVI =====
+
 .topbar {
   position: sticky;
   top: 0;
@@ -131,7 +131,7 @@
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
 }
 
-// ===== SADRŽAJ =====
+
 .content {
   max-width: 100%;
   margin: 0;
@@ -267,7 +267,6 @@
   }
 }
 
-// ===== RESPONSIVE =====
 @media (max-width: 1100px) {
   .topbar-links {
     flex-wrap: wrap;

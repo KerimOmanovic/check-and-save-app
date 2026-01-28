@@ -4,7 +4,7 @@ import { PageResult } from '../../core/models/paging/page-result';
 export interface ListCategoriesQueryDto {
   id: number;
   name: string;
-  description: string;
+  description?: string | null;
 }
 
 export interface GetCategoryByIdQueryDto {

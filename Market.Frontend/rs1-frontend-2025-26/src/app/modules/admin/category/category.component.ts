@@ -1,195 +1,107 @@
-// import { Component, inject, OnInit } from '@angular/core';
-// import { CategoriesApiService } from '../../../api-services/category/category-api.service';
-// import { ListCategoriesQueryDto } from '../../../api-services/category/category-api.model';
-//
-// @Component({
-//   selector: 'app-category',
-//   standalone: false,
-//   templateUrl: './category.component.html',
-//   styleUrl: './category.component.scss',
-// })
-// export class CategoryComponent implements OnInit {
-//   private apiService = inject(CategoriesApiService);
-//
-//   public categories: ListCategoriesQueryDto[] = [];
-//   public isLoading = false;
-//   public errorMessage: string | null = null;
-//
-//   ngOnInit() {
-//     this.loadCategories();
-//   }
-//
-//   private loadCategories(): void {
-//     this.isLoading = true;
-//     this.errorMessage = null;
-//
-//     this.apiService.list().subscribe({
-//       next: (res) => {
-//         this.categories = res.items ?? [];
-//         this.isLoading = false;
-//       },
-//       error: (err) => {
-//         this.isLoading = false;
-//         this.errorMessage = 'Failed to load categories';
-//         console.error('Load categories error:', err);
-//       },
-//     });
-//   }
-// }
+import { Component, inject, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 
-
-import { Component, DestroyRef, inject, OnInit } from '@angular/core';
-import { FormBuilder, FormControl, Validators } from '@angular/forms';
-import { debounceTime, distinctUntilChanged } from 'rxjs';
-import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
-
+import {
+  ListCategoriesQuery,
+  ListCategoriesQueryDto
+} from '../../../api-services/category/category-api.model';
 import { CategoriesApiService } from '../../../api-services/category/category-api.service';
-import { ListCategoriesQueryDto, UpsertCategoryCommand } from '../../../api-services/category/category-api.model';
 
+import { BaseListPagedComponent } from '../../../core/components/base-classes/base-list-paged-component';
 import { DialogHelperService } from '../../shared/services/dialog-helper.service';
 import { DialogButton } from '../../shared/models/dialog-config.model';
-import { PageRequest } from '../../../core/models/paging/page-request';
-
-
+import { ToasterService } from '../../../core/services/toaster.service';
 
 @Component({
-  selector: 'app-category',
+  selector: 'app-categories',
   standalone: false,
   templateUrl: './category.component.html',
-  styleUrls: ['./category.component.scss'],
+  styleUrl: './category.component.scss',
 })
-export class CategoryComponent implements OnInit {
-  private apiService = inject(CategoriesApiService);
+export class CategoryComponent
+  extends BaseListPagedComponent<ListCategoriesQueryDto, ListCategoriesQuery>
+  implements OnInit
+{
+  private api = inject(CategoriesApiService);
+  private router = inject(Router);
   private dialogHelper = inject(DialogHelperService);
-  private fb = inject(FormBuilder);
-  private destroyRef = inject(DestroyRef);
+  private toaster = inject(ToasterService);
 
-  public categories: ListCategoriesQueryDto[] = [];
-  public isLoading = false;
-  public errorMessage: string | null = null;
-  public isSaving = false;
+  displayedColumns: string[] = ['name', 'description', 'actions'];
 
-  public searchControl = new FormControl<string>('');
-  public form = this.fb.group({
-    name: ['', [Validators.required]],
-    description: [''],
-  });
+  constructor() {
+    super();
 
-  public editingCategory: ListCategoriesQueryDto | null = null;
+    this.request = {
+      search: '',
+      paging: {
+        page: 1,
+        pageSize: 10,
+      },
+    };
+  }
 
   ngOnInit(): void {
-    this.loadCategories();
-
-    this.searchControl.valueChanges
-      .pipe(
-        debounceTime(300),
-        distinctUntilChanged(),
-        takeUntilDestroyed(this.destroyRef)
-      )
-      .subscribe(() => this.loadCategories());
+    this.initList();
   }
 
-  private loadCategories(): void {
-    this.isLoading = true;
-    this.errorMessage = null;
+  protected loadPagedData(): void {
+    this.startLoading();
 
-    this.apiService
-      .list({
-        search: this.searchControl.value || undefined,
-        paging: new PageRequest(),
-      })
-      .subscribe({
-        next: (res) => {
-          this.categories = res.items ?? [];
-          this.isLoading = false;
-        },
-        error: (err: unknown) => {
-          this.isLoading = false;
-          this.errorMessage = 'Failed to load categories';
-          console.error('Load categories error:', err);
-        },
-      });
-  }
-
-  startCreate(): void {
-    this.editingCategory = null;
-    this.form.reset();
-  }
-
-  editCategory(category: ListCategoriesQueryDto): void {
-    this.editingCategory = category;
-    this.form.patchValue({
-      name: category.name ?? '',
-      description: category.description ?? '',
+    this.api.list(this.request).subscribe({
+      next: (response) => {
+        this.handlePageResult(response);
+        this.stopLoading();
+      },
+      error: (err) => {
+        this.stopLoading('Greška pri učitavanju kategorija');
+        console.error('Load categories error:', err);
+      },
     });
+  }
+
+  onCreate(): void {
+    this.router.navigate(['/admin/categories/add']);
+  }
+
+  onEdit(category: ListCategoriesQueryDto): void {
+    this.router.navigate(['/admin/categories', category.id, 'edit']);
+  }
+
+  onDelete(category: ListCategoriesQueryDto): void {
+    this.dialogHelper.confirmDelete(category.name).subscribe((result) => {
+      if (result && result.button === DialogButton.DELETE) {
+        this.performDelete(category);
+      }
+    });
+  }
+
+  private performDelete(category: ListCategoriesQueryDto): void {
+    this.startLoading();
+
+    this.api.delete(category.id).subscribe({
+      next: () => {
+        this.toaster.success('Kategorija je uspješno obrisana');
+        this.loadPagedData();
+      },
+      error: (err) => {
+        this.stopLoading();
+        this.dialogHelper
+          .showError('Greška', 'Došlo je do greške pri brisanju kategorije')
+          .subscribe();
+        console.error('Delete category error:', err);
+      },
+    });
+  }
+
+  onSearch(): void {
+    this.request.paging.page = 1;
+    this.loadPagedData();
   }
 
   clearSearch(): void {
-    this.searchControl.setValue('');
-  }
-
-  submit(): void {
-    if (this.form.invalid || this.isSaving) return;
-
-    const payload: UpsertCategoryCommand = {
-      name: (this.form.value.name ?? '').trim(),
-      description: this.form.value.description?.trim() || undefined,
-    };
-
-    if (!payload.name) return;
-
-    this.isSaving = true;
-
-    // UPDATE
-    if (this.editingCategory) {
-      this.apiService.update(this.editingCategory.id, payload).subscribe({
-        next: () => {
-          this.isSaving = false;
-          this.dialogHelper.productCategory.showUpdateSuccess().subscribe();
-          this.startCreate();
-          this.loadCategories();
-        },
-        error: (err: unknown) => {
-          this.isSaving = false;
-          this.dialogHelper.productCategory.showUpdateError().subscribe();
-          console.error('Save category error:', err);
-        },
-      });
-      return;
-    }
-
-    // CREATE
-    this.apiService.create(payload).subscribe({
-      next: () => {
-        this.isSaving = false;
-        this.dialogHelper.productCategory.showCreateSuccess().subscribe();
-        this.startCreate();
-        this.loadCategories();
-      },
-      error: (err: unknown) => {
-        this.isSaving = false;
-        this.dialogHelper.productCategory.showCreateError().subscribe();
-        console.error('Save category error:', err);
-      },
-    });
-  }
-
-  deleteCategory(category: ListCategoriesQueryDto): void {
-    this.dialogHelper.productCategory
-      .confirmDelete(category.name)
-      .subscribe((result) => {
-        if (result?.button !== DialogButton.DELETE) return;
-
-        this.apiService.delete(category.id).subscribe({
-          next: () => {
-            this.dialogHelper.productCategory.showDeleteSuccess().subscribe();
-            this.loadCategories();
-          },
-          error: (err: unknown) => {
-            this.dialogHelper.productCategory.showDeleteError().subscribe();
-            console.error('Delete category error:', err);
-          },
-        });
-      });
+    this.request.search = '';
+    this.request.paging.page = 1;
+    this.loadPagedData();
   }
 }

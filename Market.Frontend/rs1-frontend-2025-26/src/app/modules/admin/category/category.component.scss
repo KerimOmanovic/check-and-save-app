@@ -7,6 +7,7 @@
   background: #f3efe6;
 }
 
+// ===== TOPBAR STILOVI =====
 .topbar {
   position: sticky;
   top: 0;
@@ -37,6 +38,7 @@
   display: flex;
   align-items: center;
   gap: 16px;
+  cursor: pointer;
 }
 
 .logo-mark {
@@ -70,6 +72,8 @@
   cursor: pointer;
   transition: all 0.2s ease;
   font-size: 15px;
+  text-decoration: none;
+  color: #fff;
 }
 
 .link:hover:not(.is-active) {
@@ -127,293 +131,146 @@
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
 }
 
+// ===== SADRŽAJ =====
 .content {
   max-width: 100%;
   margin: 0;
   padding: 32px 40px;
-  display: grid;
-  grid-template-columns: 1.65fr 1fr;
-  gap: 32px;
-  align-items: start;
 }
 
-.main-card,
-.side-card {
-  border-radius: 24px;
+.loading-state,
+.error-state {
   background: #fbfaf7;
+  border-radius: 24px;
+  padding: 60px 32px;
   box-shadow: 0 8px 32px rgba(15, 23, 42, 0.08);
   border: 1px solid rgba(205, 187, 154, 0.35);
-  padding: 32px;
-  min-height: 600px;
-}
-
-.section-head {
   display: flex;
-  justify-content: space-between;
-  align-items: flex-start;
-  margin-bottom: 32px;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
   gap: 20px;
+
+  mat-spinner {
+    ::ng-deep circle {
+      stroke: #0f3d2e;
+    }
+  }
+
+  p {
+    color: #6b7280;
+    font-size: 16px;
+    font-weight: 600;
+    margin: 0;
+  }
 }
 
-.titles h1 {
-  margin: 0 0 4px 0;
-  font-size: 36px;
-  font-weight: 950;
-  color: #0f3d2e;
-  letter-spacing: -0.5px;
+.error-state {
+  mat-icon {
+    font-size: 48px;
+    width: 48px;
+    height: 48px;
+    color: #ef5350;
+  }
+
+  p {
+    color: #ef5350;
+  }
 }
 
-.titles p {
-  margin: 12px 0 0 0;
-  color: #6b7280;
-  font-weight: 600;
-  font-size: 15px;
-}
-
-.badges {
-  display: flex;
-  gap: 10px;
-  flex-shrink: 0;
-}
-
-.badge {
-  padding: 10px 16px;
-  border-radius: 999px;
-  font-weight: 800;
-  font-size: 13px;
-  background: rgba(15, 61, 46, 0.1);
-  color: #0f3d2e;
-  white-space: nowrap;
-}
-
-.badge-error {
-  background: rgba(185, 28, 28, 0.12);
-  color: #b91c1c;
-}
-
-.badge-count {
-  background: rgba(205, 187, 154, 0.5);
-  color: #0f3d2e;
-}
-
-.grid {
-  margin-top: 20px;
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-  gap: 20px;
-}
-
-.cat-card {
-  border-radius: 20px;
-  padding: 0;
-  background: #fffdf8;
-  border: 1px solid rgba(205, 187, 154, 0.4);
-  transition: all 0.2s ease;
+.table-card {
+  background: #fbfaf7;
+  border-radius: 24px;
+  box-shadow: 0 8px 32px rgba(15, 23, 42, 0.08);
+  border: 1px solid rgba(205, 187, 154, 0.35);
   overflow: hidden;
-}
 
-.cat-card:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 8px 24px rgba(15, 23, 42, 0.12);
-  border-color: rgba(205, 187, 154, 0.6);
-}
+  table {
+    width: 100%;
 
-.cat-top {
-  display: flex;
-  gap: 16px;
-  padding: 20px;
-  align-items: flex-start;
-}
+    th {
+      background: #0f3d2e;
+      color: white;
+      font-weight: 700;
+      font-size: 14px;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      padding: 16px 24px;
+    }
 
-.cat-icon {
-  width: 56px;
-  height: 56px;
-  flex-shrink: 0;
-  border-radius: 16px;
-  background: rgba(205, 187, 154, 0.65);
-  display: grid;
-  place-items: center;
-  font-weight: 950;
-  font-size: 22px;
-  color: #0f3d2e;
-}
+    td {
+      padding: 16px 24px;
+      color: #1f2a24;
+      font-weight: 500;
+      border-bottom: 1px solid rgba(205, 187, 154, 0.2);
+    }
 
-.cat-meta {
-  flex: 1;
-  min-width: 0;
-}
+    tr:last-child td {
+      border-bottom: none;
+    }
 
-.cat-name {
-  font-weight: 900;
-  font-size: 17px;
-  color: #0f3d2e;
-  margin-bottom: 6px;
-  word-wrap: break-word;
-}
+    .mat-mdc-row:hover {
+      background-color: rgba(205, 187, 154, 0.1);
+      transition: background-color 0.2s ease;
+    }
 
-.cat-desc {
-  font-size: 14px;
-  color: #6b7280;
-  font-weight: 500;
-  line-height: 1.5;
-  word-wrap: break-word;
-}
+    .name-cell {
+      font-weight: 600;
+      color: #0f3d2e;
+    }
 
-.cat-actions {
-  padding: 0 20px 20px;
-  display: flex;
-  gap: 12px;
-}
+    .action-buttons {
+      display: flex;
+      gap: 8px;
+    }
 
-.cat-actions button {
-  flex: 1;
-  height: 44px;
-  border-radius: 12px !important;
-  font-weight: 700 !important;
-  font-size: 14px !important;
-  transition: all 0.2s ease !important;
-}
+    .btn-edit {
+      color: #0f3d2e;
 
-.btn-outline {
-  border-color: rgba(15, 61, 46, 0.35) !important;
-  color: #0f3d2e !important;
-  background: transparent !important;
-}
+      &:hover {
+        background-color: rgba(15, 61, 46, 0.1);
+      }
+    }
 
-.btn-outline:hover {
-  background: rgba(15, 61, 46, 0.08) !important;
-  border-color: rgba(15, 61, 46, 0.5) !important;
-}
+    .btn-delete {
+      color: #ef5350;
 
-.btn-outline-danger {
-  border-color: rgba(185, 28, 28, 0.35) !important;
-  color: #b91c1c !important;
-  background: transparent !important;
-}
+      &:hover {
+        background-color: rgba(239, 83, 80, 0.1);
+      }
+    }
+  }
 
-.btn-outline-danger:hover {
-  background: rgba(185, 28, 28, 0.08) !important;
-  border-color: rgba(185, 28, 28, 0.5) !important;
-}
+  .no-data-row {
+    .mat-cell {
+      padding: 60px 24px;
+      text-align: center;
+      border-bottom: none;
+    }
 
-.side-card {
-  position: sticky;
-  top: 120px;
-  max-height: calc(100vh - 140px);
-  overflow-y: auto;
-}
+    .no-data-message {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 12px;
+      color: #6b7280;
+      font-weight: 600;
+      font-size: 15px;
 
-.side-head h2 {
-  margin: 0 0 4px 0;
-  font-size: 28px;
-  font-weight: 950;
-  color: #0f3d2e;
-  letter-spacing: -0.5px;
-}
-
-.muted {
-  margin-top: 12px;
-  color: #6b7280;
-  font-weight: 600;
-  font-size: 15px;
-}
-
-.form {
-  margin-top: 28px;
-  display: grid;
-  gap: 20px;
-}
-
-:host ::ng-deep .form .mat-mdc-text-field-wrapper {
-  border-radius: 10px !important;
-}
-
-:host ::ng-deep .form .mat-mdc-form-field {
-  font-size: 15px;
-}
-
-:host ::ng-deep .form input,
-:host ::ng-deep .form textarea {
-  font-weight: 600;
-}
-
-:host ::ng-deep .form .mat-mdc-form-field-focus-overlay {
-  border-radius: 12px !important;
-}
-
-:host ::ng-deep .form .mdc-notched-outline__leading {
-  border-radius: 12px 0 0 12px !important;
-}
-:host ::ng-deep .form .mdc-notched-outline__notch{
-  border-radius: 0 !important;
-}
-:host ::ng-deep .form .mdc-notched-outline__trailing {
-  border-radius: 0 12px 12px 0 !important;
-}
-
-.form-actions {
-  display: flex;
-  gap: 12px;
-  margin-top: 8px;
-}
-
-.form-actions button {
-  flex: 1;
-  height: 52px !important;
-  font-size: 15px !important;
-  font-weight: 800 !important;
-}
-
-.btn-save {
-  background: #0f3d2e !important;
-  color: #f3efe6 !important;
-  border-radius: 14px !important;
-  transition: all 0.2s ease !important;
-}
-
-.btn-save:hover:not(:disabled) {
-  background: #1a5741 !important;
-  transform: translateY(-1px);
-  box-shadow: 0 4px 12px rgba(15, 61, 46, 0.3);
-}
-
-.btn-save:disabled {
-  opacity: 0.6;
-  cursor: not-allowed;
-}
-
-.empty-state {
-  padding: 60px 24px;
-  text-align: center;
-  color: #6b7280;
-  font-weight: 600;
-  font-size: 16px;
-}
-
-:host ::ng-deep .mat-mdc-progress-bar {
-  border-radius: 8px;
-  margin-bottom: 20px;
-}
-
-@media (max-width: 1400px) {
-  .grid {
-    grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+      mat-icon {
+        font-size: 48px;
+        width: 48px;
+        height: 48px;
+        color: #94a39a;
+      }
+    }
   }
 }
 
+// ===== RESPONSIVE =====
 @media (max-width: 1100px) {
-  .content {
-    grid-template-columns: 1fr;
-    gap: 28px;
-  }
-
-  .side-card {
-    position: static;
-    max-height: none;
-  }
-
-  .grid {
-    grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  .topbar-links {
+    flex-wrap: wrap;
   }
 }
 
@@ -447,22 +304,7 @@
     padding: 20px;
   }
 
-  .main-card,
-  .side-card {
-    padding: 24px;
-    min-height: auto;
-  }
-
-  .grid {
-    grid-template-columns: 1fr;
-  }
-
-  .titles h1 {
-    font-size: 28px;
-  }
-
-  .section-head {
-    flex-direction: column;
-    gap: 16px;
+  .table-card {
+    border-radius: 16px;
   }
 }
