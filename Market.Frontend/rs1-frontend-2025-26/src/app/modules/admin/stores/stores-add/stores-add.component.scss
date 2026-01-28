@@ -25,14 +25,24 @@ $shadow-mid: rgba(15, 61, 46, 0.18);
 
 :host {
   display: block;
+  min-height: 100vh;
+  background: linear-gradient(135deg, $bg-gradient-start 0%, $bg-gradient-end 100%);
 }
+
 
 .container {
   padding: 24px;
+  max-width: 100%;
+  margin: 0;
+  width: 100%;
+}
+
+
+.header-card,
+.form-card {
   max-width: 1400px;
-  margin: 0 auto;
-  background: linear-gradient(135deg, $bg-gradient-start 0%, $bg-gradient-end 100%);
-  min-height: 100vh;
+  margin-left: auto;
+  margin-right: auto;
 }
 
 .header-card {
@@ -329,6 +339,12 @@ $shadow-mid: rgba(15, 61, 46, 0.18);
 @media (max-width: 768px) {
   .container {
     padding: 16px;
+  }
+
+
+  .header-card,
+  .form-card {
+    max-width: 100%;
   }
 
   .header-card {

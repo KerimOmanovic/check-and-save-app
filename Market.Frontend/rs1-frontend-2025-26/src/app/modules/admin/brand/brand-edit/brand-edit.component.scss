@@ -25,14 +25,22 @@ $shadow-mid: rgba(15, 61, 46, 0.18);
 
 :host {
   display: block;
+  min-height: 100vh;
+  background: linear-gradient(135deg, $bg-gradient-start 0%, $bg-gradient-end 100%);
 }
 
 .container {
   padding: 24px;
+  max-width: 100%;
+  margin: 0;
+  width: 100%;
+}
+
+.header-card,
+.form-card {
   max-width: 1400px;
-  margin: 0 auto;
-  background: linear-gradient(135deg, $bg-gradient-start 0%, $bg-gradient-end 100%);
-  min-height: 100vh;
+  margin-left: auto;
+  margin-right: auto;
 }
 
 .header-card {
@@ -73,7 +81,7 @@ $shadow-mid: rgba(15, 61, 46, 0.18);
     }
 
     &::after {
-      content: 'edit'; // optional: change to 'branding_watermark' if you want brand icon
+      content: 'edit';
       font-family: 'Material Icons';
       font-size: 28px;
       color: white;
@@ -332,6 +340,11 @@ $shadow-mid: rgba(15, 61, 46, 0.18);
     padding: 16px;
   }
 
+  .header-card,
+  .form-card {
+    max-width: 100%;
+  }
+
   .header-card {
     padding: 20px;
     border-radius: 12px;
@@ -379,7 +392,6 @@ $shadow-mid: rgba(15, 61, 46, 0.18);
   }
 }
 
-// Paginator styling - zelena boja (optional, can stay even if edit page doesn't use it)
 :host ::ng-deep {
   .mat-mdc-paginator {
     background: transparent;

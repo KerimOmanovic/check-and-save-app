@@ -16,12 +16,16 @@ import { BrandComponent } from './brand/brand.component';
 import { MatIconModule } from '@angular/material/icon';
 import {BrandAddComponent} from './brand/brand-add/brand-add.component';
 import {BrandEditComponent} from './brand/brand-edit/brand-edit.component';
+import {CategoryAddComponent} from './category/category-add/category-add.component';
+import {CategoryEditComponent} from './category/category-edit/category-edit.component';
 
 @NgModule({
   declarations: [
     AdminLayoutComponent,
     AdminSettingsComponent,
     CategoryComponent,
+    CategoryAddComponent,
+    CategoryEditComponent,
     CitiesComponent,
     CitiesAddComponent,
     CitiesEditComponent,
