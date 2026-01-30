@@ -67,6 +67,20 @@
           </mat-select>
         </mat-form-field>
 
+        <mat-form-field class="filter-field" appearance="outline">
+          <mat-label>Prodavnica</mat-label>
+          <mat-select
+            [(ngModel)]="request.storeEntityId"
+            (selectionChange)="onFilterChange()"
+          >
+            <mat-option [value]="null">Sve prodavnice</mat-option>
+            <mat-option *ngFor="let store of stores" [value]="store.id">
+              {{ store.name }}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+
+
         <button mat-raised-button class="btn-add" type="button" (click)="onCreate()">
           <mat-icon>add</mat-icon>
           Novi proizvod
@@ -158,7 +172,7 @@
           <td class="mat-cell" colspan="6">
             <div class="no-data-message">
               <mat-icon>info_outline</mat-icon>
-              <ng-container *ngIf="request.search || request.categoryEntityId || request.brandEntityId; else noDataDefault">
+              <ng-container *ngIf="request.search || request.categoryEntityId || request.brandEntityId || request.storeEntityId; else noDataDefault">
                 Nema rezultata za odabrane filtere.
               </ng-container>
               <ng-template #noDataDefault>

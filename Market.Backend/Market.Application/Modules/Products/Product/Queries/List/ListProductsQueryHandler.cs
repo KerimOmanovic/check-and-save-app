@@ -21,6 +21,9 @@
             if (request.BrandEntityId.HasValue)
                 q = q.Where(x => x.BrandEntityId == request.BrandEntityId.Value);
 
+            if (request.StoreEntityId.HasValue)
+                q = q.Where(x => x.StoreEntityId == request.StoreEntityId.Value);
+
             var pq = q.Select(x => new ListProductsQueryDto
             {
                 Id = x.Id,

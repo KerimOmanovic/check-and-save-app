@@ -106,6 +106,7 @@ export class ProductsComponent
     this.request.search = '';
     this.request.categoryEntityId = null;
     this.request.brandEntityId = null;
+    this.request.storeEntityId = null;
     this.request.paging.page = 1;
     this.loadPagedData();
   }

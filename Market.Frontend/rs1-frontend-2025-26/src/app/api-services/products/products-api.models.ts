@@ -12,6 +12,7 @@ export class ListProductsQuery extends BasePagedQuery {
   branchEntityId?: number | null;
   categoryEntityId?: number | null;
   brandEntityId?: number | null;
+  storeEntityId?: number | null;
 }
 
 /**
