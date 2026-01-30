@@ -15,6 +15,7 @@ import {BrandAddComponent} from './brand/brand-add/brand-add.component';
 import {BrandEditComponent} from './brand/brand-edit/brand-edit.component';
 import {CategoryAddComponent} from './category/category-add/category-add.component';
 import {CategoryEditComponent} from './category/category-edit/category-edit.component';
+import { ProductsComponent } from './products/products.component';
 
 const routes: Routes = [
   {
@@ -74,12 +75,15 @@ const routes: Routes = [
         path: 'stores/:id/edit',
         component: StoresEditComponent
       },
-
+      {
+        path: 'products',
+        component: ProductsComponent
+      },
 
       // default admin route → /admin/products
       {
         path: '',
-        redirectTo: 'categories',
+        redirectTo: 'products',
         pathMatch: 'full',
       },
     ],
