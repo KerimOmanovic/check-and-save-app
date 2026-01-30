@@ -57,3 +57,13 @@ export interface RefreshTokenCommandDto {
 export interface LogoutCommand {
   refreshToken: string;
 }
+/**
+ * Command for POST /Auth/register
+ * Corresponds to: RegisterCommand.cs
+ */
+export interface RegisterCommand {
+  firstName: string;
+  lastName: string;
+  email: string;
+  password: string;
+}
