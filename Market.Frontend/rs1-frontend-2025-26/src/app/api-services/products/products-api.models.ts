@@ -48,3 +48,34 @@ export interface GetProductByIdQueryDto {
  * Paged response for GET /Product
  */
 export type ListProductsResponse = PageResult<ListProductsQueryDto>;
+
+// === COMMANDS (WRITE) ===
+
+/**
+ * Command for POST /Product
+ * Corresponds to: CreateProductCommand.cs
+ */
+export interface CreateProductCommand {
+  storeEntityId: number;
+  branchEntityId: number;
+  categoryEntityId: number;
+  brandEntityId: number;
+  name: string;
+  description: string;
+  imageURL: string;
+  dateAdded: string | Date;
+}
+
+/**
+ * Command for PUT /Product/{id}
+ * Corresponds to: UpdateProductCommand.cs
+ */
+export interface UpdateProductCommand {
+  storeEntityId: number;
+  branchEntityId: number;
+  categoryEntityId: number;
+  brandEntityId: number;
+  name: string;
+  description: string;
+  imageURL: string;
+}

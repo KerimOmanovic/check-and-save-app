@@ -5,9 +5,11 @@ import { Observable } from 'rxjs';
 import { environment } from '../../../environments/environment';
 import { buildHttpParams } from '../../core/models/build-http-params';
 import {
+  CreateProductCommand,
   GetProductByIdQueryDto,
   ListProductsQuery,
-  ListProductsResponse
+  ListProductsResponse,
+  UpdateProductCommand
 } from './products-api.models';
 
 @Injectable({ providedIn: 'root' })
@@ -24,5 +26,15 @@ export class ProductsApiService {
   /** GET /Product/{id} */
   getById(id: number): Observable<GetProductByIdQueryDto> {
     return this.http.get<GetProductByIdQueryDto>(`${this.baseUrl}/${id}`);
+  }
+
+  /** POST /Product */
+  create(command: CreateProductCommand): Observable<{ id: number }> {
+    return this.http.post<{ id: number }>(this.baseUrl, command);
+  }
+
+  /** PUT /Product/{id} */
+  update(id: number, command: UpdateProductCommand): Observable<void> {
+    return this.http.put<void>(`${this.baseUrl}/${id}`, command);
   }
 }
