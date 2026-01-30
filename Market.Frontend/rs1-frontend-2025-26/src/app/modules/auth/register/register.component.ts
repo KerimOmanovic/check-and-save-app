@@ -10,8 +10,10 @@
 //
 // }
 // register.component.ts
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { AuthApiService } from '../../../api-services/auth/auth-api.service';
+import { RegisterCommand } from '../../../api-services/auth/auth-api.model';
 
 @Component({
   selector: 'app-register',
@@ -20,6 +22,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
   styleUrl: './register.component.scss',
 })
 export class RegisterComponent {
+  private authApi = inject(AuthApiService);
   form: FormGroup;
 
   hidePassword = true;
@@ -52,19 +55,35 @@ export class RegisterComponent {
     this.errorMessage = '';
     this.successMessage = '';
 
-    if (this.form.invalid) {
+    if (this.form.invalid|| this.isLoading)  {
       this.form.markAllAsTouched();
       return;
     }
 
     this.isLoading = true;
 
-    setTimeout(() => {
-      this.isLoading = false;
-      this.successMessage = 'Registracija uspješna. Sada se možeš prijaviti.';
-      this.form.reset();
-      this.hidePassword = true;
-      this.hideConfirmPassword = true;
-    }, 900);
+    const payload: RegisterCommand = {
+      firstName: this.form.value.firstName ?? '',
+      lastName: this.form.value.lastName ?? '',
+      email: this.form.value.email ?? '',
+      password: this.form.value.password ?? ''
+    };
+
+    this.authApi.register(payload).subscribe({
+      next: () => {
+        this.isLoading = false;
+        this.successMessage = 'Registracija uspješna. Sada se možeš prijaviti.';
+        this.form.reset();
+        this.hidePassword = true;
+        this.hideConfirmPassword = true;
+      },
+      error: (err) => {
+        this.isLoading = false;
+        this.errorMessage =
+          err?.error?.message ||
+          err?.error?.title ||
+          'Registracija nije uspjela. Pokušaj ponovo.';
+      }
+    });
   }
 }
