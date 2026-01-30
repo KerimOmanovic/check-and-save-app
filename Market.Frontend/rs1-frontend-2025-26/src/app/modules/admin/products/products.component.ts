@@ -1,4 +1,5 @@
 import { Component, inject, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 
 import { BaseListPagedComponent } from '../../../core/components/base-classes/base-list-paged-component';
 import {
@@ -32,13 +33,15 @@ export class ProductsComponent
   private brandsApi = inject(BrandsApiService);
   private storesApi = inject(StoresApiService);
   private toaster = inject(ToasterService);
+  private router = inject(Router);
 
   displayedColumns: string[] = [
     'name',
     'category',
     'brand',
     'store',
-    'dateAdded'
+    'dateAdded',
+    'actions'
   ];
 
   categories: ListCategoriesQueryDto[] = [];
@@ -78,6 +81,14 @@ export class ProductsComponent
   onSearch(): void {
     this.request.paging.page = 1;
     this.loadPagedData();
+  }
+
+  onCreate(): void {
+    this.router.navigate(['/admin/products/add']);
+  }
+
+  onEdit(product: ListProductsQueryDto): void {
+    this.router.navigate(['/admin/products', product.id, 'edit']);
   }
 
   clearSearch(): void {

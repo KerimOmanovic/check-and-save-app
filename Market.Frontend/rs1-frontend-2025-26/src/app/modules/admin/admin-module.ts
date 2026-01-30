@@ -13,6 +13,8 @@ import { StoresAddComponent } from './stores/stores-add/stores-add.component';
 import { StoresEditComponent } from './stores/stores-edit/stores-edit.component';
 import { BrandComponent } from './brand/brand.component';
 import { ProductsComponent } from './products/products.component';
+import { ProductsAddComponent } from './products/products-add/products-add.component';
+import { ProductsEditComponent } from './products/products-edit/products-edit.component';
 
 import { MatIconModule } from '@angular/material/icon';
 import {BrandAddComponent} from './brand/brand-add/brand-add.component';
@@ -36,7 +38,9 @@ import {CategoryEditComponent} from './category/category-edit/category-edit.comp
     BrandComponent,
     BrandAddComponent,
     BrandEditComponent,
-    ProductsComponent
+    ProductsComponent,
+    ProductsAddComponent,
+    ProductsEditComponent
   ],
   imports: [
     AdminRoutingModule,
