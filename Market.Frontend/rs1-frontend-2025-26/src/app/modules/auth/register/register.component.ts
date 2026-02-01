@@ -197,39 +197,35 @@ export class RegisterComponent {
       fingerprint: null,
     };
 
-    this.isLoading = true;
+    // register -> auto login -> redirect na /client
+    this.authApi
+      .register(registerPayload)
+      .pipe(switchMap(() => this.auth.login(loginPayload)))
+      .subscribe({
+        next: () => {
+          this.isLoading = false;
 
-    const registerPayload: RegisterCommand = {
-      firstName: this.form.value.firstName ?? '',
-      lastName: this.form.value.lastName ?? '',
-      email: this.form.value.email ?? '',
-      password: this.form.value.password ?? '',
-    };
+          // opcionalno: možeš pokazati poruku 0.5s, ali ti hoćeš odmah redirect
+          // this.successMessage = 'Registracija uspješna. Prijavljeni ste.';
 
-    const loginPayload: LoginCommand = {
-      email: registerPayload.email,
-      password: registerPayload.password,
-      fingerprint: null,
-    };
+          this.form.reset();
+          this.hidePassword = true;
+          this.hideConfirmPassword = true;
 
-    this.authApi.register(registerPayload).pipe(
-      switchMap(() => this.auth.login(loginPayload))
-    ).subscribe({
-      next: () => {
-        this.isLoading = false;
+          // Ako hoćeš striktno client:
+          this.router.navigateByUrl('/client');
 
-        // isto kao u LoginComponent
-        const target = this.currentUser.getDefaultRoute();
-        this.router.navigate([target]);
-      },
-      error: (err: HttpErrorResponse) => {
-        this.isLoading = false;
-        this.errorMessage =
-          err?.error?.message ||
-          err?.error?.title ||
-          'Registracija ili prijava nije uspjela. Pokušaj ponovo.';
-      }
-    });
-
+          // ili ako želiš po ulozi:
+          // const target = this.currentUser.getDefaultRoute();
+          // this.router.navigateByUrl(target);
+        },
+        error: (err: HttpErrorResponse) => {
+          this.isLoading = false;
+          this.errorMessage =
+            err?.error?.message ||
+            err?.error?.title ||
+            'Registracija ili prijava nije uspjela. Pokušaj ponovo.';
+        },
+      });
   }
 }
