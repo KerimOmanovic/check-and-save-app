@@ -132,6 +132,7 @@ import { AuthApiService } from '../../../api-services/auth/auth-api.service';
 import { LoginCommand, RegisterCommand } from '../../../api-services/auth/auth-api.model';
 import { AuthFacadeService } from '../../../core/services/auth/auth-facade.service';
 import { CurrentUserService } from '../../../core/services/auth/current-user.service';
+import { getErrorMessage } from '../../../core/interceptors/error-logging-interceptor.service';
 
 @Component({
   selector: 'app-register',
@@ -221,10 +222,7 @@ export class RegisterComponent {
         },
         error: (err: HttpErrorResponse) => {
           this.isLoading = false;
-          this.errorMessage =
-            err?.error?.message ||
-            err?.error?.title ||
-            'Registracija ili prijava nije uspjela. Pokušaj ponovo.';
+          this.errorMessage = getErrorMessage(err);
         },
       });
   }
