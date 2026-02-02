@@ -87,7 +87,7 @@
       <div class="form-grid">
         <mat-form-field appearance="outline" class="full-width">
           <mat-label>Prodavnica *</mat-label>
-          <mat-select formControlName="storeEntityId" (selectionChange)="onStoreChange()">
+          <mat-select formControlName="storeEntityId">
             <mat-option *ngFor="let store of stores" [value]="store.id">
               {{ store.name }}
             </mat-option>
