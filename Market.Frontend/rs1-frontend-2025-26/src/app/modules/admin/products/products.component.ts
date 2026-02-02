@@ -17,6 +17,8 @@ import { ToasterService } from '../../../core/services/toaster.service';
 import { allItemsPaging } from '../../../core/models/paging/paging-utils';
 import { StoresApiService } from '../../../api-services/stores/stores-api.service';
 import { ListStoresQueryDto } from '../../../api-services/stores/stores-api.models';
+import { DialogHelperService } from '../../shared/services/dialog-helper.service';
+import { DialogButton } from '../../shared/models/dialog-config.model';
 
 @Component({
   selector: 'app-products',
@@ -34,6 +36,7 @@ export class ProductsComponent
   private storesApi = inject(StoresApiService);
   private toaster = inject(ToasterService);
   private router = inject(Router);
+  private dialogHelper = inject(DialogHelperService);
 
   displayedColumns: string[] = [
     'name',
@@ -91,6 +94,14 @@ export class ProductsComponent
     this.router.navigate(['/admin/products', product.id, 'edit']);
   }
 
+  onDelete(product: ListProductsQueryDto): void {
+    this.dialogHelper.product.confirmDelete(product.name).subscribe((result) => {
+      if (result && result.button === DialogButton.DELETE) {
+        this.performDelete(product);
+      }
+    });
+  }
+
   clearSearch(): void {
     this.request.search = '';
     this.request.paging.page = 1;
@@ -109,6 +120,22 @@ export class ProductsComponent
     this.request.storeEntityId = null;
     this.request.paging.page = 1;
     this.loadPagedData();
+  }
+
+  private performDelete(product: ListProductsQueryDto): void {
+    this.startLoading();
+
+    this.productsApi.delete(product.id).subscribe({
+      next: () => {
+        this.toaster.success('Proizvod je uspješno obrisan');
+        this.loadPagedData();
+      },
+      error: (err) => {
+        this.stopLoading();
+        this.dialogHelper.product.showDeleteError().subscribe();
+        console.error('Delete product error:', err);
+      }
+    });
   }
 
   getCategoryName(categoryId: number): string {
