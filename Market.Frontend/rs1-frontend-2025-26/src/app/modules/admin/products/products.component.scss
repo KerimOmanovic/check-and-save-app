@@ -116,6 +116,23 @@
   font-size: 15px;
 }
 
+:host ::ng-deep .search-field input::placeholder {
+  color: #475569;
+  opacity: 1;
+}
+
+:host ::ng-deep .topbar-right .mat-mdc-form-field-label,
+:host ::ng-deep .topbar-right .mdc-floating-label,
+:host ::ng-deep .topbar-right .mdc-floating-label--float-above,
+:host ::ng-deep .topbar-right .mat-mdc-select-placeholder {
+  color: #0f172a;
+  font-weight: 600;
+}
+
+:host ::ng-deep .topbar-right .mat-mdc-select-arrow {
+  color: #0f172a;
+}
+
 :host ::ng-deep .search-field .mat-mdc-form-field-subscript-wrapper,
 :host ::ng-deep .filter-field .mat-mdc-form-field-subscript-wrapper {
   display: none;
