@@ -1,9 +1,5 @@
 ﻿using Market.Domain.Common;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+
 
 namespace Market.Domain.Entities.ProductEntities
 {
@@ -13,10 +9,12 @@ namespace Market.Domain.Entities.ProductEntities
         public string? Description { get; set; }
 
         public ICollection<ProductEntity> Products { get; set; } = new List<ProductEntity>();
-    }
-    public static class Constraints
-    {
-        public const int NameMaxLength = 200;
-        public const int DescriptionMaxLength = 1000;
+
+        public static class Constraints
+        {
+            public const int NameMaxLength = 200;
+            public const int DescriptionMaxLength = 1000;
+        }
     }
 }
+

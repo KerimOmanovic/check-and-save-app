@@ -1,0 +1,142 @@
+<div class="client-home">
+  <header class="topbar">
+    <div class="topbar-inner">
+      <div class="brand" role="button" tabindex="0" (click)="scrollTo('popular')">
+        <div class="brand-mark">
+          <img class="brand-icon" src="/assets/cart-icon.png" alt="Check&Save icon" />
+        </div>
+
+        <div class="brand-text">
+          <div class="brand-name">Check&Save</div>
+          <div class="brand-sub">Uporedi i uštedi</div>
+        </div>
+      </div>
+
+      <div class="search">
+        <div class="search-box">
+          <span class="search-icon" aria-hidden="true"></span>
+
+          <input
+            type="text"
+            placeholder="Pretraži proizvode (npr. mlijeko, kafa, čokolada...)"
+          />
+
+          <button class="search-btn" type="button" (click)="onSearch()">Pretraži</button>
+        </div>
+      </div>
+
+      <div class="actions">
+        <button class="pill-btn" type="button" (click)="scrollTo('popular')">Omiljeni</button>
+
+        <button class="pill-btn" type="button" (click)="scrollTo('stores')">Mapa prodavnica</button>
+
+        <button class="user-pill" type="button">
+          <span class="avatar">A</span>
+          <span class="user-text">
+            <span class="user-name">Kupac</span>
+            <span class="user-role">Ulogovan</span>
+          </span>
+        </button>
+      </div>
+    </div>
+
+    <nav class="cats" aria-label="Kategorije">
+      <button class="cat" type="button"
+              [class.active]="activeCategory === 'popularno'"
+              (click)="setCategory('popularno')">Popularno</button>
+
+      <button class="cat" type="button"
+              [class.active]="activeCategory === 'namirnice'"
+              (click)="setCategory('namirnice')">Namirnice</button>
+
+      <button class="cat" type="button"
+              [class.active]="activeCategory === 'elektronika'"
+              (click)="setCategory('elektronika')">Elektronika</button>
+
+      <button class="cat" type="button"
+              [class.active]="activeCategory === 'drogerija'"
+              (click)="setCategory('drogerija')">Drogerija</button>
+
+      <button class="cat" type="button"
+              [class.active]="activeCategory === 'prodavnice'"
+              (click)="setCategory('prodavnice')">Prodavnice</button>
+
+      <button class="cat" type="button"
+              [class.active]="activeCategory === 'akcije'"
+              (click)="setCategory('akcije')">Akcije</button>
+    </nav>
+  </header>
+
+  <main class="page">
+    <section class="section" id="popular">
+      <div class="section-head">
+        <h2 class="h2">
+          <ng-container [ngSwitch]="activeCategory">
+            <span *ngSwitchCase="'popularno'">Popularni proizvodi</span>
+            <span *ngSwitchCase="'namirnice'">Namirnice</span>
+            <span *ngSwitchCase="'elektronika'">Elektronika</span>
+            <span *ngSwitchCase="'drogerija'">Drogerija</span>
+            <span *ngSwitchDefault>Popularni proizvodi</span>
+          </ng-container>
+        </h2>
+
+        <button class="link-btn" type="button" (click)="scrollTo('stores')">Prodavnice</button>
+      </div>
+
+      <div class="grid">
+        <article class="card" *ngFor="let p of filteredProducts; trackBy: trackByName">
+          <div class="card-top">
+            <div class="thumb"></div>
+
+            <button
+              class="fav"
+              type="button"
+              [class.active]="isFavorite(p.name)"
+              (click)="toggleFavorite(p.name)"
+              aria-label="Dodaj u omiljene"
+            ></button>
+          </div>
+
+          <div class="card-body">
+            <div class="name">{{ p.name }}</div>
+            <div class="meta">Najniža cijena: {{ p.bestStore }}</div>
+
+            <div class="price-row">
+              <div class="price">{{ p.price.toFixed(2) }} KM</div>
+              <button class="btn outline small" type="button" (click)="onCompare(p)">Uporedi</button>
+            </div>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <section class="section" id="stores">
+      <div class="section-head">
+        <h2 class="h2">Prodavnice</h2>
+        <button class="link-btn" type="button">Otvori mapu</button>
+      </div>
+
+      <div class="stores">
+        <div class="store-card" *ngFor="let s of stores; trackBy: trackByStore">
+          <div class="store-title">{{ s }}</div>
+          <div class="store-sub">Mostar</div>
+        </div>
+      </div>
+    </section>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        <div class="f-left">
+          <div class="f-brand">Check&Save</div>
+          <div class="f-sub">Poređenje cijena proizvoda iz više prodavnica u Mostaru.</div>
+        </div>
+
+        <div class="f-right">
+          <button class="f-link" type="button" (click)="scrollTo('popular')">Popularno</button>
+          <button class="f-link" type="button" (click)="scrollTo('popular')">Kategorije</button>
+          <button class="f-link" type="button" (click)="scrollTo('stores')">Prodavnice</button>
+        </div>
+      </div>
+    </footer>
+  </main>
+</div>
