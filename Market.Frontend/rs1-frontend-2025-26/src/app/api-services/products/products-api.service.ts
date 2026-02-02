@@ -37,4 +37,9 @@ export class ProductsApiService {
   update(id: number, command: UpdateProductCommand): Observable<void> {
     return this.http.put<void>(`${this.baseUrl}/${id}`, command);
   }
+
+  /** DELETE /Product/{id} */
+  delete(id: number): Observable<void> {
+    return this.http.delete<void>(`${this.baseUrl}/${id}`);
+  }
 }
