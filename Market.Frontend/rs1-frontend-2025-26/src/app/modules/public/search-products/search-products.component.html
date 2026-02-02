@@ -1,1 +1,62 @@
-<p>search-products works!</p>
+<section class="search-page">
+  <div class="search-shell">
+    <div class="search-block">
+      <p class="eyebrow">Pretraga proizvoda</p>
+      <h1 class="title">Pronađi najbolju cijenu za svaki proizvod</h1>
+      <p class="subtitle">
+        Upiši naziv proizvoda i koristi globalne akcije za filtriranje, sortiranje i čuvanje pretraga.
+      </p>
+
+      <div class="search-bar">
+        <mat-icon class="search-icon" aria-hidden="true">search</mat-icon>
+        <input
+          type="text"
+          placeholder="Pretraži proizvode (npr. kafa, mlijeko, šampon...)"
+          [(ngModel)]="query"
+          aria-label="Unesite pojam za pretragu"
+        />
+        <button class="search-submit" type="button" (click)="onSearch()">Pretraži</button>
+      </div>
+
+      <div class="quick-tags" aria-label="Brzi filteri">
+        <button
+          class="tag"
+          type="button"
+          *ngFor="let tag of quickTags"
+          [class.active]="activeTag === tag"
+          (click)="setActiveTag(tag)"
+        >
+          {{ tag }}
+        </button>
+      </div>
+    </div>
+
+    <aside class="global-actions" aria-label="Globalne akcije">
+      <div class="actions-header">
+        <h2>Globalne akcije</h2>
+        <p>Kontrolišite način prikaza rezultata i sačuvajte omiljene opcije.</p>
+      </div>
+
+      <div class="actions-grid">
+        <button
+          class="action-card"
+          type="button"
+          *ngFor="let action of globalActions"
+        >
+          <span class="action-icon">
+            <mat-icon>{{ action.icon }}</mat-icon>
+          </span>
+          <span class="action-text">
+            <span class="action-title">{{ action.title }}</span>
+            <span class="action-sub">{{ action.subtitle }}</span>
+          </span>
+        </button>
+      </div>
+
+      <div class="action-footer">
+        <button class="ghost-btn" type="button">Napredna pretraga</button>
+        <button class="primary-btn" type="button">Sačuvaj filtere</button>
+      </div>
+    </aside>
+  </div>
+</section>
