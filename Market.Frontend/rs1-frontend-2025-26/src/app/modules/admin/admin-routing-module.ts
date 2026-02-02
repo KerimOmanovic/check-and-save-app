@@ -18,6 +18,7 @@ import {CategoryEditComponent} from './category/category-edit/category-edit.comp
 import { ProductsComponent } from './products/products.component';
 import { ProductsAddComponent } from './products/products-add/products-add.component';
 import { ProductsEditComponent } from './products/products-edit/products-edit.component';
+import { BranchesComponent } from './branches/branches.component';
 
 const routes: Routes = [
   {
@@ -88,6 +89,10 @@ const routes: Routes = [
       {
         path: 'products/:id/edit',
         component: ProductsEditComponent
+      },
+      {
+        path: 'branches',
+        component: BranchesComponent
       },
       // default admin route → /admin/products
       {
