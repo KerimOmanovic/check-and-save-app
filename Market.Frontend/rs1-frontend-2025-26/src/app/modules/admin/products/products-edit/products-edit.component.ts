@@ -63,7 +63,7 @@ export class ProductsEditComponent
         this.dateAddedLabel = product.dateAdded;
         this.form = this.formService.createProductForm(product, false);
         this.setupBranchFiltering();
-        this.filterBranches(this.form.get('storeEntityId')?.value ?? null);
+        this.loadBranches(this.form.get('storeEntityId')?.value ?? null);
         this.stopLoading();
       },
       error: (err) => {
@@ -106,10 +106,6 @@ export class ProductsEditComponent
     return this.formService.getErrorMessage(this.form, controlName);
   }
 
-  onStoreChange(): void {
-    this.filterBranches(this.form.get('storeEntityId')?.value ?? null);
-  }
-
   private loadFilters(): void {
     this.categoriesApi.list({ paging: allItemsPaging }).subscribe({
       next: (response) => {
@@ -140,44 +136,44 @@ export class ProductsEditComponent
         console.error('Load stores error:', err);
       }
     });
-
-    this.branchesApi.list({ paging: allItemsPaging, onlyActive: true }).subscribe({
-      next: (response) => {
-        this.branches = response.items;
-        this.filterBranches(this.form?.get('storeEntityId')?.value ?? null);
-      },
-      error: (err) => {
-        this.toaster.error('Greška pri učitavanju poslovnica');
-        console.error('Load branches error:', err);
-      }
-    });
   }
 
   private setupBranchFiltering(): void {
     this.form.get('storeEntityId')?.valueChanges.subscribe((storeId) => {
-      this.filterBranches(storeId ?? null);
+      this.loadBranches(storeId ?? null);
     });
   }
 
-  private filterBranches(storeId: number | null): void {
+  private loadBranches(storeId: number | null): void {
     if (!storeId) {
+      this.branches = [];
       this.filteredBranches = [];
       this.form.get('branchEntityId')?.setValue(null);
       return;
     }
 
-    this.filteredBranches = this.branches.filter(
-      (branch) => branch.storeEntityId === storeId
-    );
+    this.branchesApi
+      .list({ paging: allItemsPaging, onlyActive: true, storeEntityId: storeId })
+      .subscribe({
+        next: (response) => {
+          this.branches = response.items;
+          this.filteredBranches = response.items;
 
-    const selectedBranchId = this.form.get('branchEntityId')?.value;
-    if (selectedBranchId) {
-      const stillValid = this.filteredBranches.some(
-        (branch) => branch.id === selectedBranchId
-      );
-      if (!stillValid) {
-        this.form.get('branchEntityId')?.setValue(null);
-      }
-    }
+          const selectedBranchId = this.form.get('branchEntityId')?.value;
+          if (selectedBranchId) {
+            const stillValid = this.filteredBranches.some(
+              (branch) => branch.id === selectedBranchId
+            );
+            if (!stillValid) {
+              this.form.get('branchEntityId')?.setValue(null);
+            }
+          }
+        },
+        error: (err) => {
+          this.toaster.error('Greška pri učitavanju poslovnica');
+          console.error('Load branches error:', err);
+        }
+      });
+
   }
 }
