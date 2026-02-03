@@ -15,6 +15,10 @@ import {BrandAddComponent} from './brand/brand-add/brand-add.component';
 import {BrandEditComponent} from './brand/brand-edit/brand-edit.component';
 import {CategoryAddComponent} from './category/category-add/category-add.component';
 import {CategoryEditComponent} from './category/category-edit/category-edit.component';
+import { ProductsComponent } from './products/products.component';
+import { ProductsAddComponent } from './products/products-add/products-add.component';
+import { ProductsEditComponent } from './products/products-edit/products-edit.component';
+import { BranchesComponent } from './branches/branches.component';
 
 const routes: Routes = [
   {
@@ -74,12 +78,26 @@ const routes: Routes = [
         path: 'stores/:id/edit',
         component: StoresEditComponent
       },
-
-
+      {
+        path: 'products',
+        component: ProductsComponent
+      },
+      {
+        path: 'products/add',
+        component: ProductsAddComponent
+      },
+      {
+        path: 'products/:id/edit',
+        component: ProductsEditComponent
+      },
+      {
+        path: 'branches',
+        component: BranchesComponent
+      },
       // default admin route → /admin/products
       {
         path: '',
-        redirectTo: 'categories',
+        redirectTo: 'products',
         pathMatch: 'full',
       },
     ],
