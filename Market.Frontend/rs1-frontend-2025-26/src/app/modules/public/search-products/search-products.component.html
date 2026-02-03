@@ -48,7 +48,9 @@
             </div>
             <div class="card-footer">
               <span class="price">{{ product.price.toFixed(2) }} KM</span>
-              <button class="card-btn" type="button">Dodaj u listu</button>
+              <button class="card-btn" type="button" (click)="onAddToFavorites(product.name)">
+                Dodaj u listu
+              </button>
             </div>
           </article>
         </div>
