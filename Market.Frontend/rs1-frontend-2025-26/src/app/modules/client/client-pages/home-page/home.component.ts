@@ -18,6 +18,11 @@ type Product = {
   price: number;
   category: 'namirnice' | 'elektronika' | 'drogerija';
 };
+type CategoryTab = {
+  key: CategoryKey;
+  label: string;
+  subtitle: string;
+};
 
 @Component({
   selector: 'app-client-home',
@@ -30,6 +35,16 @@ export class HomeComponent {
   private favoritesService = inject(FavoritesService);
   private currentUser = inject(CurrentUserService);
   activeCategory: CategoryKey = 'popularno';
+
+  categoryTabs: CategoryTab[] = [
+    { key: 'popularno', label: 'Popularno', subtitle: 'Top ponude danas' },
+    { key: 'namirnice', label: 'Namirnice', subtitle: 'Svježe i osnovno' },
+    { key: 'elektronika', label: 'Elektronika', subtitle: 'Uređaji i oprema' },
+    { key: 'drogerija', label: 'Drogerija', subtitle: 'Njega i higijena' },
+    { key: 'prodavnice', label: 'Prodavnice', subtitle: 'Lokacije i radno vrijeme' },
+    { key: 'akcije', label: 'Akcije', subtitle: 'Aktuelni popusti' },
+  ];
+
 
   stores: string[] = [
     'Prodavnica 1',

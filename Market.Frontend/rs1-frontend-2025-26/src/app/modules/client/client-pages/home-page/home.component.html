@@ -43,29 +43,18 @@
     </div>
 
     <nav class="cats" aria-label="Kategorije">
-      <button class="cat" type="button"
-              [class.active]="activeCategory === 'popularno'"
-              (click)="setCategory('popularno')">Popularno</button>
-
-      <button class="cat" type="button"
-              [class.active]="activeCategory === 'namirnice'"
-              (click)="setCategory('namirnice')">Namirnice</button>
-
-      <button class="cat" type="button"
-              [class.active]="activeCategory === 'elektronika'"
-              (click)="setCategory('elektronika')">Elektronika</button>
-
-      <button class="cat" type="button"
-              [class.active]="activeCategory === 'drogerija'"
-              (click)="setCategory('drogerija')">Drogerija</button>
-
-      <button class="cat" type="button"
-              [class.active]="activeCategory === 'prodavnice'"
-              (click)="setCategory('prodavnice')">Prodavnice</button>
-
-      <button class="cat" type="button"
-              [class.active]="activeCategory === 'akcije'"
-              (click)="setCategory('akcije')">Akcije</button>
+      <div class="cats-shell">
+        <button
+          class="cat"
+          type="button"
+          *ngFor="let tab of categoryTabs"
+          [class.active]="activeCategory === tab.key"
+          (click)="setCategory(tab.key)"
+        >
+          <span class="cat-label">{{ tab.label }}</span>
+          <span class="cat-sub">{{ tab.subtitle }}</span>
+        </button>
+      </div>
     </nav>
   </header>
 
