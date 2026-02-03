@@ -87,8 +87,9 @@ export class BranchesEditComponent
     this.api.update(this.branchId, command).subscribe({
       next: () => {
         this.stopLoading();
-        this.toaster.success('Poslovnica je uspješno ažurirana');
-        this.router.navigate(['/admin/branches']);
+        this.router.navigate(['/admin/branches'], {
+          state: { successMessage: 'Poslovnica je uspješno ažurirana' }
+        });
       },
       error: (err) => {
         this.stopLoading('Greška pri ažuriranju poslovnice');
@@ -114,7 +115,7 @@ export class BranchesEditComponent
     this.errorMessage = null;
     this.save();
   }
-  
+
   getErrorMessage(controlName: string): string {
     return this.formService.getErrorMessage(this.form, controlName);
   }
