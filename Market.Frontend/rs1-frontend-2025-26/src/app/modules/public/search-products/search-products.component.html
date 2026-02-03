@@ -13,6 +13,7 @@
           type="text"
           placeholder="Pretraži proizvode (npr. kafa, mlijeko, šampon...)"
           [(ngModel)]="query"
+          (ngModelChange)="onQueryChange($event)"
           aria-label="Unesite pojam za pretragu"
         />
         <button class="search-submit" type="button" (click)="onSearch()">Pretraži</button>
@@ -29,6 +30,29 @@
           {{ tag }}
         </button>
       </div>
+      <section class="results">
+        <div class="results-header">
+          <div>
+            <h2>{{ resultsTitle }}</h2>
+            <p>{{ resultsSubtitle }}</p>
+          </div>
+          <span class="results-count">{{ resultsCount }} rezultata</span>
+        </div>
+
+        <div class="results-grid">
+          <article class="result-card" *ngFor="let product of filteredProducts">
+            <div class="card-badge" *ngIf="product.badge">{{ product.badge }}</div>
+            <div class="card-body">
+              <h3>{{ product.name }}</h3>
+              <p>{{ product.store }} • {{ product.category }}</p>
+            </div>
+            <div class="card-footer">
+              <span class="price">{{ product.price.toFixed(2) }} KM</span>
+              <button class="card-btn" type="button">Dodaj u listu</button>
+            </div>
+          </article>
+        </div>
+      </section>
     </div>
 
     <aside class="global-actions" aria-label="Globalne akcije">
