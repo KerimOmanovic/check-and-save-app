@@ -4,7 +4,11 @@ import { Observable } from 'rxjs';
 
 import { environment } from '../../../environments/environment';
 import { buildHttpParams } from '../../core/models/build-http-params';
-import { ListBranchesQuery, ListBranchesResponse } from './branches-api.models';
+import {
+  CreateBranchCommand,
+  ListBranchesQuery,
+  ListBranchesResponse
+} from './branches-api.models';
 
 @Injectable({ providedIn: 'root' })
 export class BranchesApiService {
@@ -15,5 +19,10 @@ export class BranchesApiService {
   list(query: ListBranchesQuery): Observable<ListBranchesResponse> {
     const params = buildHttpParams(query);
     return this.http.get<ListBranchesResponse>(this.baseUrl, { params });
+  }
+
+  /** POST /Branches */
+  create(command: CreateBranchCommand): Observable<number> {
+    return this.http.post<number>(this.baseUrl, command);
   }
 }
