@@ -1,0 +1,34 @@
+<div class="favorites-page">
+  <header class="page-header">
+    <div class="header-left">
+      <h1>
+        Omiljeni proizvodi
+        <span class="count" *ngIf="favorites().length > 0">{{ favorites().length }}</span>
+      </h1>
+      <p>Lista proizvoda koje ste označili na početnoj stranici.</p>
+    </div>
+
+    <div class="header-actions">
+      <button class="btn outline" type="button" routerLink="/client/home">Nazad na početnu</button>
+      <button class="btn" type="button" (click)="clearAll()" [disabled]="favorites().length === 0">
+        Očisti listu
+      </button>
+    </div>
+  </header>
+
+  <section class="favorites-grid" *ngIf="favorites().length > 0; else emptyState">
+    <article class="favorite-card" *ngFor="let item of favorites()">
+      <div class="favorite-info">
+        <div class="favorite-title">{{ item }}</div>
+      </div>
+      <button class="remove" type="button" (click)="remove(item)">Ukloni</button>
+    </article>
+  </section>
+
+  <ng-template #emptyState>
+    <div class="empty-state">
+      <p>Još nemate omiljene proizvode.</p>
+      <button class="btn" type="button" routerLink="/client/home">Dodaj iz ponude</button>
+    </div>
+  </ng-template>
+</div>
