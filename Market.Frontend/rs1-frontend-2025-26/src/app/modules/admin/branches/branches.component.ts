@@ -53,6 +53,7 @@ export class BranchesComponent
   }
 
   ngOnInit(): void {
+    this.handleNavigationState();
     this.loadFilters();
     this.initList();
   }
@@ -111,6 +112,16 @@ export class BranchesComponent
 
   getCityName(cityId: number): string {
     return this.cityById.get(cityId) ?? `#${cityId}`;
+  }
+
+  private handleNavigationState(): void {
+    const navigationState =
+      this.router.getCurrentNavigation()?.extras.state ?? history.state;
+    const successMessage = navigationState?.successMessage as string | undefined;
+
+    if (successMessage) {
+      this.toaster.success(successMessage);
+    }
   }
 
   private loadFilters(): void {

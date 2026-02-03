@@ -63,8 +63,9 @@ export class BranchesAddComponent
     this.api.create(command).subscribe({
       next: () => {
         this.stopLoading();
-        this.toaster.success('Poslovnica je uspješno dodana');
-        this.router.navigate(['/admin/branches']);
+        this.router.navigate(['/admin/branches'], {
+          state: { successMessage: 'Poslovnica je uspješno dodana' }
+        });
       },
       error: (err) => {
         this.stopLoading('Greška pri dodavanju poslovnice');
