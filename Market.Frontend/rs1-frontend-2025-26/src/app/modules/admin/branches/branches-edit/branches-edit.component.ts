@@ -92,6 +92,7 @@ export class BranchesEditComponent
       },
       error: (err) => {
         this.stopLoading('Greška pri ažuriranju poslovnice');
+        this.toaster.error('Greška pri ažuriranju poslovnice');
         console.error('Update branch error:', err);
       }
     });
@@ -101,6 +102,19 @@ export class BranchesEditComponent
     this.router.navigate(['/admin/branches']);
   }
 
+  override onSubmit(): void {
+    this.form.markAllAsTouched();
+
+    if (this.form.invalid) {
+      this.errorMessage = 'Molimo popunite sva obavezna polja.';
+      this.toaster.error('Molimo popunite sva obavezna polja.');
+      return;
+    }
+
+    this.errorMessage = null;
+    this.save();
+  }
+  
   getErrorMessage(controlName: string): string {
     return this.formService.getErrorMessage(this.form, controlName);
   }

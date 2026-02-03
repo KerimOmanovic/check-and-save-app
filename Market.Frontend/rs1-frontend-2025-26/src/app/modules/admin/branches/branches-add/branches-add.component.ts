@@ -68,6 +68,7 @@ export class BranchesAddComponent
       },
       error: (err) => {
         this.stopLoading('Greška pri dodavanju poslovnice');
+        this.toaster.error('Greška pri dodavanju poslovnice');
         console.error('Create branch error:', err);
       }
     });
@@ -80,6 +81,19 @@ export class BranchesAddComponent
 
   onCancel(): void {
     this.router.navigate(['/admin/branches']);
+  }
+
+  override onSubmit(): void {
+    this.form.markAllAsTouched();
+
+    if (this.form.invalid) {
+      this.errorMessage = 'Molimo popunite sva obavezna polja.';
+      this.toaster.error('Molimo popunite sva obavezna polja.');
+      return;
+    }
+
+    this.errorMessage = null;
+    this.save();
   }
 
   getErrorMessage(controlName: string): string {
