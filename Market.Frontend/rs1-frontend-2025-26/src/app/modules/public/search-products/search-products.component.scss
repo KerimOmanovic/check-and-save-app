@@ -1,0 +1,277 @@
+:host {
+  display: block;
+}
+
+$primary: #0f3d2e;
+$primary-dark: #0b2e23;
+$primary-light: #1f5a45;
+
+$beige: #f6f3ec;
+$card: #ffffff;
+
+$text: #1f2a24;
+$text-muted: #4e5d55;
+
+$border: rgba(205, 187, 154, 0.5);
+$shadow: rgba(15, 61, 46, 0.12);
+
+.search-page {
+  min-height: 100vh;
+  background: $beige;
+  color: $text;
+  padding: 48px 20px 64px;
+}
+
+.search-shell {
+  max-width: 1200px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: minmax(0, 1.2fr) minmax(0, 0.8fr);
+  gap: 32px;
+  align-items: start;
+}
+
+.search-block {
+  background: $card;
+  border-radius: 24px;
+  padding: 32px;
+  box-shadow: 0 20px 60px $shadow;
+}
+
+.eyebrow {
+  text-transform: uppercase;
+  letter-spacing: 0.18em;
+  font-size: 11px;
+  color: $primary-light;
+  font-weight: 700;
+  margin-bottom: 12px;
+}
+
+.title {
+  font-size: 32px;
+  line-height: 1.2;
+  margin: 0 0 14px;
+  color: $primary;
+}
+
+.subtitle {
+  font-size: 15px;
+  line-height: 1.6;
+  color: $text-muted;
+  margin-bottom: 28px;
+}
+
+.search-bar {
+  display: grid;
+  grid-template-columns: 48px 1fr auto;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 10px;
+  border-radius: 16px;
+  border: 1px solid $border;
+  background: rgba(255, 255, 255, 0.7);
+  margin-bottom: 18px;
+}
+
+.search-icon {
+  color: $primary;
+  display: grid;
+  place-items: center;
+}
+
+.search-bar input {
+  border: none;
+  outline: none;
+  background: transparent;
+  font-size: 15px;
+  color: $primary-dark;
+  padding: 10px 8px;
+}
+
+.search-bar input::placeholder {
+  color: rgba(15, 61, 46, 0.55);
+}
+
+.search-submit {
+  border: none;
+  background: $primary;
+  color: #fff;
+  font-weight: 700;
+  padding: 12px 18px;
+  border-radius: 12px;
+  cursor: pointer;
+  transition: 0.2s ease;
+}
+
+.search-submit:hover {
+  background: $primary-dark;
+}
+
+.quick-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.tag {
+  border-radius: 999px;
+  padding: 8px 14px;
+  border: 1px solid rgba(15, 61, 46, 0.18);
+  background: rgba(15, 61, 46, 0.05);
+  color: $primary;
+  font-weight: 600;
+  font-size: 13px;
+  cursor: pointer;
+  transition: 0.18s ease;
+}
+
+.tag.active,
+.tag:hover {
+  background: $primary;
+  color: #fff;
+  border-color: $primary;
+}
+
+.global-actions {
+  background: $card;
+  border-radius: 24px;
+  padding: 28px;
+  box-shadow: 0 20px 60px $shadow;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.actions-header h2 {
+  margin: 0 0 6px;
+  color: $primary;
+}
+
+.actions-header p {
+  margin: 0;
+  color: $text-muted;
+  font-size: 14px;
+}
+
+.actions-grid {
+  display: grid;
+  gap: 14px;
+}
+
+.action-card {
+  display: grid;
+  grid-template-columns: 44px 1fr;
+  gap: 14px;
+  align-items: center;
+  border: 1px solid rgba(15, 61, 46, 0.12);
+  border-radius: 16px;
+  padding: 14px 16px;
+  background: rgba(15, 61, 46, 0.04);
+  cursor: pointer;
+  text-align: left;
+  transition: 0.2s ease;
+}
+
+.action-card:hover {
+  background: rgba(15, 61, 46, 0.1);
+  border-color: rgba(15, 61, 46, 0.2);
+}
+
+.action-icon {
+  width: 44px;
+  height: 44px;
+  border-radius: 14px;
+  background: rgba(15, 61, 46, 0.12);
+  display: grid;
+  place-items: center;
+  color: $primary;
+}
+
+.action-title {
+  font-weight: 700;
+  display: block;
+  color: $primary;
+  font-size: 15px;
+}
+
+.action-sub {
+  display: block;
+  font-size: 13px;
+  color: $text-muted;
+  margin-top: 2px;
+}
+
+.action-footer {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+.ghost-btn,
+.primary-btn {
+  flex: 1 1 auto;
+  padding: 12px 16px;
+  border-radius: 14px;
+  font-weight: 700;
+  cursor: pointer;
+  border: 1px solid transparent;
+  transition: 0.2s ease;
+}
+
+.ghost-btn {
+  background: transparent;
+  border-color: rgba(15, 61, 46, 0.2);
+  color: $primary;
+}
+
+.ghost-btn:hover {
+  background: rgba(15, 61, 46, 0.08);
+}
+
+.primary-btn {
+  background: $primary;
+  color: #fff;
+  border-color: $primary;
+}
+
+.primary-btn:hover {
+  background: $primary-dark;
+}
+
+@media (max-width: 1024px) {
+  .search-shell {
+    grid-template-columns: 1fr;
+  }
+
+  .global-actions {
+    order: 2;
+  }
+}
+
+@media (max-width: 768px) {
+  .search-page {
+    padding: 32px 16px 48px;
+  }
+
+  .search-block,
+  .global-actions {
+    padding: 24px;
+  }
+
+  .title {
+    font-size: 26px;
+  }
+
+  .search-bar {
+    grid-template-columns: 36px 1fr;
+  }
+
+  .search-submit {
+    grid-column: 1 / -1;
+    width: 100%;
+  }
+
+  .action-footer {
+    flex-direction: column;
+  }
+}
