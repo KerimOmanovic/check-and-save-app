@@ -32,3 +32,45 @@ export interface ListBranchesQueryDto {
  * Paged response for GET /Branches
  */
 export type ListBranchesResponse = PageResult<ListBranchesQueryDto>;
+
+// === COMMANDS (WRITE) ===
+
+/**
+ * Command for POST /Branches
+ * Corresponds to: CreateBranchCommand.cs
+ */
+export interface CreateBranchCommand {
+  storeEntityId: number;
+  cityEntityId: number;
+  address: string;
+  contact: string;
+  email: string;
+}
+
+/**
+ * Command for PUT /Branches/{id}
+ * Corresponds to: UpdateBranchCommand.cs
+ */
+
+export interface UpdateBranchCommand {
+  storeEntityId: number;
+  cityEntityId: number;
+  address: string;
+  contact: string;
+  email: string;
+  isActive: boolean;
+}
+
+/**
+ * Response item for GET /Branches/{id}
+ * Corresponds to: GetBranchByIdQueryDto.cs
+ */
+export interface GetBranchByIdQueryDto {
+  id: number;
+  storeEntityId: number;
+  cityEntityId: number;
+  address: string;
+  contact: string;
+  email: string;
+  isActive: boolean;
+}

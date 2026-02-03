@@ -16,6 +16,8 @@ import { ProductsComponent } from './products/products.component';
 import { ProductsAddComponent } from './products/products-add/products-add.component';
 import { ProductsEditComponent } from './products/products-edit/products-edit.component';
 import { BranchesComponent } from './branches/branches.component';
+import { BranchesAddComponent } from './branches/branches-add/branches-add.component';
+import { BranchesEditComponent } from './branches/branches-edit/branches-edit.component';
 
 import { MatIconModule } from '@angular/material/icon';
 import {BrandAddComponent} from './brand/brand-add/brand-add.component';
@@ -42,7 +44,9 @@ import {CategoryEditComponent} from './category/category-edit/category-edit.comp
     ProductsComponent,
     ProductsAddComponent,
     ProductsEditComponent,
-    BranchesComponent
+    BranchesComponent,
+    BranchesAddComponent,
+    BranchesEditComponent
   ],
   imports: [
     AdminRoutingModule,
