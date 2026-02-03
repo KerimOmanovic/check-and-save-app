@@ -1,4 +1,8 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
+import { Router } from '@angular/router';
+import { ToasterService } from '../../../core/services/toaster.service';
+import { CurrentUserService } from '../../../core/services/auth/current-user.service';
+import { FavoritesService } from '../../shared/services/favorites.services';
 
 interface GlobalAction {
   icon: string;
@@ -22,6 +26,10 @@ interface ProductCard {
   styleUrl: './search-products.component.scss',
 })
 export class SearchProductsComponent {
+  private currentUser = inject(CurrentUserService);
+  private favoritesService = inject(FavoritesService);
+  private router = inject(Router);
+  private toaster = inject(ToasterService);
   query = '';
   activeTag = 'Popularno';
   resultsTitle = 'Najnovije preporuke';
@@ -119,7 +127,19 @@ export class SearchProductsComponent {
   onSearch(): void {
     this.updateResults(this.query, true);
   }
+  onAddToFavorites(productName: string): void {
+    if (!this.currentUser.isAuthenticated()) {
+      this.toaster.warning('Prijavite se da biste dodali omiljeni proizvod.');
+      this.router.navigate(['/auth/login']);
+      return;
+    }
 
+    this.favoritesService.toggle(productName);
+    const isFavorite = this.favoritesService.isFavorite(productName);
+    this.toaster.success(
+      isFavorite ? 'Proizvod je dodan u omiljene.' : 'Proizvod je uklonjen iz omiljenih.'
+    );
+  }
   private updateResults(value: string, fromSubmit = false): void {
     const term = value.trim().toLowerCase();
     const activeTag = this.activeTag;
