@@ -1,5 +1,8 @@
-import { Component } from '@angular/core';
+import { Component, computed, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { RouterLink } from '@angular/router';
+import { FavoritesService } from '../../../shared/services/favorites.services';
+import { CurrentUserService } from '../../../../core/services/auth/current-user.service';
 
 type CategoryKey =
   | 'popularno'
@@ -19,11 +22,13 @@ type Product = {
 @Component({
   selector: 'app-client-home',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, RouterLink],
   templateUrl: './home.component.html',
   styleUrls: ['./home.component.scss'],
 })
 export class HomeComponent {
+  private favoritesService = inject(FavoritesService);
+  private currentUser = inject(CurrentUserService);
   activeCategory: CategoryKey = 'popularno';
 
   stores: string[] = [
@@ -53,7 +58,18 @@ export class HomeComponent {
     { name: 'Detergent', bestStore: 'Prodavnica 1', price: 12.50, category: 'drogerija' },
   ];
 
-  favorites = new Set<string>();
+  favoritesCount = computed(() => this.favoritesService.favorites().length);
+  isAuthenticated = computed(() => this.currentUser.isAuthenticated());
+
+  get profileLink(): string {
+    return this.isAuthenticated() ? '/client/profile' : '/auth/login';
+  }
+
+  get userLabel(): string {
+    const email = this.currentUser.snapshot?.email;
+    if (!email) return 'Gost';
+    return email.split('@')[0] ?? 'Kupac';
+  }
 
   get filteredProducts(): Product[] {
     if (this.activeCategory === 'popularno') return this.products.slice(0, 8);
@@ -77,12 +93,11 @@ export class HomeComponent {
   }
 
   toggleFavorite(productName: string): void {
-    if (this.favorites.has(productName)) this.favorites.delete(productName);
-    else this.favorites.add(productName);
+    this.favoritesService.toggle(productName);
   }
 
   isFavorite(productName: string): boolean {
-    return this.favorites.has(productName);
+    return this.favoritesService.isFavorite(productName);
   }
 
   onSearch(): void {

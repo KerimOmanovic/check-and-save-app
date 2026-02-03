@@ -1,0 +1,159 @@
+$f-bg: #f3efe6;
+$f-surface: #ffffff;
+$f-green: #0f3d2e;
+$f-green-2: #1f5a45;
+$f-beige: #cdbb9a;
+$f-text: #143126;
+$f-muted: #5b6b63;
+$f-border: rgba(205, 187, 154, 0.55);
+$f-shadow: rgba(15, 61, 46, 0.10);
+$f-shadow-2: rgba(15, 61, 46, 0.18);
+
+.map-page {
+  padding: 28px 40px 64px;
+  display: flex;
+  flex-direction: column;
+  gap: 28px;
+  background: $f-bg;
+  min-height: 100vh;
+}
+
+.page-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 16px;
+
+  h1 {
+    margin: 0 0 6px;
+    font-size: 28px;
+    font-weight: 700;
+    color: $f-text;
+  }
+
+  p {
+    margin: 0;
+    color: $f-muted;
+  }
+}
+
+.header-actions {
+  display: flex;
+  gap: 12px;
+}
+
+.btn {
+  border: none;
+  border-radius: 999px;
+  padding: 10px 18px;
+  background: $f-green;
+  color: #fff;
+  font-weight: 600;
+  cursor: pointer;
+  box-shadow: 0 6px 14px $f-shadow;
+  transition: all 0.2s ease;
+}
+
+.btn:hover {
+  background: $f-green-2;
+}
+
+.btn.outline {
+  background: #fff;
+  color: $f-green;
+  border: 1px solid $f-border;
+  box-shadow: none;
+}
+
+.btn.outline:hover {
+  background: rgba(15, 61, 46, 0.06);
+}
+
+.map-placeholder {
+  display: flex;
+}
+
+.map-card {
+  flex: 1;
+  background: $f-green;
+  color: #fff;
+  padding: 28px 28px;
+  border-radius: 22px;
+  border: 1px solid rgba(205, 187, 154, 0.35);
+  box-shadow: 0 16px 34px $f-shadow-2;
+}
+
+.map-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 8px;
+}
+
+.map-title {
+  font-size: 20px;
+  font-weight: 700;
+}
+
+.map-card p {
+  margin: 0;
+  color: rgba(255, 255, 255, 0.85);
+}
+
+.chip {
+  display: inline-flex;
+  align-items: center;
+  padding: 6px 12px;
+  border-radius: 999px;
+  background: rgba(205, 187, 154, 0.22);
+  border: 1px solid rgba(205, 187, 154, 0.45);
+  color: #fff;
+  font-weight: 600;
+  font-size: 12px;
+  white-space: nowrap;
+}
+
+.store-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 18px;
+}
+
+.store-card {
+  background: $f-surface;
+  border-radius: 18px;
+  padding: 16px 18px;
+  border: 1px solid $f-border;
+  box-shadow: 0 10px 24px $f-shadow;
+}
+
+.store-name {
+  font-weight: 700;
+  margin-bottom: 6px;
+  color: $f-text;
+}
+
+.store-address {
+  color: $f-muted;
+}
+
+.store-meta {
+  margin-top: 12px;
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.meta-pill {
+  display: inline-flex;
+  align-items: center;
+  padding: 6px 10px;
+  border-radius: 999px;
+  background: rgba(205, 187, 154, 0.22);
+  border: 1px solid $f-border;
+  color: $f-green;
+  font-weight: 600;
+  font-size: 12px;
+}

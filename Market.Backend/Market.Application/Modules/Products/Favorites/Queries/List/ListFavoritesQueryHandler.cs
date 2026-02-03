@@ -20,7 +20,7 @@
             });
 
             return await PageResult<ListFavoritesQueryDto>
-                .FromQueryableAsync(pq, request.Page, ct);
+                .FromQueryableAsync(pq, request.Paging, ct);
         }
     }
 }
