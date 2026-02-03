@@ -6,8 +6,10 @@ import { environment } from '../../../environments/environment';
 import { buildHttpParams } from '../../core/models/build-http-params';
 import {
   CreateBranchCommand,
+  GetBranchByIdQueryDto,
   ListBranchesQuery,
-  ListBranchesResponse
+  ListBranchesResponse,
+  UpdateBranchCommand
 } from './branches-api.models';
 
 @Injectable({ providedIn: 'root' })
@@ -21,8 +23,18 @@ export class BranchesApiService {
     return this.http.get<ListBranchesResponse>(this.baseUrl, { params });
   }
 
+  /** GET /Branches/{id} */
+  getById(id: number): Observable<GetBranchByIdQueryDto> {
+    return this.http.get<GetBranchByIdQueryDto>(`${this.baseUrl}/${id}`);
+  }
+
   /** POST /Branches */
   create(command: CreateBranchCommand): Observable<number> {
     return this.http.post<number>(this.baseUrl, command);
+  }
+
+  /** PUT /Branches/{id} */
+  update(id: number, command: UpdateBranchCommand): Observable<void> {
+    return this.http.put<void>(`${this.baseUrl}/${id}`, command);
   }
 }

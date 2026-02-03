@@ -48,6 +48,20 @@ export interface CreateBranchCommand {
 }
 
 /**
+ * Command for PUT /Branches/{id}
+ * Corresponds to: UpdateBranchCommand.cs
+ */
+
+export interface UpdateBranchCommand {
+  storeEntityId: number;
+  cityEntityId: number;
+  address: string;
+  contact: string;
+  email: string;
+  isActive: boolean;
+}
+
+/**
  * Response item for GET /Branches/{id}
  * Corresponds to: GetBranchByIdQueryDto.cs
  */
