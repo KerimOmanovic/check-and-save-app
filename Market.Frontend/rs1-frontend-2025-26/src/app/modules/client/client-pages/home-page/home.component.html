@@ -3,7 +3,7 @@
     <div class="topbar-inner">
       <div class="brand" role="button" tabindex="0" (click)="scrollTo('popular')">
         <div class="brand-mark">
-          <img class="brand-icon" src="/assets/cart-icon.png" alt="Check&Save icon" />
+          <span class="brand-initials" aria-hidden="true">CS</span>
         </div>
 
         <div class="brand-text">
@@ -26,15 +26,17 @@
       </div>
 
       <div class="actions">
-        <button class="pill-btn" type="button" (click)="scrollTo('popular')">Omiljeni</button>
+        <button class="pill-btn" type="button" routerLink="/client/favorites">
+          Omiljeni <span *ngIf="favoritesCount() > 0">({{ favoritesCount() }})</span>
+        </button>
 
-        <button class="pill-btn" type="button" (click)="scrollTo('stores')">Mapa prodavnica</button>
+        <button class="pill-btn" type="button" routerLink="/client/map">Mapa prodavnica</button>
 
-        <button class="user-pill" type="button">
-          <span class="avatar">A</span>
+        <button class="user-pill" type="button" [routerLink]="profileLink">
+          <span class="avatar">{{ userLabel.charAt(0) }}</span>
           <span class="user-text">
-            <span class="user-name">Kupac</span>
-            <span class="user-role">Ulogovan</span>
+            <span class="user-name">{{ userLabel }}</span>
+            <span class="user-role">{{ isAuthenticated() ? 'Ulogovan' : 'Prijava' }}</span>
           </span>
         </button>
       </div>
@@ -113,7 +115,7 @@
     <section class="section" id="stores">
       <div class="section-head">
         <h2 class="h2">Prodavnice</h2>
-        <button class="link-btn" type="button">Otvori mapu</button>
+        <button class="link-btn" type="button" routerLink="/client/map">Otvori mapu</button>
       </div>
 
       <div class="stores">

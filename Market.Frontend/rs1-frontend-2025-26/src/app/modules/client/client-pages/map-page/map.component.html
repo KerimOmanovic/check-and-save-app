@@ -1,0 +1,32 @@
+<div class="map-page">
+  <header class="page-header">
+    <div class="header-left">
+      <h1>Mapa prodavnica</h1>
+      <p>Brzo pronađite najbližu prodavnicu i uporedite cijene.</p>
+    </div>
+
+    <div class="header-actions">
+      <button class="btn outline" type="button" routerLink="/client/home">Nazad na početnu</button>
+    </div>
+  </header>
+
+  <section class="map-placeholder">
+    <div class="map-card">
+      <div class="map-top">
+        <div class="map-title">Mapa će uskoro biti dostupna</div>
+        <span class="chip">U pripremi</span>
+      </div>
+      <p>Dok se ne integriše interaktivna mapa, provjerite listu prodavnica ispod.</p>
+    </div>
+  </section>
+
+  <section class="store-list">
+    <article class="store-card" *ngFor="let store of stores">
+      <div class="store-name">{{ store.name }}</div>
+      <div class="store-address">{{ store.address }}</div>
+      <div class="store-meta">
+        <span class="meta-pill">Mostar</span>
+      </div>
+    </article>
+  </section>
+</div>

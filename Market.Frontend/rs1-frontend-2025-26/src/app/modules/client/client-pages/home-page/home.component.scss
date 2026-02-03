@@ -30,11 +30,11 @@ $shadow: rgba(15, 61, 46, 0.12);
 .topbar-inner {
   max-width: 1280px;
   margin: 0 auto;
-  padding: 18px 22px;
-  display: grid;
-  grid-template-columns: 340px 1fr 360px;
-  gap: 18px;
+  padding: 16px 22px;
+  display: flex;
   align-items: center;
+  justify-content: space-between;
+  gap: 16px;
 }
 
 .brand {
@@ -43,6 +43,7 @@ $shadow: rgba(15, 61, 46, 0.12);
   gap: 14px;
   cursor: pointer;
   user-select: none;
+  flex: 0 0 auto;
 }
 
 .brand-mark {
@@ -55,13 +56,14 @@ $shadow: rgba(15, 61, 46, 0.12);
   place-items: center;
 }
 
-.brand-icon {
-  width: 30px;
-  height: 30px;
-  object-fit: contain;
-
-  /* OVO RJEŠAVA PROBLEM */
-  filter: brightness(0) invert(1);
+.brand-initials {
+  font-size: 22px;
+  font-weight: 900;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  color: rgba(205, 187, 154, 0.98);
+  font-family: 'Valen Valentine Script', cursive;
+  line-height: 1;
 }
 
 .brand-name {
@@ -80,31 +82,34 @@ $shadow: rgba(15, 61, 46, 0.12);
 
 .search {
   flex: 1 1 auto;
-  max-width: 600px;
+  max-width: 720px;
   display: flex;
   justify-content: center;
 }
 
 .search-box {
-  display: grid;
-  grid-template-columns: 36px 1fr 140px;
+  width: 100%;
+  max-width: 720px;
+  display: flex;
   align-items: center;
+  gap: 10px;
   background: rgba(255, 255, 255, 0.10);
   border: 1px solid rgba(205, 187, 154, 0.45);
   border-radius: 14px;
   overflow: hidden;
   height: 44px;
-  padding: 6px 8px;
+  padding: 8px 10px;
 }
 
 .search-icon {
   width: 18px;
   height: 18px;
-  margin-left: 14px;
   opacity: 0.9;
   border-radius: 50%;
   background: rgba(255, 255, 255, 0.92);
   position: relative;
+  flex: 0 0 auto;
+  margin-left: 6px;
 }
 
 .search-icon::before {
@@ -128,39 +133,40 @@ $shadow: rgba(15, 61, 46, 0.12);
 }
 
 .search-box input {
+  flex: 1 1 auto;
   border: 0;
   outline: 0;
   background: transparent;
-  padding: 14px 12px;
+  padding: 10px 8px;
   color: #fff;
   font-size: 14px;
+  min-width: 220px;
 }
 
 .search-box input::placeholder { color: rgba(255, 255, 255, 0.65); }
 
 .search-btn {
-  height: 100%;
+  flex: 0 0 auto;
+  height: 38px;
   border: 0;
   background: rgba(205, 187, 154, 0.92);
   color: $primary-dark;
   font-weight: 800;
   cursor: pointer;
   transition: 0.18s ease;
+  padding: 0 16px;
+  border-radius: 12px;
 }
 
 .search-btn:hover { background: rgba(205, 187, 154, 1); }
-
-.search-hints .hint { color: rgba(255, 255, 255, 0.72); font-size: 12px; }
 
 .actions {
   flex: 0 0 auto;
   display: flex;
   align-items: center;
   gap: 10px;
-  margin-left: 5px;
   white-space: nowrap;
 }
-
 
 .pill-btn {
   height: 44px;
@@ -276,7 +282,6 @@ $shadow: rgba(15, 61, 46, 0.12);
 
 .link-btn:hover { background: rgba(15, 61, 46, 0.06); }
 
-/* ✅ PROŠIRI PROIZVODE (veće kartice i više “lufta”) */
 .grid {
   margin-top: 14px;
   display: grid;
@@ -305,7 +310,7 @@ $shadow: rgba(15, 61, 46, 0.12);
 }
 
 .thumb {
-  height: 150px; /* povećano */
+  height: 150px;
   border-radius: 16px;
   background: linear-gradient(135deg, rgba(15, 61, 46, 0.10), rgba(205, 187, 154, 0.35));
   border: 1px solid rgba(15, 61, 46, 0.12);
@@ -378,7 +383,6 @@ $shadow: rgba(15, 61, 46, 0.12);
 
 .btn.small { padding: 10px 12px; border-radius: 12px; font-size: 12px; }
 
-/* STORES */
 .stores {
   margin-top: 14px;
   display: grid;
@@ -396,7 +400,6 @@ $shadow: rgba(15, 61, 46, 0.12);
 .store-title { font-weight: 900; color: $primary-dark; font-size: 13px; }
 .store-sub { margin-top: 4px; color: $text-muted; font-size: 12px; }
 
-/* FOOTER */
 .footer { margin: 18px 0 28px 0; }
 
 .footer-inner {
@@ -428,87 +431,6 @@ $shadow: rgba(15, 61, 46, 0.12);
 
 .f-link:hover { background: rgba(15, 61, 46, 0.06); }
 
-/* RESPONSIVE */
-@media (max-width: 1100px) {
-  .topbar-inner { grid-template-columns: 1fr; }
-  .actions { justify-content: flex-start; }
-  .grid { grid-template-columns: repeat(2, 1fr); }
-  .stores { grid-template-columns: repeat(2, 1fr); }
-}
-
-@media (max-width: 520px) {
-  .page { padding: 16px; }
-  .grid { grid-template-columns: 1fr; }
-}
-/* ===== TOPBAR FIX: sve u jednoj liniji ===== */
-
-.topbar-inner {
-  max-width: 1280px;
-  margin: 0 auto;
-  padding: 16px 22px;
-
-  display: flex;              /* umjesto grid */
-  align-items: center;        /* vertikalno centriranje */
-  justify-content: space-between;
-  gap: 16px;
-}
-
-.brand {
-  flex: 0 0 auto;
-}
-
-.search {
-  flex: 1 1 auto;             /* sredina raste */
-  max-width: 720px;           /* da ne bude preširoko */
-  display: flex;
-  justify-content: center;
-}
-
-.search-box {
-  width: 100%;
-  max-width: 720px;
-
-  display: flex;              /* umjesto grid */
-  align-items: center;
-  gap: 10px;
-
-  padding: 8px 10px;
-  border-radius: 14px;
-}
-
-.search-icon {
-  margin-left: 6px;           /* da ne gura sve */
-  flex: 0 0 auto;
-}
-
-.search-box input {
-  flex: 1 1 auto;
-  padding: 10px 8px;          /* smanji visinu */
-  min-width: 220px;
-}
-
-.search-btn {
-  flex: 0 0 auto;
-  height: 38px;               /* da bude u liniji */
-  padding: 0 16px;
-  border-radius: 12px;
-}
-
-/* desni dio da se ne prelama */
-.actions {
-  flex: 0 0 auto;
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  white-space: nowrap;
-}
-
-.pill-btn,
-.user-pill {
-  height: 44px;
-}
-
-/* responsive: na manjim ekranima nek se ipak složi u kolone */
 @media (max-width: 1050px) {
   .topbar-inner {
     flex-wrap: wrap;
@@ -518,4 +440,14 @@ $shadow: rgba(15, 61, 46, 0.12);
   .brand { order: 1; }
   .search { order: 2; max-width: 100%; }
   .actions { order: 3; justify-content: center; }
+}
+
+@media (max-width: 1100px) {
+  .grid { grid-template-columns: repeat(2, 1fr); }
+  .stores { grid-template-columns: repeat(2, 1fr); }
+}
+
+@media (max-width: 520px) {
+  .page { padding: 16px; }
+  .grid { grid-template-columns: 1fr; }
 }
