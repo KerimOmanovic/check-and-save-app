@@ -113,6 +113,109 @@ $shadow: rgba(15, 61, 46, 0.12);
   gap: 10px;
 }
 
+.results {
+  margin-top: 28px;
+  display: grid;
+  gap: 18px;
+}
+
+.results-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+
+.results-header h2 {
+  margin: 0 0 6px;
+  font-size: 20px;
+  color: $primary;
+}
+
+.results-header p {
+  margin: 0;
+  color: $text-muted;
+  font-size: 14px;
+}
+
+.results-count {
+  background: rgba(15, 61, 46, 0.08);
+  color: $primary;
+  padding: 6px 12px;
+  border-radius: 999px;
+  font-size: 12px;
+  font-weight: 700;
+}
+
+.results-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 16px;
+}
+
+.result-card {
+  border-radius: 18px;
+  border: 1px solid rgba(15, 61, 46, 0.12);
+  background: #fff;
+  padding: 16px;
+  display: grid;
+  gap: 12px;
+  box-shadow: 0 12px 30px rgba(15, 61, 46, 0.08);
+}
+
+.card-badge {
+  align-self: flex-start;
+  background: rgba(15, 61, 46, 0.12);
+  color: $primary;
+  font-size: 11px;
+  font-weight: 700;
+  padding: 4px 10px;
+  border-radius: 999px;
+}
+
+.card-body h3 {
+  margin: 0 0 6px;
+  font-size: 16px;
+  color: $primary-dark;
+}
+
+.card-body p {
+  margin: 0;
+  color: $text-muted;
+  font-size: 13px;
+}
+
+.card-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+}
+
+.price {
+  font-weight: 700;
+  color: $primary;
+}
+
+.card-btn {
+  border: 1px solid rgba(15, 61, 46, 0.2);
+  background: rgba(15, 61, 46, 0.06);
+  color: $primary;
+  padding: 8px 12px;
+  border-radius: 12px;
+  font-size: 12px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: 0.2s ease;
+}
+
+.card-btn:hover {
+  background: $primary;
+  color: #fff;
+  border-color: $primary;
+}
+
 .tag {
   border-radius: 999px;
   padding: 8px 14px;
