@@ -20,6 +20,7 @@ import { ProductsAddComponent } from './products/products-add/products-add.compo
 import { ProductsEditComponent } from './products/products-edit/products-edit.component';
 import { BranchesComponent } from './branches/branches.component';
 import { BranchesAddComponent } from './branches/branches-add/branches-add.component';
+import { BranchesEditComponent } from './branches/branches-edit/branches-edit.component';
 
 const routes: Routes = [
   {
@@ -94,6 +95,10 @@ const routes: Routes = [
       {
         path: 'branches/add',
         component: BranchesAddComponent
+      },
+      {
+        path: 'branches/:id/edit',
+        component: BranchesEditComponent
       },
       {
         path: 'branches',
