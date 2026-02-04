@@ -13,6 +13,7 @@
         <div class="topbar-links">
           <span class="link" routerLink="/admin/categories">Kategorije Proizvoda</span>
           <span class="link" routerLink="/admin/brands">Brendovi</span>
+          <span class="link" routerLink="/admin/branches">Poslovnice</span>
           <span class="link is-active">Proizvodi</span>
           <span class="link" routerLink="/admin/cities">Gradovi</span>
           <span class="link" routerLink="/admin/stores">Prodavnice</span>
@@ -21,7 +22,7 @@
 
       <!-- Right side: search + filters -->
       <div class="topbar-right">
-        <mat-form-field class="search-field" appearance="outline">
+        <mat-form-field class="search-field" appearance="outline" floatLabel="always">
           <mat-label>Pretraži proizvode</mat-label>
           <input
             matInput
@@ -41,7 +42,7 @@
           </button>
         </mat-form-field>
 
-        <mat-form-field class="filter-field" appearance="outline">
+        <mat-form-field class="filter-field" appearance="outline" floatLabel="always">
           <mat-label>Kategorija</mat-label>
           <mat-select
             [(ngModel)]="request.categoryEntityId"
@@ -54,7 +55,7 @@
           </mat-select>
         </mat-form-field>
 
-        <mat-form-field class="filter-field" appearance="outline">
+        <mat-form-field class="filter-field" appearance="outline" floatLabel="always">
           <mat-label>Brend</mat-label>
           <mat-select
             [(ngModel)]="request.brandEntityId"
@@ -67,7 +68,7 @@
           </mat-select>
         </mat-form-field>
 
-        <mat-form-field class="filter-field" appearance="outline">
+        <mat-form-field class="filter-field" appearance="outline" floatLabel="always">
           <mat-label>Prodavnica</mat-label>
           <mat-select
             [(ngModel)]="request.storeEntityId"

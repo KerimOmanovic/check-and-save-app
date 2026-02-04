@@ -1,5 +1,5 @@
 import { Component, inject, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
 
 import { BaseListPagedComponent } from '../../../core/components/base-classes/base-list-paged-component';
 import {
@@ -36,6 +36,7 @@ export class ProductsComponent
   private storesApi = inject(StoresApiService);
   private toaster = inject(ToasterService);
   private router = inject(Router);
+  private route = inject(ActivatedRoute);
   private dialogHelper = inject(DialogHelperService);
 
   displayedColumns: string[] = [
@@ -58,30 +59,86 @@ export class ProductsComponent
   constructor() {
     super();
     this.request = new ListProductsQuery();
-    this.request.paging.pageSize = 10;
+    // Postavi default paging vrijednosti
+    this.request.paging = {
+      page: 1,
+      pageSize: 10
+    };
   }
 
   ngOnInit(): void {
+    console.log('🚀 ProductsComponent ngOnInit');
     this.loadFilters();
     this.initList();
+
+    // Auto-refresh nakon dodavanja/izmjene
+    this.route.queryParams.subscribe(params => {
+      if (params['refresh']) {
+        console.log('🔄 Auto-refresh triggered');
+        setTimeout(() => {
+          this.loadPagedData();
+        }, 100);
+      }
+    });
   }
 
   protected loadPagedData(): void {
+    console.log('📊 loadPagedData called');
+    console.log('Request object:', JSON.stringify(this.request, null, 2));
+
     this.startLoading();
 
     this.productsApi.list(this.request).subscribe({
       next: (response) => {
+        console.log('✅ Products loaded successfully:', {
+          total: response.totalItems,
+          itemsCount: response.items?.length || 0,
+          pageSize: response.pageSize
+        });
+
         this.handlePageResult(response);
         this.stopLoading();
       },
       error: (err) => {
-        this.stopLoading('Greška pri učitavanju proizvoda');
-        console.error('Load products error:', err);
+        console.error('❌ Load products FAILED');
+        console.error('Status:', err.status);
+        console.error('Status Text:', err.statusText);
+        console.error('Error:', err.error);
+        console.error('Message:', err.message);
+        console.error('URL:', err.url);
+        console.error('Full error:', err);
+
+        this.items = [];
+        this.totalItems = 0;
+        this.totalPages = 0;
+        this.stopLoading();
+
+        // Detaljnija greška
+        let errorMessage = 'Greška pri učitavanju proizvoda';
+
+        if (err.status === 400) {
+          errorMessage = 'Nevažeći parametri (400 Bad Request)';
+          if (err.error?.errors) {
+            console.error('Validation errors:', err.error.errors);
+            errorMessage += ': ' + JSON.stringify(err.error.errors);
+          }
+        } else if (err.status === 401) {
+          errorMessage = 'Neautorizovani pristup - prijavite se ponovo';
+        } else if (err.status === 404) {
+          errorMessage = 'API endpoint nije pronađen (404)';
+        } else if (err.status === 0) {
+          errorMessage = 'Server nije dostupan - provjerite konekciju';
+        } else if (err.status >= 500) {
+          errorMessage = 'Greška na serveru (' + err.status + ')';
+        }
+
+        this.toaster.error(errorMessage);
       }
     });
   }
 
   onSearch(): void {
+    console.log('🔍 Search:', this.request.search);
     this.request.paging.page = 1;
     this.loadPagedData();
   }
@@ -109,11 +166,17 @@ export class ProductsComponent
   }
 
   onFilterChange(): void {
+    console.log('🔧 Filters changed:', {
+      category: this.request.categoryEntityId,
+      brand: this.request.brandEntityId,
+      store: this.request.storeEntityId
+    });
     this.request.paging.page = 1;
     this.loadPagedData();
   }
 
   resetFilters(): void {
+    console.log('♻️ Reset filters');
     this.request.search = '';
     this.request.categoryEntityId = null;
     this.request.brandEntityId = null;
@@ -127,13 +190,14 @@ export class ProductsComponent
 
     this.productsApi.delete(product.id).subscribe({
       next: () => {
+        console.log('✅ Product deleted:', product.id);
         this.toaster.success('Proizvod je uspješno obrisan');
         this.loadPagedData();
       },
       error: (err) => {
+        console.error('❌ Delete failed:', err);
         this.stopLoading();
         this.dialogHelper.product.showDeleteError().subscribe();
-        console.error('Delete product error:', err);
       }
     });
   }
@@ -151,16 +215,19 @@ export class ProductsComponent
   }
 
   private loadFilters(): void {
+    console.log('📦 Loading filters...');
+
     this.categoriesApi.list({ paging: allItemsPaging }).subscribe({
       next: (response) => {
         this.categories = response.items;
         this.categoryById = new Map(
           response.items.map((category) => [category.id, category.name])
         );
+        console.log('✅ Categories:', this.categories.length);
       },
       error: (err) => {
+        console.error('❌ Categories failed:', err);
         this.toaster.error('Greška pri učitavanju kategorija');
-        console.error('Load categories error:', err);
       }
     });
 
@@ -170,10 +237,11 @@ export class ProductsComponent
         this.brandById = new Map(
           response.items.map((brand) => [brand.id, brand.name])
         );
+        console.log('✅ Brands:', this.brands.length);
       },
       error: (err) => {
+        console.error('❌ Brands failed:', err);
         this.toaster.error('Greška pri učitavanju brendova');
-        console.error('Load brands error:', err);
       }
     });
 
@@ -183,10 +251,11 @@ export class ProductsComponent
         this.storeById = new Map(
           response.items.map((store) => [store.id, store.name])
         );
+        console.log('✅ Stores:', this.stores.length);
       },
       error: (err) => {
+        console.error('❌ Stores failed:', err);
         this.toaster.error('Greška pri učitavanju prodavnica');
-        console.error('Load stores error:', err);
       }
     });
   }
