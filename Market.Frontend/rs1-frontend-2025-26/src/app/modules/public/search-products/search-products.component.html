@@ -45,14 +45,27 @@
             <h3>Nema proizvoda u kategoriji {{ activeTag }}</h3>
             <p>Odaberite drugi filter ili uklonite brzi tag da biste vidjeli rezultate.</p>
           </div>
-          <article class="result-card" *ngFor="let product of filteredProducts">
+          oducts">
+          <article class="result-card" *ngFor="let product of filteredProducts" tabindex="0">
             <div class="card-badge" *ngIf="product.badge">{{ product.badge }}</div>
+            <div class="card-top">
+              <div class="card-media" [style.background]="product.imageBg" aria-hidden="true">
+                <mat-icon>shopping_bag</mat-icon>
+              </div>
+              <div class="card-meta">
+                <span class="card-label">{{ product.category }}</span>
+                <span class="card-store">{{ product.store }}</span>
+              </div>
+            </div>
             <div class="card-body">
               <h3>{{ product.name }}</h3>
-              <p>{{ product.store }} • {{ product.category }}</p>
+              <p>{{ product.unit }} • {{ product.note }}</p>
             </div>
             <div class="card-footer">
-              <span class="price">{{ product.price.toFixed(2) }} KM</span>
+              <div class="price-group">
+                <span class="price">{{ product.price.toFixed(2) }} KM</span>
+                <span class="price-old" *ngIf="product.oldPrice">{{ product.oldPrice.toFixed(2) }} KM</span>
+              </div>
               <button class="card-btn" type="button" (click)="onAddToFavorites(product.name)">
                 Dodaj u listu
               </button>
