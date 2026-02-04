@@ -32,6 +32,8 @@
                 CategoryEntityId = x.CategoryEntityId,
                 BrandEntityId = x.BrandEntityId,
                 Name = x.Name,
+                StoreLabel = x.StoreEntity != null ? x.StoreEntity.Name : string.Empty,
+                LowestPrice = x.Prices.Select(p => (int?)p.Amount).Min(),
                 DateAdded = x.DateAdded
             });
 
