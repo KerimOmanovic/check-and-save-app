@@ -93,7 +93,6 @@ export class ProductsComponent
         console.log('✅ Products loaded successfully:', {
           total: response.totalItems,
           itemsCount: response.items?.length || 0,
-          page: response.page,
           pageSize: response.pageSize
         });
 
