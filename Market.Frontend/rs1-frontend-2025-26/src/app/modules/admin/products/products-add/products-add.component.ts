@@ -50,28 +50,85 @@ export class ProductsAddComponent
   }
 
   protected loadData(): void {
-    // add mode only
+    // add mode only - no data to load
   }
 
   protected save(): void {
-    if (this.form.invalid || this.isLoading) {
+    // Provjeri validnost forme
+    if (this.form.invalid) {
+      // Markiraj sva polja kao touched da se prikažu validacione greške
+      Object.keys(this.form.controls).forEach(key => {
+        this.form.get(key)?.markAsTouched();
+      });
+      this.toaster.warning('Molimo popunite sva obavezna polja');
+      console.warn('Form is invalid:', this.getFormValidationErrors());
+      return;
+    }
+
+    if (this.isLoading) {
       return;
     }
 
     this.startLoading();
 
-    const command: CreateProductCommand =
-      this.form.getRawValue() as CreateProductCommand;
+    const formValue = this.form.getRawValue();
+
+    // Konvertuj datum u ISO string format ako je Date objekat
+    const command: CreateProductCommand = {
+      ...formValue,
+      dateAdded: formValue.dateAdded instanceof Date
+        ? formValue.dateAdded.toISOString()
+        : formValue.dateAdded
+    };
+
+    console.log('📤 Sending product create command:', command);
 
     this.api.create(command).subscribe({
-      next: () => {
+      next: (response) => {
+        console.log('✅ Product created successfully:', response);
         this.stopLoading();
         this.toaster.success('Proizvod je uspješno dodan');
         this.router.navigate(['/admin/products']);
       },
       error: (err) => {
-        this.stopLoading('Greška pri dodavanju proizvoda');
-        console.error('Create product error:', err);
+        console.error('❌ Create product failed:', err);
+        console.error('Error details:', {
+          status: err.status,
+          statusText: err.statusText,
+          message: err.error?.message || err.message,
+          errors: err.error?.errors,
+          fullError: err
+        });
+
+        this.stopLoading();
+
+        // Prikaži detaljnu poruku greške
+        let errorMsg = 'Greška pri dodavanju proizvoda';
+
+        if (err.status === 400 && err.error?.errors) {
+          // Validation errors iz backend-a
+          const validationErrors = Object.entries(err.error.errors)
+            .map(([field, messages]: [string, any]) => `${field}: ${Array.isArray(messages) ? messages.join(', ') : messages}`)
+            .join('; ');
+          errorMsg = validationErrors || errorMsg;
+        } else if (err.error?.message) {
+          errorMsg = err.error.message;
+        } else if (err.error?.title) {
+          errorMsg = err.error.title;
+        } else if (err.status === 0) {
+          errorMsg = 'Greška u konekciji sa serverom. Provjerite internet vezu.';
+        } else if (err.status === 401) {
+          errorMsg = 'Nemate autorizaciju za ovu akciju';
+        } else if (err.status === 403) {
+          errorMsg = 'Pristup odbijen';
+        } else if (err.status === 404) {
+          errorMsg = 'API endpoint nije pronađen';
+        } else if (err.status >= 500) {
+          errorMsg = 'Greška na serveru. Pokušajte ponovo kasnije.';
+        }
+
+        this.errorMessage = errorMsg;
+        this.toaster.error(errorMsg);
       }
     });
   }
@@ -90,9 +147,11 @@ export class ProductsAddComponent
   }
 
   private loadFilters(): void {
+    // Učitaj kategorije
     this.categoriesApi.list({ paging: allItemsPaging }).subscribe({
       next: (response) => {
         this.categories = response.items;
+        console.log('✅ Categories loaded:', this.categories.length);
       },
       error: (err) => {
         this.toaster.error('Greška pri učitavanju kategorija');
@@ -100,9 +159,11 @@ export class ProductsAddComponent
       }
     });
 
+    // Učitaj brendove
     this.brandsApi.list({ paging: allItemsPaging }).subscribe({
       next: (response) => {
         this.brands = response.items;
+        console.log('✅ Brands loaded:', this.brands.length);
       },
       error: (err) => {
         this.toaster.error('Greška pri učitavanju brendova');
@@ -110,9 +171,11 @@ export class ProductsAddComponent
       }
     });
 
+    // Učitaj prodavnice (samo aktivne)
     this.storesApi.list({ paging: allItemsPaging, onlyActive: true }).subscribe({
       next: (response) => {
         this.stores = response.items;
+        console.log('✅ Stores loaded:', this.stores.length);
       },
       error: (err) => {
         this.toaster.error('Greška pri učitavanju prodavnica');
@@ -122,7 +185,9 @@ export class ProductsAddComponent
   }
 
   private setupBranchFiltering(): void {
+    // Osluškuj promjene u polju prodavnice
     this.form.get('storeEntityId')?.valueChanges.subscribe((storeId) => {
+      console.log('Store changed to:', storeId);
       this.loadBranches(storeId ?? null);
     });
   }
@@ -132,8 +197,11 @@ export class ProductsAddComponent
       this.branches = [];
       this.filteredBranches = [];
       this.form.get('branchEntityId')?.setValue(null);
+      console.log('No store selected, branches cleared');
       return;
     }
+
+    console.log('Loading branches for store:', storeId);
 
     this.branchesApi
       .list({ paging: allItemsPaging, onlyActive: true, storeEntityId: storeId })
@@ -141,7 +209,9 @@ export class ProductsAddComponent
         next: (response) => {
           this.branches = response.items;
           this.filteredBranches = response.items;
+          console.log('✅ Branches loaded:', this.filteredBranches.length);
 
+          // Resetuj odabranu poslovnicu ako više nije validna
           const selectedBranchId = this.form.get('branchEntityId')?.value;
           if (selectedBranchId) {
             const stillValid = this.filteredBranches.some(
@@ -149,6 +219,7 @@ export class ProductsAddComponent
             );
             if (!stillValid) {
               this.form.get('branchEntityId')?.setValue(null);
+              console.log('Previous branch selection cleared');
             }
           }
         },
@@ -157,6 +228,17 @@ export class ProductsAddComponent
           console.error('Load branches error:', err);
         }
       });
+  }
 
+  // Helper metoda za prikaz validation errors
+  private getFormValidationErrors(): any {
+    const errors: any = {};
+    Object.keys(this.form.controls).forEach(key => {
+      const control = this.form.get(key);
+      if (control && control.errors) {
+        errors[key] = control.errors;
+      }
+    });
+    return errors;
   }
 }
