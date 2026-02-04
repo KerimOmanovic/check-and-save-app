@@ -154,6 +154,45 @@ $shadow: rgba(15, 61, 46, 0.12);
   gap: 16px;
 }
 
+.empty-state {
+  grid-column: 1 / -1;
+  border-radius: 18px;
+  border: 1px dashed rgba(15, 61, 46, 0.22);
+  background: rgba(15, 61, 46, 0.04);
+  box-shadow: 0 12px 30px rgba(15, 61, 46, 0.06);
+  padding: 28px;
+  text-align: center;
+
+  display: grid;
+  gap: 10px;
+
+  color: $text-muted;
+}
+
+.empty-state mat-icon {
+  width: 36px;
+  height: 36px;
+  font-size: 36px;
+  display: block;
+  margin: 0 auto;
+
+  color: $primary;
+}
+
+.empty-state h3 {
+  margin: 0;
+  color: $primary;
+  font-size: 18px;
+  font-weight: 700;
+}
+
+.empty-state p {
+  margin: 0;
+  font-size: 14px;
+  line-height: 1.6;
+}
+
+
 .result-card {
   border-radius: 18px;
   border: 1px solid rgba(15, 61, 46, 0.12);

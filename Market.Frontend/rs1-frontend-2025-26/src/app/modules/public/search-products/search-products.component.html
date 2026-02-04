@@ -40,6 +40,11 @@
         </div>
 
         <div class="results-grid">
+          <div class="empty-state" *ngIf="filteredProducts.length === 0">
+            <mat-icon aria-hidden="true">inventory_2</mat-icon>
+            <h3>Nema proizvoda u kategoriji {{ activeTag }}</h3>
+            <p>Odaberite drugi filter ili uklonite brzi tag da biste vidjeli rezultate.</p>
+          </div>
           <article class="result-card" *ngFor="let product of filteredProducts">
             <div class="card-badge" *ngIf="product.badge">{{ product.badge }}</div>
             <div class="card-body">
