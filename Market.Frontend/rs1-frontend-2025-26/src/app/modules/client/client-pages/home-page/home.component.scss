@@ -214,10 +214,22 @@ $shadow: rgba(15, 61, 46, 0.12);
 .cats {
   max-width: 1280px;
   margin: 0 auto;
-  padding: 0 22px 14px 22px;
-  display: flex;
-  gap: 10px;
-  flex-wrap: wrap;
+
+  padding: 0 22px 18px 22px;
+}
+
+.cats-shell {
+  display: grid;
+  grid-auto-flow: column;
+  grid-auto-columns: minmax(150px, 1fr);
+  gap: 12px;
+  overflow-x: auto;
+  padding-bottom: 6px;
+  scrollbar-width: none;
+}
+
+.cats-shell::-webkit-scrollbar {
+  display: none;
 }
 
 .cat {
@@ -225,10 +237,13 @@ $shadow: rgba(15, 61, 46, 0.12);
   border: 1px solid rgba(205, 187, 154, 0.28);
   background: rgba(255, 255, 255, 0.06);
   color: rgba(255, 255, 255, 0.86);
-  padding: 10px 12px;
-  border-radius: 12px;
+  padding: 12px 14px;
+  border-radius: 16px;
   font-weight: 800;
   font-size: 13px;
+  display: grid;
+  gap: 6px;
+  text-align: left;
   cursor: pointer;
   transition: 0.18s ease;
 }
@@ -240,6 +255,18 @@ $shadow: rgba(15, 61, 46, 0.12);
   color: $primary-dark;
   border-color: rgba(205, 187, 154, 0.9);
 }
+
+.cat-label {
+  font-size: 13px;
+  letter-spacing: 0.2px;
+}
+
+.cat-sub {
+  font-size: 11px;
+  font-weight: 600;
+  opacity: 0.75;
+}
+
 
 .page {
   max-width: 1280px;
@@ -450,4 +477,6 @@ $shadow: rgba(15, 61, 46, 0.12);
 @media (max-width: 520px) {
   .page { padding: 16px; }
   .grid { grid-template-columns: 1fr; }
+  .cats { padding: 0 16px 14px 16px; }
+  .cats-shell { grid-auto-columns: minmax(140px, 1fr); }
 }
