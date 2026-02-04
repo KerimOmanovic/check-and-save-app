@@ -5,6 +5,7 @@
 .admin-page {
   min-height: 100vh;
   background: #f3efe6;
+  overflow-x: hidden;
 }
 
 // ===== TOPBAR STILOVI =====
@@ -23,6 +24,8 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
+  flex-wrap: wrap;
+  row-gap: 16px;
   gap: 40px;
   color: #fff;
 }
@@ -30,8 +33,9 @@
 .topbar-left {
   display: flex;
   align-items: center;
+  flex-wrap: wrap;
   gap: 48px;
-  flex: 0 0 auto;
+  flex: 1 1 420px;
 }
 
 .logo {
@@ -62,6 +66,7 @@
 .topbar-links {
   display: flex;
   gap: 12px;
+  flex-wrap: wrap;
 }
 
 .link {
@@ -90,11 +95,15 @@
   align-items: center;
   gap: 16px;
   margin-left: auto;
-  flex: 0 0 auto;
+  flex: 1 1 420px;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+  min-width: 0;
 }
 
 .search-field {
-  width: 380px;
+  width: 100%;
+  max-width: 380px;
 }
 
 :host ::ng-deep .search-field .mat-mdc-text-field-wrapper {
