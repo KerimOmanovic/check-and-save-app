@@ -156,6 +156,11 @@ export class SearchProductsComponent {
     this.resultsCount = this.filteredProducts.length;
 
     if (!term) {
+      if (this.resultsCount === 0 && activeTag !== 'Popularno') {
+        this.resultsTitle = `Nema proizvoda u kategoriji ${activeTag}`;
+        this.resultsSubtitle = 'Pokušajte drugi filter ili uklonite brzi tag.';
+        return;
+      }
       this.resultsTitle = activeTag === 'Popularno'
         ? 'Najnovije preporuke'
         : `Istaknuto za ${activeTag}`;
