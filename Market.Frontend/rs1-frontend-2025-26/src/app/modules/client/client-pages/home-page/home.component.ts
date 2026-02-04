@@ -1,4 +1,4 @@
-import { Component, computed, inject } from '@angular/core';
+import { Component, computed, inject, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterLink } from '@angular/router';
 import { FavoritesService } from '../../../shared/services/favorites.services';
@@ -31,10 +31,11 @@ type CategoryTab = {
   templateUrl: './home.component.html',
   styleUrls: ['./home.component.scss'],
 })
-export class HomeComponent {
+export class HomeComponent implements OnInit {
   private favoritesService = inject(FavoritesService);
   private currentUser = inject(CurrentUserService);
   activeCategory: CategoryKey = 'popularno';
+  private readonly storageKey = 'client-home-active-category';
 
   categoryTabs: CategoryTab[] = [
     { key: 'popularno', label: 'Popularno', subtitle: 'Top ponude danas' },
@@ -44,6 +45,13 @@ export class HomeComponent {
     { key: 'prodavnice', label: 'Prodavnice', subtitle: 'Lokacije i radno vrijeme' },
     { key: 'akcije', label: 'Akcije', subtitle: 'Aktuelni popusti' },
   ];
+
+  ngOnInit(): void {
+    const storedCategory = localStorage.getItem(this.storageKey) as CategoryKey | null;
+    if (storedCategory && this.isCategoryKey(storedCategory)) {
+      this.activeCategory = storedCategory;
+    }
+  }
 
 
   stores: string[] = [
@@ -98,6 +106,7 @@ export class HomeComponent {
 
   setCategory(cat: CategoryKey): void {
     this.activeCategory = cat;
+    localStorage.setItem(this.storageKey, cat);
 
     if (cat === 'prodavnice') this.scrollTo('stores');
     else this.scrollTo('popular');
@@ -131,5 +140,7 @@ export class HomeComponent {
   trackByStore(_: number, store: string) {
     return store;
   }
-
+  private isCategoryKey(value: string): value is CategoryKey {
+    return this.categoryTabs.some(tab => tab.key === value);
+  }
 }
