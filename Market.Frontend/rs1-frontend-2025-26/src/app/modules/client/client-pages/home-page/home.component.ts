@@ -44,6 +44,9 @@ export class HomeComponent implements OnInit {
 
   activeCategory: CategoryKey = 'popularno';
   private readonly storageKey = 'client-home-active-category';
+  visibleProducts: Product[] = [];
+  visibleStores: Store[] = [];
+
 
   categoryTabs: CategoryTab[] = [
     { key: 'popularno', label: 'Popularno', subtitle: 'Top ponude danas' },
@@ -59,6 +62,7 @@ export class HomeComponent implements OnInit {
     if (storedCategory && this.isCategoryKey(storedCategory)) {
       this.activeCategory = storedCategory;
     }
+    this.updateActiveContent();
   }
 
   stores: Store[] = [
@@ -121,23 +125,13 @@ export class HomeComponent implements OnInit {
     return email.split('@')[0] ?? 'Kupac';
   }
 
-  get filteredProducts(): Product[] {
-    if (this.activeCategory === 'popularno') return this.popularProducts;
-    if (this.activeCategory === 'namirnice') return this.groceriesProducts;
-    if (this.activeCategory === 'elektronika') return this.electronicsProducts;
-    if (this.activeCategory === 'drogerija') return this.drugstoreProducts;
-    if (this.activeCategory === 'akcije') return this.dealsProducts;
-    return [];
-  }
 
-  get filteredStores(): Store[] {
-    if (this.activeCategory !== 'prodavnice') return [];
-    return this.stores;
-  }
+
 
   setCategory(cat: CategoryKey): void {
     this.activeCategory = cat;
     localStorage.setItem(this.storageKey, cat);
+    this.updateActiveContent();
 
     if (cat === 'prodavnice') this.scrollTo('stores');
     else this.scrollTo('popular');
@@ -170,6 +164,39 @@ export class HomeComponent implements OnInit {
   trackByStore(_: number, store: Store) {
     return store.name;
   }
+
+  private updateActiveContent(): void {
+    switch (this.activeCategory) {
+      case 'popularno':
+        this.visibleProducts = this.popularProducts;
+        this.visibleStores = [];
+        break;
+      case 'namirnice':
+        this.visibleProducts = this.groceriesProducts;
+        this.visibleStores = [];
+        break;
+      case 'elektronika':
+        this.visibleProducts = this.electronicsProducts;
+        this.visibleStores = [];
+        break;
+      case 'drogerija':
+        this.visibleProducts = this.drugstoreProducts;
+        this.visibleStores = [];
+        break;
+      case 'akcije':
+        this.visibleProducts = this.dealsProducts;
+        this.visibleStores = [];
+        break;
+      case 'prodavnice':
+        this.visibleProducts = [];
+        this.visibleStores = this.stores;
+        break;
+      default:
+        this.visibleProducts = this.popularProducts;
+        this.visibleStores = [];
+    }
+  }
+
 
   private isCategoryKey(value: string): value is CategoryKey {
     return this.categoryTabs.some(tab => tab.key === value);

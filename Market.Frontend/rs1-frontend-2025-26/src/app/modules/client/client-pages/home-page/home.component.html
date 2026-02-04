@@ -77,7 +77,7 @@
       </div>
 
       <div class="grid" *ngIf="activeCategory !== 'prodavnice'">
-        <article class="card" *ngFor="let p of filteredProducts; trackBy: trackByName">
+        <article class="card" *ngFor="let p of visibleProducts; trackBy: trackByName">
           <div class="card-top">
             <div class="thumb"></div>
 
@@ -102,7 +102,7 @@
         </article>
       </div>
       <div class="stores" *ngIf="activeCategory === 'prodavnice'">
-        <div class="store-card" *ngFor="let s of filteredStores; trackBy: trackByStore">
+        <div class="store-card" *ngFor="let s of visibleStores; trackBy: trackByStore">
           <div class="store-title">{{ s.name }}</div>
           <div class="store-sub">{{ s.city }}</div>
           <div class="store-sub">{{ s.hours }}</div>
