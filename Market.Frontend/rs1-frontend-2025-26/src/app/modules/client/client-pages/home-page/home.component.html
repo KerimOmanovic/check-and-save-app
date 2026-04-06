@@ -77,6 +77,24 @@
       </div>
 
       <div class="grid" *ngIf="activeCategory !== 'prodavnice'">
+        <aside class="compare-panel" *ngIf="compareSelection.length > 0">
+          <div class="compare-title">Poređenje proizvoda</div>
+          <p class="compare-text" *ngIf="compareSelection.length === 1">
+            Prvi proizvod je odabran: <strong>{{ compareSelection[0].name }}</strong
+          >. Odaberi još jedan klikom na dugme <em>Uporedi</em>.
+          </p>
+          <div class="compare-result" *ngIf="comparePair">
+            <div><strong>{{ comparePair.left.name }}</strong> — {{ comparePair.left.price.toFixed(2) }} KM</div>
+            <div><strong>{{ comparePair.right.name }}</strong> — {{ comparePair.right.price.toFixed(2) }} KM</div>
+            <div class="compare-savings">
+              Razlika u cijeni: <strong>{{ compareSavings.toFixed(2) }} KM</strong>
+            </div>
+          </div>
+          <button class="btn outline small compare-reset" type="button" (click)="clearCompare()">
+            Resetuj poređenje
+          </button>
+        </aside>
+
         <article class="card" *ngFor="let p of visibleProducts; trackBy: trackByName">
           <div class="card-top">
             <div class="thumb"></div>
@@ -96,7 +114,14 @@
 
             <div class="price-row">
               <div class="price">{{ p.price.toFixed(2) }} KM</div>
-              <button class="btn outline small" type="button" (click)="onCompare(p)">Uporedi</button>
+              <button
+                class="btn outline small"
+                type="button"
+                [class.active]="isMarkedForCompare(p.id)"
+                (click)="onCompare(p)"
+              >
+                {{ isMarkedForCompare(p.id) ? 'Odabrano' : 'Uporedi' }}
+              </button>
             </div>
           </div>
         </article>

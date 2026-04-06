@@ -12,7 +12,8 @@ type CategoryKey =
   | 'prodavnice'
   | 'akcije';
 
-type Product = {
+type Product ={
+  id: number;
   name: string;
   bestStore: string;
   price: number;
@@ -46,6 +47,8 @@ export class HomeComponent implements OnInit {
   private readonly storageKey = 'client-home-active-category';
   visibleProducts: Product[] = [];
   visibleStores: Store[] = [];
+  compareSelection: Product[] = [];
+  comparePair: { left: Product; right: Product } | null = null;
 
 
   categoryTabs: CategoryTab[] = [
@@ -74,42 +77,42 @@ export class HomeComponent implements OnInit {
   ];
 
   popularProducts: Product[] = [
-    { name: 'Mlijeko', bestStore: 'Prodavnica 2', price: 2.45, category: 'namirnice' },
-    { name: 'Tastatura', bestStore: 'Prodavnica 2', price: 39.9, category: 'elektronika' },
-    { name: 'Šampon', bestStore: 'Prodavnica 3', price: 6.8, category: 'drogerija' },
-    { name: 'Jaja', bestStore: 'Prodavnica 1', price: 3.1, category: 'namirnice' },
-    { name: 'Miš', bestStore: 'Prodavnica 5', price: 19.9, category: 'elektronika' },
-    { name: 'Sapun', bestStore: 'Prodavnica 5', price: 2.1, category: 'drogerija' },
+    { id: 1, name: 'Mlijeko', bestStore: 'Prodavnica 2', price: 2.45, category: 'namirnice' },
+    { id: 2, name: 'Tastatura', bestStore: 'Prodavnica 2', price: 39.9, category: 'elektronika' },
+    { id: 3, name: 'Šampon', bestStore: 'Prodavnica 3', price: 6.8, category: 'drogerija' },
+    { id: 4, name: 'Jaja', bestStore: 'Prodavnica 1', price: 3.1, category: 'namirnice' },
+    { id: 5, name: 'Miš', bestStore: 'Prodavnica 5', price: 19.9, category: 'elektronika' },
+    { id: 6, name: 'Sapun', bestStore: 'Prodavnica 5', price: 2.1, category: 'drogerija' },
   ];
 
   groceriesProducts: Product[] = [
-    { name: 'Mlijeko', bestStore: 'Prodavnica 2', price: 2.45, category: 'namirnice' },
-    { name: 'Jaja', bestStore: 'Prodavnica 1', price: 3.1, category: 'namirnice' },
-    { name: 'Keks', bestStore: 'Prodavnica 4', price: 1.8, category: 'namirnice' },
-    { name: 'Hljeb', bestStore: 'Prodavnica 3', price: 1.4, category: 'namirnice' },
-    { name: 'Brašno', bestStore: 'Prodavnica 5', price: 2.2, category: 'namirnice' },
-    { name: 'Riža', bestStore: 'Prodavnica 2', price: 3.5, category: 'namirnice' },
+    { id: 7, name: 'Mlijeko', bestStore: 'Prodavnica 2', price: 2.45, category: 'namirnice' },
+    { id: 8, name: 'Jaja', bestStore: 'Prodavnica 1', price: 3.1, category: 'namirnice' },
+    { id: 9, name: 'Keks', bestStore: 'Prodavnica 4', price: 1.8, category: 'namirnice' },
+    { id: 10, name: 'Hljeb', bestStore: 'Prodavnica 3', price: 1.4, category: 'namirnice' },
+    { id: 11, name: 'Brašno', bestStore: 'Prodavnica 5', price: 2.2, category: 'namirnice' },
+    { id: 12, name: 'Riža', bestStore: 'Prodavnica 2', price: 3.5, category: 'namirnice' },
   ];
 
   electronicsProducts: Product[] = [
-    { name: 'Miš', bestStore: 'Prodavnica 5', price: 19.9, category: 'elektronika' },
-    { name: 'Tastatura', bestStore: 'Prodavnica 2', price: 39.9, category: 'elektronika' },
-    { name: 'Punjač', bestStore: 'Prodavnica 1', price: 24.5, category: 'elektronika' },
-    { name: 'USB kabl', bestStore: 'Prodavnica 4', price: 9.9, category: 'elektronika' },
+    { id: 13, name: 'Miš', bestStore: 'Prodavnica 5', price: 19.9, category: 'elektronika' },
+    { id: 14, name: 'Tastatura', bestStore: 'Prodavnica 2', price: 39.9, category: 'elektronika' },
+    { id: 15, name: 'Punjač', bestStore: 'Prodavnica 1', price: 24.5, category: 'elektronika' },
+    { id: 16, name: 'USB kabl', bestStore: 'Prodavnica 4', price: 9.9, category: 'elektronika' },
   ];
 
   drugstoreProducts: Product[] = [
-    { name: 'Šampon', bestStore: 'Prodavnica 3', price: 6.8, category: 'drogerija' },
-    { name: 'Pasta za zube', bestStore: 'Prodavnica 2', price: 4.2, category: 'drogerija' },
-    { name: 'Sapun', bestStore: 'Prodavnica 5', price: 2.1, category: 'drogerija' },
-    { name: 'Detergent', bestStore: 'Prodavnica 1', price: 12.5, category: 'drogerija' },
+    { id: 17, name: 'Šampon', bestStore: 'Prodavnica 3', price: 6.8, category: 'drogerija' },
+    { id: 18, name: 'Pasta za zube', bestStore: 'Prodavnica 2', price: 4.2, category: 'drogerija' },
+    { id: 19, name: 'Sapun', bestStore: 'Prodavnica 5', price: 2.1, category: 'drogerija' },
+    { id: 20, name: 'Detergent', bestStore: 'Prodavnica 1', price: 12.5, category: 'drogerija' },
   ];
 
   dealsProducts: Product[] = [
-    { name: 'Kafa', bestStore: 'Prodavnica 3', price: 7.9, category: 'akcije' },
-    { name: 'Čokolada', bestStore: 'Prodavnica 4', price: 2.3, category: 'akcije' },
-    { name: 'Detergent', bestStore: 'Prodavnica 1', price: 10.9, category: 'akcije' },
-    { name: 'USB kabl', bestStore: 'Prodavnica 4', price: 7.9, category: 'akcije' },
+    { id: 21, name: 'Kafa', bestStore: 'Prodavnica 3', price: 7.9, category: 'akcije' },
+    { id: 22, name: 'Čokolada', bestStore: 'Prodavnica 4', price: 2.3, category: 'akcije' },
+    { id: 23, name: 'Detergent', bestStore: 'Prodavnica 1', price: 10.9, category: 'akcije' },
+    { id: 24, name: 'USB kabl', bestStore: 'Prodavnica 4', price: 7.9, category: 'akcije' },
   ];
 
   favoritesCount = computed(() => this.favoritesService.favorites().length);
@@ -131,6 +134,7 @@ export class HomeComponent implements OnInit {
   setCategory(cat: CategoryKey): void {
     this.activeCategory = cat;
     localStorage.setItem(this.storageKey, cat);
+    this.clearCompare();
     this.updateActiveContent();
 
     if (cat === 'prodavnice') this.scrollTo('stores');
@@ -154,7 +158,35 @@ export class HomeComponent implements OnInit {
   }
 
   onCompare(p: Product): void {
-    alert(`Uporedi: ${p.name} (najniža cijena: ${p.bestStore})`);
+    if (this.compareSelection.some(item => item.id === p.id)) {
+      return;
+    }
+
+    if (this.compareSelection.length === 0) {
+      this.compareSelection = [p];
+      this.comparePair = null;
+      return;
+    }
+
+    const left = this.compareSelection[0];
+    this.comparePair = { left, right: p };
+    this.compareSelection = [left, p];
+  }
+
+  clearCompare(): void {
+    this.compareSelection = [];
+    this.comparePair = null;
+  }
+
+  isMarkedForCompare(productId: number): boolean {
+    return this.compareSelection.some(item => item.id === productId);
+  }
+
+  get compareSavings(): number {
+    if (!this.comparePair) {
+      return 0;
+    }
+    return Math.abs(this.comparePair.left.price - this.comparePair.right.price);
   }
 
   trackByName(_: number, item: { name: string }) {
