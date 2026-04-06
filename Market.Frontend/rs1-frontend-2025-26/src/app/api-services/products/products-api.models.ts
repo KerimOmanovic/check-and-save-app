@@ -26,6 +26,8 @@ export interface ListProductsQueryDto {
   brandEntityId: number;
   name: string;
   storeEntityId: number;
+  storeLabel?: string | null;
+  lowestPrice?: number | null;
   dateAdded: string;
 }
 

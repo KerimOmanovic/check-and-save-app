@@ -1,8 +1,20 @@
-import { Component, inject } from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { forkJoin, of } from 'rxjs';
+import { catchError } from 'rxjs/operators';
 import { ToasterService } from '../../../core/services/toaster.service';
 import { CurrentUserService } from '../../../core/services/auth/current-user.service';
 import { FavoritesService } from '../../shared/services/favorites.services';
+import { ProductsApiService } from '../../../api-services/products/products-api.service';
+import {
+  ListProductsQuery,
+  ListProductsQueryDto
+} from '../../../api-services/products/products-api.models';
+import { CategoriesApiService } from '../../../api-services/category/category-api.service';
+import {
+  ListCategoriesQueryResponse
+} from '../../../api-services/category/category-api.model';
+import { allItemsPaging } from '../../../core/models/paging/paging-utils';
 
 interface GlobalAction {
   icon: string;
@@ -10,13 +22,14 @@ interface GlobalAction {
   subtitle: string;
 }
 
-interface ProductCard {
+interface ProductCard{
+  id: number;
   name: string;
   category: string;
-  store: string;
-  unit: string;
-  note: string;
-  price: number;
+  storeLabel: string;
+  unit?: string;
+  note?: string;
+  price?: number | null;
   oldPrice?: number;
   badge?: string;
   imageBg: string;
@@ -29,95 +42,27 @@ interface ProductCard {
   templateUrl: './search-products.component.html',
   styleUrl: './search-products.component.scss',
 })
-export class SearchProductsComponent {
+export class SearchProductsComponent implements OnInit {
   private currentUser = inject(CurrentUserService);
   private favoritesService = inject(FavoritesService);
   private router = inject(Router);
   private toaster = inject(ToasterService);
+  private productsApi = inject(ProductsApiService);
+  private categoriesApi = inject(CategoriesApiService);
   query = '';
   activeTag = 'Popularno';
   resultsTitle = 'Najnovije preporuke';
   resultsSubtitle = 'Prikazujemo odabrane proizvode iz više prodavnica.';
   resultsCount = 0;
 
+  private comparisonBaseProductId: number | null = null;
+
+  private categoryById = new Map<number, string>();
 
   quickTags = ['Popularno', 'Akcije', 'Bez laktoze', 'Bio/eko', 'Higijena', 'Pića'];
 
-  products: ProductCard[] = [
-    {
-      name: 'Kafa Classic 200g',
-      category: 'Pića',
-      store: 'Bingo',
-      unit: 'Pakovanje',
-      note: 'Arabica blend • 200g',
-      price: 6.95,
-      oldPrice: 8.4,
-      badge: 'Akcije',
-      imageBg: 'linear-gradient(135deg, #fef6e7, #f8d9a0)',
-    },
-    {
-      name: 'Mlijeko bez laktoze 1L',
-      category: 'Bez laktoze',
-      store: 'Konzum',
-      unit: 'Tetrapak',
-      note: '0% laktoze • 1L',
-      price: 2.2,
-      badge: 'Bez laktoze',
-      imageBg: 'linear-gradient(135deg, #f4faff, #cfe8ff)',
-    },
-    {
-      name: 'Organski med 500g',
-      category: 'Bio/eko',
-      store: 'DM',
-      unit: 'Staklena tegla',
-      note: '100% prirodno • 500g',
-      price: 12.4,
-      badge: 'Bio/eko',
-      imageBg: 'linear-gradient(135deg, #fff8e4, #f9d783)',
-    },
-    {
-      name: 'Šampon protiv peruti 400ml',
-      category: 'Higijena',
-      store: 'CM',
-      unit: 'Boca',
-      note: 'Dermatološki testirano • 400ml',
-      price: 7.9,
-      badge: 'Higijena',
-      imageBg: 'linear-gradient(135deg, #f0f7ff, #c7d8ff)',
-    },
-    {
-      name: 'Gazirana voda 1.5L',
-      category: 'Pića',
-      store: 'Bingo',
-      unit: 'PET boca',
-      note: 'Prirodna mineralna • 1.5L',
-      price: 1.2,
-      imageBg: 'linear-gradient(135deg, #e7fff9, #b8f2e8)',
-    },
-    {
-      name: 'Proteinski jogurt 250g',
-      category: 'Popularno',
-      store: 'Mercator',
-      unit: 'Čašica',
-      note: 'High protein • 250g',
-      price: 2.65,
-      imageBg: 'linear-gradient(135deg, #fff0f4, #ffd3e0)',
-    },
-    {
-      name: 'Pasta za zube Herbal',
-      category: 'Higijena',
-      store: 'DM',
-      unit: 'Tuba',
-      note: 'Biljni ekstrakti • 75ml',
-      price: 4.35,
-      badge: 'Akcije',
-      imageBg: 'linear-gradient(135deg, #f1fff3, #c7f0cd)',
-    },
-  ];
-
-  filteredProducts: ProductCard[] = [...this.products];
-
-
+  products: ProductCard[] = [];
+  filteredProducts: ProductCard[] = [];
   globalActions: GlobalAction[] = [
     {
       icon: 'tune',
@@ -140,6 +85,9 @@ export class SearchProductsComponent {
       subtitle: 'Sačuvaj proizvode za kasnije upoređivanje.',
     },
   ];
+  ngOnInit(): void {
+    this.loadProducts();
+  }
 
   setActiveTag(tag: string): void {
     this.activeTag = tag;
@@ -153,7 +101,31 @@ export class SearchProductsComponent {
   onSearch(): void {
     this.updateResults(this.query, true);
   }
-  onAddToFavorites(productName: string): void {
+  onCardClick(productId: number, event: Event): void {
+    if (!this.isComparisonTrigger(event)) {
+      this.router.navigate(['/product', productId]);
+      return;
+    }
+
+    if (this.comparisonBaseProductId === null) {
+      this.comparisonBaseProductId = productId;
+      this.toaster.info('Odabran je prvi proizvod. Ctrl/⌘ + kliknite drugi proizvod za poređenje.');
+      return;
+    }
+
+    if (this.comparisonBaseProductId === productId) {
+      this.toaster.warning('Odaberite drugi proizvod za poređenje.');
+      return;
+    }
+
+    const leftId = this.comparisonBaseProductId;
+    this.comparisonBaseProductId = null;
+    this.router.navigate(['/compare', leftId, productId]);
+  }
+
+  onAddToFavorites(productName: string, event?: Event): void {
+    event?.stopPropagation();
+
     if (!this.currentUser.isAuthenticated()) {
       this.toaster.warning('Prijavite se da biste dodali omiljeni proizvod.');
       this.router.navigate(['/auth/login']);
@@ -165,6 +137,13 @@ export class SearchProductsComponent {
     this.toaster.success(
       isFavorite ? 'Proizvod je dodan u omiljene.' : 'Proizvod je uklonjen iz omiljenih.'
     );
+  }
+  private isComparisonTrigger(event: Event): boolean {
+    if (!(event instanceof MouseEvent || event instanceof KeyboardEvent)) {
+      return false;
+    }
+
+    return event.ctrlKey || event.metaKey;
   }
   private updateResults(value: string, fromSubmit = false): void {
     const term = value.trim().toLowerCase();
@@ -201,5 +180,70 @@ export class SearchProductsComponent {
       this.resultsCount === 0
         ? 'Nema proizvoda koji odgovaraju upitu. Pokušajte drugi pojam.'
         : `Pronađeno ${this.resultsCount} proizvoda u prodavnicama.`;
+  }
+  private loadProducts(): void {
+    const request = new ListProductsQuery();
+
+    forkJoin({
+      products: this.productsApi.list(request),
+      categories: this.categoriesApi.list({ paging: allItemsPaging }).pipe(
+        catchError((error) => {
+          console.error('Load categories error:', error);
+          this.toaster.warning('Kategorije nisu dostupne, prikazujemo osnovne podatke.');
+          return of({
+            items: [],
+            pageSize: 0,
+            currentPage: 1,
+            includedTotal: false,
+            totalItems: 0,
+            totalPages: 0
+          } as ListCategoriesQueryResponse);
+        })
+      )
+    }).subscribe({
+      next: ({ products, categories }) => {
+        this.categoryById = new Map(
+          categories.items.map((category) => [category.id, category.name])
+        );
+        this.products = products.items.map((product, index) =>
+          this.mapProduct(product, index)
+        );
+        this.filteredProducts = [...this.products];
+        this.resultsCount = this.filteredProducts.length;
+        this.updateResults(this.query);
+      },
+      error: (error) => {
+        console.error('Load products error:', error);
+        this.toaster.error('Greška pri učitavanju proizvoda.');
+        this.products = [];
+        this.filteredProducts = [];
+        this.resultsCount = 0;
+      }
+    });
+  }
+
+  private mapProduct(product: ListProductsQueryDto, index: number): ProductCard {
+    return {
+      id: product.id,
+      name: product.name,
+      category: this.categoryById.get(product.categoryEntityId) ?? `#${product.categoryEntityId}`,
+      storeLabel: product.storeLabel ?? 'Nepoznata prodavnica',
+      note: 'Najniža cijena trenutno dostupna.',
+      price: product.lowestPrice ?? null,
+      imageBg: this.resolveImageBg(index)
+    };
+  }
+
+  private resolveImageBg(index: number): string {
+    const gradients = [
+      'linear-gradient(135deg, #fef6e7, #f8d9a0)',
+      'linear-gradient(135deg, #f4faff, #cfe8ff)',
+      'linear-gradient(135deg, #fff8e4, #f9d783)',
+      'linear-gradient(135deg, #f0f7ff, #c7d8ff)',
+      'linear-gradient(135deg, #e7fff9, #b8f2e8)',
+      'linear-gradient(135deg, #fff0f4, #ffd3e0)',
+      'linear-gradient(135deg, #f1fff3, #c7f0cd)'
+    ];
+    return gradients[index % gradients.length];
   }
 }

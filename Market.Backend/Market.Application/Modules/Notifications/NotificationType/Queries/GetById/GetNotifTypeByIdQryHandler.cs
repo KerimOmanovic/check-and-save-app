@@ -1,12 +1,12 @@
 ﻿namespace Market.Application.Modules.Notifications.NotificationType.Queries.GetById
 {
-    public sealed class GetNotificationTypeByIdQueryHandler(IAppDbContext context) : IRequestHandler<GetNotificationTypeByIdQuery, GetNotificationTypeByIdQueryDto>
+    public sealed class GetNotifTypeByIdQryHandler(IAppDbContext context) : IRequestHandler<GetNotifTypeByIdQry, GetNotifTypeByIdQryDto>
     {
-        public async Task<GetNotificationTypeByIdQueryDto> Handle(GetNotificationTypeByIdQuery request, CancellationToken cancellationToken)
+        public async Task<GetNotifTypeByIdQryDto> Handle(GetNotifTypeByIdQry request, CancellationToken cancellationToken)
         {
             var entity = await context.NotificationTypes
                 .Where(x => x.Id == request.Id)
-                .Select(x => new GetNotificationTypeByIdQueryDto
+                .Select(x => new GetNotifTypeByIdQryDto
                 {
                     Id = x.Id,
                     Name = x.Name,

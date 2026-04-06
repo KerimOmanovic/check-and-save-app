@@ -153,8 +153,12 @@ $shadow: rgba(15, 61, 46, 0.12);
   grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
   gap: 16px;
 }
-
-.empty-state {
+.comparison-hint {
+  grid-column: 1 / -1;
+  margin: 0;
+  font-size: 13px;
+  color: $text-muted;
+}.empty-state {
   grid-column: 1 / -1;
   border-radius: 18px;
   border: 1px dashed rgba(15, 61, 46, 0.22);
@@ -199,6 +203,7 @@ $shadow: rgba(15, 61, 46, 0.12);
   position: relative;
   box-shadow: 0 12px 30px rgba(15, 61, 46, 0.08);
   transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
+  cursor: pointer;
 }
 
 .result-card:hover,
