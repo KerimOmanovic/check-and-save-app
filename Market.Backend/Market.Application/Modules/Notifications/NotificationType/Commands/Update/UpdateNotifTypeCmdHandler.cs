@@ -1,8 +1,8 @@
 ﻿namespace Market.Application.Modules.Notifications.NotificationType.Commands.Update
 {
-    public sealed class UpdateNotificationTypeCommandHandler(IAppDbContext ctx) : IRequestHandler<UpdateNotificationTypeCommand, Unit>
+    public sealed class UpdateNotifTypeCmdHandler(IAppDbContext ctx) : IRequestHandler<UpdateNotifTypeCmd, Unit>
     {
-        public async Task<Unit> Handle(UpdateNotificationTypeCommand request, CancellationToken ct)
+        public async Task<Unit> Handle(UpdateNotifTypeCmd request, CancellationToken ct)
         {
             var entity = await ctx.NotificationTypes
                 .Where(x => x.Id == request.Id)

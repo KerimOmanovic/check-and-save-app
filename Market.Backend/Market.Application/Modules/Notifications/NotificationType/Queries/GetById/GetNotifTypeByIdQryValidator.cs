@@ -1,8 +1,8 @@
 ﻿namespace Market.Application.Modules.Notifications.NotificationType.Queries.GetById
 {
-    public sealed class GetNotificationTypeByIdQueryValidator : AbstractValidator<GetNotificationTypeByIdQuery>
+    public sealed class GetNotifTypeByIdQryValidator : AbstractValidator<GetNotifTypeByIdQry>
     {
-        public GetNotificationTypeByIdQueryValidator()
+        public GetNotifTypeByIdQryValidator()
         {
             RuleFor(x => x.Id).GreaterThan(0);
         }

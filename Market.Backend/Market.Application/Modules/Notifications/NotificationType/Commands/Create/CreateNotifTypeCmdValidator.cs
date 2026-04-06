@@ -2,9 +2,9 @@
 
 namespace Market.Application.Modules.Notifications.NotificationType.Commands.Create
 {
-    public sealed class CreateNotificationTypeCommandValidator : AbstractValidator<CreateNotificationTypeCommand>
+    public sealed class CreateNotifTypeCmdValidator : AbstractValidator<CreateNotifTypeCmd>
     {
-        public CreateNotificationTypeCommandValidator()
+        public CreateNotifTypeCmdValidator()
         {
             RuleFor(x => x.Name)
                 .NotEmpty().WithMessage("Name is required.")

@@ -2,9 +2,9 @@
 
 namespace Market.Application.Modules.Notifications.NotificationType.Commands.Create
 {
-    public sealed class CreateNotificationTypeCommandHandler(IAppDbContext context) : IRequestHandler<CreateNotificationTypeCommand, int>
+    public sealed class CreateNotifTypeCmdHandler(IAppDbContext context) : IRequestHandler<CreateNotifTypeCmd, int>
     {
-        public async Task<int> Handle(CreateNotificationTypeCommand request, CancellationToken cancellationToken)
+        public async Task<int> Handle(CreateNotifTypeCmd request, CancellationToken cancellationToken)
         {
             var normalized = request.Name?.Trim();
 

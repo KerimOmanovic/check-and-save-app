@@ -1,8 +1,8 @@
 ﻿namespace Market.Application.Modules.Notifications.NotificationType.Commands.Delete
 {
-    public sealed class DeleteNotificationTypeCommandHandler(IAppDbContext context, IAppCurrentUser appCurrentUser): IRequestHandler<DeleteNotificationTypeCommand, Unit>
+    public sealed class DeleteNotifTypeCmdHandler(IAppDbContext context, IAppCurrentUser appCurrentUser): IRequestHandler<DeleteNotifTypeCmd, Unit>
     {
-        public async Task<Unit> Handle(DeleteNotificationTypeCommand request, CancellationToken cancellationToken)
+        public async Task<Unit> Handle(DeleteNotifTypeCmd request, CancellationToken cancellationToken)
         {
             if (appCurrentUser.UserId is null)
                 throw new MarketBusinessRuleException("123", "Korisnik nije autentifikovan.");
