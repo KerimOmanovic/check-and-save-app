@@ -1,0 +1,36 @@
+<section class="comparison-page">
+  <button mat-button routerLink="/">
+    <mat-icon>arrow_back</mat-icon>
+    Nazad na pretragu
+  </button>
+
+  @if (leftProduct && rightProduct) {
+    <h2>Comparison view</h2>
+
+    <div class="comparison-grid">
+      <mat-card class="comparison-card">
+        <img [src]="leftProduct.imageUrl" [alt]="leftProduct.name" />
+        <mat-card-content>
+          <h3>{{ leftProduct.name }}</h3>
+          <p>{{ leftProduct.description }}</p>
+          <div><strong>Brend:</strong> {{ leftProduct.brand }}</div>
+          <div><strong>Ocjena:</strong> {{ leftProduct.rating }}</div>
+          <div><strong>Cijena:</strong> {{ leftProduct.price | currency:'BAM ':'symbol':'1.0-0' }}</div>
+        </mat-card-content>
+      </mat-card>
+
+      <mat-card class="comparison-card">
+        <img [src]="rightProduct.imageUrl" [alt]="rightProduct.name" />
+        <mat-card-content>
+          <h3>{{ rightProduct.name }}</h3>
+          <p>{{ rightProduct.description }}</p>
+          <div><strong>Brend:</strong> {{ rightProduct.brand }}</div>
+          <div><strong>Ocjena:</strong> {{ rightProduct.rating }}</div>
+          <div><strong>Cijena:</strong> {{ rightProduct.price | currency:'BAM ':'symbol':'1.0-0' }}</div>
+        </mat-card-content>
+      </mat-card>
+    </div>
+  } @else {
+    <p>Nije moguće prikazati comparison view za odabrane proizvode.</p>
+  }
+</section>
