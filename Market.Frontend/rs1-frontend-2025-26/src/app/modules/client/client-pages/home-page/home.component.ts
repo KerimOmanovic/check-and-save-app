@@ -1,6 +1,7 @@
 import { Component, computed, inject, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterLink } from '@angular/router';
+import { FormsModule } from '@angular/forms';
 import { FavoritesService } from '../../../shared/services/favorites.services';
 import { CurrentUserService } from '../../../../core/services/auth/current-user.service';
 
@@ -35,7 +36,7 @@ type Store = {
 @Component({
   selector: 'app-client-home',
   standalone: true,
-  imports: [CommonModule, RouterLink],
+  imports: [CommonModule, RouterLink, FormsModule],
   templateUrl: './home.component.html',
   styleUrls: ['./home.component.scss'],
 })
@@ -45,6 +46,7 @@ export class HomeComponent implements OnInit {
 
   activeCategory: CategoryKey = 'popularno';
   private readonly storageKey = 'client-home-active-category';
+  searchTerm = '';
   visibleProducts: Product[] = [];
   visibleStores: Store[] = [];
   compareSelection: Product[] = [];
@@ -154,7 +156,13 @@ export class HomeComponent implements OnInit {
   }
 
   onSearch(): void {
+    this.updateActiveContent();
     this.scrollTo('popular');
+  }
+
+  onSearchTermChange(value: string): void {
+    this.searchTerm = value;
+    this.updateActiveContent();
   }
 
   onCompare(p: Product): void {
@@ -189,8 +197,8 @@ export class HomeComponent implements OnInit {
     return Math.abs(this.comparePair.left.price - this.comparePair.right.price);
   }
 
-  trackByName(_: number, item: { name: string }) {
-    return item.name;
+  trackByProductId(_: number, item: Product) {
+    return item.id;
   }
 
   trackByStore(_: number, store: Store) {
@@ -198,25 +206,31 @@ export class HomeComponent implements OnInit {
   }
 
   private updateActiveContent(): void {
+    const normalizedSearchTerm = this.searchTerm.trim().toLowerCase();
+    const searchFilter = (product: Product): boolean =>
+      !normalizedSearchTerm ||
+      product.name.toLowerCase().includes(normalizedSearchTerm) ||
+      product.bestStore.toLowerCase().includes(normalizedSearchTerm);
+
     switch (this.activeCategory) {
       case 'popularno':
-        this.visibleProducts = this.popularProducts;
+        this.visibleProducts = this.popularProducts.filter(searchFilter);
         this.visibleStores = [];
         break;
       case 'namirnice':
-        this.visibleProducts = this.groceriesProducts;
+        this.visibleProducts = this.groceriesProducts.filter(searchFilter);
         this.visibleStores = [];
         break;
       case 'elektronika':
-        this.visibleProducts = this.electronicsProducts;
+        this.visibleProducts = this.electronicsProducts.filter(searchFilter);
         this.visibleStores = [];
         break;
       case 'drogerija':
-        this.visibleProducts = this.drugstoreProducts;
+        this.visibleProducts = this.drugstoreProducts.filter(searchFilter);
         this.visibleStores = [];
         break;
       case 'akcije':
-        this.visibleProducts = this.dealsProducts;
+        this.visibleProducts = this.dealsProducts.filter(searchFilter);
         this.visibleStores = [];
         break;
       case 'prodavnice':

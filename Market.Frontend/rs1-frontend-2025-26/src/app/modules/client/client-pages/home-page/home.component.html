@@ -19,6 +19,8 @@
           <input
             type="text"
             placeholder="Pretraži proizvode (npr. mlijeko, kafa, čokolada...)"
+            [(ngModel)]="searchTerm"
+            (ngModelChange)="onSearchTermChange($event)"
           />
 
           <button class="search-btn" type="button" (click)="onSearch()">Pretraži</button>
@@ -95,7 +97,7 @@
           </button>
         </aside>
 
-        <article class="card" *ngFor="let p of visibleProducts; trackBy: trackByName">
+        <article class="card" *ngFor="let p of visibleProducts; trackBy: trackByProductId">
           <div class="card-top">
             <div class="thumb"></div>
 
