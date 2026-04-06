@@ -8,23 +8,23 @@
           <span class="logo-text">Check&Save</span>
         </div>
         <div class="topbar-links">
-          <span class="link" routerLink="/admin/categories">Product Categories</span>
-          <span class="link" routerLink="/admin/brands">Brands</span>
-          <span class="link is-active">Branches</span>
-          <span class="link" routerLink="/admin/products">Products</span>
-          <span class="link" routerLink="/admin/cities">Cities</span>
-          <span class="link" routerLink="/admin/stores">Stores</span>
+          <span class="link" routerLink="/admin/categories">Kategorije proizvoda</span>
+          <span class="link" routerLink="/admin/brands">Brendovi</span>
+          <span class="link" routerLink="/admin/stores">Prodavnice</span>
+          <span class="link is-active">Poslovnice</span>
+          <span class="link" routerLink="/admin/cities">Gradovi</span>
+          <span class="link" routerLink="/admin/products">Proizvodi</span>
         </div>
       </div>
 
       <div class="topbar-right">
 
         <div class="field-wrapper">
-          <label class="topbar-label">Search Branches</label>
+          <label class="topbar-label">Pretraga poslovnica</label>
           <mat-form-field class="search-field" appearance="outline">
             <input
               matInput
-              placeholder="Enter address or contact..."
+              placeholder="Unesite adresu ili kontakt..."
               (keyup.enter)="onSearch()"
               [(ngModel)]="request.search" />
             <button
@@ -33,17 +33,17 @@
               type="button"
               *ngIf="request.search"
               (click)="clearSearch()"
-              aria-label="Clear search">
+              aria-label="Očisti pretragu">
               <mat-icon>close</mat-icon>
             </button>
           </mat-form-field>
         </div>
 
         <div class="field-wrapper">
-          <label class="topbar-label">Store</label>
+          <label class="topbar-label">Prodavnica</label>
           <mat-form-field class="filter-field" appearance="outline">
             <mat-select [(ngModel)]="request.storeEntityId" (selectionChange)="onFilterChange()">
-              <mat-option [value]="null">All stores</mat-option>
+              <mat-option [value]="null">Sve prodavnice</mat-option>
               <mat-option *ngFor="let store of stores" [value]="store.id">
                 {{ store.name }}
               </mat-option>
@@ -52,10 +52,10 @@
         </div>
 
         <div class="field-wrapper">
-          <label class="topbar-label">City</label>
+          <label class="topbar-label">Grad</label>
           <mat-form-field class="filter-field" appearance="outline">
             <mat-select [(ngModel)]="request.cityEntityId" (selectionChange)="onFilterChange()">
-              <mat-option [value]="null">All cities</mat-option>
+              <mat-option [value]="null">Svi gradovi</mat-option>
               <mat-option *ngFor="let city of cities" [value]="city.id">
                 {{ city.name }}
               </mat-option>
@@ -67,9 +67,9 @@
           <label class="topbar-label">Status</label>
           <mat-form-field class="filter-field" appearance="outline">
             <mat-select [(ngModel)]="request.onlyActive" (selectionChange)="onFilterChange()">
-              <mat-option [value]="null">All statuses</mat-option>
-              <mat-option [value]="true">Active</mat-option>
-              <mat-option [value]="false">Inactive</mat-option>
+              <mat-option [value]="null">Svi statusi</mat-option>
+              <mat-option [value]="true">Aktivno</mat-option>
+              <mat-option [value]="false">Neaktivno</mat-option>
             </mat-select>
           </mat-form-field>
         </div>
@@ -77,12 +77,12 @@
         <div class="btn-wrapper">
           <button mat-raised-button class="btn-add" type="button" (click)="onCreate()">
             <mat-icon>add</mat-icon>
-            New Branch
+            Nova poslovnica
           </button>
 
           <button mat-stroked-button class="btn-reset" type="button" (click)="resetFilters()">
             <mat-icon>refresh</mat-icon>
-            Reset Filters
+            Resetuj filtere
           </button>
         </div>
 
@@ -93,7 +93,7 @@
   <div class="content">
     <div *ngIf="isLoading" class="loading-state">
       <mat-spinner diameter="50"></mat-spinner>
-      <p>Loading...</p>
+      <p>Učitavanje...</p>
     </div>
 
     <div *ngIf="!isLoading && errorMessage" class="error-state">
@@ -105,28 +105,28 @@
       <table mat-table [dataSource]="items">
 
         <ng-container matColumnDef="address">
-          <th mat-header-cell *matHeaderCellDef>Address</th>
+          <th mat-header-cell *matHeaderCellDef>Adresa</th>
           <td mat-cell *matCellDef="let branch">
             <span class="name-cell">{{ branch.address }}</span>
           </td>
         </ng-container>
 
         <ng-container matColumnDef="store">
-          <th mat-header-cell *matHeaderCellDef>Store</th>
+          <th mat-header-cell *matHeaderCellDef>Prodavnica</th>
           <td mat-cell *matCellDef="let branch">
             {{ getStoreName(branch.storeEntityId) }}
           </td>
         </ng-container>
 
         <ng-container matColumnDef="city">
-          <th mat-header-cell *matHeaderCellDef>City</th>
+          <th mat-header-cell *matHeaderCellDef>Grad</th>
           <td mat-cell *matCellDef="let branch">
             {{ getCityName(branch.cityEntityId) }}
           </td>
         </ng-container>
 
         <ng-container matColumnDef="contact">
-          <th mat-header-cell *matHeaderCellDef>Contact</th>
+          <th mat-header-cell *matHeaderCellDef>Kontakt</th>
           <td mat-cell *matCellDef="let branch">
             {{ branch.contact }}
           </td>
@@ -149,14 +149,14 @@
         </ng-container>
 
         <ng-container matColumnDef="actions">
-          <th mat-header-cell *matHeaderCellDef>Actions</th>
+          <th mat-header-cell *matHeaderCellDef>Akcije</th>
           <td mat-cell *matCellDef="let branch">
             <div class="action-buttons">
               <button
                 mat-icon-button
                 class="btn-edit"
                 (click)="onEdit(branch)"
-                matTooltip="Edit branch">
+                matTooltip="Uredi poslovnicu">
                 <mat-icon>edit</mat-icon>
               </button>
             </div>
@@ -173,11 +173,11 @@
 
               <ng-container
                 *ngIf="request.search || request.storeEntityId || request.cityEntityId || request.onlyActive !== null; else noDataDefault">
-                No results for the selected filters.
+                Nema rezultata za odabrane filtere.
               </ng-container>
 
               <ng-template #noDataDefault>
-                No branches found.
+                Nema pronađenih poslovnica.
               </ng-template>
             </div>
           </td>
