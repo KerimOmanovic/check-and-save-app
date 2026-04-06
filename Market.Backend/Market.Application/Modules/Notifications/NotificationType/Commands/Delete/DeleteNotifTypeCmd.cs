@@ -1,6 +1,6 @@
 ﻿namespace Market.Application.Modules.Notifications.NotificationType.Commands.Delete
 {
-    public sealed class DeleteNotificationTypeCommand : IRequest<Unit>
+    public sealed class DeleteNotifTypeCmd : IRequest<Unit>
     {
         public required int Id { get; set; }
     }

@@ -1,6 +1,6 @@
 ﻿namespace Market.Application.Modules.Notifications.NotificationType.Commands.Update
 {
-    public sealed class UpdateNotificationTypeCommand : IRequest<Unit>
+    public sealed class UpdateNotifTypeCmd : IRequest<Unit>
     {
         [JsonIgnore]
         public int Id { get; set; }

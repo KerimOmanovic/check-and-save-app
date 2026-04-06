@@ -2,9 +2,9 @@
 
 namespace Market.Application.Modules.Notifications.NotificationType.Commands.Update
 {
-    public sealed class UpdateNotificationTypeCommandValidator : AbstractValidator<UpdateNotificationTypeCommand>
+    public sealed class UpdateNotifTypeCmdValidator : AbstractValidator<UpdateNotifTypeCmd>
     {
-        public UpdateNotificationTypeCommandValidator()
+        public UpdateNotifTypeCmdValidator()
         {
             RuleFor(x => x.Id).GreaterThan(0);
 
