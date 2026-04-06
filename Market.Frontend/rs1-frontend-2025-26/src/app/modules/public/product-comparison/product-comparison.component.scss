@@ -1,0 +1,28 @@
+.comparison-page {
+  padding: 1.5rem;
+}
+
+.comparison-grid {
+  margin-top: 1rem;
+  display: grid;
+  gap: 1rem;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+}
+
+.comparison-card {
+  overflow: hidden;
+
+  img {
+    width: 100%;
+    height: 220px;
+    object-fit: cover;
+  }
+
+  h3 {
+    margin: 0.25rem 0 0.5rem;
+  }
+
+  p {
+    color: #576572;
+  }
+}
