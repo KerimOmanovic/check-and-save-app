@@ -324,3 +324,81 @@ a {
     text-decoration: underline;
   }
 }
+// ============================================
+// ADMIN DESIGN TOKENS (F3-US3-T2)
+// ============================================
+
+:root {
+  --admin-font-display: var(--mat-sys-headline-medium);
+  --admin-font-title: var(--mat-sys-title-large);
+  --admin-font-subtitle: var(--mat-sys-title-medium);
+  --admin-font-body-strong: var(--mat-sys-body-large);
+  --admin-font-body: var(--mat-sys-body-medium);
+  --admin-font-label: var(--mat-sys-label-large);
+  --admin-font-label-strong: var(--mat-sys-label-large);
+
+  --admin-btn-height: 52px;
+  --admin-btn-radius: 14px;
+  --admin-btn-padding: 0 24px;
+  --admin-btn-transition: all 0.2s ease;
+  --admin-btn-shadow-hover: 0 4px 12px rgba(15, 23, 42, 0.15);
+  --admin-btn-add-bg: #cdbb9a;
+  --admin-btn-add-bg-hover: #d4c5a8;
+  --admin-btn-add-fg: #0f3d2e;
+}
+
+.admin-page {
+  .logo-text {
+    font: var(--admin-font-title);
+    font-weight: 800;
+    letter-spacing: -0.5px;
+  }
+
+  .link,
+  .search-field input,
+  .loading-state p,
+  .error-state p,
+  .mat-mdc-paginator-page-size-label,
+  .mat-mdc-paginator-range-label,
+  .mat-mdc-cell {
+    font: var(--admin-font-body);
+  }
+
+  .btn-add,
+  .btn-reset,
+  .form-actions button {
+    height: var(--admin-btn-height) !important;
+    padding: var(--admin-btn-padding) !important;
+    border-radius: var(--admin-btn-radius) !important;
+    font: var(--admin-font-label) !important;
+    font-weight: 700 !important;
+    transition: var(--admin-btn-transition) !important;
+  }
+
+  .btn-add {
+    background: var(--admin-btn-add-bg) !important;
+    color: var(--admin-btn-add-fg) !important;
+  }
+
+  .btn-add:hover {
+    background: var(--admin-btn-add-bg-hover) !important;
+    transform: translateY(-1px);
+    box-shadow: var(--admin-btn-shadow-hover);
+  }
+
+  .form-actions button[mat-raised-button] {
+    font-weight: 700 !important;
+  }
+
+  .form-actions button[mat-stroked-button] {
+    font-weight: 600 !important;
+  }
+
+  .mat-mdc-header-cell,
+  th {
+    font: var(--admin-font-label-strong);
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+  }
+}
