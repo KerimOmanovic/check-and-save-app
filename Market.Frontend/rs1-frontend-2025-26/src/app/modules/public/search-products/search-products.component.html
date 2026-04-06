@@ -40,12 +40,20 @@
         </div>
 
         <div class="results-grid">
+          <p class="comparison-hint">Savjet: Ctrl/⌘ + klik na dvije kartice otvara comparison view.</p>
           <div class="empty-state" *ngIf="filteredProducts.length === 0">
             <mat-icon aria-hidden="true">inventory_2</mat-icon>
             <h3>Nema proizvoda u kategoriji {{ activeTag }}</h3>
             <p>Odaberite drugi filter ili uklonite brzi tag da biste vidjeli rezultate.</p>
           </div>
-          <article class="result-card" *ngFor="let product of filteredProducts" tabindex="0">
+          <article
+            class="result-card"
+            *ngFor="let product of filteredProducts"
+            tabindex="0"
+            role="button"
+            (click)="onCardClick(product.id, $event)"
+            (keydown.enter)="onCardClick(product.id, $event)"
+          >
             <div class="card-badge" *ngIf="product.badge">{{ product.badge }}</div>
             <div class="card-top">
               <div class="card-media" [style.background]="product.imageBg" aria-hidden="true">
@@ -73,7 +81,7 @@
                 </ng-template>
                 <span class="price-old" *ngIf="product.oldPrice">{{ product.oldPrice.toFixed(2) }} KM</span>
               </div>
-              <button class="card-btn" type="button" (click)="onAddToFavorites(product.name)">
+              <button class="card-btn" type="button" (click)="onAddToFavorites(product.name, $event)">
                 Dodaj u listu
               </button>
             </div>

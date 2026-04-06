@@ -55,6 +55,8 @@ export class SearchProductsComponent implements OnInit {
   resultsSubtitle = 'Prikazujemo odabrane proizvode iz više prodavnica.';
   resultsCount = 0;
 
+  private comparisonBaseProductId: number | null = null;
+
   private categoryById = new Map<number, string>();
 
   quickTags = ['Popularno', 'Akcije', 'Bez laktoze', 'Bio/eko', 'Higijena', 'Pića'];
@@ -99,7 +101,31 @@ export class SearchProductsComponent implements OnInit {
   onSearch(): void {
     this.updateResults(this.query, true);
   }
-  onAddToFavorites(productName: string): void {
+  onCardClick(productId: number, event: Event): void {
+    if (!this.isComparisonTrigger(event)) {
+      this.router.navigate(['/product', productId]);
+      return;
+    }
+
+    if (this.comparisonBaseProductId === null) {
+      this.comparisonBaseProductId = productId;
+      this.toaster.info('Odabran je prvi proizvod. Ctrl/⌘ + kliknite drugi proizvod za poređenje.');
+      return;
+    }
+
+    if (this.comparisonBaseProductId === productId) {
+      this.toaster.warning('Odaberite drugi proizvod za poređenje.');
+      return;
+    }
+
+    const leftId = this.comparisonBaseProductId;
+    this.comparisonBaseProductId = null;
+    this.router.navigate(['/compare', leftId, productId]);
+  }
+
+  onAddToFavorites(productName: string, event?: Event): void {
+    event?.stopPropagation();
+
     if (!this.currentUser.isAuthenticated()) {
       this.toaster.warning('Prijavite se da biste dodali omiljeni proizvod.');
       this.router.navigate(['/auth/login']);
@@ -111,6 +137,13 @@ export class SearchProductsComponent implements OnInit {
     this.toaster.success(
       isFavorite ? 'Proizvod je dodan u omiljene.' : 'Proizvod je uklonjen iz omiljenih.'
     );
+  }
+  private isComparisonTrigger(event: Event): boolean {
+    if (!(event instanceof MouseEvent || event instanceof KeyboardEvent)) {
+      return false;
+    }
+
+    return event.ctrlKey || event.metaKey;
   }
   private updateResults(value: string, fromSubmit = false): void {
     const term = value.trim().toLowerCase();
