@@ -8,7 +8,7 @@
   overflow-x: hidden;
 }
 
-// ===== TOPBAR STILOVI =====
+// ===== TOPBAR =====
 .topbar {
   position: sticky;
   top: 0;
@@ -23,7 +23,7 @@
   padding: 20px 40px;
   display: flex;
   justify-content: space-between;
-  align-items: center;
+  align-items: flex-end;
   flex-wrap: wrap;
   row-gap: 16px;
   gap: 40px;
@@ -92,35 +92,36 @@
 
 .topbar-right {
   display: flex;
-  align-items: center;
+  align-items: flex-end;
   gap: 16px;
-  margin-left: auto;
-  flex: 0 0 auto;
   flex: 1 1 520px;
   flex-wrap: wrap;
   justify-content: flex-end;
   min-width: 0;
 }
 
+.field-wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.topbar-label {
+  font-size: 12px;
+  font-weight: 700;
+  color: rgba(255, 255, 255, 0.7);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
 .search-field {
-  width: 320px;
   width: 100%;
-  max-width: 320px;
+  max-width: 240px;
 }
 
 .filter-field {
-  width: 200px;
   width: 100%;
-  max-width: 200px;
-}
-
-
-.search-field {
-  width: 320px;
-}
-
-.filter-field {
-  width: 200px;
+  max-width: 160px;
 }
 
 :host ::ng-deep .search-field .mat-mdc-text-field-wrapper,
@@ -142,12 +143,10 @@
   opacity: 1;
 }
 
-:host ::ng-deep .topbar-right .mat-mdc-form-field-label,
-:host ::ng-deep .topbar-right .mdc-floating-label,
-:host ::ng-deep .topbar-right .mdc-floating-label--float-above,
 :host ::ng-deep .topbar-right .mat-mdc-select-placeholder {
-  color: #0f172a;
+  color: #475569 !important;
   font-weight: 600;
+  opacity: 1;
 }
 
 :host ::ng-deep .topbar-right .mat-mdc-select-arrow {
@@ -157,6 +156,54 @@
 :host ::ng-deep .search-field .mat-mdc-form-field-subscript-wrapper,
 :host ::ng-deep .filter-field .mat-mdc-form-field-subscript-wrapper {
   display: none;
+}
+
+// ===== COMBOBOX PANEL FIX =====
+::ng-deep .admin-select-panel {
+  background: #ffffff !important;
+  border-radius: 12px !important;
+  box-shadow: 0 8px 32px rgba(15, 23, 42, 0.15) !important;
+  border: 1px solid rgba(205, 187, 154, 0.4) !important;
+}
+
+::ng-deep .admin-select-panel .mat-mdc-option {
+  color: #1f2a24 !important;
+  font-weight: 500 !important;
+  font-size: 15px !important;
+}
+
+::ng-deep .admin-select-panel .mat-mdc-option:hover {
+  background: rgba(205, 187, 154, 0.2) !important;
+}
+
+::ng-deep .admin-select-panel .mat-mdc-option.mdc-list-item--selected {
+  background: rgba(15, 61, 46, 0.1) !important;
+  color: #0f3d2e !important;
+  font-weight: 700 !important;
+}
+
+.btn-wrapper {
+  display: flex;
+  align-items: flex-end;
+  gap: 12px;
+}
+
+.btn-add {
+  height: 52px !important;
+  padding: 0 20px !important;
+  border-radius: 14px !important;
+  background: #cdbb9a !important;
+  color: #0f3d2e !important;
+  font-weight: 800 !important;
+  font-size: 14px !important;
+  white-space: nowrap !important;
+  transition: all 0.2s ease !important;
+}
+
+.btn-add:hover {
+  background: #d4c5a8 !important;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
 }
 
 .btn-reset {
@@ -179,25 +226,7 @@
   background: rgba(205, 187, 154, 0.15) !important;
 }
 
-.btn-add {
-  height: 52px !important;
-  padding: 0 20px !important;
-  border-radius: 14px !important;
-  background: #cdbb9a !important;
-  color: #0f3d2e !important;
-  font-weight: 800 !important;
-  font-size: 14px !important;
-  white-space: nowrap !important;
-  transition: all 0.2s ease !important;
-}
-
-.btn-add:hover {
-  background: #d4c5a8 !important;
-  transform: translateY(-1px);
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
-}
-
-// ===== SADRŽAJ =====
+// ===== CONTENT =====
 .content {
   max-width: 100%;
   margin: 0;
@@ -350,6 +379,7 @@
   .search-field,
   .filter-field {
     width: 100%;
+    max-width: 100%;
   }
 }
 

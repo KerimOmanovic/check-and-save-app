@@ -8,7 +8,7 @@
           <span class="logo-text">Check&Save</span>
         </div>
         <div class="topbar-links">
-          <span class="link" routerLink="/admin/categories">Kategorije proizvoda</span>
+          <span class="link" routerLink="/admin/categories">Kategorije</span>
           <span class="link" routerLink="/admin/brands">Brendovi</span>
           <span class="link" routerLink="/admin/stores">Prodavnice</span>
           <span class="link is-active">Poslovnice</span>
@@ -24,7 +24,7 @@
           <mat-form-field class="search-field" appearance="outline">
             <input
               matInput
-              placeholder="Unesite adresu ili kontakt..."
+              placeholder="Adresa ili kontakt..."
               (keyup.enter)="onSearch()"
               [(ngModel)]="request.search" />
             <button
@@ -42,7 +42,7 @@
         <div class="field-wrapper">
           <label class="topbar-label">Prodavnica</label>
           <mat-form-field class="filter-field" appearance="outline">
-            <mat-select [(ngModel)]="request.storeEntityId" (selectionChange)="onFilterChange()">
+            <mat-select [(ngModel)]="request.storeEntityId" (selectionChange)="onFilterChange()" panelClass="admin-select-panel">
               <mat-option [value]="null">Sve prodavnice</mat-option>
               <mat-option *ngFor="let store of stores" [value]="store.id">
                 {{ store.name }}
@@ -54,7 +54,7 @@
         <div class="field-wrapper">
           <label class="topbar-label">Grad</label>
           <mat-form-field class="filter-field" appearance="outline">
-            <mat-select [(ngModel)]="request.cityEntityId" (selectionChange)="onFilterChange()">
+            <mat-select [(ngModel)]="request.cityEntityId" (selectionChange)="onFilterChange()" panelClass="admin-select-panel">
               <mat-option [value]="null">Svi gradovi</mat-option>
               <mat-option *ngFor="let city of cities" [value]="city.id">
                 {{ city.name }}
@@ -66,7 +66,7 @@
         <div class="field-wrapper">
           <label class="topbar-label">Status</label>
           <mat-form-field class="filter-field" appearance="outline">
-            <mat-select [(ngModel)]="request.onlyActive" (selectionChange)="onFilterChange()">
+            <mat-select [(ngModel)]="request.onlyActive" (selectionChange)="onFilterChange()" panelClass="admin-select-panel">
               <mat-option [value]="null">Svi statusi</mat-option>
               <mat-option [value]="true">Aktivno</mat-option>
               <mat-option [value]="false">Neaktivno</mat-option>
@@ -82,7 +82,7 @@
 
           <button mat-stroked-button class="btn-reset" type="button" (click)="resetFilters()">
             <mat-icon>refresh</mat-icon>
-            Resetuj filtere
+            Resetuj
           </button>
         </div>
 
@@ -170,12 +170,10 @@
           <td class="mat-cell" colspan="7">
             <div class="no-data-message">
               <mat-icon>info_outline</mat-icon>
-
               <ng-container
                 *ngIf="request.search || request.storeEntityId || request.cityEntityId || request.onlyActive !== null; else noDataDefault">
                 Nema rezultata za odabrane filtere.
               </ng-container>
-
               <ng-template #noDataDefault>
                 Nema pronađenih poslovnica.
               </ng-template>
