@@ -8,7 +8,7 @@
   overflow-x: hidden;
 }
 
-// ===== TOPBAR STILOVI =====
+// ===== TOPBAR =====
 .topbar {
   position: sticky;
   top: 0;
@@ -23,7 +23,7 @@
   padding: 20px 40px;
   display: flex;
   justify-content: space-between;
-  align-items: center;
+  align-items: flex-end;
   flex-wrap: wrap;
   row-gap: 16px;
   gap: 40px;
@@ -92,13 +92,26 @@
 
 .topbar-right {
   display: flex;
-  align-items: center;
+  align-items: flex-end;
   gap: 16px;
-  margin-left: auto;
   flex: 1 1 420px;
   flex-wrap: wrap;
   justify-content: flex-end;
   min-width: 0;
+}
+
+.field-wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.topbar-label {
+  font-size: 12px;
+  font-weight: 700;
+  color: rgba(255, 255, 255, 0.7);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
 }
 
 .search-field {
@@ -118,8 +131,19 @@
   font-size: 15px;
 }
 
+:host ::ng-deep .search-field input::placeholder {
+  color: #475569;
+  opacity: 1;
+}
+
 :host ::ng-deep .search-field .mat-mdc-form-field-subscript-wrapper {
   display: none;
+}
+
+.btn-wrapper {
+  display: flex;
+  align-items: flex-end;
+  gap: 12px;
 }
 
 .btn-add {
@@ -140,7 +164,7 @@
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
 }
 
-// ===== SADRŽAJ =====
+// ===== CONTENT =====
 .content {
   max-width: 100%;
   margin: 0;
@@ -226,6 +250,20 @@
     .name-cell {
       font-weight: 600;
       color: #0f3d2e;
+    }
+
+    .icon-enabled {
+      color: #66bb6a;
+      font-size: 24px;
+      width: 24px;
+      height: 24px;
+    }
+
+    .icon-disabled {
+      color: #94a39a;
+      font-size: 24px;
+      width: 24px;
+      height: 24px;
     }
 
     .action-buttons {

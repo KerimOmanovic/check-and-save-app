@@ -8,23 +8,23 @@
           <span class="logo-text">Check&Save</span>
         </div>
         <div class="topbar-links">
-          <span class="link" routerLink="/admin/categories">Product Categories</span>
-          <span class="link" routerLink="/admin/brands">Brands</span>
-          <span class="link" routerLink="/admin/branches">Branches</span>
-          <span class="link" routerLink="/admin/products">Products</span>
-          <span class="link" routerLink="/admin/cities">Cities</span>
-          <span class="link is-active">Stores</span>
+          <span class="link" routerLink="/admin/categories">Kategorije</span>
+          <span class="link" routerLink="/admin/brands">Brendovi</span>
+          <span class="link is-active">Prodavnice</span>
+          <span class="link" routerLink="/admin/branches">Poslovnice</span>
+          <span class="link" routerLink="/admin/cities">Gradovi</span>
+          <span class="link" routerLink="/admin/products">Proizvodi</span>
         </div>
       </div>
 
       <div class="topbar-right">
 
         <div class="field-wrapper">
-          <label class="topbar-label">Search Stores</label>
+          <label class="topbar-label">Pretraga prodavnica</label>
           <mat-form-field class="search-field" appearance="outline">
             <input
               matInput
-              placeholder="Enter store name..."
+              placeholder="Naziv prodavnice..."
               (keyup.enter)="onSearch()"
               [(ngModel)]="request.search" />
             <button
@@ -33,7 +33,7 @@
               type="button"
               *ngIf="request.search"
               (click)="clearSearch()"
-              aria-label="Clear search">
+              aria-label="Očisti pretragu">
               <mat-icon>close</mat-icon>
             </button>
           </mat-form-field>
@@ -42,7 +42,7 @@
         <div class="btn-wrapper">
           <button mat-raised-button class="btn-add" type="button" (click)="onCreate()">
             <mat-icon>add</mat-icon>
-            New Store
+            Nova prodavnica
           </button>
         </div>
 
@@ -53,7 +53,7 @@
   <div class="content">
     <div *ngIf="isLoading" class="loading-state">
       <mat-spinner diameter="50"></mat-spinner>
-      <p>Loading...</p>
+      <p>Učitavanje...</p>
     </div>
 
     <div *ngIf="!isLoading && errorMessage" class="error-state">
@@ -65,14 +65,14 @@
       <table mat-table [dataSource]="items">
 
         <ng-container matColumnDef="name">
-          <th mat-header-cell *matHeaderCellDef>Name</th>
+          <th mat-header-cell *matHeaderCellDef>Naziv</th>
           <td mat-cell *matCellDef="let store">
             <span class="name-cell">{{ store.name }}</span>
           </td>
         </ng-container>
 
         <ng-container matColumnDef="contact">
-          <th mat-header-cell *matHeaderCellDef>Contact</th>
+          <th mat-header-cell *matHeaderCellDef>Kontakt</th>
           <td mat-cell *matCellDef="let store">
             {{ store.contact }}
           </td>
@@ -86,7 +86,7 @@
         </ng-container>
 
         <ng-container matColumnDef="city">
-          <th mat-header-cell *matHeaderCellDef>City</th>
+          <th mat-header-cell *matHeaderCellDef>Grad</th>
           <td mat-cell *matCellDef="let store">
             {{ getCityName(store.cityEntityId) }}
           </td>
@@ -102,22 +102,21 @@
         </ng-container>
 
         <ng-container matColumnDef="actions">
-          <th mat-header-cell *matHeaderCellDef>Actions</th>
+          <th mat-header-cell *matHeaderCellDef>Akcije</th>
           <td mat-cell *matCellDef="let store">
             <div class="action-buttons">
               <button
                 mat-icon-button
                 class="btn-edit"
                 (click)="onEdit(store)"
-                matTooltip="Edit store">
+                matTooltip="Uredi prodavnicu">
                 <mat-icon>edit</mat-icon>
               </button>
-
               <button
                 mat-icon-button
                 class="btn-delete"
                 (click)="onDelete(store)"
-                matTooltip="Delete store">
+                matTooltip="Obriši prodavnicu">
                 <mat-icon>delete</mat-icon>
               </button>
             </div>
@@ -132,10 +131,10 @@
             <div class="no-data-message">
               <mat-icon>info_outline</mat-icon>
               <ng-container *ngIf="request.search; else noDataDefault">
-                No results for the search term.
+                Nema rezultata za uneseni pojam.
               </ng-container>
               <ng-template #noDataDefault>
-                No stores found.
+                Nema pronađenih prodavnica.
               </ng-template>
             </div>
           </td>

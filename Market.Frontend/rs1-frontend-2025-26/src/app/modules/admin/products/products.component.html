@@ -8,54 +8,54 @@
           <span class="logo-text">Check&Save</span>
         </div>
         <div class="topbar-links">
-          <span class="link" routerLink="/admin/categories">Product Categories</span>
-          <span class="link" routerLink="/admin/brands">Brands</span>
-          <span class="link" routerLink="/admin/branches">Branches</span>
-          <span class="link is-active">Products</span>
-          <span class="link" routerLink="/admin/cities">Cities</span>
-          <span class="link" routerLink="/admin/stores">Stores</span>
+          <span class="link" routerLink="/admin/categories">Kategorije</span>
+          <span class="link" routerLink="/admin/brands">Brendovi</span>
+          <span class="link" routerLink="/admin/stores">Prodavnice</span>
+          <span class="link" routerLink="/admin/branches">Poslovnice</span>
+          <span class="link" routerLink="/admin/cities">Gradovi</span>
+          <span class="link is-active">Proizvodi</span>
         </div>
       </div>
 
       <div class="topbar-right">
 
         <div class="field-wrapper">
-          <label class="topbar-label">Search Products</label>
+          <label class="topbar-label">Pretraga proizvoda</label>
           <mat-form-field class="search-field" appearance="outline">
-            <input matInput placeholder="Enter product name..."
+            <input matInput placeholder="Naziv proizvoda..."
                    (keyup.enter)="onSearch()" [(ngModel)]="request.search" />
             <button mat-icon-button matSuffix type="button"
-                    *ngIf="request.search" (click)="clearSearch()" aria-label="Clear search">
+                    *ngIf="request.search" (click)="clearSearch()" aria-label="Očisti pretragu">
               <mat-icon>close</mat-icon>
             </button>
           </mat-form-field>
         </div>
 
         <div class="field-wrapper">
-          <label class="topbar-label">Category</label>
-          <mat-form-field class="search-field" appearance="outline">
-            <mat-select [(ngModel)]="request.categoryEntityId" (selectionChange)="onFilterChange()">
-              <mat-option [value]="null">All categories</mat-option>
+          <label class="topbar-label">Kategorija</label>
+          <mat-form-field class="filter-field" appearance="outline">
+            <mat-select [(ngModel)]="request.categoryEntityId" (selectionChange)="onFilterChange()" panelClass="admin-select-panel">
+              <mat-option [value]="null">Sve kategorije</mat-option>
               <mat-option *ngFor="let category of categories" [value]="category.id">{{ category.name }}</mat-option>
             </mat-select>
           </mat-form-field>
         </div>
 
         <div class="field-wrapper">
-          <label class="topbar-label">Brand</label>
-          <mat-form-field class="search-field" appearance="outline">
-            <mat-select [(ngModel)]="request.brandEntityId" (selectionChange)="onFilterChange()">
-              <mat-option [value]="null">All brands</mat-option>
+          <label class="topbar-label">Brend</label>
+          <mat-form-field class="filter-field" appearance="outline">
+            <mat-select [(ngModel)]="request.brandEntityId" (selectionChange)="onFilterChange()" panelClass="admin-select-panel">
+              <mat-option [value]="null">Svi brendovi</mat-option>
               <mat-option *ngFor="let brand of brands" [value]="brand.id">{{ brand.name }}</mat-option>
             </mat-select>
           </mat-form-field>
         </div>
 
         <div class="field-wrapper">
-          <label class="topbar-label">Store</label>
-          <mat-form-field class="search-field" appearance="outline">
-            <mat-select [(ngModel)]="request.storeEntityId" (selectionChange)="onFilterChange()">
-              <mat-option [value]="null">All stores</mat-option>
+          <label class="topbar-label">Prodavnica</label>
+          <mat-form-field class="filter-field" appearance="outline">
+            <mat-select [(ngModel)]="request.storeEntityId" (selectionChange)="onFilterChange()" panelClass="admin-select-panel">
+              <mat-option [value]="null">Sve prodavnice</mat-option>
               <mat-option *ngFor="let store of stores" [value]="store.id">{{ store.name }}</mat-option>
             </mat-select>
           </mat-form-field>
@@ -63,10 +63,10 @@
 
         <div class="btn-wrapper">
           <button mat-raised-button class="btn-add" type="button" (click)="onCreate()">
-            <mat-icon>add</mat-icon> New Product
+            <mat-icon>add</mat-icon> Novi proizvod
           </button>
           <button mat-stroked-button class="btn-reset" type="button" (click)="resetFilters()">
-            <mat-icon>refresh</mat-icon> Reset Filters
+            <mat-icon>refresh</mat-icon> Resetuj
           </button>
         </div>
 
@@ -77,7 +77,7 @@
   <div class="content">
     <div *ngIf="isLoading" class="loading-state">
       <mat-spinner diameter="50"></mat-spinner>
-      <p>Loading...</p>
+      <p>Učitavanje...</p>
     </div>
 
     <div *ngIf="!isLoading && errorMessage" class="error-state">
@@ -89,40 +89,40 @@
       <table mat-table [dataSource]="items">
 
         <ng-container matColumnDef="name">
-          <th mat-header-cell *matHeaderCellDef>Name</th>
+          <th mat-header-cell *matHeaderCellDef>Naziv</th>
           <td mat-cell *matCellDef="let product">
             <span class="name-cell">{{ product.name }}</span>
           </td>
         </ng-container>
 
         <ng-container matColumnDef="category">
-          <th mat-header-cell *matHeaderCellDef>Category</th>
+          <th mat-header-cell *matHeaderCellDef>Kategorija</th>
           <td mat-cell *matCellDef="let product">{{ getCategoryName(product.categoryEntityId) }}</td>
         </ng-container>
 
         <ng-container matColumnDef="brand">
-          <th mat-header-cell *matHeaderCellDef>Brand</th>
+          <th mat-header-cell *matHeaderCellDef>Brend</th>
           <td mat-cell *matCellDef="let product">{{ getBrandName(product.brandEntityId) }}</td>
         </ng-container>
 
         <ng-container matColumnDef="store">
-          <th mat-header-cell *matHeaderCellDef>Store</th>
+          <th mat-header-cell *matHeaderCellDef>Prodavnica</th>
           <td mat-cell *matCellDef="let product">{{ getStoreName(product.storeEntityId) }}</td>
         </ng-container>
 
         <ng-container matColumnDef="dateAdded">
-          <th mat-header-cell *matHeaderCellDef>Date Added</th>
+          <th mat-header-cell *matHeaderCellDef>Datum dodavanja</th>
           <td mat-cell *matCellDef="let product">{{ product.dateAdded | date: 'dd.MM.yyyy' }}</td>
         </ng-container>
 
         <ng-container matColumnDef="actions">
-          <th mat-header-cell *matHeaderCellDef>Actions</th>
+          <th mat-header-cell *matHeaderCellDef>Akcije</th>
           <td mat-cell *matCellDef="let product">
             <div class="action-buttons">
-              <button mat-icon-button class="btn-edit" (click)="onEdit(product)" matTooltip="Edit product">
+              <button mat-icon-button class="btn-edit" (click)="onEdit(product)" matTooltip="Uredi proizvod">
                 <mat-icon>edit</mat-icon>
               </button>
-              <button mat-icon-button class="btn-delete" (click)="onDelete(product)" matTooltip="Delete product">
+              <button mat-icon-button class="btn-delete" (click)="onDelete(product)" matTooltip="Obriši proizvod">
                 <mat-icon>delete</mat-icon>
               </button>
             </div>
@@ -137,9 +137,9 @@
             <div class="no-data-message">
               <mat-icon>info_outline</mat-icon>
               <ng-container *ngIf="request.search || request.categoryEntityId || request.brandEntityId || request.storeEntityId; else noDataDefault">
-                No results for the selected filters.
+                Nema rezultata za odabrane filtere.
               </ng-container>
-              <ng-template #noDataDefault>No products found.</ng-template>
+              <ng-template #noDataDefault>Nema pronađenih proizvoda.</ng-template>
             </div>
           </td>
         </tr>
