@@ -17,3 +17,14 @@ export interface UpdateProfileCommand {
   email: string;
   phoneNumber?: string | null;
 }
+/**
+ * Auth bundle returned after successful profile update.
+ * Backend rotates JWT/refresh token so new claims (e.g. email) are applied immediately.
+ */
+export interface UpdateProfileCommandDto {
+  accessToken: string;
+  refreshToken: string;
+  accessTokenExpiresAtUtc?: string;
+  refreshTokenExpiresAtUtc?: string;
+  expiresAtUtc?: string;
+}

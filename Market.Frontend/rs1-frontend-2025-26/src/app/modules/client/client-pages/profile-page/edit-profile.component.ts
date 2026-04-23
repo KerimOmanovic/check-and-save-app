@@ -15,6 +15,8 @@ import {
   UpdateProfileCommand,
   UserProfileDto,
 } from '../../../../api-services/users/users-api.model';
+import { AuthFacadeService } from '../../../../core/services/auth/auth-facade.service';
+import { CurrentUserService } from '../../../../core/services/auth/current-user.service';
 
 @Component({
   selector: 'app-edit-profile',
@@ -26,10 +28,14 @@ import {
 export class EditProfileComponent implements OnInit {
   private readonly fb = inject(FormBuilder);
   private readonly usersApi = inject(UsersApiService);
+  private readonly auth = inject(AuthFacadeService);
+  private readonly currentUser = inject(CurrentUserService);
 
   isLoading = true;
   isSaving = false;
   loadError = '';
+  saveError = '';
+  saveSuccess = '';
   avatarPreview: string | null = null;
   private currentEmail = '';
   private selectedAvatarFile: File | null = null;
@@ -82,13 +88,30 @@ export class EditProfileComponent implements OnInit {
       email: value.email,
       phoneNumber: value.phoneNumber || null,
     };
+    const publicId = this.currentUser.snapshot?.userId?.toString();
 
+    if (!publicId) {
+      this.saveError = 'Sesija je istekla. Prijavite se ponovo.';
+      return;
+    }
+
+    this.saveError = '';
+    this.saveSuccess = '';
     this.isSaving = true;
-    this.usersApi.updateMe(payload, this.selectedAvatarFile).subscribe({
-      next: () => {
+    this.usersApi.updateByPublicId(publicId, payload, this.selectedAvatarFile).subscribe({
+      next: (response) => {
+        this.auth.applyAuthBundle({
+          accessToken: response.accessToken,
+          refreshToken: response.refreshToken,
+          accessTokenExpiresAtUtc: response.accessTokenExpiresAtUtc ?? response.expiresAtUtc ?? '',
+          refreshTokenExpiresAtUtc: response.refreshTokenExpiresAtUtc ?? '',
+        });
+        this.saveSuccess = 'Profil je uspješno ažuriran.';
+        this.currentEmail = payload.email;
         this.isSaving = false;
       },
       error: () => {
+        this.saveError = 'Neuspješno spremanje profila. Pokušajte ponovo.';
         this.isSaving = false;
       },
     });

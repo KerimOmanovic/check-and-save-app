@@ -10,6 +10,8 @@
 
   <section class="state-box" *ngIf="isLoading">Učitavanje profila...</section>
   <section class="state-box error" *ngIf="!isLoading && loadError">{{ loadError }}</section>
+  <section class="state-box error" *ngIf="!isLoading && !loadError && saveError">{{ saveError }}</section>
+  <section class="state-box" *ngIf="!isLoading && !loadError && saveSuccess">{{ saveSuccess }}</section>
 
   <form
     class="profile-form"

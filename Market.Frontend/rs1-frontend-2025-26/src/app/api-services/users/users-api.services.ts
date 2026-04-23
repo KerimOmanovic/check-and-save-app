@@ -2,7 +2,12 @@ import { HttpClient, HttpParams } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { environment } from '../../../environments/environment';
-import { EmailAvailabilityDto, UpdateProfileCommand, UserProfileDto } from './users-api.model';
+import {
+  EmailAvailabilityDto,
+  UpdateProfileCommand,
+  UpdateProfileCommandDto,
+  UserProfileDto,
+} from './users-api.model';
 
 @Injectable({
   providedIn: 'root',
@@ -22,7 +27,11 @@ export class UsersApiService {
     });
   }
 
-  updateMe(payload: UpdateProfileCommand, avatarFile?: File | null): Observable<void> {
+  updateByPublicId(
+    publicId: string,
+    payload: UpdateProfileCommand,
+    avatarFile?: File | null,
+  ): Observable<UpdateProfileCommandDto> {
     const formData = new FormData();
     formData.append('firstName', payload.firstName);
     formData.append('lastName', payload.lastName);
@@ -36,6 +45,6 @@ export class UsersApiService {
       formData.append('avatar', avatarFile, avatarFile.name);
     }
 
-    return this.http.put<void>(`${this.baseUrl}/me`, formData);
+    return this.http.put<UpdateProfileCommandDto>(`${this.baseUrl}/${publicId}`, formData);
   }
 }
