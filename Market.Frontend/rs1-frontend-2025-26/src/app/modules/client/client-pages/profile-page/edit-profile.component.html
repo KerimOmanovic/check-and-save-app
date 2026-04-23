@@ -1,0 +1,86 @@
+<div class="edit-profile-page">
+  <header class="page-header">
+    <div>
+      <h1>Uredi profil</h1>
+      <p>Ažuriraj svoje osnovne korisničke informacije.</p>
+    </div>
+
+    <a class="btn outline" routerLink="/client/profile">Nazad na profil</a>
+  </header>
+
+  <section class="state-box" *ngIf="isLoading">Učitavanje profila...</section>
+  <section class="state-box error" *ngIf="!isLoading && loadError">{{ loadError }}</section>
+
+  <form
+    class="profile-form"
+    [formGroup]="form"
+    (ngSubmit)="save()"
+    *ngIf="!isLoading && !loadError"
+  >
+    <div class="avatar-block">
+      <div class="avatar-preview" *ngIf="avatarPreview; else initialsAvatar">
+        <img [src]="avatarPreview" alt="Avatar preview" />
+      </div>
+
+      <ng-template #initialsAvatar>
+        <div class="avatar-fallback">{{ getAvatarInitials() }}</div>
+      </ng-template>
+
+      <label class="btn" for="avatarInput">Odaberi avatar</label>
+      <input id="avatarInput" type="file" accept="image/*" (change)="onAvatarSelected($event)" />
+      <small>Podržani formati: JPG, PNG, WEBP</small>
+    </div>
+
+    <div class="fields-grid">
+      <label>
+        Ime
+        <input type="text" formControlName="firstName" />
+        <small
+          class="error"
+          *ngIf="form.controls.firstName.touched && form.controls.firstName.hasError('required')"
+        >
+          Ime je obavezno.
+        </small>
+      </label>
+
+      <label>
+        Prezime
+        <input type="text" formControlName="lastName" />
+        <small
+          class="error"
+          *ngIf="form.controls.lastName.touched && form.controls.lastName.hasError('required')"
+        >
+          Prezime je obavezno.
+        </small>
+      </label>
+
+      <label class="full-width">
+        Email
+        <input type="email" formControlName="email" />
+        <small
+          class="error"
+          *ngIf="form.controls.email.touched && form.controls.email.hasError('email')"
+        >
+          Unesite validan email.
+        </small>
+        <small
+          class="error"
+          *ngIf="form.controls.email.touched && form.controls.email.hasError('emailTaken')"
+        >
+          Ovaj email je već zauzet.
+        </small>
+      </label>
+
+      <label class="full-width">
+        Telefon
+        <input type="text" formControlName="phoneNumber" />
+      </label>
+    </div>
+
+    <div class="actions">
+      <button class="btn" type="submit" [disabled]="form.invalid || isSaving">
+        {{ isSaving ? 'Spremanje...' : 'Sačuvaj promjene' }}
+      </button>
+    </div>
+  </form>
+</div>
