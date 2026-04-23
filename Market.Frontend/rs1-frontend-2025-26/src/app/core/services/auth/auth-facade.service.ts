@@ -63,9 +63,7 @@ export class AuthFacadeService {
   login(payload: LoginCommand): Observable<void> {
     return this.api.login(payload).pipe(
       tap((response: LoginCommandDto) => {
-        this.storage.saveLogin(response);           // access + refresh + expiries
-        this.decodeAndSetUser(response.accessToken); // popuni _currentUser
-      }),
+        this.applyAuthBundle(response);      }),
       map(() => void 0)
     );
   }
@@ -99,10 +97,23 @@ export class AuthFacadeService {
   refresh(payload: RefreshTokenCommand): Observable<RefreshTokenCommandDto> {
     return this.api.refresh(payload).pipe(
       tap((response: RefreshTokenCommandDto) => {
-        this.storage.saveRefresh(response);           // snimi nove tokene
-        this.decodeAndSetUser(response.accessToken);  // update current usera
+        this.applyAuthBundle(response);
       })
     );
+  }
+  /**
+   * Replaces local auth tokens and current user claims from a fresh auth bundle.
+   * Used by login/refresh and profile update flows.
+   */
+  applyAuthBundle(response: LoginCommandDto | RefreshTokenCommandDto): void {
+    if ('accessTokenExpiresAtUtc' in response) {
+      this.storage.saveRefresh(response);
+      this.decodeAndSetUser(response.accessToken);
+      return;
+    }
+
+    this.storage.saveLogin(response);
+    this.decodeAndSetUser(response.accessToken);
   }
 
   /**
