@@ -5,6 +5,7 @@ $primary-dark: #0b2e23;
 $primary-light: #1f5a45;
 
 $beige: #f6f3ec;
+$beige-accent: #cdbb9a;
 $card: #ffffff;
 
 $text: #1f2a24;
@@ -37,6 +38,10 @@ $shadow: rgba(15, 61, 46, 0.12);
   gap: 16px;
 }
 
+// =============================================
+// BRAND LOGO — reverse colors (bež bg, zelena ikona)
+// identičan oblik kao na landing pageu ali invertovan
+// =============================================
 .brand {
   display: flex;
   align-items: center;
@@ -47,38 +52,39 @@ $shadow: rgba(15, 61, 46, 0.12);
 }
 
 .brand-mark {
-  width: 52px;
-  height: 52px;
-  border-radius: 16px;
-  background: rgba(205, 187, 154, 0.18);
-  border: 1px solid rgba(205, 187, 154, 0.45);
-  display: grid;
-  place-items: center;
-}
+  width: 48px;
+  height: 48px;
+  background: $beige-accent;   // bež pozadina — kao brand-icon na landing pageu ali invertovano
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.18);
 
-.brand-initials {
-  font-size: 22px;
-  font-weight: 900;
-  letter-spacing: 1px;
-  text-transform: uppercase;
-  color: rgba(205, 187, 154, 0.98);
-  font-family: 'Valen Valentine Script', cursive;
-  line-height: 1;
+  svg {
+    display: block;
+  }
 }
 
 .brand-name {
   color: #fff;
   font-weight: 800;
-  letter-spacing: 0.2px;
-  font-size: 18px;
+  letter-spacing: -0.3px;
+  font-size: 20px;
   line-height: 1.1;
 }
 
+.brand-amp {
+  color: $beige-accent;   // bež & kao na landing pageu
+}
+
 .brand-sub {
-  color: rgba(255, 255, 255, 0.78);
+  color: rgba(255, 255, 255, 0.72);
   font-size: 12px;
   margin-top: 2px;
 }
+
+// =============================================
 
 .search {
   flex: 1 1 auto;
@@ -214,7 +220,6 @@ $shadow: rgba(15, 61, 46, 0.12);
 .cats {
   max-width: 1280px;
   margin: 0 auto;
-
   padding: 0 22px 18px 22px;
 }
 
@@ -267,7 +272,6 @@ $shadow: rgba(15, 61, 46, 0.12);
   opacity: 0.75;
 }
 
-
 .page {
   max-width: 1280px;
   margin: 0 auto;
@@ -315,6 +319,7 @@ $shadow: rgba(15, 61, 46, 0.12);
   grid-template-columns: repeat(4, 1fr);
   gap: 14px;
 }
+
 .compare-panel {
   grid-column: 1 / -1;
   border: 1px solid rgba(15, 61, 46, 0.2);
@@ -350,6 +355,7 @@ $shadow: rgba(15, 61, 46, 0.12);
 .compare-reset {
   margin-top: 10px;
 }
+
 .card {
   border: 1px solid rgba(15, 61, 46, 0.14);
   border-radius: 18px;
