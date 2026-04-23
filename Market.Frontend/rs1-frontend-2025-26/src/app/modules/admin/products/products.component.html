@@ -20,7 +20,7 @@
       <div class="topbar-right">
 
         <div class="field-wrapper">
-          <label class="topbar-label">Pretraga proizvoda</label>
+          <label class="topbar-label">Pretraga</label>
           <mat-form-field class="search-field" appearance="outline">
             <input matInput placeholder="Naziv proizvoda..."
                    (keyup.enter)="onSearch()" [(ngModel)]="request.search" />
@@ -35,7 +35,7 @@
           <label class="topbar-label">Kategorija</label>
           <mat-form-field class="filter-field" appearance="outline">
             <mat-select [(ngModel)]="request.categoryEntityId" (selectionChange)="onFilterChange()" panelClass="admin-select-panel">
-              <mat-option [value]="null">Sve kategorije</mat-option>
+              <mat-option [value]="null">Sve</mat-option>
               <mat-option *ngFor="let category of categories" [value]="category.id">{{ category.name }}</mat-option>
             </mat-select>
           </mat-form-field>
@@ -45,7 +45,7 @@
           <label class="topbar-label">Brend</label>
           <mat-form-field class="filter-field" appearance="outline">
             <mat-select [(ngModel)]="request.brandEntityId" (selectionChange)="onFilterChange()" panelClass="admin-select-panel">
-              <mat-option [value]="null">Svi brendovi</mat-option>
+              <mat-option [value]="null">Svi</mat-option>
               <mat-option *ngFor="let brand of brands" [value]="brand.id">{{ brand.name }}</mat-option>
             </mat-select>
           </mat-form-field>
@@ -55,13 +55,14 @@
           <label class="topbar-label">Prodavnica</label>
           <mat-form-field class="filter-field" appearance="outline">
             <mat-select [(ngModel)]="request.storeEntityId" (selectionChange)="onFilterChange()" panelClass="admin-select-panel">
-              <mat-option [value]="null">Sve prodavnice</mat-option>
+              <mat-option [value]="null">Sve</mat-option>
               <mat-option *ngFor="let store of stores" [value]="store.id">{{ store.name }}</mat-option>
             </mat-select>
           </mat-form-field>
         </div>
 
         <div class="btn-wrapper">
+          <div class="btn-spacer"></div>
           <button mat-raised-button class="btn-add" type="button" (click)="onCreate()">
             <mat-icon>add</mat-icon> Novi proizvod
           </button>
@@ -144,7 +145,6 @@
           </td>
         </tr>
       </table>
-
       <app-fit-paginator-bar [vm]="this" />
     </div>
   </div>
