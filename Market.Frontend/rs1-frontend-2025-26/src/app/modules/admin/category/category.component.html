@@ -18,7 +18,6 @@
       </div>
 
       <div class="topbar-right">
-
         <div class="field-wrapper">
           <label class="topbar-label">Pretraga kategorija</label>
           <mat-form-field class="search-field" appearance="outline">
@@ -32,12 +31,13 @@
         </div>
 
         <div class="btn-wrapper">
+          <div class="btn-spacer"></div>
           <button mat-raised-button class="btn-add" type="button" (click)="onCreate()">
             <mat-icon>add</mat-icon> Nova kategorija
           </button>
         </div>
-
       </div>
+
     </div>
   </header>
 
@@ -96,7 +96,6 @@
           </td>
         </tr>
       </table>
-
       <app-fit-paginator-bar [vm]="this" />
     </div>
   </div>

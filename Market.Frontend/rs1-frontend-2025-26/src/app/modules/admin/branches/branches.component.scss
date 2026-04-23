@@ -26,7 +26,7 @@
   align-items: flex-end;
   flex-wrap: wrap;
   row-gap: 16px;
-  gap: 40px;
+  gap: 24px;
   color: #fff;
 }
 
@@ -35,7 +35,7 @@
   align-items: center;
   flex-wrap: wrap;
   gap: 48px;
-  flex: 1 1 420px;
+  flex: 0 0 auto;
 }
 
 .logo {
@@ -90,14 +90,15 @@
   border: 1px solid rgba(205, 187, 154, 0.5);
 }
 
+// ===== ACTION BLOCK — centriran =====
 .topbar-right {
   display: flex;
   align-items: flex-end;
-  gap: 16px;
-  flex: 1 1 520px;
+  gap: 8px;
+  flex: 0 0 auto;
+  margin: 0 auto;
   flex-wrap: wrap;
-  justify-content: flex-end;
-  min-width: 0;
+  justify-content: center;
 }
 
 .field-wrapper {
@@ -107,35 +108,34 @@
 }
 
 .topbar-label {
-  font-size: 12px;
+  font-size: 11px;
   font-weight: 700;
   color: rgba(255, 255, 255, 0.7);
   text-transform: uppercase;
   letter-spacing: 0.5px;
+  white-space: nowrap;
 }
 
 .search-field {
-  width: 100%;
-  max-width: 240px;
+  width: 190px;
 }
 
 .filter-field {
-  width: 100%;
-  max-width: 160px;
+  width: 130px;
 }
 
 :host ::ng-deep .search-field .mat-mdc-text-field-wrapper,
 :host ::ng-deep .filter-field .mat-mdc-text-field-wrapper {
   background: #f3efe6;
   border-radius: 14px;
-  height: 52px;
+  height: 48px;
 }
 
 :host ::ng-deep .search-field input,
 :host ::ng-deep .filter-field .mat-mdc-select-value-text {
   color: #0f172a;
   font-weight: 600;
-  font-size: 15px;
+  font-size: 14px;
 }
 
 :host ::ng-deep .search-field input::placeholder {
@@ -147,6 +147,7 @@
   color: #475569 !important;
   font-weight: 600;
   opacity: 1;
+  font-size: 14px;
 }
 
 :host ::ng-deep .topbar-right .mat-mdc-select-arrow {
@@ -169,7 +170,7 @@
 ::ng-deep .admin-select-panel .mat-mdc-option {
   color: #1f2a24 !important;
   font-weight: 500 !important;
-  font-size: 15px !important;
+  font-size: 14px !important;
 }
 
 ::ng-deep .admin-select-panel .mat-mdc-option:hover {
@@ -184,18 +185,22 @@
 
 .btn-wrapper {
   display: flex;
-  align-items: flex-end;
-  gap: 12px;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.btn-spacer {
+  height: 17px;
 }
 
 .btn-add {
-  height: 52px !important;
-  padding: 0 20px !important;
+  height: 48px !important;
+  padding: 0 16px !important;
   border-radius: 14px !important;
   background: #cdbb9a !important;
   color: #0f3d2e !important;
   font-weight: 800 !important;
-  font-size: 14px !important;
+  font-size: 13px !important;
   white-space: nowrap !important;
   transition: all 0.2s ease !important;
 }
@@ -207,19 +212,15 @@
 }
 
 .btn-reset {
-  height: 52px !important;
-  padding: 0 18px !important;
+  height: 48px !important;
+  padding: 0 14px !important;
   border-radius: 14px !important;
   border: 1px solid rgba(205, 187, 154, 0.7) !important;
   color: #f8fafc !important;
   font-weight: 700 !important;
-  font-size: 14px !important;
+  font-size: 13px !important;
   white-space: nowrap !important;
   transition: all 0.2s ease !important;
-}
-
-.btn-reset mat-icon {
-  margin-right: 8px;
 }
 
 .btn-reset:hover {
@@ -340,6 +341,14 @@
         background-color: rgba(15, 61, 46, 0.1);
       }
     }
+
+    .btn-delete {
+      color: #ef5350;
+
+      &:hover {
+        background-color: rgba(239, 83, 80, 0.1);
+      }
+    }
   }
 
   .no-data-row {
@@ -369,17 +378,13 @@
 }
 
 // ===== RESPONSIVE =====
-@media (max-width: 1100px) {
+@media (max-width: 1200px) {
   .topbar-links {
     flex-wrap: wrap;
   }
-}
 
-@media (max-width: 900px) {
-  .search-field,
-  .filter-field {
-    width: 100%;
-    max-width: 100%;
+  .topbar-right {
+    margin: 0 auto;
   }
 }
 
@@ -396,8 +401,14 @@
     gap: 20px;
   }
 
-  .topbar-links {
-    flex-wrap: wrap;
+  .topbar-right {
+    margin: 0;
+    justify-content: flex-start;
+  }
+
+  .search-field,
+  .filter-field {
+    width: 100%;
   }
 
   .btn-add,
