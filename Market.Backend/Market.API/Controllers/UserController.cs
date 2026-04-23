@@ -9,7 +9,7 @@ using Market.Application.Modules.Identity.User.Queries.List;
 namespace Market.API.Controllers;
 
 [ApiController]
-[Route("[controller]")]
+[Route("api/users")]
 public class UserController(ISender sender) : ControllerBase
 {
     [HttpPost]
@@ -31,7 +31,18 @@ public class UserController(ISender sender) : ControllerBase
         command.Id = id;
         await sender.Send(command, ct);
     }
+    [HttpPut("{id:int}")]
+    public async Task<ActionResult<UpdateUserPubIdCommandDto>> UpdateById(
+    int id,
+    [FromBody] UpdateUserPubIdCommand command,
+    CancellationToken ct)
+    {
+        command.Id = id;
 
+        var updatedUser = await sender.Send(command, ct);
+
+        return Ok(updatedUser);
+    }
     [HttpDelete("{id:int}")]
     public async Task Delete(int id, CancellationToken ct)
     {
