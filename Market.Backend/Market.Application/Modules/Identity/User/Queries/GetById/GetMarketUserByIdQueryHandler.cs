@@ -9,6 +9,7 @@
                 .Select(x => new GetMarketUserByIdQueryDto
                 {
                     Id = x.Id,
+             
                     Firstname = x.Firstname,
                     Lastname = x.Lastname,
                     Email = x.Email,
