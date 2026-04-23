@@ -2,6 +2,7 @@ import { Component, computed, inject, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterLink } from '@angular/router';
 import { FormsModule } from '@angular/forms';
+import { MatIconModule } from '@angular/material/icon';
 import { FavoritesService } from '../../../shared/services/favorites.services';
 import { CurrentUserService } from '../../../../core/services/auth/current-user.service';
 
@@ -36,7 +37,7 @@ type Store = {
 @Component({
   selector: 'app-client-home',
   standalone: true,
-  imports: [CommonModule, RouterLink, FormsModule],
+  imports: [CommonModule, RouterLink, FormsModule, MatIconModule],
   templateUrl: './home.component.html',
   styleUrls: ['./home.component.scss'],
 })
@@ -129,9 +130,6 @@ export class HomeComponent implements OnInit {
     if (!email) return 'Gost';
     return email.split('@')[0] ?? 'Kupac';
   }
-
-
-
 
   setCategory(cat: CategoryKey): void {
     this.activeCategory = cat;
@@ -242,7 +240,6 @@ export class HomeComponent implements OnInit {
         this.visibleStores = [];
     }
   }
-
 
   private isCategoryKey(value: string): value is CategoryKey {
     return this.categoryTabs.some(tab => tab.key === value);
