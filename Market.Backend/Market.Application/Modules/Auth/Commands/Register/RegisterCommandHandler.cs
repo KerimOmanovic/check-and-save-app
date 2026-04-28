@@ -35,7 +35,6 @@ public sealed class RegisterCommandHandler(
             AvatarLevel = 0
         };
 
-        await ctx.Users.AddAsync(user, ct);
         await ctx.PublicUsers.AddAsync(publicUser, ct);
         await ctx.SaveChangesAsync(ct);
 
