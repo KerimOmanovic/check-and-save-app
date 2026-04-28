@@ -7,6 +7,7 @@ namespace Market.Domain.Entities.Identity;
 
 public sealed class MarketUserEntity : BaseEntity
 {
+    public string PublicId { get; set; } = Guid.NewGuid().ToString("N");
     public string Firstname { get; set; } = string.Empty;
     public string Lastname { get; set; } = string.Empty;
     public string Email { get; set; } = string.Empty;
@@ -27,6 +28,7 @@ public sealed class MarketUserEntity : BaseEntity
 
     public static class Constraints
     {
+        public const int PublicIdMaxLength = 64;
         public const int FirstnameMaxLength = 100;
         public const int LastnameMaxLength = 100;
         public const int EmailMaxLength = 320;
