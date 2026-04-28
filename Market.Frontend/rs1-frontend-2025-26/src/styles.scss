@@ -62,21 +62,24 @@ html {
 // BODY & HTML BASE STYLES
 // ============================================
 
+// FIX: overflow-y: scroll na html osigurava da scrollbar uvijek bude vidljiv.
+// overflow-x: hidden mora imati eksplicitnu os — bez nje neki browseri
+// tumače to kao hidden na oba smjera i blokiraju vertikalni scroll.
+// min-height umjesto height: 100% na body dozvoljava rast sadržaja.
+html {
+  height: 100%;
+  overflow-y: scroll;
+  overflow-x: hidden;
+}
+
 body {
+  min-height: 100%;
+  margin: 0;
+  font-family: Roboto, "Helvetica Neue", sans-serif;
   color-scheme: light;
   background-color: #f6f3ec;
   color: #1f2a24;
   font: var(--mat-sys-body-medium);
-  margin: 0;
-}
-
-html, body {
-  height: 100%;
-}
-
-body {
-  margin: 0;
-  font-family: Roboto, "Helvetica Neue", sans-serif;
 }
 
 // ============================================
