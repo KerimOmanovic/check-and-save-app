@@ -1,7 +1,7 @@
 import { Component, OnInit, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterLink } from '@angular/router';
-import { take } from 'rxjs';
+import { forkJoin, of, take } from 'rxjs';
 
 import { DialogHelperService } from '../../../shared/services/dialog-helper.service';
 import { DialogButton, DialogType } from '../../../shared/models/dialog-config.model';
@@ -56,9 +56,9 @@ export class FavoritesComponent implements OnInit {
           return;
         }
 
-        this.favouritesApi.delete(item.publicId).pipe(take(1)).subscribe({
+        this.favouritesApi.delete(item.id).pipe(take(1)).subscribe({
           next: () => {
-            this.favorites = this.favorites.filter(x => x.publicId !== item.publicId);
+            this.favorites = this.favorites.filter(x => x.id !== item.id);
             this.toaster.success('Proizvod je uspješno uklonjen iz omiljenih.');
           },
           error: () => {
@@ -69,10 +69,41 @@ export class FavoritesComponent implements OnInit {
   }
 
   clearAll(): void {
-    this.favorites = [];
+    if (this.favorites.length === 0) {
+      return;
+    }
+
+    this.dialogHelper
+      .open({
+        type: DialogType.WARNING,
+        title: 'Očistiti cijelu listu?',
+        message: 'Svi proizvodi će biti uklonjeni iz omiljenih.',
+        icon: 'delete_sweep',
+        buttons: [
+          { type: DialogButton.CANCEL },
+          { type: DialogButton.DELETE, color: 'warn' }
+        ]
+      })
+      .pipe(take(1))
+      .subscribe((result: any) => {
+        if (result?.button !== DialogButton.DELETE) {
+          return;
+        }
+
+        const deletions = this.favorites.map((x) => this.favouritesApi.delete(x.id));
+        (deletions.length ? forkJoin(deletions) : of([])).pipe(take(1)).subscribe({
+          next: () => {
+            this.favorites = [];
+            this.toaster.success('Lista omiljenih je očišćena.');
+          },
+          error: () => {
+            this.toaster.error('Čišćenje liste nije uspjelo. Pokušajte ponovo.');
+          }
+        });
+      });
   }
 
-  trackByPublicId(_: number, item: FavouriteProductCardDto): string {
-    return item.publicId;
+  trackById(_: number, item: FavouriteProductCardDto): number {
+    return item.id;
   }
 }
