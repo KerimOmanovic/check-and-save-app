@@ -31,11 +31,13 @@ public class UserController(ISender sender) : ControllerBase
         command.Id = id;
         await sender.Send(command, ct);
     }
-    [HttpPut("{id:int}")]
-    public async Task<ActionResult<UpdateUserPubIdCommandDto>> UpdateById(
-    int id,
-    [FromBody] UpdateUserPubIdCommand command,
-    CancellationToken ct)
+
+    // FIX: promijenjen route i naziv metode
+    [HttpPut("{id:int}/public-id")]
+    public async Task<ActionResult<UpdateUserPubIdCommandDto>> UpdatePublicId(
+        int id,
+        [FromBody] UpdateUserPubIdCommand command,
+        CancellationToken ct)
     {
         command.Id = id;
 
@@ -43,6 +45,7 @@ public class UserController(ISender sender) : ControllerBase
 
         return Ok(updatedUser);
     }
+
     [HttpDelete("{id:int}")]
     public async Task Delete(int id, CancellationToken ct)
     {
