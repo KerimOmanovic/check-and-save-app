@@ -27,9 +27,9 @@ export class FavouritesApiService {
       switchMap((items) => this.buildCards(items))
     );
   }
-
-  delete(id: number): Observable<void> {
-    return this.http.delete<void>(`${this.baseUrl}/${id}`);  }
+  delete(publicId: string): Observable<void> {
+    return this.http.delete<void>(`${this.baseUrl}/${publicId}`);
+  }
 
   private buildCards(items: FavoriteListItemDto[]): Observable<FavouriteProductCardDto[]> {
     if (!items.length) {
@@ -37,18 +37,29 @@ export class FavouritesApiService {
     }
 
     return forkJoin(
-      items.map((item) =>
-        this.productsApi.getById(item.productEntityId).pipe(
+      items.map((item) => {
+        if (item.name && item.price !== undefined && item.imageUrl !== undefined) {
+          return of({
+            id: item.id,
+            publicId: item.publicId ?? item.id.toString(),
+            productEntityId: item.productEntityId,
+            name: item.name,
+            price: item.price,
+            imageUrl: item.imageUrl,
+          });
+        }
+
+        return this.productsApi.getById(item.productEntityId).pipe(
           map((product) => ({
             id: item.id,
-            publicId: item.id.toString(),
+            publicId: item.publicId ?? item.id.toString(),
             productEntityId: item.productEntityId,
             name: product.name,
-            price: null,
-            imageUrl: product.imageURL || null,
+            price: item.price ?? null,
+            imageUrl: item.imageUrl ?? (product.imageURL || null),
           }))
-        )
-      )
+        );
+      })
     );
   }
 }
