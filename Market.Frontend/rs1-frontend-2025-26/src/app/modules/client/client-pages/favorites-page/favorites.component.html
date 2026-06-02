@@ -1,0 +1,42 @@
+<div class="favorites-page">
+  <header class="page-header">
+    <div class="header-left">
+      <h1>
+        Omiljeni proizvodi
+        <span class="count" *ngIf="favorites.length > 0">{{ favorites.length }}</span>
+      </h1>
+      <p>Kartice proizvoda sa slikom, nazivom i cijenom.</p>
+    </div>
+
+    <div class="header-actions">
+      <button class="btn outline" type="button" routerLink="/client/home">Nazad na početnu</button>
+      <button class="btn" type="button" (click)="clearAll()" [disabled]="favorites.length === 0">
+        Očisti listu
+      </button>
+    </div>
+  </header>
+
+  <section class="favorites-grid" *ngIf="favorites.length > 0; else emptyState">
+    <article class="favorite-card" *ngFor="let item of favorites; trackBy: trackById">
+      <div class="image-wrap">
+        <img [src]="item.imageUrl || 'assets/cart-icon.png'" [alt]="item.name" />
+      </div>
+
+      <div class="favorite-info">
+        <h3 class="favorite-title">{{ item.name }}</h3>
+        <p class="favorite-price">
+          {{ item.price !== null ? (item.price | number: '1.2-2') + ' KM' : 'Cijena nije dostupna' }}
+        </p>
+      </div>
+
+      <button class="remove" type="button" (click)="confirmRemove(item)">Ukloni</button>
+    </article>
+  </section>
+
+  <ng-template #emptyState>
+    <div class="empty-state">
+      <p>Još nemate omiljene proizvode.</p>
+      <button class="btn" type="button" routerLink="/client/home">Dodaj iz ponude</button>
+    </div>
+  </ng-template>
+</div>

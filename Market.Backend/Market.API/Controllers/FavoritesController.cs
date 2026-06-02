@@ -8,6 +8,7 @@ namespace Market.API.Controllers;
 
 [ApiController]
 [Route("[controller]")]
+[Authorize]
 public class FavoritesController(ISender sender) : ControllerBase
 {
     [HttpPost]

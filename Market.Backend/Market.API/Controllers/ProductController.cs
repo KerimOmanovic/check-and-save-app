@@ -34,12 +34,14 @@ public class ProductController(ISender sender) : ControllerBase
     }
 
     [HttpGet("{id:int}")]
+    [AllowAnonymous]
     public async Task<GetProductByIdQueryDto> GetById(int id, CancellationToken ct)
     {
         return await sender.Send(new GetProductByIdQuery { Id = id }, ct);
     }
 
     [HttpGet]
+    [AllowAnonymous]
     public async Task<PageResult<ListProductsQueryDto>> List(
         [FromQuery] ListProductsQuery query,
         CancellationToken ct)
