@@ -18,6 +18,8 @@ namespace Market.Domain.Entities.StoreEntities
         public string Contact { get; set; }
         public string Email { get; set; }
         public bool IsActive { get; set; }
+        public double? Latitude { get; set; }
+        public double? Longitude { get; set; }
         public ICollection<ProductEntity> Products { get; set; } = new List<ProductEntity>();
 
         public static class Constraints
