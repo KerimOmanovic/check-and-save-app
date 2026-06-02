@@ -1,4 +1,3 @@
-// Include theming for Angular Material with `mat.theme()`.
 @use '@angular/material' as mat;
 
 // ============================================
@@ -12,8 +11,8 @@ $custom-green-palette: (
   25: #004621,
   30: #00522a,
   35: #005f33,
-  40: #0f3d2e,  // Tvoja glavna zelena
-  50: #1f5a45,  // Svjetlija verzija
+  40: #0f3d2e,
+  50: #1f5a45,
   60: #2d7159,
   70: #3d8869,
   80: #4ea07a,
@@ -35,7 +34,7 @@ $custom-secondary-palette: (
   50: #807665,
   60: #9a8f7d,
   70: #b5aa97,
-  80: #cdbb9a,  // Tvoja secondary boja
+  80: #cdbb9a,
   90: #d9c9ad,
   95: #ebe0cc,
   98: #f6f3ec,
@@ -63,21 +62,24 @@ html {
 // BODY & HTML BASE STYLES
 // ============================================
 
+// FIX: overflow-y: scroll na html osigurava da scrollbar uvijek bude vidljiv.
+// overflow-x: hidden mora imati eksplicitnu os — bez nje neki browseri
+// tumače to kao hidden na oba smjera i blokiraju vertikalni scroll.
+// min-height umjesto height: 100% na body dozvoljava rast sadržaja.
+html {
+  height: 100%;
+  overflow-y: scroll;
+  overflow-x: hidden;
+}
+
 body {
+  min-height: 100%;
+  margin: 0;
+  font-family: Roboto, "Helvetica Neue", sans-serif;
   color-scheme: light;
   background-color: #f6f3ec;
   color: #1f2a24;
   font: var(--mat-sys-body-medium);
-  margin: 0;
-}
-
-html, body {
-  height: 100%;
-}
-
-body {
-  margin: 0;
-  font-family: Roboto, "Helvetica Neue", sans-serif;
 }
 
 // ============================================
@@ -146,10 +148,9 @@ $secondary-color: #cdbb9a;
 }
 
 // ============================================
-// GLOBALNI PAGINATOR STYLING - ZELENA BOJA
+// GLOBALNI PAGINATOR STYLING
 // ============================================
 
-// Custom paginator - page-indicator klasa
 .paginator-bar .paginator-actions .nav-buttons .page-indicator {
   background: linear-gradient(135deg, $primary-color 0%, $primary-light 100%) !important;
   box-shadow: 0 2px 8px rgba(15, 61, 46, 0.3) !important;
@@ -160,7 +161,6 @@ $secondary-color: #cdbb9a;
   }
 }
 
-// Material paginator buttons
 .mat-mdc-paginator {
   .mat-mdc-icon-button {
     color: $primary-color !important;
@@ -183,7 +183,6 @@ $secondary-color: #cdbb9a;
   }
 }
 
-// App-fit-paginator-bar komponenta
 app-fit-paginator-bar {
   .page-indicator {
     background: linear-gradient(135deg, $primary-color 0%, $primary-light 100%) !important;
@@ -204,7 +203,6 @@ app-fit-paginator-bar {
   }
 }
 
-// Fallback za sve paginatore
 [class*="paginator"] {
   .page-indicator,
   [class*="page-indicator"] {
@@ -219,7 +217,7 @@ app-fit-paginator-bar {
 }
 
 // ============================================
-// GLOBALNI BUTTON STYLING - ZELENA BOJA
+// GLOBALNI BUTTON STYLING
 // ============================================
 
 .mat-mdc-raised-button.mat-primary {
@@ -241,7 +239,7 @@ app-fit-paginator-bar {
 }
 
 // ============================================
-// FORM FIELDS - ZELENA BOJA ZA FOCUS
+// FORM FIELDS - FOCUS
 // ============================================
 
 .mat-mdc-form-field.mat-focused {
@@ -322,5 +320,254 @@ a {
   &:hover {
     color: $primary-dark;
     text-decoration: underline;
+  }
+}
+
+// ============================================
+// ADMIN DESIGN TOKENS
+// ============================================
+
+:root {
+  --admin-font-display: var(--mat-sys-headline-medium);
+  --admin-font-title: var(--mat-sys-title-large);
+  --admin-font-subtitle: var(--mat-sys-title-medium);
+  --admin-font-body-strong: var(--mat-sys-body-large);
+  --admin-font-body: var(--mat-sys-body-medium);
+  --admin-font-label: var(--mat-sys-label-large);
+  --admin-font-label-strong: var(--mat-sys-label-large);
+
+  --admin-btn-height: 52px;
+  --admin-btn-radius: 14px;
+  --admin-btn-padding: 0 24px;
+  --admin-btn-transition: all 0.2s ease;
+  --admin-btn-shadow-hover: 0 4px 12px rgba(15, 23, 42, 0.15);
+  --admin-btn-add-bg: #cdbb9a;
+  --admin-btn-add-bg-hover: #d4c5a8;
+  --admin-btn-add-fg: #0f3d2e;
+}
+
+.admin-page {
+  .logo-text {
+    font: var(--admin-font-title);
+    font-weight: 800;
+    letter-spacing: -0.5px;
+  }
+
+  .link,
+  .search-field input,
+  .loading-state p,
+  .error-state p,
+  .mat-mdc-paginator-page-size-label,
+  .mat-mdc-paginator-range-label,
+  .mat-mdc-cell {
+    font: var(--admin-font-body);
+  }
+
+  .btn-add,
+  .btn-reset,
+  .form-actions button {
+    height: var(--admin-btn-height) !important;
+    padding: var(--admin-btn-padding) !important;
+    border-radius: var(--admin-btn-radius) !important;
+    font: var(--admin-font-label) !important;
+    font-weight: 700 !important;
+    transition: var(--admin-btn-transition) !important;
+  }
+
+  .btn-add {
+    background: var(--admin-btn-add-bg) !important;
+    color: var(--admin-btn-add-fg) !important;
+  }
+
+  .btn-add:hover {
+    background: var(--admin-btn-add-bg-hover) !important;
+    transform: translateY(-1px);
+    box-shadow: var(--admin-btn-shadow-hover);
+  }
+
+  .form-actions button[mat-raised-button] {
+    font-weight: 700 !important;
+  }
+
+  .form-actions button[mat-stroked-button] {
+    font-weight: 600 !important;
+  }
+
+  .mat-mdc-header-cell,
+  th {
+    font: var(--admin-font-label-strong);
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+  }
+}
+
+// ============================================
+// ADMIN LIST PAGES - TOPBAR/FILTER STYLING
+// ============================================
+
+.admin-page {
+  .topbar-inner {
+    align-items: flex-end;
+    gap: 20px;
+  }
+
+  .topbar-left {
+    gap: 24px;
+    min-width: 0;
+    flex-shrink: 0;
+  }
+
+  .topbar-links {
+    gap: 2px;
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    padding-bottom: 2px;
+    scrollbar-width: none;
+
+    &::-webkit-scrollbar {
+      display: none;
+    }
+  }
+
+  .link {
+    padding: 7px 10px;
+    font-size: 13px;
+    line-height: 1.15;
+    white-space: nowrap;
+  }
+
+  .topbar-right {
+    background: rgba(8, 41, 31, 0.45);
+    border: 1px solid rgba(205, 187, 154, 0.35);
+    border-radius: 14px;
+    padding: 10px 14px;
+    display: flex;
+    flex-wrap: nowrap;
+    align-items: flex-end;
+    gap: 10px;
+    flex: 1;
+    min-width: 0;
+  }
+}
+
+.admin-page .topbar-right {
+  .field-wrapper {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    flex: 1 1 0;
+    min-width: 0;
+  }
+
+  .btn-wrapper {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 8px;
+    flex: 0 0 auto;
+  }
+
+  .topbar-label {
+    color: #ffffff;
+    font-weight: 700;
+    font-size: 11px;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+    padding-left: 4px;
+    line-height: 1;
+    white-space: nowrap;
+  }
+
+  .mat-mdc-form-field {
+    width: 100%;
+
+    .mat-mdc-form-field-subscript-wrapper {
+      display: none !important;
+    }
+
+    .mdc-floating-label,
+    .mat-mdc-floating-label,
+    .mdc-floating-label--float-above {
+      display: none !important;
+    }
+
+    .mat-mdc-text-field-wrapper {
+      background: #f3efe6 !important;
+      border-radius: 10px !important;
+      height: 42px !important;
+      padding: 0 10px !important;
+    }
+
+    .mat-mdc-form-field-infix {
+      min-height: 42px !important;
+      padding-top: 0 !important;
+      padding-bottom: 0 !important;
+      display: flex;
+      align-items: center;
+    }
+
+    input,
+    .mat-mdc-select-value,
+    .mat-mdc-select-value-text {
+      color: #0f172a !important;
+      font-weight: 600 !important;
+      font-size: 14px !important;
+    }
+
+    .mat-mdc-select-arrow,
+    .mat-mdc-form-field-icon-suffix {
+      color: #6b7280 !important;
+    }
+  }
+
+  input::placeholder {
+    color: #94a3b8 !important;
+    opacity: 1 !important;
+    font-weight: 400 !important;
+    font-size: 13px !important;
+  }
+
+  .mat-mdc-select-placeholder {
+    color: #94a3b8 !important;
+    font-weight: 400 !important;
+    font-size: 13px !important;
+  }
+}
+
+@media (max-width: 1280px) {
+  .admin-page .topbar-right {
+    flex-wrap: wrap;
+  }
+}
+
+@media (max-width: 900px) {
+  .admin-page {
+    .topbar-inner {
+      padding: 16px 20px !important;
+      gap: 12px;
+      flex-direction: column;
+      align-items: stretch;
+    }
+
+    .topbar-right {
+      width: 100%;
+      flex-wrap: wrap;
+      padding: 12px;
+    }
+
+    .topbar-right .field-wrapper {
+      flex: 1 1 calc(50% - 10px);
+      min-width: 140px;
+    }
+
+    .topbar-right .btn-wrapper {
+      flex: 1 1 100%;
+      justify-content: flex-start;
+    }
+
+    .content {
+      padding: 20px !important;
+    }
   }
 }

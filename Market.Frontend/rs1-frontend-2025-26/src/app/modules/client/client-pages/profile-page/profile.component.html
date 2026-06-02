@@ -1,0 +1,39 @@
+<div class="profile-page">
+  <header class="page-header">
+    <div class="header-left">
+      <h1>Profil</h1>
+      <p>Pregled profila i brz pristup omiljenim stranicama.</p>
+    </div>
+
+    <div class="header-actions">
+      <button class="btn outline" type="button" routerLink="/client/home">Nazad na početnu</button>
+      <button class="btn" type="button" routerLink="/client/profile/edit">Uredi profil</button>
+    </div>
+  </header>
+
+  <section class="profile-card">
+    <div class="avatar">{{ userEmail().charAt(0) }}</div>
+
+    <div class="info">
+      <div class="row">
+        <div class="label">Email</div>
+        <div class="value">{{ userEmail() }}</div>
+      </div>
+
+      <div class="row">
+        <div class="label">Uloga</div>
+        <div class="value">{{ roleLabel() }}</div>
+      </div>
+
+      <div class="status" [class.logged-out]="!isAuthenticated()">
+        {{ isAuthenticated() ? 'Ulogovan korisnik' : 'Prijavite se da vidite profil' }}
+      </div>
+    </div>
+  </section>
+
+  <section class="quick-links">
+    <a routerLink="/client/favorites" class="quick-link">Omiljeni proizvodi</a>
+    <a routerLink="/client/map" class="quick-link">Mapa prodavnica</a>
+    <a routerLink="/auth/login" class="quick-link" *ngIf="!isAuthenticated()">Prijava</a>
+  </section>
+</div>

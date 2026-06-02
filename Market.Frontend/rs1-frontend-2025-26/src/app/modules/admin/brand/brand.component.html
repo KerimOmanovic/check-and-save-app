@@ -1,56 +1,48 @@
 <section class="admin-page">
-  <!-- Top navigation bar -->
   <header class="topbar">
     <div class="topbar-inner">
 
-      <!-- Left side: logo + navigation links -->
       <div class="topbar-left">
         <div class="logo">
-          <span class="logo-mark">CS</span>
-          <span class="logo-text">Check&Save</span>
+          <div class="logo-mark">
+            <mat-icon>storefront</mat-icon>
+          </div>
+          <span class="logo-text">Check<span class="logo-amp">&</span>Save</span>
         </div>
-
         <div class="topbar-links">
-          <span class="link" routerLink="/admin/categories">Kategorije Proizvoda</span>
+          <span class="link" routerLink="/admin/categories">Kategorije</span>
           <span class="link is-active">Brendovi</span>
-          <span class="link" routerLink="/admin/products">Proizvodi</span>
-          <span class="link" routerLink="/admin/cities">Gradovi</span>
           <span class="link" routerLink="/admin/stores">Prodavnice</span>
+          <span class="link" routerLink="/admin/branches">Poslovnice</span>
+          <span class="link" routerLink="/admin/cities">Gradovi</span>
+          <span class="link" routerLink="/admin/products">Proizvodi</span>
         </div>
       </div>
 
-      <!-- Right side: search + add button -->
       <div class="topbar-right">
-        <mat-form-field class="search-field" appearance="outline">
-          <mat-label>Pretraži brendove</mat-label>
-          <input
-            matInput
-            placeholder="Unesite naziv brenda..."
-            (keyup.enter)="onSearch()"
-            [(ngModel)]="request.search"
-          />
-          <button
-            mat-icon-button
-            matSuffix
-            type="button"
-            *ngIf="request.search"
-            (click)="clearSearch()"
-            aria-label="Clear search"
-          >
-            <mat-icon>close</mat-icon>
-          </button>
-        </mat-form-field>
+        <div class="field-wrapper">
+          <label class="topbar-label">Pretraga brendova</label>
+          <mat-form-field class="search-field" appearance="outline">
+            <input matInput placeholder="Naziv brenda..."
+                   (keyup.enter)="onSearch()" [(ngModel)]="request.search" />
+            <button mat-icon-button matSuffix type="button"
+                    *ngIf="request.search" (click)="clearSearch()" aria-label="Očisti pretragu">
+              <mat-icon>close</mat-icon>
+            </button>
+          </mat-form-field>
+        </div>
 
-        <button mat-raised-button class="btn-add" type="button" (click)="onCreate()">
-          <mat-icon>add</mat-icon>
-          Novi brend
-        </button>
+        <div class="btn-wrapper">
+          <div class="btn-spacer"></div>
+          <button mat-raised-button class="btn-add" type="button" (click)="onCreate()">
+            <mat-icon>add</mat-icon> Novi brend
+          </button>
+        </div>
       </div>
 
     </div>
   </header>
 
-  <!-- Main content -->
   <div class="content">
     <div *ngIf="isLoading" class="loading-state">
       <mat-spinner diameter="50"></mat-spinner>
@@ -64,6 +56,7 @@
 
     <div class="table-card" *ngIf="!isLoading && !errorMessage">
       <table mat-table [dataSource]="items">
+
         <ng-container matColumnDef="name">
           <th mat-header-cell *matHeaderCellDef>Naziv</th>
           <td mat-cell *matCellDef="let brand">
@@ -73,29 +66,17 @@
 
         <ng-container matColumnDef="description">
           <th mat-header-cell *matHeaderCellDef>Opis</th>
-          <td mat-cell *matCellDef="let brand">
-            {{ brand.description || '-' }}
-          </td>
+          <td mat-cell *matCellDef="let brand">{{ brand.description || '-' }}</td>
         </ng-container>
 
         <ng-container matColumnDef="actions">
           <th mat-header-cell *matHeaderCellDef>Akcije</th>
           <td mat-cell *matCellDef="let brand">
             <div class="action-buttons">
-              <button
-                mat-icon-button
-                class="btn-edit"
-                (click)="onEdit(brand)"
-                matTooltip="Uredi brend"
-              >
+              <button mat-icon-button class="btn-edit" (click)="onEdit(brand)" matTooltip="Uredi brend">
                 <mat-icon>edit</mat-icon>
               </button>
-              <button
-                mat-icon-button
-                class="btn-delete"
-                (click)="onDelete(brand)"
-                matTooltip="Obriši brend"
-              >
+              <button mat-icon-button class="btn-delete" (click)="onDelete(brand)" matTooltip="Obriši brend">
                 <mat-icon>delete</mat-icon>
               </button>
             </div>
@@ -110,16 +91,13 @@
             <div class="no-data-message">
               <mat-icon>info_outline</mat-icon>
               <ng-container *ngIf="request.search; else noDataDefault">
-                Nema rezultata za traženi pojam.
+                Nema rezultata za uneseni pojam.
               </ng-container>
-              <ng-template #noDataDefault>
-                Nema dodanih brendova.
-              </ng-template>
+              <ng-template #noDataDefault>Nema pronađenih brendova.</ng-template>
             </div>
           </td>
         </tr>
       </table>
-
       <app-fit-paginator-bar [vm]="this" />
     </div>
   </div>
