@@ -15,6 +15,7 @@ import {
   ListCategoriesQueryResponse
 } from '../../../api-services/category/category-api.model';
 import { allItemsPaging } from '../../../core/models/paging/paging-utils';
+import { ComparisonService } from '../services/comparison.service';
 
 interface GlobalAction {
   icon: string;

@@ -7,6 +7,7 @@ import { DialogHelperService } from '../../../shared/services/dialog-helper.serv
 import { DialogButton, DialogType } from '../../../shared/models/dialog-config.model';
 import { FavouritesApiService } from '../../../../api-services/favourites/favourites-api.services';
 import { ToasterService } from '../../../../core/services/toaster.service';
+import { FavoritesService } from '../../../shared/services/favorites.services';
 import { FavouriteProductCardDto } from '../../../../api-services/favourites/favourites-api.models';
 
 @Component({
@@ -20,6 +21,7 @@ export class FavoritesComponent implements OnInit {
   private dialogHelper = inject(DialogHelperService);
   private favouritesApi = inject(FavouritesApiService);
   private toaster = inject(ToasterService);
+  private favoritesService = inject(FavoritesService);
 
   favorites: FavouriteProductCardDto[] = [];
 
@@ -28,12 +30,17 @@ export class FavoritesComponent implements OnInit {
   }
 
   loadFavorites(): void {
+    this.syncLocalFavorites();
     this.favouritesApi.getAll().pipe(take(1)).subscribe({
       next: (res) => {
-        this.favorites = res;
+        if (res.length > 0) {
+          this.favorites = res;
+        }
       },
       error: () => {
-        this.toaster.error('Učitavanje omiljenih proizvoda nije uspjelo.');
+        if (this.favorites.length === 0) {
+          this.toaster.error('Učitavanje omiljenih proizvoda nije uspjelo.');
+        }
       }
     });
   }
@@ -56,9 +63,17 @@ export class FavoritesComponent implements OnInit {
           return;
         }
 
-        this.favouritesApi.delete(item.id).pipe(take(1)).subscribe({
+        const favoritePublicId = item.publicId ?? item.id.toString();
+
+        if (this.isLocalFavorite(favoritePublicId)) {
+          this.removeFromLocalState(favoritePublicId);
+          this.toaster.success('Proizvod je uspješno uklonjen iz omiljenih.');
+          return;
+        }
+
+        this.favouritesApi.delete(favoritePublicId).pipe(take(1)).subscribe({
           next: () => {
-            this.favorites = this.favorites.filter(x => x.id !== item.id);
+            this.removeFromLocalState(favoritePublicId);
             this.toaster.success('Proizvod je uspješno uklonjen iz omiljenih.');
           },
           error: () => {
@@ -90,9 +105,13 @@ export class FavoritesComponent implements OnInit {
           return;
         }
 
-        const deletions = this.favorites.map((x) => this.favouritesApi.delete(x.id));
+        const deletions = this.favorites
+          .map((x) => x.publicId ?? x.id.toString())
+          .filter((publicId) => !this.isLocalFavorite(publicId))
+          .map((publicId) => this.favouritesApi.delete(publicId));
         (deletions.length ? forkJoin(deletions) : of([])).pipe(take(1)).subscribe({
           next: () => {
+            this.favoritesService.clear();
             this.favorites = [];
             this.toaster.success('Lista omiljenih je očišćena.');
           },
@@ -103,7 +122,23 @@ export class FavoritesComponent implements OnInit {
       });
   }
 
-  trackById(_: number, item: FavouriteProductCardDto): number {
-    return item.id;
+  trackById(_: number, item: FavouriteProductCardDto): string {
+    return item.publicId ?? item.id.toString();
+  }
+  private syncLocalFavorites(): void {
+    const localFavorites = this.favoritesService.favorites();
+
+    if (localFavorites.length > 0) {
+      this.favorites = localFavorites;
+    }
+  }
+
+  private removeFromLocalState(publicId: string): void {
+    this.favoritesService.removeByPublicId(publicId);
+    this.favorites = this.favorites.filter((x) => (x.publicId ?? x.id.toString()) !== publicId);
+  }
+
+  private isLocalFavorite(publicId: string): boolean {
+    return publicId.startsWith('local-') || this.favoritesService.hasPublicId(publicId);
   }
 }
