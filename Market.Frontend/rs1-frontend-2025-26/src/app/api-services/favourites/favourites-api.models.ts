@@ -10,9 +10,13 @@ export interface FavouriteProductCardDto {
 }
 export interface FavoriteListItemDto {
   id: number;
+  publicId?: string;
   publicUserEntityId: number;
   productEntityId: number;
   dateAdded: string;
+  name?: string | null;
+  price?: number | null;
+  imageUrl?: string | null;
 }
 
 export type FavoritesListResponse = PageResult<FavoriteListItemDto>;
