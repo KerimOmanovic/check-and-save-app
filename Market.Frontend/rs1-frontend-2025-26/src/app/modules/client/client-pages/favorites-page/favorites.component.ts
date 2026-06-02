@@ -56,9 +56,11 @@ export class FavoritesComponent implements OnInit {
           return;
         }
 
-        this.favouritesApi.delete(item.id).pipe(take(1)).subscribe({
+        const favoritePublicId = item.publicId ?? item.id.toString();
+
+        this.favouritesApi.delete(favoritePublicId).pipe(take(1)).subscribe({
           next: () => {
-            this.favorites = this.favorites.filter(x => x.id !== item.id);
+            this.favorites = this.favorites.filter((x) => (x.publicId ?? x.id.toString()) !== favoritePublicId);
             this.toaster.success('Proizvod je uspješno uklonjen iz omiljenih.');
           },
           error: () => {
@@ -90,7 +92,7 @@ export class FavoritesComponent implements OnInit {
           return;
         }
 
-        const deletions = this.favorites.map((x) => this.favouritesApi.delete(x.id));
+        const deletions = this.favorites.map((x) => this.favouritesApi.delete(x.publicId ?? x.id.toString()));
         (deletions.length ? forkJoin(deletions) : of([])).pipe(take(1)).subscribe({
           next: () => {
             this.favorites = [];
@@ -103,7 +105,7 @@ export class FavoritesComponent implements OnInit {
       });
   }
 
-  trackById(_: number, item: FavouriteProductCardDto): number {
-    return item.id;
+  trackById(_: number, item: FavouriteProductCardDto): string {
+    return item.publicId ?? item.id.toString();
   }
 }
