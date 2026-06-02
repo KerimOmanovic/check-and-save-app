@@ -1,25 +1,13 @@
-﻿using Market.Application.Modules.Stores.Branches.Queries.Map;
-using Market.Domain.Entities.StoreEntities;
-using Market.Infrastructure.Database;
-using Microsoft.EntityFrameworkCore;
+﻿namespace Market.Application.Modules.Stores.Branches.Queries.Map;
 
-namespace Market.Application.Modules.Stores.Branches.Queries.Map;
-
-public sealed class GetBranchesMapQueryHandler
+public sealed class GetBranchesMapQueryHandler(IAppDbContext ctx)
     : IRequestHandler<GetBranchesMapQuery, List<BranchMapItemDto>>
 {
-    private readonly DatabaseContext _db;
-
-    public GetBranchesMapQueryHandler(DatabaseContext db)
-    {
-        _db = db;
-    }
-
     public async Task<List<BranchMapItemDto>> Handle(
         GetBranchesMapQuery request,
-        CancellationToken cancellationToken)
+        CancellationToken ct)
     {
-        return await _db.Set<BranchEntity>()
+        return await ctx.Branches
             .AsNoTracking()
             .Where(b => !b.IsDeleted
                         && b.IsActive
@@ -36,6 +24,6 @@ public sealed class GetBranchesMapQueryHandler
                 Latitude = b.Latitude!.Value,
                 Longitude = b.Longitude!.Value,
             })
-            .ToListAsync(cancellationToken);
+            .ToListAsync(ct);
     }
 }
