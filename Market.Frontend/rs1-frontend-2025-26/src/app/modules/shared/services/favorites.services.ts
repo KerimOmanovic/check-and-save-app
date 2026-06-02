@@ -10,20 +10,19 @@ export interface FavoriteTogglePayload {
 @Injectable({ providedIn: 'root' })
 export class FavoritesService {
 
-  private readonly favoritesMap = signal<Map<string, FavouriteProductCardDto>>(new Map());
+  private readonly storageKey = 'check-and-save-favorites';
+  private readonly favoritesMap = signal<Map<string, FavouriteProductCardDto>>(this.loadStoredFavorites());
 
   readonly favorites = computed(() =>
     Array.from(this.favoritesMap().values()).sort((a, b) => a.name.localeCompare(b.name))
   );
+  toggle(productName: string, payload?: FavoriteTogglePayload): void {
+    const key = this.normalizeKey(productName);
+    const next = new Map(this.favoritesMap());
 
-
-    toggle(productName: string, payload?: FavoriteTogglePayload): void {
-      const key = this.normalizeKey(productName);
-      const next = new Map(this.favoritesMap());
-
-      if (next.has(key)) {
+    if (next.has(key)) {
       next.delete(key);
-      this.favoritesMap.set(next);
+      this.setFavorites(next);
       return;
     }
 
@@ -36,11 +35,14 @@ export class FavoritesService {
       imageUrl: payload?.imageUrl ?? null
     });
 
-    this.favoritesMap.set(next);
+    this.setFavorites(next);
   }
 
   isFavorite(productName: string): boolean {
     return this.favoritesMap().has(this.normalizeKey(productName));
+  }
+  hasPublicId(publicId: string): boolean {
+    return this.favorites().some((item) => item.publicId === publicId);
   }
 
   removeByPublicId(publicId: string): void {
@@ -49,11 +51,31 @@ export class FavoritesService {
 
     if (entry) {
       next.delete(entry[0]);
-      this.favoritesMap.set(next);
+      this.setFavorites(next);
     }
   }
   clear(): void {
-    this.favoritesMap.set(new Map());
+    this.setFavorites(new Map());
+  }
+
+  private setFavorites(next: Map<string, FavouriteProductCardDto>): void {
+    this.favoritesMap.set(next);
+    localStorage.setItem(this.storageKey, JSON.stringify(Array.from(next.entries())));
+  }
+
+  private loadStoredFavorites(): Map<string, FavouriteProductCardDto> {
+    const stored = localStorage.getItem(this.storageKey);
+
+    if (!stored) {
+      return new Map();
+    }
+
+    try {
+      return new Map(JSON.parse(stored));
+    } catch {
+      localStorage.removeItem(this.storageKey);
+      return new Map();
+    }
   }
 
   private normalizeKey(name: string): string {
