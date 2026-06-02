@@ -3,10 +3,6 @@ import { BasePagedQuery } from '../../core/models/paging/base-paged-query';
 
 // === QUERIES (READ) ===
 
-/**
- * Query parameters for GET /Branches
- * Corresponds to: ListBranchesQuery.cs
- */
 export class ListBranchesQuery extends BasePagedQuery {
   storeEntityId?: number | null;
   cityEntityId?: number | null;
@@ -14,10 +10,6 @@ export class ListBranchesQuery extends BasePagedQuery {
   search?: string | null;
 }
 
-/**
- * Response item for GET /Branches
- * Corresponds to: ListBranchesQueryDto.cs
- */
 export interface ListBranchesQueryDto {
   id: number;
   storeEntityId: number;
@@ -28,17 +20,24 @@ export interface ListBranchesQueryDto {
   isActive: boolean;
 }
 
-/**
- * Paged response for GET /Branches
- */
 export type ListBranchesResponse = PageResult<ListBranchesQueryDto>;
+
+/**
+ * Response item for GET /Branches/map
+ * Corresponds to: BranchMapItemDto.cs
+ */
+export interface BranchMapItemDto {
+  id: number;
+  storeName: string;
+  address: string;
+  contact: string;
+  email: string;
+  latitude: number;
+  longitude: number;
+}
 
 // === COMMANDS (WRITE) ===
 
-/**
- * Command for POST /Branches
- * Corresponds to: CreateBranchCommand.cs
- */
 export interface CreateBranchCommand {
   storeEntityId: number;
   cityEntityId: number;
@@ -46,11 +45,6 @@ export interface CreateBranchCommand {
   contact: string;
   email: string;
 }
-
-/**
- * Command for PUT /Branches/{id}
- * Corresponds to: UpdateBranchCommand.cs
- */
 
 export interface UpdateBranchCommand {
   storeEntityId: number;
@@ -61,10 +55,6 @@ export interface UpdateBranchCommand {
   isActive: boolean;
 }
 
-/**
- * Response item for GET /Branches/{id}
- * Corresponds to: GetBranchByIdQueryDto.cs
- */
 export interface GetBranchByIdQueryDto {
   id: number;
   storeEntityId: number;
