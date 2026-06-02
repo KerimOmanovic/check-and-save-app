@@ -15,6 +15,7 @@ const routes: Routes = [
         component: SearchProductsComponent
       },
       { path: 'product/:id', component: ProductDetailComponent },
+      { path: 'compare', component: ProductComparisonComponent },
       { path: 'compare/:leftId/:rightId', component: ProductComparisonComponent },
       { path: '**', redirectTo: '' }
     ]
