@@ -14,9 +14,15 @@
             var pq = q.Select(x => new ListFavoritesQueryDto
             {
                 Id = x.Id,
+                PublicId = x.Id.ToString(),
                 PublicUserEntityId = x.PublicUserEntityId,
                 ProductEntityId = x.ProductEntityId,
-                DateAdded = x.DateAdded
+                DateAdded = x.DateAdded,
+                Name = x.ProductEntity != null ? x.ProductEntity.Name : null,
+                Price = x.ProductEntity != null
+                    ? x.ProductEntity.Prices.Select(p => (int?)p.Amount).Min()
+                    : null,
+                ImageUrl = x.ProductEntity != null ? x.ProductEntity.ImageURL : null
             });
 
             return await PageResult<ListFavoritesQueryDto>

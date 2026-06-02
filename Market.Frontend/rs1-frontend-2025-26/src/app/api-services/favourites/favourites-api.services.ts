@@ -15,7 +15,7 @@ import {
 export class FavouritesApiService {
   private http = inject(HttpClient);
   private productsApi = inject(ProductsApiService);
-  private baseUrl = `${environment.apiUrl}/Favorites`;
+  private baseUrl = `${environment.apiUrl}/api/favourites`;
 
   getAll(): Observable<FavouriteProductCardDto[]> {
     const params = new HttpParams()
