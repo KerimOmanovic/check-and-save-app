@@ -16,7 +16,7 @@
     <h1>Uporedi odabrane proizvode po prodavnici</h1>
     <p>
       Prikazujemo proizvode koje ste odabrali kroz ComparisonService, zajedno sa slikom,
-      nazivom, prodavnicom i posljednjom dostupnom cijenom.
+      nazivom, prodavnicama i posljednjom dostupnom cijenom iz novog compare API-ja.
     </p>
   </header>
 
@@ -62,6 +62,7 @@
         </td>
         <td>
           <span class="store-name">{{ row.storeName }}</span>
+          <span class="product-id" *ngIf="row.branchAddress">{{ row.branchAddress }}</span>
         </td>
         <td>
             <span class="price" *ngIf="row.price !== null; else noPrice">

@@ -51,6 +51,38 @@ export interface GetProductByIdQueryDto {
  * Paged response for GET /Product
  */
 export type ListProductsResponse = PageResult<ListProductsQueryDto>;
+/**
+ * Response for GET /api/products/compare?ids=...
+ * Corresponds to: CompareProductsQueryDto.cs
+ */
+export interface CompareProductsQueryDto {
+  products: CompareProductDto[];
+}
+
+export interface CompareProductDto {
+  publicId: string;
+  id: number;
+  name: string;
+  description: string;
+  imageURL: string;
+  dateAdded: string;
+  categoryEntityId: number;
+  categoryName: string;
+  brandEntityId: number;
+  brandName: string;
+  prices: CompareStorePriceDto[];
+}
+
+export interface CompareStorePriceDto {
+  productId: number;
+  productPublicId: string;
+  storeEntityId: number;
+  storeName: string;
+  branchEntityId: number;
+  branchAddress: string;
+  amount?: number | null;
+  dateUpdated?: string | null;
+}
 
 // === COMMANDS (WRITE) ===
 

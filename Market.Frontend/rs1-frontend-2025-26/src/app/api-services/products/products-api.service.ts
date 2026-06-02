@@ -4,6 +4,7 @@ import { Observable } from 'rxjs';
 
 import { environment } from '../../../environments/environment';
 import {
+  CompareProductsQueryDto,
   CreateProductCommand,
   GetProductByIdQueryDto,
   ListProductsQuery,
@@ -61,7 +62,17 @@ export class ProductsApiService {
 
     return this.http.get<ListProductsResponse>(this.baseUrl, { params });
   }
+  /** GET /api/products/compare?ids=... */
+  compare(ids: Array<number | string>): Observable<CompareProductsQueryDto> {
+    const publicIds = ids
+      .map((id) => id.toString().trim())
+      .filter((id) => id.length > 0);
 
+    const params = new HttpParams().set('ids', publicIds.join(','));
+
+    console.log('🌐 Products API - GET compare:', publicIds);
+    return this.http.get<CompareProductsQueryDto>(`${environment.apiUrl}/api/products/compare`, { params });
+  }
   /** GET /Product/{id} */
   getById(id: number): Observable<GetProductByIdQueryDto> {
     console.log('🌐 Products API - GET by ID:', id);
