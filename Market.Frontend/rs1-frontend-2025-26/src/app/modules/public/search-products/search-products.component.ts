@@ -1,6 +1,6 @@
-import { Component, inject, OnInit } from '@angular/core';
+import { Component, inject, OnDestroy, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { forkJoin, of } from 'rxjs';
+import { forkJoin, of, Subscription } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 import { ToasterService } from '../../../core/services/toaster.service';
 import { CurrentUserService } from '../../../core/services/auth/current-user.service';
@@ -43,20 +43,22 @@ interface ProductCard{
   templateUrl: './search-products.component.html',
   styleUrl: './search-products.component.scss',
 })
-export class SearchProductsComponent implements OnInit {
+export class SearchProductsComponent implements OnInit, OnDestroy {
   private currentUser = inject(CurrentUserService);
   private favoritesService = inject(FavoritesService);
   private router = inject(Router);
   private toaster = inject(ToasterService);
   private productsApi = inject(ProductsApiService);
   private categoriesApi = inject(CategoriesApiService);
+  private comparisonService = inject(ComparisonService);
+  private comparisonSubscription?: Subscription;
+  selectedComparisonIds: number[] = [];
   query = '';
   activeTag = 'Popularno';
   resultsTitle = 'Najnovije preporuke';
   resultsSubtitle = 'Prikazujemo odabrane proizvode iz više prodavnica.';
   resultsCount = 0;
 
-  private comparisonBaseProductId: number | null = null;
 
   private categoryById = new Map<number, string>();
 
@@ -86,8 +88,17 @@ export class SearchProductsComponent implements OnInit {
       subtitle: 'Sačuvaj proizvode za kasnije upoređivanje.',
     },
   ];
+
   ngOnInit(): void {
+    this.selectedComparisonIds = this.comparisonService.selectedProductIds;
+    this.comparisonSubscription = this.comparisonService.selectedProductIds$.subscribe((ids) => {
+      this.selectedComparisonIds = ids;
+    });
     this.loadProducts();
+  }
+
+  ngOnDestroy(): void {
+    this.comparisonSubscription?.unsubscribe();
   }
 
   setActiveTag(tag: string): void {
@@ -99,29 +110,37 @@ export class SearchProductsComponent implements OnInit {
     this.query = value;
     this.updateResults(value);
   }
+
   onSearch(): void {
     this.updateResults(this.query, true);
   }
+
   onCardClick(productId: number, event: Event): void {
-    if (!this.isComparisonTrigger(event)) {
-      this.router.navigate(['/product', productId]);
+    if (this.isComparisonTrigger(event)) {
+      this.toggleCompare(productId, event);
       return;
     }
 
-    if (this.comparisonBaseProductId === null) {
-      this.comparisonBaseProductId = productId;
-      this.toaster.info('Odabran je prvi proizvod. Ctrl/⌘ + kliknite drugi proizvod za poređenje.');
-      return;
-    }
+    this.router.navigate(['/product', productId]);
+  }
 
-    if (this.comparisonBaseProductId === productId) {
-      this.toaster.warning('Odaberite drugi proizvod za poređenje.');
-      return;
-    }
+  toggleCompare(productId: number, event?: Event): void {
+    event?.stopPropagation();
+    this.comparisonService.toggleProduct(productId);
 
-    const leftId = this.comparisonBaseProductId;
-    this.comparisonBaseProductId = null;
-    this.router.navigate(['/compare', leftId, productId]);
+    const isSelected = this.isSelectedForComparison(productId);
+    this.toaster.info(
+      isSelected ? 'Proizvod je dodan za poređenje.' : 'Proizvod je uklonjen iz poređenja.'
+    );
+  }
+
+  isSelectedForComparison(productId: number): boolean {
+    return this.selectedComparisonIds.includes(productId);
+  }
+
+  clearComparison(event?: Event): void {
+    event?.stopPropagation();
+    this.comparisonService.clear();
   }
 
   onAddToFavorites(product: ProductCard, event?: Event): void {

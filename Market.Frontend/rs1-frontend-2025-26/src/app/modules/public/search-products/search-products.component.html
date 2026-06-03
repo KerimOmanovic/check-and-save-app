@@ -40,7 +40,7 @@
         </div>
 
         <div class="results-grid">
-          <p class="comparison-hint">Savjet: Ctrl/⌘ + klik na dvije kartice otvara comparison view.</p>
+          <p class="comparison-hint">Savjet: kliknite "Compare" na karticama ili Ctrl/⌘ + klik na karticu za dodavanje u poređenje.</p>
           <div class="empty-state" *ngIf="filteredProducts.length === 0">
             <mat-icon aria-hidden="true">inventory_2</mat-icon>
             <h3>Nema proizvoda u kategoriji {{ activeTag }}</h3>
@@ -81,9 +81,21 @@
                 </ng-template>
                 <span class="price-old" *ngIf="product.oldPrice">{{ product.oldPrice.toFixed(2) }} KM</span>
               </div>
-              <button class="card-btn" type="button" (click)="onAddToFavorites(product, $event)">
-                Dodaj u listu
-              </button>
+              <div class="card-actions">
+                <button
+                  class="card-btn compare-toggle"
+                  type="button"
+                  [class.active]="isSelectedForComparison(product.id)"
+                  [attr.aria-pressed]="isSelectedForComparison(product.id)"
+                  (click)="toggleCompare(product.id, $event)"
+                >
+                  <mat-icon aria-hidden="true">{{ isSelectedForComparison(product.id) ? 'check_circle' : 'compare_arrows' }}</mat-icon>
+                  Compare
+                </button>
+                <button class="card-btn" type="button" (click)="onAddToFavorites(product, $event)">
+                  Dodaj u listu
+                </button>
+              </div>
             </div>
           </article>
         </div>
@@ -117,5 +129,15 @@
         <button class="primary-btn" type="button">Sačuvaj filtere</button>
       </div>
     </aside>
+  </div>
+  <div class="comparison-action-bar" *ngIf="selectedComparisonIds.length > 0" role="status">
+    <div>
+      <strong>{{ selectedComparisonIds.length }}</strong>
+      <span>odabranih proizvoda za poređenje</span>
+    </div>
+    <div class="comparison-actions">
+      <button type="button" class="comparison-clear" (click)="clearComparison($event)">Očisti</button>
+      <a class="comparison-link" routerLink="/compare">Otvori poređenje</a>
+    </div>
   </div>
 </section>
