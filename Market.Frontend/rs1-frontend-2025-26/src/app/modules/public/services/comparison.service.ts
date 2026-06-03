@@ -11,14 +11,34 @@ export class ComparisonService {
   }
 
   setSelectedProductIds(productIds: number[]): void {
-    const uniqueIds = productIds
-      .filter((id) => Number.isFinite(id) && id > 0)
-      .filter((id, index, ids) => ids.indexOf(id) === index);
+    this.selectedProductIdsSubject.next(this.normalizeProductIds(productIds));
+  }
 
-    this.selectedProductIdsSubject.next(uniqueIds);
+  toggleProduct(productId: number): void {
+    const normalizedId = Number(productId);
+
+    if (!Number.isFinite(normalizedId) || normalizedId <= 0) {
+      return;
+    }
+
+    const selectedIds = this.selectedProductIds;
+    const nextIds = selectedIds.includes(normalizedId)
+      ? selectedIds.filter((id) => id !== normalizedId)
+      : [...selectedIds, normalizedId];
+    this.selectedProductIdsSubject.next(nextIds);
+  }
+
+  isSelected(productId: number): boolean {
+    return this.selectedProductIds.includes(productId);
   }
 
   clear(): void {
     this.selectedProductIdsSubject.next([]);
+  }
+  private normalizeProductIds(productIds: number[]): number[] {
+    return productIds
+      .map((id) => Number(id))
+      .filter((id) => Number.isFinite(id) && id > 0)
+      .filter((id, index, ids) => ids.indexOf(id) === index);
   }
 }
