@@ -6,7 +6,13 @@
     </button>
 
     <mat-card class="detail-card">
-      <img [src]="product.imageUrl" [alt]="product.name" />
+
+      <!-- Carousel umjesto single img -->
+      <app-product-image-carousel
+        [images]="product.images"
+        [autoPlay]="true"
+        [intervalMs]="3000">
+      </app-product-image-carousel>
 
       <div class="content">
         <span class="category">{{ product.category }}</span>

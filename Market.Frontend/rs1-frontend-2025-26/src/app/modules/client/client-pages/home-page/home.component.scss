@@ -38,10 +38,6 @@ $shadow: rgba(15, 61, 46, 0.12);
   gap: 16px;
 }
 
-// =============================================
-// BRAND LOGO — reverse colors (bež bg, zelena ikona)
-// identičan oblik kao na landing pageu ali invertovan
-// =============================================
 .brand {
   display: flex;
   align-items: center;
@@ -54,16 +50,14 @@ $shadow: rgba(15, 61, 46, 0.12);
 .brand-mark {
   width: 48px;
   height: 48px;
-  background: $beige-accent;   // bež pozadina — kao brand-icon na landing pageu ali invertovano
+  background: $beige-accent;
   border-radius: 12px;
   display: flex;
   align-items: center;
   justify-content: center;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.18);
 
-  svg {
-    display: block;
-  }
+  svg { display: block; }
 }
 
 .brand-name {
@@ -74,17 +68,13 @@ $shadow: rgba(15, 61, 46, 0.12);
   line-height: 1.1;
 }
 
-.brand-amp {
-  color: $beige-accent;   // bež & kao na landing pageu
-}
+.brand-amp { color: $beige-accent; }
 
 .brand-sub {
   color: rgba(255, 255, 255, 0.72);
   font-size: 12px;
   margin-top: 2px;
 }
-
-// =============================================
 
 .search {
   flex: 1 1 auto;
@@ -233,9 +223,7 @@ $shadow: rgba(15, 61, 46, 0.12);
   scrollbar-width: none;
 }
 
-.cats-shell::-webkit-scrollbar {
-  display: none;
-}
+.cats-shell::-webkit-scrollbar { display: none; }
 
 .cat {
   appearance: none;
@@ -261,16 +249,8 @@ $shadow: rgba(15, 61, 46, 0.12);
   border-color: rgba(205, 187, 154, 0.9);
 }
 
-.cat-label {
-  font-size: 13px;
-  letter-spacing: 0.2px;
-}
-
-.cat-sub {
-  font-size: 11px;
-  font-weight: 600;
-  opacity: 0.75;
-}
+.cat-label { font-size: 13px; letter-spacing: 0.2px; }
+.cat-sub { font-size: 11px; font-weight: 600; opacity: 0.75; }
 
 .page {
   max-width: 1280px;
@@ -320,17 +300,19 @@ $shadow: rgba(15, 61, 46, 0.12);
   gap: 14px;
 }
 
+// ── Compare panel ────────────────────────────────────────────
 .compare-panel {
   grid-column: 1 / -1;
   border: 1px solid rgba(15, 61, 46, 0.2);
   background: rgba(246, 243, 236, 0.75);
   border-radius: 16px;
-  padding: 14px;
+  padding: 16px;
 }
 
 .compare-title {
   font-weight: 900;
   color: $primary-dark;
+  font-size: 15px;
 }
 
 .compare-text {
@@ -339,23 +321,76 @@ $shadow: rgba(15, 61, 46, 0.12);
   font-size: 13px;
 }
 
-.compare-result {
-  margin-top: 8px;
-  display: grid;
-  gap: 4px;
-  font-size: 13px;
-  color: $text;
+.compare-cards {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 24px;
+  margin-top: 14px;
+}
+
+.compare-item {
+  background: #fff;
+  border: 1px solid rgba(15, 61, 46, 0.14);
+  border-radius: 16px;
+  overflow: hidden;
+  width: 280px;
+
+  app-product-image-carousel {
+    display: block;
+
+    ::ng-deep .carousel__track {
+      aspect-ratio: 4 / 3;
+      max-height: 180px;
+    }
+
+    ::ng-deep .carousel__img {
+      object-fit: cover;
+    }
+  }
+
+  &__name {
+    font-weight: 900;
+    color: $primary-dark;
+    font-size: 14px;
+    padding: 8px 12px 2px;
+    text-align: center;
+  }
+
+  &__price {
+    font-weight: 900;
+    color: $primary;
+    font-size: 16px;
+    padding: 0 12px 4px;
+    text-align: center;
+  }
+
+  &__store {
+    color: $text-muted;
+    font-size: 12px;
+    padding: 0 12px 10px;
+    text-align: center;
+  }
+}
+
+.compare-vs {
+  font-weight: 900;
+  font-size: 20px;
+  color: $text-muted;
+  text-align: center;
+  flex-shrink: 0;
 }
 
 .compare-savings {
-  margin-top: 4px;
+  margin-top: 12px;
   color: $primary-dark;
+  font-size: 14px;
+  text-align: center;
 }
 
-.compare-reset {
-  margin-top: 10px;
-}
+.compare-reset { margin-top: 10px; }
 
+// ── Product card ─────────────────────────────────────────────
 .card {
   border: 1px solid rgba(15, 61, 46, 0.14);
   border-radius: 18px;
@@ -376,6 +411,11 @@ $shadow: rgba(15, 61, 46, 0.12);
   border-bottom: 1px solid rgba(15, 61, 46, 0.10);
 }
 
+.card-carousel {
+  border-radius: 16px;
+  overflow: hidden;
+}
+
 .thumb {
   height: 150px;
   border-radius: 16px;
@@ -393,6 +433,7 @@ $shadow: rgba(15, 61, 46, 0.12);
   border: 1px solid rgba(15, 61, 46, 0.18);
   background: rgba(255, 255, 255, 0.95);
   cursor: pointer;
+  z-index: 2;
 }
 
 .fav::before {
@@ -447,6 +488,7 @@ $shadow: rgba(15, 61, 46, 0.12);
 }
 
 .btn.outline:hover { background: rgba(15, 61, 46, 0.06); }
+
 .btn.outline.active {
   background: rgba(15, 61, 46, 0.12);
   border-color: rgba(15, 61, 46, 0.45);
@@ -489,6 +531,7 @@ $shadow: rgba(15, 61, 46, 0.12);
 .f-sub { margin-top: 4px; color: $text-muted; font-size: 12px; }
 
 .f-right { display: flex; gap: 10px; flex-wrap: wrap; }
+
 .f-link {
   border: 0;
   background: transparent;
@@ -507,7 +550,6 @@ $shadow: rgba(15, 61, 46, 0.12);
     flex-wrap: wrap;
     justify-content: center;
   }
-
   .brand { order: 1; }
   .search { order: 2; max-width: 100%; }
   .actions { order: 3; justify-content: center; }
@@ -516,6 +558,14 @@ $shadow: rgba(15, 61, 46, 0.12);
 @media (max-width: 1100px) {
   .grid { grid-template-columns: repeat(2, 1fr); }
   .stores { grid-template-columns: repeat(2, 1fr); }
+  .compare-cards { flex-wrap: wrap; }
+  .compare-item { width: 240px; }
+}
+
+@media (max-width: 600px) {
+  .compare-cards { flex-direction: column; align-items: center; }
+  .compare-item { width: 100%; max-width: 320px; }
+  .compare-vs { transform: rotate(90deg); }
 }
 
 @media (max-width: 520px) {

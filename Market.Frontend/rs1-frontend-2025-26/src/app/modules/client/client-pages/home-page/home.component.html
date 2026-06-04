@@ -5,7 +5,6 @@
         <div class="brand-mark">
           <mat-icon>storefront</mat-icon>
         </div>
-
         <div class="brand-text">
           <div class="brand-name">Check<span class="brand-amp">&</span>Save</div>
           <div class="brand-sub">Uporedi i uštedi</div>
@@ -15,14 +14,12 @@
       <div class="search">
         <div class="search-box">
           <span class="search-icon" aria-hidden="true"></span>
-
           <input
             type="text"
             placeholder="Pretraži proizvode (npr. mlijeko, kafa, čokolada...)"
             [(ngModel)]="searchTerm"
             (ngModelChange)="onSearchTermChange($event)"
           />
-
           <button class="search-btn" type="button" (click)="onSearch()">Pretraži</button>
         </div>
       </div>
@@ -31,9 +28,7 @@
         <button class="pill-btn" type="button" routerLink="/client/favorites">
           Omiljeni <span *ngIf="favoritesCount() > 0">({{ favoritesCount() }})</span>
         </button>
-
         <button class="pill-btn" type="button" routerLink="/client/map">Mapa prodavnica</button>
-
         <button class="user-pill" type="button" [routerLink]="profileLink">
           <span class="avatar">{{ userLabel.charAt(0) }}</span>
           <span class="user-text">
@@ -74,38 +69,75 @@
             <span *ngSwitchDefault>Popularni proizvodi</span>
           </ng-container>
         </h2>
-
         <button class="link-btn" type="button" (click)="scrollTo('stores')">Prodavnice</button>
       </div>
 
       <div class="grid" *ngIf="activeCategory !== 'prodavnice'">
+
+        <!-- Compare panel -->
         <aside class="compare-panel" *ngIf="compareSelection.length > 0">
           <div class="compare-title">Poređenje proizvoda</div>
+
           <p class="compare-text" *ngIf="compareSelection.length === 1">
-            Prvi proizvod je odabran: <strong>{{ compareSelection[0].name }}</strong
-          >. Odaberi još jedan klikom na dugme <em>Uporedi</em>.
+            Odabran je <strong>{{ compareSelection[0].name }}</strong>.
+            Klikni <em>Uporedi</em> na drugom proizvodu.
           </p>
-          <div class="compare-result" *ngIf="comparePair">
-            <div><strong>{{ comparePair.left.name }}</strong> — {{ comparePair.left.price.toFixed(2) }} KM</div>
-            <div><strong>{{ comparePair.right.name }}</strong> — {{ comparePair.right.price.toFixed(2) }} KM</div>
-            <div class="compare-savings">
-              Razlika u cijeni: <strong>{{ compareSavings.toFixed(2) }} KM</strong>
+
+          <div class="compare-cards" *ngIf="comparePair">
+            <div class="compare-item">
+              <app-product-image-carousel
+                *ngIf="comparePair.left.images.length > 0"
+                [images]="comparePair.left.images"
+                [autoPlay]="false">
+              </app-product-image-carousel>
+              <div class="compare-item__name">{{ comparePair.left.name }}</div>
+              <div class="compare-item__price">{{ comparePair.left.price.toFixed(2) }} KM</div>
+              <div class="compare-item__store">{{ comparePair.left.bestStore }}</div>
+            </div>
+
+            <div class="compare-vs">VS</div>
+
+            <div class="compare-item">
+              <app-product-image-carousel
+                *ngIf="comparePair.right.images.length > 0"
+                [images]="comparePair.right.images"
+                [autoPlay]="false">
+              </app-product-image-carousel>
+              <div class="compare-item__name">{{ comparePair.right.name }}</div>
+              <div class="compare-item__price">{{ comparePair.right.price.toFixed(2) }} KM</div>
+              <div class="compare-item__store">{{ comparePair.right.bestStore }}</div>
             </div>
           </div>
+
+          <div class="compare-savings" *ngIf="comparePair">
+            Razlika u cijeni: <strong>{{ compareSavings.toFixed(2) }} KM</strong>
+          </div>
+
           <button class="btn outline small compare-reset" type="button" (click)="clearCompare()">
             Resetuj poređenje
           </button>
         </aside>
 
+        <!-- Product cards -->
         <article class="card" *ngFor="let p of visibleProducts; trackBy: trackByProductId">
           <div class="card-top">
-            <div class="thumb"></div>
+            <div class="card-carousel" (click)="$event.stopPropagation()">
+              <app-product-image-carousel
+                *ngIf="p.images && p.images.length > 0; else thumbFallback"
+                [images]="p.images"
+                [autoPlay]="true"
+                [intervalMs]="3000">
+              </app-product-image-carousel>
+              <ng-template #thumbFallback>
+                <div class="thumb"></div>
+              </ng-template>
+            </div>
 
             <button
               class="fav"
               type="button"
               [class.active]="isFavorite(p.name)"
-              (click)="toggleFavorite(p.name, p.price)"
+              (click)="toggleFavorite(p.name, p.price, p.images[0])"
               aria-label="Dodaj u omiljene"
             ></button>
           </div>
@@ -113,7 +145,6 @@
           <div class="card-body">
             <div class="name">{{ p.name }}</div>
             <div class="meta">Najniža cijena: {{ p.bestStore }}</div>
-
             <div class="price-row">
               <div class="price">{{ p.price.toFixed(2) }} KM</div>
               <button
@@ -128,6 +159,7 @@
           </div>
         </article>
       </div>
+
       <div class="stores" *ngIf="activeCategory === 'prodavnice'">
         <div class="store-card" *ngFor="let s of visibleStores; trackBy: trackByStore">
           <div class="store-title">{{ s.name }}</div>
@@ -142,7 +174,6 @@
         <h2 class="h2">Prodavnice</h2>
         <button class="link-btn" type="button" routerLink="/client/map">Otvori mapu</button>
       </div>
-
       <div class="stores">
         <div class="store-card" *ngFor="let s of stores; trackBy: trackByStore">
           <div class="store-title">{{ s.name }}</div>
@@ -158,7 +189,6 @@
           <div class="f-brand">Check&Save</div>
           <div class="f-sub">Poređenje cijena proizvoda iz više prodavnica u Mostaru.</div>
         </div>
-
         <div class="f-right">
           <button class="f-link" type="button" (click)="scrollTo('popular')">Popularno</button>
           <button class="f-link" type="button" (click)="scrollTo('popular')">Kategorije</button>
