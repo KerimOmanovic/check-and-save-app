@@ -6,6 +6,7 @@ export interface PublicProduct {
   brand: string;
   rating: number;
   imageUrl: string;
+  images: string[];
   category: string;
 }
 
@@ -18,6 +19,11 @@ export const PUBLIC_PRODUCTS: PublicProduct[] = [
     brand: 'Apple',
     rating: 4.8,
     imageUrl: 'https://images.unsplash.com/photo-1696446702183-8f5d6f8baf9d?auto=format&fit=crop&w=1200&q=80',
+    images: [
+      'https://images.unsplash.com/photo-1696446702183-8f5d6f8baf9d?auto=format&fit=crop&w=1200&q=80',
+      'https://images.unsplash.com/photo-1511707171634-5f897ff02aa9?auto=format&fit=crop&w=1200&q=80',
+      'https://images.unsplash.com/photo-1580910051074-3eb694886505?auto=format&fit=crop&w=1200&q=80',
+    ],
     category: 'Smartphone'
   },
   {
@@ -28,6 +34,11 @@ export const PUBLIC_PRODUCTS: PublicProduct[] = [
     brand: 'Samsung',
     rating: 4.7,
     imageUrl: 'https://images.unsplash.com/photo-1610945265064-0e34e5519bbf?auto=format&fit=crop&w=1200&q=80',
+    images: [
+      'https://images.unsplash.com/photo-1610945265064-0e34e5519bbf?auto=format&fit=crop&w=1200&q=80',
+      'https://images.unsplash.com/photo-1565849904461-04a58ad377e0?auto=format&fit=crop&w=1200&q=80',
+      'https://images.unsplash.com/photo-1512054502232-10a0a035d672?auto=format&fit=crop&w=1200&q=80',
+    ],
     category: 'Smartphone'
   },
   {
@@ -38,6 +49,11 @@ export const PUBLIC_PRODUCTS: PublicProduct[] = [
     brand: 'Sony',
     rating: 4.9,
     imageUrl: 'https://images.unsplash.com/photo-1546435770-a3e426bf472b?auto=format&fit=crop&w=1200&q=80',
+    images: [
+      'https://images.unsplash.com/photo-1546435770-a3e426bf472b?auto=format&fit=crop&w=1200&q=80',
+      'https://images.unsplash.com/photo-1505740420928-5e560c06d30e?auto=format&fit=crop&w=1200&q=80',
+      'https://images.unsplash.com/photo-1484704849700-f032a568e944?auto=format&fit=crop&w=1200&q=80',
+    ],
     category: 'Audio'
   },
   {
@@ -48,6 +64,11 @@ export const PUBLIC_PRODUCTS: PublicProduct[] = [
     brand: 'Dell',
     rating: 4.6,
     imageUrl: 'https://images.unsplash.com/photo-1611186871348-b1ce696e52c9?auto=format&fit=crop&w=1200&q=80',
+    images: [
+      'https://images.unsplash.com/photo-1611186871348-b1ce696e52c9?auto=format&fit=crop&w=1200&q=80',
+      'https://images.unsplash.com/photo-1496181133206-80ce9b88a853?auto=format&fit=crop&w=1200&q=80',
+      'https://images.unsplash.com/photo-1593642632559-0c6d3fc62b89?auto=format&fit=crop&w=1200&q=80',
+    ],
     category: 'Laptop'
   }
 ];
