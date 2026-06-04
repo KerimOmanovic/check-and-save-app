@@ -5,32 +5,16 @@ namespace Market.Domain.Entities.StoreEntities;
 
 public class BranchEntity : BaseEntity
 {
-    public class BranchEntity : BaseEntity
-    {
-        public int StoreEntityId { get; set; }
-        public StoreEntity? StoreEntity { get; set; }
-        public int CityEntityId { get; set; }
-        public CityEntity? CityEntity { get; set; }
-        public string Address { get; set; }
-        public string Contact { get; set; }
-        public string Email { get; set; }
-        public bool IsActive { get; set; }
-        public double? Latitude { get; set; }
-        public double? Longitude { get; set; }
-        public ICollection<ProductEntity> Products { get; set; } = new List<ProductEntity>();
     public int StoreEntityId { get; set; }
     public StoreEntity? StoreEntity { get; set; }
-
     public int CityEntityId { get; set; }
     public CityEntity? CityEntity { get; set; }
-
     public string Address { get; set; }
     public string Contact { get; set; }
     public string Email { get; set; }
     public bool IsActive { get; set; }
     public double? Latitude { get; set; }
     public double? Longitude { get; set; }
-
     public ICollection<ProductEntity> Products { get; set; } = new List<ProductEntity>();
 
     public static class Constraints

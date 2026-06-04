@@ -30,6 +30,7 @@
           {{ tag }}
         </button>
       </div>
+
       <section class="results">
         <div class="results-header">
           <div>
@@ -56,9 +57,21 @@
           >
             <div class="card-badge" *ngIf="product.badge">{{ product.badge }}</div>
             <div class="card-top">
-              <div class="card-media" [style.background]="product.imageBg" aria-hidden="true">
-                <mat-icon>shopping_bag</mat-icon>
+
+              <!-- Carousel ako ima images, fallback na stari prikaz -->
+              <div class="card-media" aria-hidden="true" (click)="$event.stopPropagation()">
+                <app-product-image-carousel
+                  *ngIf="product.images && product.images.length > 0; else iconFallback"
+                  [images]="product.images"
+                  [autoPlay]="false">
+                </app-product-image-carousel>
+                <ng-template #iconFallback>
+                  <div class="card-media-icon" [style.background]="product.imageBg">
+                    <mat-icon>shopping_bag</mat-icon>
+                  </div>
+                </ng-template>
               </div>
+
               <div class="card-meta">
                 <span class="card-label">{{ product.category }}</span>
                 <span class="card-store">{{ product.storeLabel }}</span>
@@ -73,7 +86,7 @@
             </div>
             <div class="card-footer">
               <div class="price-group">
-                 <span class="price" *ngIf="product.price !== null && product.price !== undefined; else noPrice">
+                <span class="price" *ngIf="product.price !== null && product.price !== undefined; else noPrice">
                   {{ product.price.toFixed(2) }} KM
                 </span>
                 <ng-template #noPrice>
