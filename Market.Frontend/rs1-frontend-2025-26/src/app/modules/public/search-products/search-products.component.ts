@@ -23,7 +23,7 @@ interface GlobalAction {
   subtitle: string;
 }
 
-interface ProductCard{
+interface ProductCard {
   id: number;
   name: string;
   category: string;
@@ -34,8 +34,8 @@ interface ProductCard{
   oldPrice?: number;
   badge?: string;
   imageBg: string;
+  images: string[];
 }
-
 
 @Component({
   selector: 'app-search-products',
@@ -50,6 +50,7 @@ export class SearchProductsComponent implements OnInit, OnDestroy {
   private toaster = inject(ToasterService);
   private productsApi = inject(ProductsApiService);
   private categoriesApi = inject(CategoriesApiService);
+
   private comparisonService = inject(ComparisonService);
   private comparisonSubscription?: Subscription;
   selectedComparisonIds: number[] = [];
@@ -59,6 +60,7 @@ export class SearchProductsComponent implements OnInit, OnDestroy {
   resultsSubtitle = 'Prikazujemo odabrane proizvode iz više prodavnica.';
   resultsCount = 0;
 
+  private comparisonBaseProductId: number | null = null;
 
   private categoryById = new Map<number, string>();
 
@@ -66,27 +68,12 @@ export class SearchProductsComponent implements OnInit, OnDestroy {
 
   products: ProductCard[] = [];
   filteredProducts: ProductCard[] = [];
+
   globalActions: GlobalAction[] = [
-    {
-      icon: 'tune',
-      title: 'Filteri',
-      subtitle: 'Dodaj detaljne filtere po cijeni i kategoriji.',
-    },
-    {
-      icon: 'swap_vert',
-      title: 'Sortiranje',
-      subtitle: 'Posloži rezultate po najnižoj cijeni.',
-    },
-    {
-      icon: 'storefront',
-      title: 'Prodavnice',
-      subtitle: 'Pregledaj dostupne prodavnice u blizini.',
-    },
-    {
-      icon: 'favorite_border',
-      title: 'Omiljeno',
-      subtitle: 'Sačuvaj proizvode za kasnije upoređivanje.',
-    },
+    { icon: 'tune', title: 'Filteri', subtitle: 'Dodaj detaljne filtere po cijeni i kategoriji.' },
+    { icon: 'swap_vert', title: 'Sortiranje', subtitle: 'Posloži rezultate po najnižoj cijeni.' },
+    { icon: 'storefront', title: 'Prodavnice', subtitle: 'Pregledaj dostupne prodavnice u blizini.' },
+    { icon: 'favorite_border', title: 'Omiljeno', subtitle: 'Sačuvaj proizvode za kasnije upoređivanje.' },
   ];
 
   ngOnInit(): void {
@@ -155,20 +142,20 @@ export class SearchProductsComponent implements OnInit, OnDestroy {
     this.favoritesService.toggle(product.name, {
       publicId: product.id.toString(),
       price: product.price ?? null,
-      imageUrl: "assets/cart-icon.png"
+      imageUrl: product.images[0] ?? 'assets/cart-icon.png'
     });
+
     const isFavorite = this.favoritesService.isFavorite(product.name);
     this.toaster.success(
       isFavorite ? 'Proizvod je dodan u omiljene.' : 'Proizvod je uklonjen iz omiljenih.'
     );
   }
-  private isComparisonTrigger(event: Event): boolean {
-    if (!(event instanceof MouseEvent || event instanceof KeyboardEvent)) {
-      return false;
-    }
 
+  private isComparisonTrigger(event: Event): boolean {
+    if (!(event instanceof MouseEvent || event instanceof KeyboardEvent)) return false;
     return event.ctrlKey || event.metaKey;
   }
+
   private updateResults(value: string, fromSubmit = false): void {
     const term = value.trim().toLowerCase();
     const activeTag = this.activeTag;
@@ -205,6 +192,7 @@ export class SearchProductsComponent implements OnInit, OnDestroy {
         ? 'Nema proizvoda koji odgovaraju upitu. Pokušajte drugi pojam.'
         : `Pronađeno ${this.resultsCount} proizvoda u prodavnicama.`;
   }
+
   private loadProducts(): void {
     const request = new ListProductsQuery();
 
@@ -226,12 +214,8 @@ export class SearchProductsComponent implements OnInit, OnDestroy {
       )
     }).subscribe({
       next: ({ products, categories }) => {
-        this.categoryById = new Map(
-          categories.items.map((category) => [category.id, category.name])
-        );
-        this.products = products.items.map((product, index) =>
-          this.mapProduct(product, index)
-        );
+        this.categoryById = new Map(categories.items.map((c) => [c.id, c.name]));
+        this.products = products.items.map((p, i) => this.mapProduct(p, i));
         this.filteredProducts = [...this.products];
         this.resultsCount = this.filteredProducts.length;
         this.updateResults(this.query);
@@ -254,7 +238,8 @@ export class SearchProductsComponent implements OnInit, OnDestroy {
       storeLabel: product.storeLabel ?? 'Nepoznata prodavnica',
       note: 'Najniža cijena trenutno dostupna.',
       price: product.lowestPrice ?? null,
-      imageBg: this.resolveImageBg(index)
+      imageBg: this.resolveImageBg(index),
+      images: [],
     };
   }
 
