@@ -87,11 +87,7 @@ export class AuthFacadeService {
   }
 
   applyAuthBundle(response: LoginCommandDto | RefreshTokenCommandDto): void {
-    if ('accessTokenExpiresAtUtc' in response) {
-      this.storage.saveRefresh(response);
-      this.decodeAndSetUser(response.accessToken);
-      return;
-    }
+
 
     this.storage.saveLogin(response);
     this.decodeAndSetUser(response.accessToken);
@@ -127,6 +123,12 @@ export class AuthFacadeService {
     try {
       const payload = jwtDecode<JwtPayloadDto>(token);
 
+      if (this.isTokenExpired(payload)) {
+        this.clearUserState();
+        return;
+      }
+
+
       const user: CurrentUserDto = {
         userId: Number(payload.sub),
         email: payload.email,
@@ -141,6 +143,15 @@ export class AuthFacadeService {
       console.error('Failed to decode JWT token:', error);
       this._currentUser.set(null);
     }
+  }
+  private isTokenExpired(payload: JwtPayloadDto): boolean {
+    if (!payload.exp) {
+      return true;
+    }
+
+    const currentUnixTime = Math.floor(Date.now() / 1000);
+
+    return payload.exp <= currentUnixTime;
   }
 
 
