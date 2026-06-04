@@ -9,6 +9,11 @@
     <span>{{ errorMessage }}</span>
   </div>
 
+  <div *ngIf="successMessage" class="success-message">
+    <mat-icon>check_circle</mat-icon>
+    <span>{{ successMessage }}</span>
+  </div>
+
   <form [formGroup]="form" (ngSubmit)="onSubmit()">
     <mat-form-field appearance="outline" class="full-width">
       <mat-label>{{ 'AUTH.LOGIN.EMAIL_LABEL' | translate }}</mat-label>
@@ -20,12 +25,8 @@
         autocomplete="email"
       />
       <mat-icon matPrefix>person</mat-icon>
-      <mat-error *ngIf="form.get('email')?.hasError('required')">
-        Email je obavezan
-      </mat-error>
-      <mat-error *ngIf="form.get('email')?.hasError('email')">
-        Unesite validan email
-      </mat-error>
+      <mat-error *ngIf="form.get('email')?.hasError('required')"> Email je obavezan </mat-error>
+      <mat-error *ngIf="form.get('email')?.hasError('email')"> Unesite validan email </mat-error>
     </mat-form-field>
 
     <mat-form-field appearance="outline" class="full-width">
@@ -71,7 +72,11 @@
         {{ 'AUTH.LOGIN.BUTTON' | translate }}
       </ng-container>
       <ng-template #loadingTpl>
-        <mat-progress-spinner mode="indeterminate" diameter="18" strokeWidth="3"></mat-progress-spinner>
+        <mat-progress-spinner
+          mode="indeterminate"
+          diameter="18"
+          strokeWidth="3"
+        ></mat-progress-spinner>
         <span>Prijava u toku...</span>
       </ng-template>
     </button>

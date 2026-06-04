@@ -1,4 +1,4 @@
-// src/app/core/services/auth/auth-facade.service.ts
+
 import { Injectable, inject, signal, computed } from '@angular/core';
 import { Router } from '@angular/router';
 import { Observable, of, tap, catchError, map, finalize } from 'rxjs';
@@ -50,8 +50,9 @@ export class AuthFacadeService {
   login(payload: LoginCommand): Observable<void> {
     return this.api.login(payload).pipe(
       tap((response: LoginCommandDto) => {
-        this.applyAuthBundle(response);      }),
-      map(() => void 0)
+        this.applyAuthBundle(response);
+      }),
+      map(() => void 0),
     );
   }
 
@@ -72,7 +73,7 @@ export class AuthFacadeService {
 
     return this.api.logout(payload).pipe(
       catchError(() => of(void 0)),
-      finalize(() => this.clearUserState())
+      finalize(() => this.clearUserState()),
     );
   }
 
@@ -81,13 +82,10 @@ export class AuthFacadeService {
     return this.api.refresh(payload).pipe(
       tap((response: RefreshTokenCommandDto) => {
         this.applyAuthBundle(response);
-      })
+      }),
     );
   }
-  /**
-   * Replaces local auth tokens and current user claims from a fresh auth bundle.
-   * Used by login/refresh and profile update flows.
-   */
+
   applyAuthBundle(response: LoginCommandDto | RefreshTokenCommandDto): void {
     if ('accessTokenExpiresAtUtc' in response) {
       this.storage.saveRefresh(response);
@@ -102,16 +100,10 @@ export class AuthFacadeService {
 
   redirectToLogin(): void {
     this.clearUserState();
-    this.router.navigate(['/login']);
+    this.router.navigate(['/auth/login']);
   }
 
-  // =========================================================
-  // GETTERI ZA INTERCEPTOR
-  // =========================================================
 
-  /**
-   * Access token za Authorization header.
-   */
   getAccessToken(): string | null {
     return this.storage.getAccessToken();
   }
@@ -121,9 +113,7 @@ export class AuthFacadeService {
     return this.storage.getRefreshToken();
   }
 
-  // =========================================================
-  // PRIVATE HELPERS
-  // =========================================================
+
 
 
   private initializeFromToken(): void {
