@@ -1,10 +1,18 @@
-// src/app/core/guards/auth.guard.ts
+
 import { inject } from '@angular/core';
-import { CanActivateFn, ActivatedRouteSnapshot, Router } from '@angular/router';
+import {
+  CanActivateFn,
+  ActivatedRouteSnapshot,
+  Router,
+  RouterStateSnapshot,
+} from '@angular/router';
 import { CurrentUserService } from '../services/auth/current-user.service';
 import { ToasterService } from '../services/toaster.service';
 
-export const myAuthGuard: CanActivateFn = (route: ActivatedRouteSnapshot) => {
+export const myAuthGuard: CanActivateFn = (
+  route: ActivatedRouteSnapshot,
+  state: RouterStateSnapshot,
+) => {
   const currentUser = inject(CurrentUserService);
   const router = inject(Router);
   const toaster = inject(ToasterService);
@@ -17,24 +25,22 @@ export const myAuthGuard: CanActivateFn = (route: ActivatedRouteSnapshot) => {
 
   const isAuth = currentUser.isAuthenticated();
 
-  // 1) ako ruta traži auth, a user nije logiran → login
+
   if (requireAuth && !isAuth) {
     toaster.warning('Prijavite se da biste pristupili ovoj stranici.');
-    router.navigate(['/auth/login']);
-    return false;
+    return router.createUrlTree(['/auth/login'], { queryParams: { returnUrl: state.url } });
   }
 
-  // Ako ne traži auth → pusti (javne rute)
+
   if (!requireAuth) {
     return true;
   }
 
-  // 2) role check – admin > manager > public user
+
   const user = currentUser.snapshot;
   if (!user) {
     toaster.warning('Prijavite se da biste nastavili.');
-    router.navigate(['/auth/login']);
-    return false;
+    return router.createUrlTree(['/auth/login'], { queryParams: { returnUrl: state.url } });
   }
 
   if (requireAdmin && !user.isAdmin) {
