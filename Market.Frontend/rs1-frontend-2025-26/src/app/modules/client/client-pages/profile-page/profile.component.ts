@@ -1,6 +1,8 @@
-import { Component, computed, inject } from '@angular/core';
+import { Component, OnInit, computed, inject, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterLink } from '@angular/router';
+import { UsersApiService } from '../../../../api-services/users/users-api.services';
+import { UserProfileDto } from '../../../../api-services/users/users-api.model';
 import { CurrentUserService } from '../../../../core/services/auth/current-user.service';
 
 @Component({
@@ -10,16 +12,56 @@ import { CurrentUserService } from '../../../../core/services/auth/current-user.
   templateUrl: './profile.component.html',
   styleUrls: ['./profile.component.scss'],
 })
-export class ProfileComponent {
-  private currentUser = inject(CurrentUserService);
+export class ProfileComponent implements OnInit {
+  private readonly currentUser = inject(CurrentUserService);
+  private readonly usersApi = inject(UsersApiService);
 
-  userEmail = computed(() => this.currentUser.snapshot?.email ?? 'Nepoznat korisnik');
-  isAuthenticated = computed(() => this.currentUser.isAuthenticated());
+  profile = signal<UserProfileDto | null>(null);
+  isLoading = signal(true);
+  loadError = signal('');
+
+  userEmail = computed(
+    () => this.profile()?.email ?? this.currentUser.snapshot?.email ?? 'Nepoznat korisnik',
+  );
+isAuthenticated = computed(() => this.currentUser.isAuthenticated());
   roleLabel = computed(() => {
+    const profile = this.profile();
     const user = this.currentUser.snapshot;
-    if (!user) return 'Gost';
-    if (user.isAdmin) return 'Administrator';
-    if (user.isManager) return 'Menadžer';
+    if (!profile && !user) return 'Gost';
+    if (profile?.isAdmin || user?.isAdmin) return 'Administrator';
+    if (profile?.isManager || user?.isManager) return 'Menadžer';
     return 'Kupac';
   });
+  fullName = computed(() => {
+    const firstName = this.profile()?.firstName?.trim() ?? '';
+    const lastName = this.profile()?.lastName?.trim() ?? '';
+
+    return `${firstName} ${lastName}`.trim() || 'Nepoznato ime';
+  });
+  avatarInitials = computed(() => {
+    const firstInitial = this.profile()?.firstName?.trim().charAt(0) ?? '';
+    const lastInitial = this.profile()?.lastName?.trim().charAt(0) ?? '';
+
+    return (
+      `${firstInitial}${lastInitial}`.trim().toUpperCase() || this.userEmail().charAt(0).toUpperCase()
+    );
+  });
+
+  ngOnInit(): void {
+    if (!this.currentUser.isAuthenticated()) {
+      this.isLoading.set(false);
+      return;
+    }
+
+    this.usersApi.getMe().subscribe({
+      next: (profile) => {
+        this.profile.set(profile);
+        this.isLoading.set(false);
+      },
+      error: () => {
+        this.loadError.set('Neuspješno učitavanje profila. Pokušajte ponovo.');
+        this.isLoading.set(false);
+      },
+    });
+  }
 }

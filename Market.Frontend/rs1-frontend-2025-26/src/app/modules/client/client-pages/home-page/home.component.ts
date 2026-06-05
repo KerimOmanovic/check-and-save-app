@@ -5,6 +5,8 @@ import { FormsModule } from '@angular/forms';
 import { MatIconModule } from '@angular/material/icon';
 import { FavoritesService } from '../../../shared/services/favorites.services';
 import { CurrentUserService } from '../../../../core/services/auth/current-user.service';
+import { UsersApiService } from '../../../../api-services/users/users-api.services';
+import { UserProfileDto } from '../../../../api-services/users/users-api.model';
 import { ProductImageCarouselComponent } from '../../../public/product-image-carousel/product-image-carousel.component';
 
 type CategoryKey =
@@ -46,14 +48,18 @@ type Store = {
 export class HomeComponent implements OnInit {
   private favoritesService = inject(FavoritesService);
   private currentUser = inject(CurrentUserService);
+  private usersApi = inject(UsersApiService);
 
   activeCategory: CategoryKey = 'popularno';
   private readonly storageKey = 'client-home-active-category';
+
   searchTerm = '';
   visibleProducts: Product[] = [];
   visibleStores: Store[] = [];
   compareSelection: Product[] = [];
   comparePair: { left: Product; right: Product } | null = null;
+
+  userProfile: UserProfileDto | null = null;
 
   categoryTabs: CategoryTab[] = [
     { key: 'popularno', label: 'Popularno', subtitle: 'Top ponude danas' },
@@ -66,9 +72,22 @@ export class HomeComponent implements OnInit {
 
   ngOnInit(): void {
     const storedCategory = localStorage.getItem(this.storageKey);
+
     if (storedCategory && this.isCategoryKey(storedCategory)) {
       this.activeCategory = storedCategory;
     }
+
+    if (this.currentUser.isAuthenticated()) {
+      this.usersApi.getMe().subscribe({
+        next: (profile) => {
+          this.userProfile = profile;
+        },
+        error: () => {
+          this.userProfile = null;
+        },
+      });
+    }
+
     this.updateActiveContent();
   }
 
@@ -158,9 +177,26 @@ export class HomeComponent implements OnInit {
   }
 
   get userLabel(): string {
+    const firstName = this.userProfile?.firstName?.trim() ?? '';
+    const lastName = this.userProfile?.lastName?.trim() ?? '';
+
+    const fullName = `${firstName} ${lastName}`.trim();
+    if (fullName) return fullName;
+
     const email = this.currentUser.snapshot?.email;
     if (!email) return 'Gost';
+
     return email.split('@')[0] ?? 'Kupac';
+  }
+
+  get userInitials(): string {
+    const firstInitial = this.userProfile?.firstName?.trim().charAt(0) ?? '';
+    const lastInitial = this.userProfile?.lastName?.trim().charAt(0) ?? '';
+
+    const initials = `${firstInitial}${lastInitial}`.trim().toUpperCase();
+    if (initials) return initials;
+
+    return this.userLabel.charAt(0).toUpperCase();
   }
 
   setCategory(cat: CategoryKey): void {
@@ -168,6 +204,7 @@ export class HomeComponent implements OnInit {
     localStorage.setItem(this.storageKey, cat);
     this.clearCompare();
     this.updateActiveContent();
+
     if (cat === 'prodavnice') this.scrollTo('stores');
     else this.scrollTo('popular');
   }
@@ -179,7 +216,7 @@ export class HomeComponent implements OnInit {
   toggleFavorite(productName: string, price?: number | null, imageUrl?: string): void {
     this.favoritesService.toggle(productName, {
       price: price ?? null,
-      imageUrl: imageUrl ?? 'assets/cart-icon.png'
+      imageUrl: imageUrl ?? 'assets/cart-icon.png',
     });
   }
 
@@ -198,7 +235,7 @@ export class HomeComponent implements OnInit {
   }
 
   onCompare(p: Product): void {
-    if (this.compareSelection.some(item => item.id === p.id)) return;
+    if (this.compareSelection.some((item) => item.id === p.id)) return;
 
     if (this.compareSelection.length === 0) {
       this.compareSelection = [p];
@@ -217,7 +254,7 @@ export class HomeComponent implements OnInit {
   }
 
   isMarkedForCompare(productId: number): boolean {
-    return this.compareSelection.some(item => item.id === productId);
+    return this.compareSelection.some((item) => item.id === productId);
   }
 
   get compareSavings(): number {
@@ -225,28 +262,54 @@ export class HomeComponent implements OnInit {
     return Math.abs(this.comparePair.left.price - this.comparePair.right.price);
   }
 
-  trackByProductId(_: number, item: Product) { return item.id; }
-  trackByStore(_: number, store: Store) { return store.name; }
+  trackByProductId(_: number, item: Product): number {
+    return item.id;
+  }
+
+  trackByStore(_: number, store: Store): string {
+    return store.name;
+  }
 
   private updateActiveContent(): void {
     const normalizedSearchTerm = this.searchTerm.trim().toLowerCase();
+
     const searchFilter = (product: Product): boolean =>
       !normalizedSearchTerm ||
       product.name.toLowerCase().includes(normalizedSearchTerm) ||
       product.bestStore.toLowerCase().includes(normalizedSearchTerm);
 
     switch (this.activeCategory) {
-      case 'popularno': this.visibleProducts = this.popularProducts.filter(searchFilter); this.visibleStores = []; break;
-      case 'namirnice': this.visibleProducts = this.groceriesProducts.filter(searchFilter); this.visibleStores = []; break;
-      case 'elektronika': this.visibleProducts = this.electronicsProducts.filter(searchFilter); this.visibleStores = []; break;
-      case 'drogerija': this.visibleProducts = this.drugstoreProducts.filter(searchFilter); this.visibleStores = []; break;
-      case 'akcije': this.visibleProducts = this.dealsProducts.filter(searchFilter); this.visibleStores = []; break;
-      case 'prodavnice': this.visibleProducts = []; this.visibleStores = this.stores; break;
-      default: this.visibleProducts = this.popularProducts; this.visibleStores = [];
+      case 'popularno':
+        this.visibleProducts = this.popularProducts.filter(searchFilter);
+        this.visibleStores = [];
+        break;
+      case 'namirnice':
+        this.visibleProducts = this.groceriesProducts.filter(searchFilter);
+        this.visibleStores = [];
+        break;
+      case 'elektronika':
+        this.visibleProducts = this.electronicsProducts.filter(searchFilter);
+        this.visibleStores = [];
+        break;
+      case 'drogerija':
+        this.visibleProducts = this.drugstoreProducts.filter(searchFilter);
+        this.visibleStores = [];
+        break;
+      case 'akcije':
+        this.visibleProducts = this.dealsProducts.filter(searchFilter);
+        this.visibleStores = [];
+        break;
+      case 'prodavnice':
+        this.visibleProducts = [];
+        this.visibleStores = this.stores;
+        break;
+      default:
+        this.visibleProducts = this.popularProducts;
+        this.visibleStores = [];
     }
   }
 
   private isCategoryKey(value: string): value is CategoryKey {
-    return this.categoryTabs.some(tab => tab.key === value);
+    return this.categoryTabs.some((tab) => tab.key === value);
   }
 }

@@ -80,8 +80,8 @@
     </div>
 
     <div class="actions">
-      <button class="btn" type="submit" [disabled]="form.invalid || isSaving">
-        {{ isSaving ? 'Spremanje...' : 'Sačuvaj promjene' }}
+      <button class="btn" type="submit" [disabled]="form.invalid || form.pending || isSaving">
+        {{ isSaving ? 'Spremanje...' : form.pending ? 'Provjera...' : 'Sačuvaj promjene' }}
       </button>
     </div>
   </form>

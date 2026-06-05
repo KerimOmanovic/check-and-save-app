@@ -3,6 +3,9 @@ export interface UserProfileDto {
   firstName: string;
   lastName: string;
   email: string;
+  isAdmin: boolean;
+  isManager: boolean;
+  isPublicUser: boolean;
   phoneNumber?: string | null;
   avatarUrl?: string | null;
 }
@@ -17,10 +20,7 @@ export interface UpdateProfileCommand {
   email: string;
   phoneNumber?: string | null;
 }
-/**
- * Auth bundle returned after successful profile update.
- * Backend rotates JWT/refresh token so new claims (e.g. email) are applied immediately.
- */
+
 export interface UpdateProfileCommandDto {
   accessToken: string;
   refreshToken: string;
