@@ -28,9 +28,13 @@
         <button class="pill-btn" type="button" routerLink="/client/favorites">
           Omiljeni <span *ngIf="favoritesCount() > 0">({{ favoritesCount() }})</span>
         </button>
-        <button class="pill-btn" type="button" routerLink="/client/map">Mapa prodavnica</button>
+
+        <button class="pill-btn" type="button" routerLink="/client/map">
+          Mapa prodavnica
+        </button>
+
         <button class="user-pill" type="button" [routerLink]="profileLink">
-          <span class="avatar">{{ userLabel.charAt(0) }}</span>
+          <span class="avatar">{{ userInitials }}</span>
           <span class="user-text">
             <span class="user-name">{{ userLabel }}</span>
             <span class="user-role">{{ isAuthenticated() ? 'Ulogovan' : 'Prijava' }}</span>
@@ -69,12 +73,13 @@
             <span *ngSwitchDefault>Popularni proizvodi</span>
           </ng-container>
         </h2>
-        <button class="link-btn" type="button" (click)="scrollTo('stores')">Prodavnice</button>
+
+        <button class="link-btn" type="button" (click)="scrollTo('stores')">
+          Prodavnice
+        </button>
       </div>
 
       <div class="grid" *ngIf="activeCategory !== 'prodavnice'">
-
-        <!-- Compare panel -->
         <aside class="compare-panel" *ngIf="compareSelection.length > 0">
           <div class="compare-title">Poređenje proizvoda</div>
 
@@ -88,8 +93,9 @@
               <app-product-image-carousel
                 *ngIf="comparePair.left.images.length > 0"
                 [images]="comparePair.left.images"
-                [autoPlay]="false">
-              </app-product-image-carousel>
+                [autoPlay]="false"
+              ></app-product-image-carousel>
+
               <div class="compare-item__name">{{ comparePair.left.name }}</div>
               <div class="compare-item__price">{{ comparePair.left.price.toFixed(2) }} KM</div>
               <div class="compare-item__store">{{ comparePair.left.bestStore }}</div>
@@ -101,8 +107,9 @@
               <app-product-image-carousel
                 *ngIf="comparePair.right.images.length > 0"
                 [images]="comparePair.right.images"
-                [autoPlay]="false">
-              </app-product-image-carousel>
+                [autoPlay]="false"
+              ></app-product-image-carousel>
+
               <div class="compare-item__name">{{ comparePair.right.name }}</div>
               <div class="compare-item__price">{{ comparePair.right.price.toFixed(2) }} KM</div>
               <div class="compare-item__store">{{ comparePair.right.bestStore }}</div>
@@ -118,7 +125,6 @@
           </button>
         </aside>
 
-        <!-- Product cards -->
         <article class="card" *ngFor="let p of visibleProducts; trackBy: trackByProductId">
           <div class="card-top">
             <div class="card-carousel" (click)="$event.stopPropagation()">
@@ -126,8 +132,9 @@
                 *ngIf="p.images && p.images.length > 0; else thumbFallback"
                 [images]="p.images"
                 [autoPlay]="true"
-                [intervalMs]="3000">
-              </app-product-image-carousel>
+                [intervalMs]="3000"
+              ></app-product-image-carousel>
+
               <ng-template #thumbFallback>
                 <div class="thumb"></div>
               </ng-template>
@@ -145,8 +152,10 @@
           <div class="card-body">
             <div class="name">{{ p.name }}</div>
             <div class="meta">Najniža cijena: {{ p.bestStore }}</div>
+
             <div class="price-row">
               <div class="price">{{ p.price.toFixed(2) }} KM</div>
+
               <button
                 class="btn outline small"
                 type="button"
@@ -172,8 +181,11 @@
     <section class="section" id="stores">
       <div class="section-head">
         <h2 class="h2">Prodavnice</h2>
-        <button class="link-btn" type="button" routerLink="/client/map">Otvori mapu</button>
+        <button class="link-btn" type="button" routerLink="/client/map">
+          Otvori mapu
+        </button>
       </div>
+
       <div class="stores">
         <div class="store-card" *ngFor="let s of stores; trackBy: trackByStore">
           <div class="store-title">{{ s.name }}</div>
@@ -189,6 +201,7 @@
           <div class="f-brand">Check&Save</div>
           <div class="f-sub">Poređenje cijena proizvoda iz više prodavnica u Mostaru.</div>
         </div>
+
         <div class="f-right">
           <button class="f-link" type="button" (click)="scrollTo('popular')">Popularno</button>
           <button class="f-link" type="button" (click)="scrollTo('popular')">Kategorije</button>

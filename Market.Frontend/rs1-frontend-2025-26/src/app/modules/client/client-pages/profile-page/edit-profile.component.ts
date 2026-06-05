@@ -9,13 +9,9 @@ import {
   Validators,
 } from '@angular/forms';
 import { RouterLink } from '@angular/router';
-import { Observable, catchError, map, of, switchMap, timer } from 'rxjs';
+import { Observable, catchError, finalize, map, of, switchMap, timer } from 'rxjs';
 import { UsersApiService } from '../../../../api-services/users/users-api.services';
-import {
-  UpdateProfileCommand,
-  UserProfileDto,
-} from '../../../../api-services/users/users-api.model';
-import { AuthFacadeService } from '../../../../core/services/auth/auth-facade.service';
+import { UpdateProfileCommand, UserProfileDto } from '../../../../api-services/users/users-api.model';
 import { CurrentUserService } from '../../../../core/services/auth/current-user.service';
 
 @Component({
@@ -28,7 +24,6 @@ import { CurrentUserService } from '../../../../core/services/auth/current-user.
 export class EditProfileComponent implements OnInit {
   private readonly fb = inject(FormBuilder);
   private readonly usersApi = inject(UsersApiService);
-  private readonly auth = inject(AuthFacadeService);
   private readonly currentUser = inject(CurrentUserService);
 
   isLoading = true;
@@ -37,8 +32,9 @@ export class EditProfileComponent implements OnInit {
   saveError = '';
   saveSuccess = '';
   avatarPreview: string | null = null;
+
   private currentEmail = '';
-  private selectedAvatarFile: File | null = null;
+  private userId = '';
 
   readonly form = this.fb.nonNullable.group({
     firstName: ['', [Validators.required, Validators.maxLength(120)]],
@@ -60,7 +56,6 @@ export class EditProfileComponent implements OnInit {
     const input = event.target as HTMLInputElement;
     const file = input.files?.[0] ?? null;
 
-    this.selectedAvatarFile = file;
     this.form.controls.avatar.setValue(file);
 
     if (!file) {
@@ -69,57 +64,79 @@ export class EditProfileComponent implements OnInit {
     }
 
     const reader = new FileReader();
+
     reader.onload = () => {
       this.avatarPreview = typeof reader.result === 'string' ? reader.result : null;
     };
+
     reader.readAsDataURL(file);
   }
 
   save(): void {
-    if (this.form.invalid) {
-      this.form.markAllAsTouched();
+    this.saveError = '';
+    this.saveSuccess = '';
+
+    if (this.form.pending) {
+      this.saveError = 'Sačekajte da se završi provjera email adrese.';
       return;
     }
 
-    const value = this.form.getRawValue();
-    const payload: UpdateProfileCommand = {
-      firstName: value.firstName,
-      lastName: value.lastName,
-      email: value.email,
-      phoneNumber: value.phoneNumber || null,
-    };
-    const publicId = this.currentUser.snapshot?.userId?.toString();
+    if (this.form.invalid) {
+      this.form.markAllAsTouched();
+      this.saveError = 'Provjerite unesene podatke prije spremanja.';
+      return;
+    }
 
-    if (!publicId) {
+    if (!this.currentUser.isAuthenticated()) {
       this.saveError = 'Sesija je istekla. Prijavite se ponovo.';
       return;
     }
 
-    this.saveError = '';
-    this.saveSuccess = '';
+    if (!this.userId) {
+      this.saveError = 'Nije moguće pronaći korisnika za ažuriranje.';
+      return;
+    }
+
+    const value = this.form.getRawValue();
+
+    const payload: UpdateProfileCommand = {
+      firstName: value.firstName.trim(),
+      lastName: value.lastName.trim(),
+      email: value.email.trim(),
+      phoneNumber: value.phoneNumber.trim() || null,
+    };
+
     this.isSaving = true;
-    this.usersApi.updateByPublicId(publicId, payload, this.selectedAvatarFile).subscribe({
-      next: (response) => {
-        this.auth.applyAuthBundle({
-          accessToken: response.accessToken,
-          refreshToken: response.refreshToken,
-          accessTokenExpiresAtUtc: response.accessTokenExpiresAtUtc ?? response.expiresAtUtc ?? '',
-          refreshTokenExpiresAtUtc: response.refreshTokenExpiresAtUtc ?? '',
-        });
-        this.saveSuccess = 'Profil je uspješno ažuriran.';
-        this.currentEmail = payload.email;
-        this.isSaving = false;
-      },
-      error: () => {
-        this.saveError = 'Neuspješno spremanje profila. Pokušajte ponovo.';
-        this.isSaving = false;
-      },
-    });
+
+    this.usersApi
+      .updateByPublicId(this.userId, payload, value.avatar)
+      .pipe(finalize(() => (this.isSaving = false)))
+      .subscribe({
+        next: () => {
+          this.form.patchValue({
+            firstName: payload.firstName,
+            lastName: payload.lastName,
+            email: payload.email,
+            phoneNumber: payload.phoneNumber ?? '',
+            avatar: null,
+          });
+
+          this.currentEmail = payload.email;
+          this.form.markAsPristine();
+          this.saveSuccess = 'Profil je uspješno ažuriran.';
+          this.scrollToStatusMessage();
+        },
+        error: (error: unknown) => {
+          this.saveError = this.getSaveErrorMessage(error);
+          this.scrollToStatusMessage();
+        },
+      });
   }
 
   getAvatarInitials(): string {
     const firstName = this.form.controls.firstName.value.trim();
     const lastName = this.form.controls.lastName.value.trim();
+
     const firstInitial = firstName.charAt(0);
     const lastInitial = lastName.charAt(0);
 
@@ -128,8 +145,9 @@ export class EditProfileComponent implements OnInit {
 
   private loadProfile(): void {
     this.usersApi.getMe().subscribe({
-      next: (user) => {
+      next: (user: UserProfileDto) => {
         this.patchForm(user);
+        this.userId = String(user.id);
         this.currentEmail = user.email;
         this.avatarPreview = user.avatarUrl ?? null;
         this.isLoading = false;
@@ -149,6 +167,22 @@ export class EditProfileComponent implements OnInit {
       phoneNumber: user.phoneNumber ?? '',
       avatar: null,
     });
+  }
+
+  private getSaveErrorMessage(error: unknown): string {
+    if (this.isConflictError(error)) {
+      return 'Ovaj email je već zauzet.';
+    }
+
+    return 'Neuspješno spremanje profila. Pokušajte ponovo.';
+  }
+
+  private isConflictError(error: unknown): boolean {
+    return typeof error === 'object' && error !== null && 'status' in error && error.status === 409;
+  }
+
+  private scrollToStatusMessage(): void {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
   }
 
   private emailAvailabilityValidator(): AsyncValidatorFn {

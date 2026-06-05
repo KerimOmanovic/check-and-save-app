@@ -5,12 +5,13 @@ using Market.Application.Modules.Identity.User.Commands.Status.Enable;
 using Market.Application.Modules.Identity.User.Commands.Update;
 using Market.Application.Modules.Identity.User.Queries.GetById;
 using Market.Application.Modules.Identity.User.Queries.List;
+using Market.Application.Abstractions;
 
 namespace Market.API.Controllers;
 
 [ApiController]
 [Route("api/users")]
-public class UserController(ISender sender) : ControllerBase
+public class UserController(ISender sender, IAppCurrentUser currentUser) : ControllerBase
 {
     [HttpPost]
     public async Task<ActionResult<int>> Create(
@@ -63,6 +64,27 @@ public class UserController(ISender sender) : ControllerBase
     {
         await sender.Send(new EnableMarketUserCommand { Id = id }, ct);
     }
+    [HttpGet("me")]
+    public async Task<ActionResult<UserProfileDto>> GetMe(CancellationToken ct)
+    {
+        if (currentUser.UserId is null)
+        {
+            return Unauthorized();
+        }
+
+        var user = await sender.Send(new GetMarketUserByIdQuery { Id = currentUser.UserId.Value }, ct);
+
+        return Ok(new UserProfileDto
+        {
+            Id = user.Id,
+            FirstName = user.Firstname,
+            LastName = user.Lastname,
+            Email = user.Email,
+            IsAdmin = user.IsAdmin,
+            IsManager = user.IsManager,
+            IsPublicUser = user.IsPublicUser
+        });
+    }
 
     [HttpGet("{id:int}")]
     public async Task<GetMarketUserByIdQueryDto> GetById(int id, CancellationToken ct)
@@ -78,4 +100,14 @@ public class UserController(ISender sender) : ControllerBase
     {
         return await sender.Send(query, ct);
     }
+}
+public sealed class UserProfileDto
+{
+    public required int Id { get; init; }
+    public required string FirstName { get; init; }
+    public required string LastName { get; init; }
+    public required string Email { get; init; }
+    public required bool IsAdmin { get; init; }
+    public required bool IsManager { get; init; }
+    public required bool IsPublicUser { get; init; }
 }
