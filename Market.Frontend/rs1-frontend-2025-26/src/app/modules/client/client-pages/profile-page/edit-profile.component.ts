@@ -31,7 +31,7 @@ export class EditProfileComponent implements OnInit {
   loadError = '';
   saveError = '';
   saveSuccess = '';
-  avatarPreview: string | null = null;
+
 
   private currentEmail = '';
   private userId = '';
@@ -44,33 +44,13 @@ export class EditProfileComponent implements OnInit {
       asyncValidators: [this.emailAvailabilityValidator()],
       updateOn: 'blur',
     }),
-    phoneNumber: ['', [Validators.maxLength(40)]],
-    avatar: this.fb.control<File | null>(null),
+
   });
 
   ngOnInit(): void {
     this.loadProfile();
   }
 
-  onAvatarSelected(event: Event): void {
-    const input = event.target as HTMLInputElement;
-    const file = input.files?.[0] ?? null;
-
-    this.form.controls.avatar.setValue(file);
-
-    if (!file) {
-      this.avatarPreview = null;
-      return;
-    }
-
-    const reader = new FileReader();
-
-    reader.onload = () => {
-      this.avatarPreview = typeof reader.result === 'string' ? reader.result : null;
-    };
-
-    reader.readAsDataURL(file);
-  }
 
   save(): void {
     this.saveError = '';
@@ -103,27 +83,26 @@ export class EditProfileComponent implements OnInit {
       firstName: value.firstName.trim(),
       lastName: value.lastName.trim(),
       email: value.email.trim(),
-      phoneNumber: value.phoneNumber.trim() || null,
+
     };
 
     this.isSaving = true;
 
     this.usersApi
-      .updateByPublicId(this.userId, payload, value.avatar)
+      .updateByPublicId(this.userId, payload)
       .pipe(finalize(() => (this.isSaving = false)))
       .subscribe({
-        next: () => {
-          this.form.patchValue({
-            firstName: payload.firstName,
-            lastName: payload.lastName,
-            email: payload.email,
-            phoneNumber: payload.phoneNumber ?? '',
-            avatar: null,
-          });
+        next: (updatedUser) => {
+          const updatedProfile = {
+            firstName: updatedUser.firstname,
+            lastName: updatedUser.lastname,
+            email: updatedUser.email,
+          };
 
-          this.currentEmail = payload.email;
+          this.form.patchValue(updatedProfile);
+          this.currentEmail = updatedProfile.email;
           this.form.markAsPristine();
-          this.saveSuccess = 'Profil je uspješno ažuriran.';
+          this.saveSuccess = 'Profil je uspješno promijenjen i sačuvan.';
           this.scrollToStatusMessage();
         },
         error: (error: unknown) => {
@@ -133,15 +112,7 @@ export class EditProfileComponent implements OnInit {
       });
   }
 
-  getAvatarInitials(): string {
-    const firstName = this.form.controls.firstName.value.trim();
-    const lastName = this.form.controls.lastName.value.trim();
 
-    const firstInitial = firstName.charAt(0);
-    const lastInitial = lastName.charAt(0);
-
-    return `${firstInitial}${lastInitial}`.trim().toUpperCase() || 'U';
-  }
 
   private loadProfile(): void {
     this.usersApi.getMe().subscribe({
@@ -149,7 +120,6 @@ export class EditProfileComponent implements OnInit {
         this.patchForm(user);
         this.userId = String(user.id);
         this.currentEmail = user.email;
-        this.avatarPreview = user.avatarUrl ?? null;
         this.isLoading = false;
       },
       error: () => {
@@ -164,8 +134,7 @@ export class EditProfileComponent implements OnInit {
       firstName: user.firstName,
       lastName: user.lastName,
       email: user.email,
-      phoneNumber: user.phoneNumber ?? '',
-      avatar: null,
+
     });
   }
 

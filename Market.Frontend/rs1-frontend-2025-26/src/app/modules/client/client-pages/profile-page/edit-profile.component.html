@@ -11,7 +11,9 @@
   <section class="state-box" *ngIf="isLoading">Učitavanje profila...</section>
   <section class="state-box error" *ngIf="!isLoading && loadError">{{ loadError }}</section>
   <section class="state-box error" *ngIf="!isLoading && !loadError && saveError">{{ saveError }}</section>
-  <section class="state-box" *ngIf="!isLoading && !loadError && saveSuccess">{{ saveSuccess }}</section>
+  <section class="state-box success" *ngIf="!isLoading && !loadError && saveSuccess">
+    {{ saveSuccess }}
+  </section>
 
   <form
     class="profile-form"
@@ -19,19 +21,7 @@
     (ngSubmit)="save()"
     *ngIf="!isLoading && !loadError"
   >
-    <div class="avatar-block">
-      <div class="avatar-preview" *ngIf="avatarPreview; else initialsAvatar">
-        <img [src]="avatarPreview" alt="Avatar preview" />
-      </div>
 
-      <ng-template #initialsAvatar>
-        <div class="avatar-fallback">{{ getAvatarInitials() }}</div>
-      </ng-template>
-
-      <label class="btn" for="avatarInput">Odaberi avatar</label>
-      <input id="avatarInput" type="file" accept="image/*" (change)="onAvatarSelected($event)" />
-      <small>Podržani formati: JPG, PNG, WEBP</small>
-    </div>
 
     <div class="fields-grid">
       <label>
@@ -73,10 +63,7 @@
         </small>
       </label>
 
-      <label class="full-width">
-        Telefon
-        <input type="text" formControlName="phoneNumber" />
-      </label>
+
     </div>
 
     <div class="actions">
