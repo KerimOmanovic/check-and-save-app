@@ -6,8 +6,7 @@ export interface UserProfileDto {
   isAdmin: boolean;
   isManager: boolean;
   isPublicUser: boolean;
-  phoneNumber?: string | null;
-  avatarUrl?: string | null;
+
 }
 
 export interface EmailAvailabilityDto {
@@ -18,13 +17,16 @@ export interface UpdateProfileCommand {
   firstName: string;
   lastName: string;
   email: string;
-  phoneNumber?: string | null;
+
 }
 
 export interface UpdateProfileCommandDto {
-  accessToken: string;
-  refreshToken: string;
-  accessTokenExpiresAtUtc?: string;
-  refreshTokenExpiresAtUtc?: string;
-  expiresAtUtc?: string;
+  id: number;
+  firstname: string;
+  lastname: string;
+  email: string;
+  isAdmin: boolean;
+  isManager: boolean;
+  isPublicUser: boolean;
+  isEnabled: boolean;
 }

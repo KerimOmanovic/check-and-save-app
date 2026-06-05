@@ -30,21 +30,12 @@ export class UsersApiService {
   updateByPublicId(
     publicId: string,
     payload: UpdateProfileCommand,
-    avatarFile?: File | null,
+
   ): Observable<UpdateProfileCommandDto> {
-    const formData = new FormData();
-    formData.append('firstName', payload.firstName);
-    formData.append('lastName', payload.lastName);
-    formData.append('email', payload.email);
-
-    if (payload.phoneNumber) {
-      formData.append('phoneNumber', payload.phoneNumber);
-    }
-
-    if (avatarFile) {
-      formData.append('avatar', avatarFile, avatarFile.name);
-    }
-
-    return this.http.put<UpdateProfileCommandDto>(`${this.baseUrl}/${publicId}`, formData);
+    return this.http.put<UpdateProfileCommandDto>(`${this.baseUrl}/${publicId}/public-id`, {
+      firstname: payload.firstName,
+      lastname: payload.lastName,
+      email: payload.email,
+    });
   }
 }
