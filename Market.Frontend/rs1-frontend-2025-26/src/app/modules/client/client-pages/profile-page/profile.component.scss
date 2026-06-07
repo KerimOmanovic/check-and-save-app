@@ -1,13 +1,14 @@
-$f-bg: #f3efe6;
-$f-surface: #ffffff;
-$f-green: #0f3d2e;
-$f-green-2: #1f5a45;
-$f-beige: #cdbb9a;
-$f-text: #143126;
-$f-muted: #5b6b63;
-$f-border: rgba(205, 187, 154, 0.55);
-$f-shadow: rgba(15, 61, 46, 0.12);
-$f-shadow-2: rgba(15, 61, 46, 0.22);
+$f-bg: var(--app-page-bg-color);
+$f-surface: var(--app-surface-color);
+$f-green: var(--app-primary-color);
+$f-green-2: var(--app-primary-hover-color);
+$f-beige: var(--app-secondary-color);
+$f-text: var(--app-text-color);
+$f-muted: var(--app-muted-text-color);
+$f-border: var(--app-border-color);
+$f-shadow: var(--app-card-shadow);
+$f-shadow-2: var(--app-strong-shadow);
+
 
 .profile-page {
   min-height: 100vh;
@@ -38,6 +39,32 @@ $f-shadow-2: rgba(15, 61, 46, 0.22);
   }
 }
 
+.header-actions {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+}
+
+.theme-switcher {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  border: 1px solid $f-border;
+  border-radius: 999px;
+  padding: 8px 12px 8px 16px;
+  background: $f-surface;
+  color: $f-text;
+  font-weight: 700;
+  box-shadow: 0 8px 18px $f-shadow;
+
+  span {
+    white-space: nowrap;
+  }
+
+}
+
 .btn,
 .quick-link,
 .edit-btn {
@@ -61,7 +88,7 @@ $f-shadow-2: rgba(15, 61, 46, 0.22);
 }
 
 .btn.outline {
-  background: #fff;
+  background: $f-surface;
   color: $f-green;
   border: 1px solid $f-border;
   box-shadow: none;
@@ -95,7 +122,7 @@ $f-shadow-2: rgba(15, 61, 46, 0.22);
   height: 132px;
   border-radius: 50%;
   background: $f-green;
-  border: 4px solid rgba(255, 255, 255, 0.9);
+  border: 4px solid $f-surface;
   box-shadow: 0 14px 28px $f-shadow-2;
   object-fit: cover;
 }
@@ -115,7 +142,7 @@ $f-shadow-2: rgba(15, 61, 46, 0.22);
   border: 1px solid $f-border;
   border-radius: 12px;
   padding: 13px 15px;
-  background: #fff;
+  background: $f-surface;
 
   span {
     display: block;
@@ -185,6 +212,12 @@ $f-shadow-2: rgba(15, 61, 46, 0.22);
     align-items: flex-start;
     flex-direction: column;
   }
+
+
+  .header-actions {
+    justify-content: flex-start;
+  }
+
 
   .profile-card {
     padding: 72px 20px 26px;

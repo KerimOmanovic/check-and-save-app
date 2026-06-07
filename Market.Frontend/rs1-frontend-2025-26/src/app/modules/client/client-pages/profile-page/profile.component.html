@@ -5,9 +5,21 @@
       <p>Pregled profila i brz pristup omiljenim stranicama.</p>
     </div>
 
-    <button class="btn outline" type="button" routerLink="/client/home">
-      Nazad na početnu
-    </button>
+    <div class="header-actions">
+      <div class="theme-switcher" aria-label="Odabir teme aplikacije">
+        <span>{{ themeLabel() }}</span>
+        <mat-slide-toggle
+          color="primary"
+          [checked]="themeService.isDarkTheme()"
+          (change)="onThemeToggle($event)"
+          aria-label="Uključi tamnu temu"
+        ></mat-slide-toggle>
+      </div>
+
+      <button class="btn outline" type="button" routerLink="/client/home">
+        Nazad na početnu
+      </button>
+    </div>
   </header>
 
   <section class="state-box" *ngIf="isLoading()">Učitavanje profila...</section>

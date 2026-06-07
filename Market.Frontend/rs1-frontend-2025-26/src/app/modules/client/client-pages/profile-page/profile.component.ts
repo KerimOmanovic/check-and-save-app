@@ -1,20 +1,23 @@
 import { Component, OnInit, computed, inject, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterLink } from '@angular/router';
+import { MatSlideToggleChange, MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { UsersApiService } from '../../../../api-services/users/users-api.services';
 import { UserProfileDto } from '../../../../api-services/users/users-api.model';
 import { CurrentUserService } from '../../../../core/services/auth/current-user.service';
+import { ThemeService } from '../../../../core/services/theme/theme.service';
 
 @Component({
   selector: 'app-client-profile',
   standalone: true,
-  imports: [CommonModule, RouterLink],
+  imports: [CommonModule, RouterLink, MatSlideToggleModule],
   templateUrl: './profile.component.html',
   styleUrls: ['./profile.component.scss'],
 })
 export class ProfileComponent implements OnInit {
   private readonly currentUser = inject(CurrentUserService);
   private readonly usersApi = inject(UsersApiService);
+  readonly themeService = inject(ThemeService);
 
   profile = signal<UserProfileDto | null>(null);
   isLoading = signal(true);
@@ -38,11 +41,18 @@ export class ProfileComponent implements OnInit {
 
     return `${firstName} ${lastName}`.trim() || 'Nepoznato ime';
   });
+
+  themeLabel = computed(() => (this.themeService.isDarkTheme() ? 'Tamna tema' : 'Svijetla tema'));
+
   avatarImageSrc = computed(() =>
     this.profile()?.avatarLevel === 1
       ? 'assets/avatars/male.avatar.svg'
       : 'assets/avatars/female.avatar.svg',
   );
+
+  onThemeToggle(event: MatSlideToggleChange): void {
+    this.themeService.setTheme(event.checked ? 'dark' : 'light');
+  }
 
   ngOnInit(): void {
     if (!this.currentUser.isAuthenticated()) {

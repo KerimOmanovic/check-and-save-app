@@ -1,8 +1,6 @@
 @use '@angular/material' as mat;
 
-// ============================================
-// CUSTOM GREEN COLOR PALETTE
-// ============================================
+
 
 $custom-green-palette: (
   0: #000000,
@@ -42,9 +40,6 @@ $custom-secondary-palette: (
   100: #ffffff,
 );
 
-// ============================================
-// APPLY MATERIAL THEME
-// ============================================
 
 html {
   @include mat.theme((
@@ -57,15 +52,40 @@ html {
     density: 0,
   ));
 }
+:root {
+  --app-bg-color: #f6f3ec;
+  --app-page-bg-color: #f3efe6;
+  --app-surface-color: #ffffff;
+  --app-primary-color: #0f3d2e;
+  --app-primary-hover-color: #1f5a45;
+  --app-primary-dark-color: #0b2e23;
+  --app-secondary-color: #cdbb9a;
+  --app-text-color: #143126;
+  --app-body-text-color: #1f2a24;
+  --app-muted-text-color: #5b6b63;
+  --app-border-color: rgba(205, 187, 154, 0.55);
+  --app-card-shadow: rgba(15, 61, 46, 0.12);
+  --app-strong-shadow: rgba(15, 61, 46, 0.22);
+  color-scheme: light;
+}
 
-// ============================================
-// BODY & HTML BASE STYLES
-// ============================================
+:root.dark-theme {
+  --app-bg-color: #101814;
+  --app-page-bg-color: #0b1410;
+  --app-surface-color: #17231d;
+  --app-primary-color: #a5d6c0;
+  --app-primary-hover-color: #c9e8d8;
+  --app-primary-dark-color: #4ea07a;
+  --app-secondary-color: #d9c9ad;
+  --app-text-color: #edf7f1;
+  --app-body-text-color: #edf7f1;
+  --app-muted-text-color: #b7c8bf;
+  --app-border-color: rgba(165, 214, 192, 0.26);
+  --app-card-shadow: rgba(0, 0, 0, 0.32);
+  --app-strong-shadow: rgba(0, 0, 0, 0.45);
+  color-scheme: dark;
+}
 
-// FIX: overflow-y: scroll na html osigurava da scrollbar uvijek bude vidljiv.
-// overflow-x: hidden mora imati eksplicitnu os — bez nje neki browseri
-// tumače to kao hidden na oba smjera i blokiraju vertikalni scroll.
-// min-height umjesto height: 100% na body dozvoljava rast sadržaja.
 html {
   height: 100%;
   overflow-y: scroll;
@@ -76,24 +96,20 @@ body {
   min-height: 100%;
   margin: 0;
   font-family: Roboto, "Helvetica Neue", sans-serif;
-  color-scheme: light;
-  background-color: #f6f3ec;
-  color: #1f2a24;
+  color-scheme: light dark;
+  background-color: var(--app-bg-color);
+  color: var(--app-body-text-color);
   font: var(--mat-sys-body-medium);
 }
 
-// ============================================
-// COLOR VARIABLES
-// ============================================
+
 
 $primary-color: #0f3d2e;
 $primary-light: #1f5a45;
 $primary-dark: #0b2e23;
 $secondary-color: #cdbb9a;
 
-// ============================================
-// TOASTER / SNACKBAR STYLES
-// ============================================
+
 
 .snackbar-success {
   background-color: $primary-color !important;
@@ -147,9 +163,6 @@ $secondary-color: #cdbb9a;
   }
 }
 
-// ============================================
-// GLOBALNI PAGINATOR STYLING
-// ============================================
 
 .paginator-bar .paginator-actions .nav-buttons .page-indicator {
   background: linear-gradient(135deg, $primary-color 0%, $primary-light 100%) !important;
@@ -216,9 +229,7 @@ app-fit-paginator-bar {
   }
 }
 
-// ============================================
-// GLOBALNI BUTTON STYLING
-// ============================================
+
 
 .mat-mdc-raised-button.mat-primary {
   background: linear-gradient(135deg, $primary-color 0%, $primary-light 100%) !important;
@@ -238,9 +249,7 @@ app-fit-paginator-bar {
   color: $primary-color !important;
 }
 
-// ============================================
-// FORM FIELDS - FOCUS
-// ============================================
+
 
 .mat-mdc-form-field.mat-focused {
   .mdc-notched-outline__leading,
@@ -260,9 +269,7 @@ app-fit-paginator-bar {
   }
 }
 
-// ============================================
-// CHECKBOXES & RADIO BUTTONS
-// ============================================
+
 
 .mat-mdc-checkbox.mat-primary {
   --mdc-checkbox-selected-icon-color: #{$primary-color};
@@ -278,9 +285,7 @@ app-fit-paginator-bar {
   --mdc-radio-selected-pressed-icon-color: #{$primary-dark};
 }
 
-// ============================================
-// SLIDERS & PROGRESS BARS
-// ============================================
+
 
 .mat-mdc-slider.mat-primary {
   --mdc-slider-handle-color: #{$primary-color};
@@ -298,9 +303,7 @@ app-fit-paginator-bar {
   --mdc-circular-progress-active-indicator-color: #{$primary-color};
 }
 
-// ============================================
-// TABS
-// ============================================
+
 
 .mat-mdc-tab-group.mat-primary {
   --mat-tab-header-active-label-text-color: #{$primary-color};
@@ -309,9 +312,7 @@ app-fit-paginator-bar {
   --mat-tab-header-active-hover-label-text-color: #{$primary-dark};
 }
 
-// ============================================
-// LINKS
-// ============================================
+
 
 a {
   color: $primary-color;
@@ -323,9 +324,7 @@ a {
   }
 }
 
-// ============================================
-// ADMIN DESIGN TOKENS
-// ============================================
+
 
 :root {
   --admin-font-display: var(--mat-sys-headline-medium);
@@ -402,9 +401,6 @@ a {
   }
 }
 
-// ============================================
-// ADMIN LIST PAGES - TOPBAR/FILTER STYLING
-// ============================================
 
 .admin-page {
   .topbar-inner {
