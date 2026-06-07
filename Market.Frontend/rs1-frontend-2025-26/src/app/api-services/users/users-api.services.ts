@@ -36,6 +36,7 @@ export class UsersApiService {
       firstname: payload.firstName,
       lastname: payload.lastName,
       email: payload.email,
+      avatarLevel: payload.avatarLevel,
     });
   }
 }

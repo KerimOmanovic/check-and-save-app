@@ -32,7 +32,7 @@ public sealed class RegisterCommandHandler(
         {
             MarketUserEntity = user,
             Points = 0,
-            AvatarLevel = 0
+            AvatarLevel = request.Gender.Trim().Equals("male", StringComparison.OrdinalIgnoreCase) ? 1 : 2
         };
 
         await ctx.PublicUsers.AddAsync(publicUser, ct);

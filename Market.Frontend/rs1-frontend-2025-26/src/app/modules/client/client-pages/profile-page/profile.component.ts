@@ -23,7 +23,7 @@ export class ProfileComponent implements OnInit {
   userEmail = computed(
     () => this.profile()?.email ?? this.currentUser.snapshot?.email ?? 'Nepoznat korisnik',
   );
-isAuthenticated = computed(() => this.currentUser.isAuthenticated());
+  isAuthenticated = computed(() => this.currentUser.isAuthenticated());
   roleLabel = computed(() => {
     const profile = this.profile();
     const user = this.currentUser.snapshot;
@@ -38,14 +38,11 @@ isAuthenticated = computed(() => this.currentUser.isAuthenticated());
 
     return `${firstName} ${lastName}`.trim() || 'Nepoznato ime';
   });
-  avatarInitials = computed(() => {
-    const firstInitial = this.profile()?.firstName?.trim().charAt(0) ?? '';
-    const lastInitial = this.profile()?.lastName?.trim().charAt(0) ?? '';
-
-    return (
-      `${firstInitial}${lastInitial}`.trim().toUpperCase() || this.userEmail().charAt(0).toUpperCase()
-    );
-  });
+  avatarImageSrc = computed(() =>
+    this.profile()?.avatarLevel === 1
+      ? 'assets/avatars/male-avatar.svg'
+      : 'assets/avatars/female-avatar.svg',
+  );
 
   ngOnInit(): void {
     if (!this.currentUser.isAuthenticated()) {

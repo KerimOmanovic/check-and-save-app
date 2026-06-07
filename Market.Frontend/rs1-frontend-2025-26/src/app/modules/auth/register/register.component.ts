@@ -31,6 +31,7 @@ export class RegisterComponent {
         email: ['', [Validators.required, Validators.email]],
         password: ['', [Validators.required, Validators.minLength(6)]],
         confirmPassword: ['', [Validators.required]],
+        gender: ['female', [Validators.required]],
       },
       { validators: [this.passwordsMatchValidator] },
     );
@@ -57,7 +58,8 @@ export class RegisterComponent {
       firstName: this.form.value.firstName ?? '',
       lastName: this.form.value.lastName ?? '',
       email: this.form.value.email ?? '',
-      password: this.form.value.password ?? '' ,
+      password: this.form.value.password ?? '',
+      gender: (this.form.value.gender ?? 'female') as 'male' | 'female',
     };
 
     this.authApi.register(payload).subscribe({

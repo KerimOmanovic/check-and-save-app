@@ -32,7 +32,10 @@ export class EditProfileComponent implements OnInit {
   saveError = '';
   saveSuccess = '';
 
-
+  readonly avatarOptions = [
+    { level: 2, label: 'Ženski avatar', image: 'assets/avatars/female-avatar.svg' },
+    { level: 1, label: 'Muški avatar', image: 'assets/avatars/male-avatar.svg' },
+  ];
   private currentEmail = '';
   private userId = '';
 
@@ -44,7 +47,7 @@ export class EditProfileComponent implements OnInit {
       asyncValidators: [this.emailAvailabilityValidator()],
       updateOn: 'blur',
     }),
-
+    avatarLevel: [2, [Validators.required]],
   });
 
   ngOnInit(): void {
@@ -83,7 +86,7 @@ export class EditProfileComponent implements OnInit {
       firstName: value.firstName.trim(),
       lastName: value.lastName.trim(),
       email: value.email.trim(),
-
+      avatarLevel: value.avatarLevel,
     };
 
     this.isSaving = true;
@@ -97,6 +100,7 @@ export class EditProfileComponent implements OnInit {
             firstName: updatedUser.firstname,
             lastName: updatedUser.lastname,
             email: updatedUser.email,
+            avatarLevel: value.avatarLevel,
           };
 
           this.form.patchValue(updatedProfile);
@@ -134,9 +138,19 @@ export class EditProfileComponent implements OnInit {
       firstName: user.firstName,
       lastName: user.lastName,
       email: user.email,
-
+      avatarLevel: this.normalizeAvatarLevel(user.avatarLevel),
     });
   }
+  getSelectedAvatarImage(): string {
+    const avatarLevel = this.form.controls.avatarLevel.value;
+
+    return this.avatarOptions.find((option) => option.level === avatarLevel)?.image ?? this.avatarOptions[0].image;
+  }
+
+  private normalizeAvatarLevel(avatarLevel?: number): number {
+    return avatarLevel === 1 || avatarLevel === 2 ? avatarLevel : 2;
+  }
+
 
   private getSaveErrorMessage(error: unknown): string {
     if (this.isConflictError(error)) {

@@ -19,5 +19,9 @@ public sealed class UpdateUserPubIdCommandValidator : AbstractValidator<UpdateUs
             .NotEmpty()
             .EmailAddress()
             .MaximumLength(MarketUserEntity.Constraints.EmailMaxLength);
+
+        RuleFor(x => x.AvatarLevel)
+            .Must(avatarLevel => avatarLevel is 1 or 2)
+            .WithMessage("Avatar must be male or female.");
     }
 }

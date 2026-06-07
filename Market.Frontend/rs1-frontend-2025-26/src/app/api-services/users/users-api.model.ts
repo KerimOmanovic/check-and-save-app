@@ -6,7 +6,7 @@ export interface UserProfileDto {
   isAdmin: boolean;
   isManager: boolean;
   isPublicUser: boolean;
-
+  avatarLevel: number;
 }
 
 export interface EmailAvailabilityDto {
@@ -17,7 +17,7 @@ export interface UpdateProfileCommand {
   firstName: string;
   lastName: string;
   email: string;
-
+  avatarLevel: number;
 }
 
 export interface UpdateProfileCommandDto {
@@ -29,4 +29,5 @@ export interface UpdateProfileCommandDto {
   isManager: boolean;
   isPublicUser: boolean;
   isEnabled: boolean;
+  avatarLevel: number;
 }

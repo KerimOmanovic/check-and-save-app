@@ -6,6 +6,7 @@ public sealed class UpdateUserPubIdCommandHandler(IAppDbContext ctx)
     public async Task<UpdateUserPubIdCommandDto> Handle(UpdateUserPubIdCommand request, CancellationToken ct)
     {
         var entity = await ctx.Users
+             .Include(x => x.PublicUserEntity)
             .FirstOrDefaultAsync(x => x.Id == request.Id, ct);
 
         if (entity is null)
@@ -23,6 +24,12 @@ public sealed class UpdateUserPubIdCommandHandler(IAppDbContext ctx)
         entity.Lastname = request.Lastname.Trim();
         entity.Email = email;
 
+        if (entity.PublicUserEntity is not null)
+        {
+            entity.PublicUserEntity.AvatarLevel = request.AvatarLevel;
+        }
+
+
         await ctx.SaveChangesAsync(ct);
 
         return new UpdateUserPubIdCommandDto
@@ -34,7 +41,8 @@ public sealed class UpdateUserPubIdCommandHandler(IAppDbContext ctx)
             IsAdmin = entity.IsAdmin,
             IsManager = entity.IsManager,
             IsPublicUser = entity.IsPublicUser,
-            IsEnabled = entity.IsEnabled
+            IsEnabled = entity.IsEnabled,
+            AvatarLevel = entity.PublicUserEntity?.AvatarLevel ?? 1
         };
     }
 }
