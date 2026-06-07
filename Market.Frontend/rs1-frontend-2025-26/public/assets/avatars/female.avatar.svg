@@ -1,31 +1,70 @@
-<svg width="512" height="512" viewBox="0 0 512 512" xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="title desc">
-  <title id="title">Ženski avatar</title>
-  <desc id="desc">Minimalistički zeleni avatar žene na bež kružnoj pozadini.</desc>
+<svg width="512" height="512" viewBox="0 0 512 512" xmlns="http://www.w3.org/2000/svg">
   <defs>
     <radialGradient id="bg" cx="50%" cy="35%" r="70%">
-      <stop offset="0" stop-color="#f7f0e2"/>
-      <stop offset="1" stop-color="#e2d7c5"/>
+      <stop offset="0%" stop-color="#f7efe0"/>
+      <stop offset="100%" stop-color="#e5d8c3"/>
     </radialGradient>
-    <linearGradient id="green" x1="0" x2="1" y1="0" y2="1">
-      <stop offset="0" stop-color="#6f8068"/>
-      <stop offset="1" stop-color="#314b3c"/>
+
+    <linearGradient id="hair" x1="180" y1="90" x2="350" y2="430">
+      <stop offset="0%" stop-color="#4f6652"/>
+      <stop offset="100%" stop-color="#263f34"/>
     </linearGradient>
-    <linearGradient id="sage" x1="0" x2="1" y1="0" y2="1">
-      <stop offset="0" stop-color="#b8c0a2"/>
-      <stop offset="1" stop-color="#728060"/>
+
+    <linearGradient id="shirt" x1="120" y1="370" x2="390" y2="520">
+      <stop offset="0%" stop-color="#b8bd96"/>
+      <stop offset="100%" stop-color="#7d8767"/>
     </linearGradient>
-    <clipPath id="circle"><circle cx="256" cy="256" r="242"/></clipPath>
+
+    <clipPath id="clip">
+      <circle cx="256" cy="256" r="242"/>
+    </clipPath>
   </defs>
+
   <circle cx="256" cy="256" r="242" fill="url(#bg)"/>
-  <g clip-path="url(#circle)">
-    <path d="M-10 262c88-80 210-88 278 4 70 95 183 44 274 152v120H-10Z" fill="#82916f" opacity=".55"/>
-    <path d="M174 343c32 44 130 45 165 0l27 25c48 12 82 54 82 105v59H72v-59c0-51 35-94 84-106Z" fill="url(#sage)"/>
-    <path d="M203 300c6 59 25 83 55 83 31 0 52-24 59-84l-23-10h-68Z" fill="#f3eddf"/>
-    <path d="M173 192c5-71 43-112 91-112 70 0 104 61 105 140 2 85 30 104 35 140-39-6-67-26-74-58-20 41-52 64-90 72 15-55-2-90-32-118-23-21-38-38-35-64Z" fill="url(#green)"/>
-    <path d="M197 207c8-47 31-73 69-70 41 3 50 43 74 73 9 12 20 22 32 31-5 56-37 98-84 115-47 17-92-18-101-75-4-22-1-50 10-74Z" fill="#f5efe2"/>
-    <ellipse cx="376" cy="234" rx="14" ry="25" fill="#f3eddf"/>
-    <path d="M199 211c24-83 78-110 142-64-38-6-60 9-72 36-11 26-13 59-34 82-17 18-33 35-32 65-31-41-28-79-4-119Z" fill="url(#green)" opacity=".96"/>
-    <path d="M162 298c-24 51-3 70-12 107-8 31-28 45-57 51 37-51 31-81 25-106-7-29 5-61 23-89 20-31 27-59 32-91 26 56 18 88-11 128Z" fill="url(#green)" opacity=".9"/>
+
+  <g clip-path="url(#clip)">
+
+    <path d="M-30 260C60 210 155 185 230 245C305 305 355 270 520 410V540H-30Z"
+          fill="#81906f" opacity="0.55"/>
+
+
+    <path d="M300 365C390 340 470 385 540 430V540H250Z"
+          fill="#7b8a72" opacity="0.55"/>
+
+    <path d="M214 315C219 360 236 385 259 385C285 385 306 358 312 315Z"
+          fill="#f4eddf"/>
+
+
+    <path d="M115 420C150 385 198 375 256 394C315 373 366 386 405 420C435 447 444 485 448 540H64C68 486 83 452 115 420Z"
+          fill="url(#shirt)"/>
+
+
+    <path d="M160 240C158 145 207 86 275 92C345 98 382 155 378 239C374 307 421 322 392 402C379 438 367 465 357 492C315 474 299 433 306 383C313 331 294 293 267 254C242 218 237 170 206 195C183 213 171 240 160 240Z"
+          fill="url(#hair)"/>
+
+
+    <path d="M210 116C165 145 151 190 154 239C157 286 123 300 124 348C125 388 96 405 101 459C105 505 74 523 48 540H165C194 512 185 476 190 441C196 393 236 382 229 331C224 291 194 282 196 242C198 195 207 150 210 116Z"
+          fill="url(#hair)"/>
+
+
+    <path d="M198 232C204 184 231 147 269 145C310 143 327 185 349 218C363 240 365 277 352 306C334 344 300 363 260 356C219 349 195 305 198 232Z"
+          fill="#f7efe1"/>
+
+
+    <ellipse cx="366" cy="233" rx="16" ry="26" fill="#f4eddf"/>
+
+
+    <path d="M200 235C207 164 252 109 316 118C352 123 371 152 379 194C343 185 329 151 296 143C260 134 239 158 228 194C219 224 215 246 195 266C194 255 196 244 200 235Z"
+          fill="url(#hair)"/>
+
+
+    <path d="M313 119C361 130 383 172 382 238C381 291 408 315 420 350C436 394 410 443 392 475C352 459 329 422 329 376C329 324 312 291 286 257C259 221 274 158 313 119Z"
+          fill="url(#hair)" opacity="0.97"/>
+
+
+    <path d="M163 258C140 294 145 326 158 358C174 398 139 418 138 465C137 506 111 526 91 540H145C170 514 168 482 171 449C176 402 207 390 201 347C196 308 169 296 163 258Z"
+          fill="#233b31" opacity="0.35"/>
   </g>
-  <circle cx="256" cy="256" r="242" fill="none" stroke="#ffffff" stroke-width="14" opacity=".75"/>
+
+  <circle cx="256" cy="256" r="242" fill="none" stroke="white" stroke-width="14" opacity="0.85"/>
 </svg>

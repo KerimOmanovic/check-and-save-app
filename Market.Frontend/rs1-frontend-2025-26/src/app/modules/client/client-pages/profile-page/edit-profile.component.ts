@@ -33,8 +33,8 @@ export class EditProfileComponent implements OnInit {
   saveSuccess = '';
 
   readonly avatarOptions = [
-    { level: 2, label: 'Ženski avatar', image: 'assets/avatars/female-avatar.svg' },
-    { level: 1, label: 'Muški avatar', image: 'assets/avatars/male-avatar.svg' },
+    { level: 2, label: 'Ženski avatar', image: 'assets/avatars/female.avatar.svg' },
+    { level: 1, label: 'Muški avatar', image: 'assets/avatars/male.avatar.svg' },
   ];
   private currentEmail = '';
   private userId = '';
