@@ -40,8 +40,8 @@ export class ProfileComponent implements OnInit {
   });
   avatarImageSrc = computed(() =>
     this.profile()?.avatarLevel === 1
-      ? 'assets/avatars/male-avatar.svg'
-      : 'assets/avatars/female-avatar.svg',
+      ? 'assets/avatars/male.avatar.svg'
+      : 'assets/avatars/female.avatar.svg',
   );
 
   ngOnInit(): void {
