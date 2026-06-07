@@ -18,7 +18,8 @@
                     IsManager = x.IsManager,
                     IsPublicUser = x.IsPublicUser,
                     IsEnabled = x.IsEnabled,
-                    TokenVersion = x.TokenVersion
+                    TokenVersion = x.TokenVersion,
+                    AvatarLevel = x.PublicUserEntity != null ? x.PublicUserEntity.AvatarLevel : 1
                 })
                 .FirstOrDefaultAsync(ct);
 

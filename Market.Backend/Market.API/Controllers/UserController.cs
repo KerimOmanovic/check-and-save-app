@@ -1,17 +1,18 @@
-﻿using Market.Application.Modules.Identity.User.Commands.Create;
+﻿using Market.Application.Abstractions;
+using Market.Application.Modules.Identity.User.Commands.Create;
 using Market.Application.Modules.Identity.User.Commands.Delete;
 using Market.Application.Modules.Identity.User.Commands.Status.Disable;
 using Market.Application.Modules.Identity.User.Commands.Status.Enable;
 using Market.Application.Modules.Identity.User.Commands.Update;
 using Market.Application.Modules.Identity.User.Queries.GetById;
 using Market.Application.Modules.Identity.User.Queries.List;
-using Market.Application.Abstractions;
+using Microsoft.EntityFrameworkCore;
 
 namespace Market.API.Controllers;
 
 [ApiController]
 [Route("api/users")]
-public class UserController(ISender sender, IAppCurrentUser currentUser) : ControllerBase
+public class UserController(ISender sender, IAppCurrentUser currentUser, IAppDbContext ctx) : ControllerBase
 {
     [HttpPost]
     public async Task<ActionResult<int>> Create(
@@ -82,10 +83,19 @@ public class UserController(ISender sender, IAppCurrentUser currentUser) : Contr
             Email = user.Email,
             IsAdmin = user.IsAdmin,
             IsManager = user.IsManager,
-            IsPublicUser = user.IsPublicUser
+            IsPublicUser = user.IsPublicUser,
+            AvatarLevel = user.AvatarLevel
         });
     }
+    [HttpGet("check-email")]
+    [AllowAnonymous]
+    public async Task<ActionResult<EmailAvailabilityDto>> CheckEmailAvailability([FromQuery] string email, CancellationToken ct)
+    {
+        var normalizedEmail = email.Trim().ToLowerInvariant();
+        var exists = await ctx.Users.AnyAsync(x => x.Email.ToLower() == normalizedEmail, ct);
 
+        return Ok(new EmailAvailabilityDto { IsAvailable = !exists });
+    }
     [HttpGet("{id:int}")]
     public async Task<GetMarketUserByIdQueryDto> GetById(int id, CancellationToken ct)
     {
@@ -110,4 +120,10 @@ public sealed class UserProfileDto
     public required bool IsAdmin { get; init; }
     public required bool IsManager { get; init; }
     public required bool IsPublicUser { get; init; }
+    public required int AvatarLevel { get; init; }
+}
+
+public sealed class EmailAvailabilityDto
+{
+    public required bool IsAvailable { get; init; }
 }

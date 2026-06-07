@@ -10,4 +10,5 @@ public sealed class UpdateUserPubIdCommandDto
     public required bool IsManager { get; init; }
     public required bool IsPublicUser { get; init; }
     public required bool IsEnabled { get; init; }
+    public required int AvatarLevel { get; init; }
 }

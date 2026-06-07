@@ -20,5 +20,10 @@ public sealed class RegisterCommandValidator : AbstractValidator<RegisterCommand
         RuleFor(x => x.Password)
             .NotEmpty()
             .MinimumLength(6);
+
+        RuleFor(x => x.Gender)
+            .NotEmpty()
+            .Must(gender => gender.Equals("male", StringComparison.OrdinalIgnoreCase) || gender.Equals("female", StringComparison.OrdinalIgnoreCase))
+            .WithMessage("Gender must be male or female.");
     }
 }

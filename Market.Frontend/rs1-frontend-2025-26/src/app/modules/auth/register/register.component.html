@@ -41,6 +41,18 @@
       <mat-error *ngIf="form.get('email')?.hasError('email')">Unesite validan email</mat-error>
     </mat-form-field>
 
+    <div class="gender-card">
+      <div class="gender-title">Spol</div>
+      <mat-radio-group class="gender-options" formControlName="gender" aria-label="Odaberi spol">
+        <mat-radio-button value="female">Ženski</mat-radio-button>
+        <mat-radio-button value="male">Muški</mat-radio-button>
+      </mat-radio-group>
+      <small class="gender-error" *ngIf="form.get('gender')?.touched && form.get('gender')?.hasError('required')">
+        Spol je obavezan
+      </small>
+    </div>
+
+
     <mat-form-field appearance="outline" class="full-width">
       <mat-label>Lozinka</mat-label>
       <input
