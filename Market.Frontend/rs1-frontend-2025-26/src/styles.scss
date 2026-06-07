@@ -57,8 +57,14 @@ html {
   --app-page-bg-color: #f3efe6;
   --app-surface-color: #ffffff;
   --app-primary-color: #0f3d2e;
+  --app-header-bg-color: #0f3d2e;
+  --app-header-text-color: #ffffff;
   --app-primary-hover-color: #1f5a45;
   --app-primary-dark-color: #0b2e23;
+  --app-on-primary-color: #ffffff;
+  --app-primary-tint-color: rgba(15, 61, 46, 0.08);
+  --app-image-surface-color: #f7efe2;
+  --app-success-bg-color: #edf7f1;
   --app-secondary-color: #cdbb9a;
   --app-text-color: #143126;
   --app-body-text-color: #1f2a24;
@@ -74,8 +80,14 @@ html {
   --app-page-bg-color: #0b1410;
   --app-surface-color: #17231d;
   --app-primary-color: #a5d6c0;
+  --app-header-bg-color: #07110d;
+  --app-header-text-color: #ffffff;
   --app-primary-hover-color: #c9e8d8;
   --app-primary-dark-color: #4ea07a;
+  --app-on-primary-color: #062016;
+  --app-primary-tint-color: rgba(165, 214, 192, 0.12);
+  --app-image-surface-color: #203229;
+  --app-success-bg-color: rgba(165, 214, 192, 0.12);
   --app-secondary-color: #d9c9ad;
   --app-text-color: #edf7f1;
   --app-body-text-color: #edf7f1;
@@ -96,7 +108,7 @@ body {
   min-height: 100%;
   margin: 0;
   font-family: Roboto, "Helvetica Neue", sans-serif;
-  color-scheme: light dark;
+  color-scheme: inherit;
   background-color: var(--app-bg-color);
   color: var(--app-body-text-color);
   font: var(--mat-sys-body-medium);
@@ -565,5 +577,65 @@ a {
     .content {
       padding: 20px !important;
     }
+  }
+}
+app-root > div,
+router-outlet + * {
+  background: var(--app-bg-color);
+  color: var(--app-body-text-color);
+}
+
+.mat-mdc-card,
+.mat-mdc-menu-panel,
+.mat-mdc-dialog-surface,
+.mat-mdc-table,
+.mat-mdc-paginator {
+  background-color: var(--app-surface-color) !important;
+  color: var(--app-body-text-color) !important;
+}
+
+.mat-mdc-header-cell,
+.mat-mdc-cell,
+.mat-mdc-row,
+.mat-mdc-paginator-container,
+.mat-mdc-select-value,
+.mat-mdc-input-element {
+  color: var(--app-body-text-color) !important;
+}
+
+:root.dark-theme {
+  .admin-page,
+  .admin-page .content,
+  .admin-page .table-container,
+  .admin-page .filter-section,
+  .admin-page .empty-state,
+  .admin-page .loading-state,
+  .admin-page .error-state,
+  .admin-page .mat-mdc-table,
+  .admin-page .mat-mdc-paginator {
+    background: var(--app-page-bg-color) !important;
+    color: var(--app-body-text-color) !important;
+  }
+
+  .admin-page .card,
+  .admin-page .mat-mdc-row,
+  .admin-page .mat-mdc-header-row,
+  .admin-page .form-card,
+  .admin-page .details-card {
+    background: var(--app-surface-color) !important;
+    border-color: var(--app-border-color) !important;
+    color: var(--app-body-text-color) !important;
+  }
+
+  .admin-page h1,
+  .admin-page h2,
+  .admin-page h3,
+  .admin-page p,
+  .admin-page label,
+  .admin-page .mat-mdc-cell,
+  .admin-page .mat-mdc-header-cell,
+  .admin-page .mat-mdc-paginator-range-label,
+  .admin-page .mat-mdc-paginator-page-size-label {
+    color: var(--app-body-text-color) !important;
   }
 }

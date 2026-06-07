@@ -1,16 +1,16 @@
-// === VARIABLES ===
-$cs-green:       #0F3D2E;   // primary dark green (pozadina)
-$cs-green-light: #1F5A45;   // primary light green (akcent/hover)
-$cs-green-dark:  #0B2E23;   // primary darker (hover/shade)
-$cs-beige:       #CDBB9A;   // bež brand akcent
-$cs-bg:          #F6F3EC;   // off-white/bež light
-$cs-surface:     #ffffff;
-$cs-text:        #111827;
-$cs-muted:       #6b7280;
-$cs-border:      #e5e7eb;
-$cs-accent:      #CDBB9A;   // bež kao akcent boja (podvlak itd.)
+$cs-green:       var(--app-header-bg-color);
+$cs-green-light: var(--app-primary-hover-color);
+$cs-green-dark:  var(--app-primary-dark-color);
+$cs-beige:       var(--app-secondary-color);
+$cs-bg:          var(--app-bg-color);
+$cs-surface:     var(--app-surface-color);
+$cs-text:        var(--app-text-color);
+$cs-muted:       var(--app-muted-text-color);
+$cs-border:      var(--app-border-color);
+$cs-accent:      var(--app-secondary-color);
 
-// === MIXINS ===
+
+
 @mixin container {
   max-width: 1200px;
   margin: 0 auto;
@@ -22,7 +22,7 @@ $cs-accent:      #CDBB9A;   // bež kao akcent boja (podvlak itd.)
   @media (max-width: 768px) { padding: 64px 20px; }
 }
 
-// === ANIMATIONS ===
+
 @keyframes fadeUp {
   from { opacity: 0; transform: translateY(24px); }
   to   { opacity: 1; transform: translateY(0); }
@@ -39,14 +39,14 @@ $cs-accent:      #CDBB9A;   // bež kao akcent boja (podvlak itd.)
   66%       { transform: scale(0.97) translate(-10px, 20px); }
 }
 
-// === LANDING PAGE ===
+
 .landing-page {
   min-height: 100vh;
   background: $cs-bg;
   font-family: 'DM Sans', 'Segoe UI', sans-serif;
 }
 
-// === HERO ===
+
 .hero-section {
   position: relative;
   overflow: hidden;
@@ -75,8 +75,8 @@ $cs-accent:      #CDBB9A;   // bež kao akcent boja (podvlak itd.)
     position: absolute;
     inset: 0;
     background-image:
-      linear-gradient(rgba($cs-green, 0.04) 1px, transparent 1px),
-      linear-gradient(90deg, rgba($cs-green, 0.04) 1px, transparent 1px);
+      linear-gradient(var(--app-primary-tint-color) 1px, transparent 1px),
+      linear-gradient(90deg, var(--app-primary-tint-color) 1px, transparent 1px);
     background-size: 48px 48px;
   }
 }
@@ -114,7 +114,7 @@ $cs-accent:      #CDBB9A;   // bež kao akcent boja (podvlak itd.)
   }
 }
 
-// --- Brand lockup ---
+
 .hero-text {
   animation: fadeUp 0.7s ease-out both;
 }
@@ -154,7 +154,7 @@ $cs-accent:      #CDBB9A;   // bež kao akcent boja (podvlak itd.)
   color: $cs-beige;
 }
 
-// --- Hero title ---
+
 .hero-title {
   font-size: 52px;
   font-weight: 800;
@@ -192,7 +192,7 @@ $cs-accent:      #CDBB9A;   // bež kao akcent boja (podvlak itd.)
   max-width: 460px;
 }
 
-// --- CTA buttons ---
+
 .hero-actions {
   display: flex;
   gap: 14px;
@@ -208,14 +208,14 @@ $cs-accent:      #CDBB9A;   // bež kao akcent boja (podvlak itd.)
   background: $cs-green !important;
   color: #fff !important;
   border-radius: 10px !important;
-  box-shadow: 0 4px 14px rgba($cs-green, 0.35) !important;
+  box-shadow: 0 4px 14px var(--app-card-shadow) !important;
   transition: all 0.2s ease !important;
 
   mat-icon { margin-right: 8px; font-size: 20px; width: 20px; height: 20px; }
 
   &:hover {
     background: $cs-green-light !important;
-    box-shadow: 0 6px 20px rgba($cs-green, 0.45) !important;
+    box-shadow: 0 6px 20px var(--app-strong-shadow) !important;
     transform: translateY(-1px);
   }
 }
@@ -236,11 +236,11 @@ $cs-accent:      #CDBB9A;   // bež kao akcent boja (podvlak itd.)
   &:hover {
     border-color: $cs-green !important;
     color: $cs-green !important;
-    background: rgba($cs-beige, 0.15) !important;
+    background: var(--app-primary-tint-color) !important;
   }
 }
 
-// --- Store chips ---
+
 .hero-stores {
   display: flex;
   align-items: center;
@@ -271,7 +271,7 @@ $cs-accent:      #CDBB9A;   // bež kao akcent boja (podvlak itd.)
   letter-spacing: 0.2px;
 }
 
-// === HERO VISUAL ===
+
 .hero-visual {
   position: relative;
   height: 380px;
@@ -309,7 +309,7 @@ $cs-accent:      #CDBB9A;   // bež kao akcent boja (podvlak itd.)
   &__img-placeholder {
     width: 48px;
     height: 48px;
-    background: rgba($cs-green, 0.08);
+    background: var(--app-primary-tint-color);
     border-radius: 10px;
     display: flex;
     align-items: center;
@@ -367,7 +367,7 @@ $cs-accent:      #CDBB9A;   // bež kao akcent boja (podvlak itd.)
     font-weight: 600;
     padding: 2px 8px;
     border-radius: 20px;
-    background: rgba($cs-beige, 0.3);
+    background: var(--app-primary-tint-color);
     color: $cs-green-dark;
   }
 
@@ -377,7 +377,7 @@ $cs-accent:      #CDBB9A;   // bež kao akcent boja (podvlak itd.)
   }
 }
 
-// --- Floating badges ---
+
 .floating-badge {
   position: absolute;
   background: $cs-surface;
@@ -422,7 +422,7 @@ $cs-accent:      #CDBB9A;   // bež kao akcent boja (podvlak itd.)
   margin: 0;
 }
 
-// === FEATURES (unchanged layout, updated styling) ===
+
 .features-section {
   @include section-padding;
 }
@@ -471,7 +471,7 @@ $cs-accent:      #CDBB9A;   // bež kao akcent boja (podvlak itd.)
   &:hover {
     transform: translateY(-4px);
     box-shadow: 0 12px 32px rgba(0,0,0,0.08);
-    border-color: rgba($cs-green, 0.3);
+    border-color: var(--app-border-color);
 
     .feature-icon { background: $cs-green; mat-icon { color: $cs-beige; } }
   }
@@ -494,7 +494,7 @@ $cs-accent:      #CDBB9A;   // bež kao akcent boja (podvlak itd.)
 .feature-icon {
   width: 52px;
   height: 52px;
-  background: rgba($cs-green, 0.08);
+  background: var(--app-primary-tint-color);
   border-radius: 12px;
   display: flex;
   align-items: center;
@@ -510,7 +510,7 @@ $cs-accent:      #CDBB9A;   // bež kao akcent boja (podvlak itd.)
   }
 }
 
-// === STATS (unchanged structure) ===
+
 .stats-section {
   @include section-padding;
   background: linear-gradient(135deg, $cs-green 0%, $cs-green-dark 100%);
@@ -556,7 +556,7 @@ $cs-accent:      #CDBB9A;   // bež kao akcent boja (podvlak itd.)
   opacity: 0.85;
 }
 
-// === CTA (unchanged structure) ===
+
 .cta-section {
   @include section-padding;
   background: $cs-bg;

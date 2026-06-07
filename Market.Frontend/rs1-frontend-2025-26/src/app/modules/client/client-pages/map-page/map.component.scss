@@ -1,13 +1,13 @@
-$f-bg: #f3efe6;
-$f-surface: #ffffff;
-$f-green: #0f3d2e;
-$f-green-2: #1f5a45;
-$f-beige: #cdbb9a;
-$f-text: #143126;
-$f-muted: #5b6b63;
-$f-border: rgba(205, 187, 154, 0.55);
-$f-shadow: rgba(15, 61, 46, 0.10);
-$f-shadow-2: rgba(15, 61, 46, 0.18);
+$f-bg: var(--app-page-bg-color);
+$f-surface: var(--app-surface-color);
+$f-green: var(--app-primary-color);
+$f-green-2: var(--app-primary-hover-color);
+$f-beige: var(--app-secondary-color);
+$f-text: var(--app-text-color);
+$f-muted: var(--app-muted-text-color);
+$f-border: var(--app-border-color);
+$f-shadow: var(--app-card-shadow);
+$f-shadow-2: var(--app-strong-shadow);
 
 .map-page {
   padding: 28px 40px 64px;
@@ -18,7 +18,7 @@ $f-shadow-2: rgba(15, 61, 46, 0.18);
   min-height: 100vh;
 }
 
-// ── Header ───────────────────────────────────────────────────
+
 .page-header {
   display: flex;
   justify-content: space-between;
@@ -37,7 +37,7 @@ $f-shadow-2: rgba(15, 61, 46, 0.18);
   border-radius: 999px;
   padding: 10px 18px;
   background: $f-green;
-  color: #fff;
+  color: var(--app-on-primary-color);
   font-weight: 600;
   cursor: pointer;
   box-shadow: 0 6px 14px $f-shadow;
@@ -46,15 +46,15 @@ $f-shadow-2: rgba(15, 61, 46, 0.18);
   &:hover { background: $f-green-2; }
 
   &.outline {
-    background: #fff;
+    background: $f-surface;
     color: $f-green;
     border: 1px solid $f-border;
     box-shadow: none;
-    &:hover { background: rgba(15, 61, 46, 0.06); }
+    &:hover { background: var(--app-primary-tint-color); }
   }
 }
 
-// ── Map ───────────────────────────────────────────────────────
+
 .map-section {
   border-radius: 22px;
   overflow: hidden;
@@ -69,13 +69,13 @@ $f-shadow-2: rgba(15, 61, 46, 0.18);
   height: 480px;
 }
 
-// Leaflet popup custom stil
+
 :global(.leaflet-popup-custom) {
   strong { display: block; font-size: 15px; color: $f-text; margin-bottom: 6px; }
   p { margin: 2px 0; font-size: 13px; color: $f-muted; }
 }
 
-// ── Loading / Error ───────────────────────────────────────────
+
 .state-card {
   display: flex;
   flex-direction: column;
@@ -103,7 +103,7 @@ $f-shadow-2: rgba(15, 61, 46, 0.18);
 
 @keyframes spin { to { transform: rotate(360deg); } }
 
-// ── Branch list ───────────────────────────────────────────────
+
 .store-list {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
@@ -126,7 +126,7 @@ $f-shadow-2: rgba(15, 61, 46, 0.18);
 
   &--active {
     border-color: $f-green;
-    box-shadow: 0 0 0 2px rgba(15, 61, 46, 0.15);
+    box-shadow: 0 0 0 2px var(--app-primary-tint-color);
   }
 }
 
@@ -145,7 +145,7 @@ $f-shadow-2: rgba(15, 61, 46, 0.18);
   align-items: center;
   padding: 6px 10px;
   border-radius: 999px;
-  background: rgba(205, 187, 154, 0.22);
+  background: var(--app-primary-tint-color);
   border: 1px solid $f-border;
   color: $f-green;
   font-weight: 600;
