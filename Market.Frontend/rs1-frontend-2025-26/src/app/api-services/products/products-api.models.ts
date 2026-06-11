@@ -3,10 +3,6 @@ import { BasePagedQuery } from '../../core/models/paging/base-paged-query';
 
 // === QUERIES (READ) ===
 
-/**
- * Query parameters for GET /Product
- * Corresponds to: ListProductsQuery.cs
- */
 export class ListProductsQuery extends BasePagedQuery {
   search?: string | null;
   branchEntityId?: number | null;
@@ -15,10 +11,6 @@ export class ListProductsQuery extends BasePagedQuery {
   storeEntityId?: number | null;
 }
 
-/**
- * Response item for GET /Product
- * Corresponds to: ListProductsQueryDto.cs
- */
 export interface ListProductsQueryDto {
   id: number;
   branchEntityId: number;
@@ -28,13 +20,10 @@ export interface ListProductsQueryDto {
   storeEntityId: number;
   storeLabel?: string | null;
   lowestPrice?: number | null;
+  imageUrl?: string | null;
   dateAdded: string;
 }
 
-/**
- * Response for GET /Product/{id}
- * Corresponds to: GetProductByIdQueryDto.cs
- */
 export interface GetProductByIdQueryDto {
   id: number;
   storeEntityId: number;
@@ -47,14 +36,8 @@ export interface GetProductByIdQueryDto {
   dateAdded: string;
 }
 
-/**
- * Paged response for GET /Product
- */
 export type ListProductsResponse = PageResult<ListProductsQueryDto>;
-/**
- * Response for GET /api/products/compare?ids=...
- * Corresponds to: CompareProductsQueryDto.cs
- */
+
 export interface CompareProductsQueryDto {
   products: CompareProductDto[];
 }
@@ -86,10 +69,6 @@ export interface CompareStorePriceDto {
 
 // === COMMANDS (WRITE) ===
 
-/**
- * Command for POST /Product
- * Corresponds to: CreateProductCommand.cs
- */
 export interface CreateProductCommand {
   storeEntityId: number;
   branchEntityId: number;
@@ -101,10 +80,6 @@ export interface CreateProductCommand {
   dateAdded: string | Date;
 }
 
-/**
- * Command for PUT /Product/{id}
- * Corresponds to: UpdateProductCommand.cs
- */
 export interface UpdateProductCommand {
   storeEntityId: number;
   branchEntityId: number;
@@ -113,4 +88,10 @@ export interface UpdateProductCommand {
   name: string;
   description: string;
   imageURL: string;
+}
+
+// === IMAGE UPLOAD ===
+
+export interface UploadProductImageDto {
+  imageUrl: string;
 }

@@ -639,3 +639,13 @@ router-outlet + * {
     color: var(--app-body-text-color) !important;
   }
 }
+
+.mat-datepicker-content {
+  background: #ffffff !important;
+  border-radius: 12px !important;
+  box-shadow: 0 8px 24px rgba(15, 61, 46, 0.15) !important;
+}
+
+.mat-calendar {
+  background: #ffffff !important;
+}

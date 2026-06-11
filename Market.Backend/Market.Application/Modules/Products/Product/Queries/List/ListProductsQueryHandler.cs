@@ -34,7 +34,8 @@
                 Name = x.Name,
                 StoreLabel = x.StoreEntity != null ? x.StoreEntity.Name : string.Empty,
                 LowestPrice = x.Prices.Select(p => (int?)p.Amount).Min(),
-                DateAdded = x.DateAdded
+                DateAdded = x.DateAdded,
+                ImageURL = x.ImageURL
             });
 
             return await PageResult<ListProductsQueryDto>.FromQueryableAsync(pq, request.Paging, ct);
