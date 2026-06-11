@@ -16,9 +16,7 @@
         ></mat-slide-toggle>
       </div>
 
-      <button class="btn outline" type="button" routerLink="/client/home">
-        Nazad na početnu
-      </button>
+      <button class="btn outline" type="button" routerLink="/client/home">Nazad na početnu</button>
     </div>
   </header>
 
@@ -28,9 +26,18 @@
   </section>
 
   <section class="profile-card" *ngIf="!isLoading() && !loadError()">
-    <button class="edit-btn" type="button" routerLink="/client/profile/edit">
-      Uredi profil
-    </button>
+    <div class="profile-actions">
+      <button class="edit-btn" type="button" routerLink="/client/profile/edit">Uredi profil</button>
+      <button
+        class="logout-btn"
+        type="button"
+        (click)="onLogout()"
+        [disabled]="isLoggingOut()"
+        *ngIf="isAuthenticated()"
+      >
+        {{ isLoggingOut() ? 'Odjava...' : 'Odjavi se' }}
+      </button>
+    </div>
 
     <div class="avatar-wrap">
       <img class="avatar" [src]="avatarImageSrc()" alt="Korisnički avatar" />
