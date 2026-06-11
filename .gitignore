@@ -542,3 +542,4 @@ http-client.private.env.json
 .idea/ApifoxUploaderProjectSetting.xml
 # Claude Code
 .claude/
+**/appsettings.json
