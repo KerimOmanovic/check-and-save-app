@@ -1,7 +1,7 @@
-﻿
-using Market.Application.Modules.Store.Stores.Commands.Delete;
+﻿using Market.Application.Modules.Store.Stores.Commands.Delete;
 using Market.Application.Modules.Store.Stores.Queries.GetById;
 using Market.Application.Modules.Store.Stores.Queries.List;
+using Market.Application.Modules.Store.Stores.Queries.Map;
 using Market.Application.Modules.Stores.Store.Commands.Create;
 using Market.Application.Modules.Stores.Store.Commands.Update;
 
@@ -41,5 +41,17 @@ public class StoreController(ISender sender) : ControllerBase
     public async Task<PageResult<ListStoresQueryDto>> List([FromQuery] ListStoresQuery query, CancellationToken ct)
     {
         return await sender.Send(query, ct);
+    }
+
+    /// <summary>
+    /// Returns all active stores with coordinates for map rendering.
+    /// Requires authenticated user (admin, manager or public user).
+    /// GET /Store/map
+    /// </summary>
+    [HttpGet("map")]
+    [Authorize(Policy = "AuthenticatedUser")]
+    public async Task<List<StoreMapItemDto>> GetMap(CancellationToken ct)
+    {
+        return await sender.Send(new GetStoresMapQuery(), ct);
     }
 }

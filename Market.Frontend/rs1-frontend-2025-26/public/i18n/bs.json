@@ -17,7 +17,7 @@
     "LOGOUT": {
       "TITLE": "Odjava",
       "MESSAGE": "Odjavljivanje sa sistema...",
-      "REDIRECT_IN": "Preusmjeravanje za {{seconds}}s"
+      "REDIRECT_IN": "Preusmjeravanje na prijavu za {{seconds}}s"
     }
   },
   "ADMIN_PANEL": {

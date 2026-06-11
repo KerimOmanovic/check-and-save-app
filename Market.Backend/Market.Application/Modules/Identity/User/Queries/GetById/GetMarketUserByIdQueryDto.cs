@@ -14,5 +14,7 @@
 
         public required bool IsEnabled { get; init; }
         public required int TokenVersion { get; init; }
+
+        public required int AvatarLevel { get; init; }
     }
 }

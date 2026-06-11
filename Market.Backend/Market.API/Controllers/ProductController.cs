@@ -3,11 +3,13 @@ using Market.Application.Modules.Products.Product.Commands.Update;
 using Market.Application.Modules.Products.Product.Commands.Delete;
 using Market.Application.Modules.Products.Product.Queries.GetById;
 using Market.Application.Modules.Products.Product.Queries.List;
+using Market.Application.Modules.Products.Product.Queries.Compare;
 
 namespace Market.API.Controllers;
 
 [ApiController]
 [Route("[controller]")]
+[Route("api/products")]
 public class ProductController(ISender sender) : ControllerBase
 {
     [HttpPost]
@@ -32,14 +34,22 @@ public class ProductController(ISender sender) : ControllerBase
         await sender.Send(new DeleteProductCommand { Id = id }, ct);
     
     }
+    [HttpGet("compare")]
+    [AllowAnonymous]
+    public async Task<CompareProductsQueryDto> Compare([FromQuery] CompareProductsQuery query, CancellationToken ct)
+    {
+        return await sender.Send(query, ct);
+    }
 
     [HttpGet("{id:int}")]
+    [AllowAnonymous]
     public async Task<GetProductByIdQueryDto> GetById(int id, CancellationToken ct)
     {
         return await sender.Send(new GetProductByIdQuery { Id = id }, ct);
     }
 
     [HttpGet]
+    [AllowAnonymous]
     public async Task<PageResult<ListProductsQueryDto>> List(
         [FromQuery] ListProductsQuery query,
         CancellationToken ct)

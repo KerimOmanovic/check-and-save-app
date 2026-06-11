@@ -25,6 +25,7 @@
             var pq = q.Select(x => new ListMarketUsersQueryDto
             {
                 Id = x.Id,
+                PublicId = x.PublicId,
                 Firstname = x.Firstname,
                 Lastname = x.Lastname,
                 Email = x.Email,

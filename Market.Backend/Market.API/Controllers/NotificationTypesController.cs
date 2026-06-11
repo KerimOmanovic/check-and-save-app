@@ -12,7 +12,7 @@ namespace Market.API.Controllers;
 public class NotificationTypesController(ISender sender) : ControllerBase
 {
     [HttpPost]
-    public async Task<ActionResult<int>> Create(CreateNotificationTypeCommand command, CancellationToken ct)
+    public async Task<ActionResult<int>> Create(CreateNotifTypeCmd command, CancellationToken ct)
     {
         int id = await sender.Send(command, ct);
 
@@ -20,7 +20,7 @@ public class NotificationTypesController(ISender sender) : ControllerBase
     }
 
     [HttpPut("{id:int}")]
-    public async Task Update(int id, UpdateNotificationTypeCommand command, CancellationToken ct)
+    public async Task Update(int id, UpdateNotifTypeCmd command, CancellationToken ct)
     {
        
         command.Id = id;
@@ -31,19 +31,19 @@ public class NotificationTypesController(ISender sender) : ControllerBase
     [HttpDelete("{id:int}")]
     public async Task Delete(int id, CancellationToken ct)
     {
-        await sender.Send(new DeleteNotificationTypeCommand { Id = id }, ct);
+        await sender.Send(new DeleteNotifTypeCmd { Id = id }, ct);
      
     }
 
     [HttpGet("{id:int}")]
-    public async Task<GetNotificationTypeByIdQueryDto> GetById(int id, CancellationToken ct)
+    public async Task<GetNotifTypeByIdQryDto> GetById(int id, CancellationToken ct)
     {
-        var type = await sender.Send(new GetNotificationTypeByIdQuery { Id = id }, ct);
+        var type = await sender.Send(new GetNotifTypeByIdQry { Id = id }, ct);
         return type; 
     }
 
     [HttpGet]
-    public async Task<PageResult<ListNotificationTypesQueryDto>> List([FromQuery] ListNotificationTypesQuery query, CancellationToken ct)
+    public async Task<PageResult<ListNotifTypesQryDto>> List([FromQuery] ListNotifTypesQry query, CancellationToken ct)
     {
         var result = await sender.Send(query, ct);
         return result;
