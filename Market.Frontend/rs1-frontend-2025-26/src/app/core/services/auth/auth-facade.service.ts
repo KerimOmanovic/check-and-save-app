@@ -74,6 +74,7 @@ export class AuthFacadeService {
     return this.api.logout(payload).pipe(
       catchError(() => of(void 0)),
       finalize(() => this.clearUserState()),
+      map(() => void 0),
     );
   }
 
