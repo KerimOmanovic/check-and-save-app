@@ -3,7 +3,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { BaseFormComponent } from '../../../../core/components/base-classes/base-form-component';
 import {
   GetProductByIdQueryDto,
-  UpdateProductCommand
+  UpdateProductCommand,
 } from '../../../../api-services/products/products-api.models';
 import { ProductsApiService } from '../../../../api-services/products/products-api.service';
 import { ProductFormService } from '../services/product-form.service';
@@ -25,10 +25,7 @@ import { allItemsPaging } from '../../../../core/models/paging/paging-utils';
   styleUrl: './products-edit.component.scss',
   providers: [ProductFormService]
 })
-export class ProductsEditComponent
-  extends BaseFormComponent<GetProductByIdQueryDto>
-  implements OnInit {
-
+export class ProductsEditComponent extends BaseFormComponent<GetProductByIdQueryDto> implements OnInit {
   private api = inject(ProductsApiService);
   private categoriesApi = inject(CategoriesApiService);
   private brandsApi = inject(BrandsApiService);
@@ -40,7 +37,7 @@ export class ProductsEditComponent
   private toaster = inject(ToasterService);
 
   productId!: number;
-  dateAddedLabel = '';
+  dateAddedLabel: string | null = null;
 
   categories: ListCategoriesQueryDto[] = [];
   brands: ListBrandsQueryDto[] = [];
@@ -48,127 +45,105 @@ export class ProductsEditComponent
   branches: ListBranchesQueryDto[] = [];
   filteredBranches: ListBranchesQueryDto[] = [];
 
+  // Image upload
+  currentImageUrl: string | null = null;
+  isUploading = false;
+  selectedFile: File | null = null;
+  previewUrl: string | null = null;
+
   ngOnInit(): void {
-    const id = this.route.snapshot.params['id'];
-    this.productId = Number(id);
-
-    if (!this.productId || isNaN(this.productId)) {
-      this.toaster.error('Nevažeći ID proizvoda');
-      this.router.navigate(['/admin/products']);
-      return;
-    }
-
-    console.log('Editing product with ID:', this.productId);
+    this.productId = Number(this.route.snapshot.params['id']);
     this.initForm(true);
     this.loadFilters();
   }
 
   protected loadData(): void {
     this.startLoading();
-    console.log('Loading product data for ID:', this.productId);
-
     this.api.getById(this.productId).subscribe({
-      next: (product) => {
-        console.log('✅ Product loaded:', product);
+      next: (product: GetProductByIdQueryDto) => {
         this.model = product;
+        this.form = this.formService.createProductForm(product);
+        this.currentImageUrl = product.imageURL || null;
         this.dateAddedLabel = product.dateAdded;
+        this.stopLoading();
 
-        // Kreiraj formu sa učitanim podacima (bez dateAdded u edit modu)
-        this.form = this.formService.createProductForm(product, false);
-
-        // Postavi branch filtering nakon što je forma kreirana
+        // Setup branch filtering after form is ready
         this.setupBranchFiltering();
 
-        // Učitaj poslovnice za trenutno odabranu prodavnicu
-        this.loadBranches(this.form.get('storeEntityId')?.value ?? null);
-
-        this.stopLoading();
-      },
-      error: (err) => {
-        console.error('❌ Load product failed:', err);
-        this.stopLoading();
-
-        let errorMsg = 'Greška pri učitavanju proizvoda';
-        if (err.status === 404) {
-          errorMsg = 'Proizvod nije pronađen';
-        } else if (err.error?.message) {
-          errorMsg = err.error.message;
+        // Load branches for the selected store
+        if (product.storeEntityId) {
+          this.loadBranches(product.storeEntityId);
         }
-
-        this.toaster.error(errorMsg);
+      },
+      error: (err: any) => {
+        this.stopLoading('Greška pri učitavanju proizvoda');
+        this.toaster.error('Proizvod nije pronađen');
+        console.error('Load product error:', err);
         this.router.navigate(['/admin/products']);
       }
     });
   }
 
   protected save(): void {
-    // Provjeri validnost forme
     if (this.form.invalid) {
-      // Markiraj sva polja kao touched da se prikažu validacione greške
       Object.keys(this.form.controls).forEach(key => {
         this.form.get(key)?.markAsTouched();
       });
       this.toaster.warning('Molimo popunite sva obavezna polja');
-      console.warn('Form is invalid:', this.getFormValidationErrors());
       return;
     }
 
-    if (this.isLoading) {
-      return;
-    }
+    if (this.isLoading) return;
 
     this.startLoading();
 
     const command: UpdateProductCommand = this.form.getRawValue() as UpdateProductCommand;
 
-    console.log('📤 Sending product update command:', command);
-
     this.api.update(this.productId, command).subscribe({
       next: () => {
-        console.log('✅ Product updated successfully');
         this.stopLoading();
         this.toaster.success('Proizvod je uspješno ažuriran');
         this.router.navigate(['/admin/products']);
       },
-      error: (err) => {
-        console.error('❌ Update product failed:', err);
-        console.error('Error details:', {
-          status: err.status,
-          statusText: err.statusText,
-          message: err.error?.message || err.message,
-          errors: err.error?.errors,
-          fullError: err
-        });
+      error: (err: any) => {
+        this.stopLoading('Greška pri ažuriranju proizvoda');
+        console.error('Update product error:', err);
+      }
+    });
+  }
 
-        this.stopLoading();
+  // === IMAGE UPLOAD ===
 
-        // Prikaži detaljnu poruku greške
-        let errorMsg = 'Greška pri ažuriranju proizvoda';
+  onFileSelected(event: Event): void {
+    const input = event.target as HTMLInputElement;
+    if (!input.files?.length) return;
 
-        if (err.status === 400 && err.error?.errors) {
-          // Validation errors iz backend-a
-          const validationErrors = Object.entries(err.error.errors)
-            .map(([field, messages]: [string, any]) => `${field}: ${Array.isArray(messages) ? messages.join(', ') : messages}`)
-            .join('; ');
-          errorMsg = validationErrors || errorMsg;
-        } else if (err.error?.message) {
-          errorMsg = err.error.message;
-        } else if (err.error?.title) {
-          errorMsg = err.error.title;
-        } else if (err.status === 0) {
-          errorMsg = 'Greška u konekciji sa serverom. Provjerite internet vezu.';
-        } else if (err.status === 401) {
-          errorMsg = 'Nemate autorizaciju za ovu akciju';
-        } else if (err.status === 403) {
-          errorMsg = 'Pristup odbijen';
-        } else if (err.status === 404) {
-          errorMsg = 'Proizvod nije pronađen';
-        } else if (err.status >= 500) {
-          errorMsg = 'Greška na serveru. Pokušajte ponovo kasnije.';
-        }
+    this.selectedFile = input.files[0];
 
-        this.errorMessage = errorMsg;
-        this.toaster.error(errorMsg);
+    const reader = new FileReader();
+    reader.onload = (e) => {
+      this.previewUrl = e.target?.result as string;
+    };
+    reader.readAsDataURL(this.selectedFile);
+  }
+
+  onUploadImage(): void {
+    if (!this.selectedFile || this.isUploading) return;
+
+    this.isUploading = true;
+    this.api.uploadImage(this.productId, this.selectedFile).subscribe({
+      next: (result) => {
+        this.currentImageUrl = result.imageUrl;
+        this.form.patchValue({ imageURL: result.imageUrl });
+        this.previewUrl = null;
+        this.selectedFile = null;
+        this.isUploading = false;
+        this.toaster.success('Slika je uspješno uploadovana');
+      },
+      error: (err: any) => {
+        this.isUploading = false;
+        this.toaster.error('Greška pri uploadu slike');
+        console.error('Upload image error:', err);
       }
     });
   }
@@ -182,61 +157,34 @@ export class ProductsEditComponent
   }
 
   private loadFilters(): void {
-    // Učitaj kategorije
     this.categoriesApi.list({ paging: allItemsPaging }).subscribe({
-      next: (response) => {
-        this.categories = response.items;
-        console.log('✅ Categories loaded:', this.categories.length);
-      },
-      error: (err) => {
-        this.toaster.error('Greška pri učitavanju kategorija');
-        console.error('Load categories error:', err);
-      }
+      next: (response) => { this.categories = response.items; },
+      error: (err) => { console.error('Load categories error:', err); }
     });
 
-    // Učitaj brendove
     this.brandsApi.list({ paging: allItemsPaging }).subscribe({
-      next: (response) => {
-        this.brands = response.items;
-        console.log('✅ Brands loaded:', this.brands.length);
-      },
-      error: (err) => {
-        this.toaster.error('Greška pri učitavanju brendova');
-        console.error('Load brands error:', err);
-      }
+      next: (response) => { this.brands = response.items; },
+      error: (err) => { console.error('Load brands error:', err); }
     });
 
-    // Učitaj prodavnice (samo aktivne)
     this.storesApi.list({ paging: allItemsPaging, onlyActive: true }).subscribe({
-      next: (response) => {
-        this.stores = response.items;
-        console.log('✅ Stores loaded:', this.stores.length);
-      },
-      error: (err) => {
-        this.toaster.error('Greška pri učitavanju prodavnica');
-        console.error('Load stores error:', err);
-      }
+      next: (response) => { this.stores = response.items; },
+      error: (err) => { console.error('Load stores error:', err); }
     });
   }
 
   private setupBranchFiltering(): void {
-    // Osluškuj promjene u polju prodavnice
     this.form.get('storeEntityId')?.valueChanges.subscribe((storeId) => {
-      console.log('Store changed to:', storeId);
       this.loadBranches(storeId ?? null);
     });
   }
 
   private loadBranches(storeId: number | null): void {
     if (!storeId) {
-      this.branches = [];
       this.filteredBranches = [];
       this.form.get('branchEntityId')?.setValue(null);
-      console.log('No store selected, branches cleared');
       return;
     }
-
-    console.log('Loading branches for store:', storeId);
 
     this.branchesApi
       .list({ paging: allItemsPaging, onlyActive: true, storeEntityId: storeId })
@@ -244,36 +192,8 @@ export class ProductsEditComponent
         next: (response) => {
           this.branches = response.items;
           this.filteredBranches = response.items;
-          console.log('✅ Branches loaded:', this.filteredBranches.length);
-
-          // Provjeri da li je trenutno odabrana poslovnica još uvijek validna
-          const selectedBranchId = this.form.get('branchEntityId')?.value;
-          if (selectedBranchId) {
-            const stillValid = this.filteredBranches.some(
-              (branch) => branch.id === selectedBranchId
-            );
-            if (!stillValid) {
-              this.form.get('branchEntityId')?.setValue(null);
-              console.log('Previous branch selection cleared (not valid for new store)');
-            }
-          }
         },
-        error: (err) => {
-          this.toaster.error('Greška pri učitavanju poslovnica');
-          console.error('Load branches error:', err);
-        }
+        error: (err) => { console.error('Load branches error:', err); }
       });
-  }
-
-  // Helper metoda za prikaz validation errors
-  private getFormValidationErrors(): any {
-    const errors: any = {};
-    Object.keys(this.form.controls).forEach(key => {
-      const control = this.form.get(key);
-      if (control && control.errors) {
-        errors[key] = control.errors;
-      }
-    });
-    return errors;
   }
 }

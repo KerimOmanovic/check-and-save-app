@@ -58,14 +58,6 @@ html {
   ));
 }
 
-// ============================================
-// BODY & HTML BASE STYLES
-// ============================================
-
-// FIX: overflow-y: scroll na html osigurava da scrollbar uvijek bude vidljiv.
-// overflow-x: hidden mora imati eksplicitnu os — bez nje neki browseri
-// tumače to kao hidden na oba smjera i blokiraju vertikalni scroll.
-// min-height umjesto height: 100% na body dozvoljava rast sadržaja.
 html {
   height: 100%;
   overflow-y: scroll;
@@ -570,4 +562,14 @@ a {
       padding: 20px !important;
     }
   }
+}
+
+.mat-datepicker-content {
+  background: #ffffff !important;
+  border-radius: 12px !important;
+  box-shadow: 0 8px 24px rgba(15, 61, 46, 0.15) !important;
+}
+
+.mat-calendar {
+  background: #ffffff !important;
 }

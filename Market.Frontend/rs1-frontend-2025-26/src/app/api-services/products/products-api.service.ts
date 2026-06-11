@@ -9,7 +9,8 @@ import {
   GetProductByIdQueryDto,
   ListProductsQuery,
   ListProductsResponse,
-  UpdateProductCommand
+  UpdateProductCommand,
+  UploadProductImageDto,
 } from './products-api.models';
 
 @Injectable({ providedIn: 'root' })
@@ -17,22 +18,16 @@ export class ProductsApiService {
   private http = inject(HttpClient);
   private baseUrl = `${environment.apiUrl}/Product`;
 
-  /**
-   * GET /Product
-   * Lista proizvoda sa paging i filter parametrima
-   */
+  /** GET /Product */
   list(query: ListProductsQuery): Observable<ListProductsResponse> {
-    // Kreiraj čiste parametre BEZ buildHttpParams funkcije
     let params = new HttpParams();
 
-    // OBAVEZNI paging parametri
     const page = query.paging?.page ?? 1;
     const pageSize = query.paging?.pageSize ?? 10;
 
     params = params.set('paging.page', page.toString());
     params = params.set('paging.pageSize', pageSize.toString());
 
-    // Opcionalni parametri - dodaj samo ako postoje vrijednosti
     if (query.search && query.search.trim() !== '') {
       params = params.set('search', query.search.trim());
     }
@@ -53,15 +48,9 @@ export class ProductsApiService {
       params = params.set('branchEntityId', query.branchEntityId.toString());
     }
 
-    const fullUrl = `${this.baseUrl}?${params.toString()}`;
-    console.log('🌐 Products API - GET request:', {
-      baseUrl: this.baseUrl,
-      params: params.toString(),
-      fullUrl: fullUrl
-    });
-
     return this.http.get<ListProductsResponse>(this.baseUrl, { params });
   }
+
   /** GET /api/products/compare?ids=... */
   compare(ids: Array<number | string>): Observable<CompareProductsQueryDto> {
     const publicIds = ids
@@ -69,31 +58,40 @@ export class ProductsApiService {
       .filter((id) => id.length > 0);
 
     const params = new HttpParams().set('ids', publicIds.join(','));
-
-    console.log('🌐 Products API - GET compare:', publicIds);
     return this.http.get<CompareProductsQueryDto>(`${environment.apiUrl}/api/products/compare`, { params });
   }
+
   /** GET /Product/{id} */
   getById(id: number): Observable<GetProductByIdQueryDto> {
-    console.log('🌐 Products API - GET by ID:', id);
     return this.http.get<GetProductByIdQueryDto>(`${this.baseUrl}/${id}`);
   }
 
   /** POST /Product */
   create(command: CreateProductCommand): Observable<{ id: number }> {
-    console.log('🌐 Products API - POST create:', command);
     return this.http.post<{ id: number }>(this.baseUrl, command);
   }
 
   /** PUT /Product/{id} */
   update(id: number, command: UpdateProductCommand): Observable<void> {
-    console.log('🌐 Products API - PUT update:', { id, command });
     return this.http.put<void>(`${this.baseUrl}/${id}`, command);
   }
 
   /** DELETE /Product/{id} */
   delete(id: number): Observable<void> {
-    console.log('🌐 Products API - DELETE:', id);
     return this.http.delete<void>(`${this.baseUrl}/${id}`);
+  }
+
+  /**
+   * POST /Product/{id}/images
+   * Uploads, compresses and stores image in Supabase Storage.
+   * Returns public URL.
+   */
+  uploadImage(productId: number, file: File): Observable<UploadProductImageDto> {
+    const formData = new FormData();
+    formData.append('image', file);
+    return this.http.post<UploadProductImageDto>(
+      `${this.baseUrl}/${productId}/images`,
+      formData
+    );
   }
 }

@@ -8,6 +8,8 @@ import { CurrentUserService } from '../../../../core/services/auth/current-user.
 import { UsersApiService } from '../../../../api-services/users/users-api.services';
 import { UserProfileDto } from '../../../../api-services/users/users-api.model';
 import { ProductImageCarouselComponent } from '../../../public/product-image-carousel/product-image-carousel.component';
+import { ProductsApiService } from '../../../../api-services/products/products-api.service';
+import { ListProductsQuery } from '../../../../api-services/products/products-api.models';
 
 type CategoryKey =
   | 'popularno'
@@ -22,7 +24,7 @@ type Product = {
   name: string;
   bestStore: string;
   price: number;
-  category: 'namirnice' | 'elektronika' | 'drogerija' | 'akcije';
+  category: string;
   images: string[];
 };
 
@@ -49,6 +51,7 @@ export class HomeComponent implements OnInit {
   private favoritesService = inject(FavoritesService);
   private currentUser = inject(CurrentUserService);
   private usersApi = inject(UsersApiService);
+  private productsApi = inject(ProductsApiService);
 
   activeCategory: CategoryKey = 'popularno';
   private readonly storageKey = 'client-home-active-category';
@@ -58,8 +61,11 @@ export class HomeComponent implements OnInit {
   visibleStores: Store[] = [];
   compareSelection: Product[] = [];
   comparePair: { left: Product; right: Product } | null = null;
+  isLoadingProducts = false;
 
   userProfile: UserProfileDto | null = null;
+
+  private productCache: Map<string, Product[]> = new Map();
 
   categoryTabs: CategoryTab[] = [
     { key: 'popularno', label: 'Popularno', subtitle: 'Top ponude danas' },
@@ -70,103 +76,12 @@ export class HomeComponent implements OnInit {
     { key: 'akcije', label: 'Akcije', subtitle: 'Aktuelni popusti' },
   ];
 
-  ngOnInit(): void {
-    const storedCategory = localStorage.getItem(this.storageKey);
-
-    if (storedCategory && this.isCategoryKey(storedCategory)) {
-      this.activeCategory = storedCategory;
-    }
-
-    if (this.currentUser.isAuthenticated()) {
-      this.usersApi.getMe().subscribe({
-        next: (profile) => {
-          this.userProfile = profile;
-        },
-        error: () => {
-          this.userProfile = null;
-        },
-      });
-    }
-
-    this.updateActiveContent();
-  }
-
   stores: Store[] = [
     { name: 'Prodavnica 1', city: 'Mostar', hours: '07:00 - 21:00' },
     { name: 'Prodavnica 2', city: 'Mostar', hours: '08:00 - 22:00' },
     { name: 'Prodavnica 3', city: 'Mostar', hours: '07:30 - 20:30' },
     { name: 'Prodavnica 4', city: 'Mostar', hours: '08:00 - 21:30' },
     { name: 'Prodavnica 5', city: 'Mostar', hours: '09:00 - 20:00' },
-  ];
-
-  popularProducts: Product[] = [
-    { id: 1, name: 'Mlijeko', bestStore: 'Prodavnica 2', price: 2.45, category: 'namirnice',
-      images: ['https://images.unsplash.com/photo-1563636619-e9143da7973b?w=400&q=80',
-        'https://images.unsplash.com/photo-1550583724-b2692b85b150?w=400&q=80'] },
-    { id: 2, name: 'Tastatura', bestStore: 'Prodavnica 2', price: 39.9, category: 'elektronika',
-      images: ['https://images.unsplash.com/photo-1587829741301-dc798b83add3?w=400&q=80',
-        'https://images.unsplash.com/photo-1541140532154-b024d705b90a?w=400&q=80'] },
-    { id: 3, name: 'Šampon', bestStore: 'Prodavnica 3', price: 6.8, category: 'drogerija',
-      images: ['https://images.unsplash.com/photo-1556228578-0d85b1a4d571?w=400&q=80'] },
-    { id: 4, name: 'Jaja', bestStore: 'Prodavnica 1', price: 3.1, category: 'namirnice',
-      images: ['https://images.unsplash.com/photo-1510130387422-82bed34b37e9?w=400&q=80',
-        'https://images.unsplash.com/photo-1582722872445-44dc5f7e3c8f?w=400&q=80'] },
-    { id: 5, name: 'Miš', bestStore: 'Prodavnica 5', price: 19.9, category: 'elektronika',
-      images: ['https://images.unsplash.com/photo-1527864550417-7fd91fc51a46?w=400&q=80'] },
-    { id: 6, name: 'Sapun', bestStore: 'Prodavnica 5', price: 2.1, category: 'drogerija',
-      images: ['https://images.unsplash.com/photo-1600857544200-b2f468e9b2b9?w=400&q=80'] },
-  ];
-
-  groceriesProducts: Product[] = [
-    { id: 7, name: 'Mlijeko', bestStore: 'Prodavnica 2', price: 2.45, category: 'namirnice',
-      images: ['https://images.unsplash.com/photo-1563636619-e9143da7973b?w=400&q=80',
-        'https://images.unsplash.com/photo-1550583724-b2692b85b150?w=400&q=80'] },
-    { id: 8, name: 'Jaja', bestStore: 'Prodavnica 1', price: 3.1, category: 'namirnice',
-      images: ['https://images.unsplash.com/photo-1510130387422-82bed34b37e9?w=400&q=80'] },
-    { id: 9, name: 'Keks', bestStore: 'Prodavnica 4', price: 1.8, category: 'namirnice',
-      images: ['https://images.unsplash.com/photo-1558961363-fa8fdf82db35?w=400&q=80'] },
-    { id: 10, name: 'Hljeb', bestStore: 'Prodavnica 3', price: 1.4, category: 'namirnice',
-      images: ['https://images.unsplash.com/photo-1509440159596-0249088772ff?w=400&q=80',
-        'https://images.unsplash.com/photo-1549931319-a545dcf3bc7c?w=400&q=80'] },
-    { id: 11, name: 'Brašno', bestStore: 'Prodavnica 5', price: 2.2, category: 'namirnice',
-      images: ['https://images.unsplash.com/photo-1574323347407-f5e1ad6d020b?w=400&q=80'] },
-    { id: 12, name: 'Riža', bestStore: 'Prodavnica 2', price: 3.5, category: 'namirnice',
-      images: ['https://images.unsplash.com/photo-1536304993881-ff86e0c9b916?w=400&q=80'] },
-  ];
-
-  electronicsProducts: Product[] = [
-    { id: 13, name: 'Miš', bestStore: 'Prodavnica 5', price: 19.9, category: 'elektronika',
-      images: ['https://images.unsplash.com/photo-1527864550417-7fd91fc51a46?w=400&q=80'] },
-    { id: 14, name: 'Tastatura', bestStore: 'Prodavnica 2', price: 39.9, category: 'elektronika',
-      images: ['https://images.unsplash.com/photo-1587829741301-dc798b83add3?w=400&q=80',
-        'https://images.unsplash.com/photo-1541140532154-b024d705b90a?w=400&q=80'] },
-    { id: 15, name: 'Punjač', bestStore: 'Prodavnica 1', price: 24.5, category: 'elektronika',
-      images: ['https://images.unsplash.com/photo-1583863788434-e58a36330cf0?w=400&q=80'] },
-    { id: 16, name: 'USB kabl', bestStore: 'Prodavnica 4', price: 9.9, category: 'elektronika',
-      images: ['https://images.unsplash.com/photo-1585771724684-38269d6639fd?w=400&q=80'] },
-  ];
-
-  drugstoreProducts: Product[] = [
-    { id: 17, name: 'Šampon', bestStore: 'Prodavnica 3', price: 6.8, category: 'drogerija',
-      images: ['https://images.unsplash.com/photo-1556228578-0d85b1a4d571?w=400&q=80'] },
-    { id: 18, name: 'Pasta za zube', bestStore: 'Prodavnica 2', price: 4.2, category: 'drogerija',
-      images: ['https://images.unsplash.com/photo-1559304822-9eb2f8b9d7b2?w=400&q=80'] },
-    { id: 19, name: 'Sapun', bestStore: 'Prodavnica 5', price: 2.1, category: 'drogerija',
-      images: ['https://images.unsplash.com/photo-1600857544200-b2f468e9b2b9?w=400&q=80'] },
-    { id: 20, name: 'Detergent', bestStore: 'Prodavnica 1', price: 12.5, category: 'drogerija',
-      images: ['https://images.unsplash.com/photo-1583947215259-38e31be8751f?w=400&q=80'] },
-  ];
-
-  dealsProducts: Product[] = [
-    { id: 21, name: 'Kafa', bestStore: 'Prodavnica 3', price: 7.9, category: 'akcije',
-      images: ['https://images.unsplash.com/photo-1447933601403-0c6688de566e?w=400&q=80',
-        'https://images.unsplash.com/photo-1509042239860-f550ce710b93?w=400&q=80'] },
-    { id: 22, name: 'Čokolada', bestStore: 'Prodavnica 4', price: 2.3, category: 'akcije',
-      images: ['https://images.unsplash.com/photo-1548907040-4baa42d10919?w=400&q=80'] },
-    { id: 23, name: 'Detergent', bestStore: 'Prodavnica 1', price: 10.9, category: 'akcije',
-      images: ['https://images.unsplash.com/photo-1583947215259-38e31be8751f?w=400&q=80'] },
-    { id: 24, name: 'USB kabl', bestStore: 'Prodavnica 4', price: 7.9, category: 'akcije',
-      images: ['https://images.unsplash.com/photo-1585771724684-38269d6639fd?w=400&q=80'] },
   ];
 
   favoritesCount = computed(() => this.favoritesService.favorites().length);
@@ -179,24 +94,63 @@ export class HomeComponent implements OnInit {
   get userLabel(): string {
     const firstName = this.userProfile?.firstName?.trim() ?? '';
     const lastName = this.userProfile?.lastName?.trim() ?? '';
-
     const fullName = `${firstName} ${lastName}`.trim();
     if (fullName) return fullName;
-
     const email = this.currentUser.snapshot?.email;
     if (!email) return 'Gost';
-
     return email.split('@')[0] ?? 'Kupac';
   }
 
   get userInitials(): string {
     const firstInitial = this.userProfile?.firstName?.trim().charAt(0) ?? '';
     const lastInitial = this.userProfile?.lastName?.trim().charAt(0) ?? '';
-
     const initials = `${firstInitial}${lastInitial}`.trim().toUpperCase();
     if (initials) return initials;
-
     return this.userLabel.charAt(0).toUpperCase();
+  }
+
+  ngOnInit(): void {
+    const storedCategory = localStorage.getItem(this.storageKey);
+    if (storedCategory && this.isCategoryKey(storedCategory)) {
+      this.activeCategory = storedCategory;
+    }
+
+    if (this.currentUser.isAuthenticated()) {
+      this.usersApi.getMe().subscribe({
+        next: (profile) => { this.userProfile = profile; },
+        error: () => { this.userProfile = null; },
+      });
+    }
+
+    this.loadProductsFromApi();
+  }
+
+  private loadProductsFromApi(): void {
+    this.isLoadingProducts = true;
+
+    const query = new ListProductsQuery();
+    query.paging = { page: 1, pageSize: 50 };
+
+    this.productsApi.list(query).subscribe({
+      next: (response) => {
+        const mapped: Product[] = response.items.map((p: any) => ({
+          id: p.id,
+          name: p.name,
+          bestStore: p.storeLabel ?? 'Nepoznato',
+          price: p.lowestPrice ?? 0,
+          category: 'popularno',
+          images: p.imageURL ? [p.imageURL] : [],
+        }));
+
+        this.productCache.set('popularno', mapped);
+        this.isLoadingProducts = false;
+        this.updateActiveContent();
+      },
+      error: () => {
+        this.isLoadingProducts = false;
+        this.updateActiveContent();
+      }
+    });
   }
 
   setCategory(cat: CategoryKey): void {
@@ -272,6 +226,7 @@ export class HomeComponent implements OnInit {
 
   private updateActiveContent(): void {
     const normalizedSearchTerm = this.searchTerm.trim().toLowerCase();
+    const allProducts = this.productCache.get('popularno') ?? [];
 
     const searchFilter = (product: Product): boolean =>
       !normalizedSearchTerm ||
@@ -279,33 +234,14 @@ export class HomeComponent implements OnInit {
       product.bestStore.toLowerCase().includes(normalizedSearchTerm);
 
     switch (this.activeCategory) {
-      case 'popularno':
-        this.visibleProducts = this.popularProducts.filter(searchFilter);
-        this.visibleStores = [];
-        break;
-      case 'namirnice':
-        this.visibleProducts = this.groceriesProducts.filter(searchFilter);
-        this.visibleStores = [];
-        break;
-      case 'elektronika':
-        this.visibleProducts = this.electronicsProducts.filter(searchFilter);
-        this.visibleStores = [];
-        break;
-      case 'drogerija':
-        this.visibleProducts = this.drugstoreProducts.filter(searchFilter);
-        this.visibleStores = [];
-        break;
-      case 'akcije':
-        this.visibleProducts = this.dealsProducts.filter(searchFilter);
-        this.visibleStores = [];
-        break;
       case 'prodavnice':
         this.visibleProducts = [];
         this.visibleStores = this.stores;
         break;
       default:
-        this.visibleProducts = this.popularProducts;
+        this.visibleProducts = allProducts.filter(searchFilter);
         this.visibleStores = [];
+        break;
     }
   }
 
