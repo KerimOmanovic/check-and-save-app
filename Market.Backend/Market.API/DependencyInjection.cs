@@ -40,12 +40,16 @@ public static class DependencyInjection
             .ValidateDataAnnotations()
             .ValidateOnStart();
 
+        // JWT auth
         // JWT auth (reads from IOptions<JwtOptions>)
         services.AddAuthentication(o =>
         {
             o.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
             o.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
         })
+        .AddJwtBearer(o =>
+        {
+            var jwt = configuration.GetSection(JwtOptions.SectionName).Get<JwtOptions>()!;
         .AddJwtBearer((o) =>
         {
             var jwt = configuration.GetSection(JwtOptions.SectionName).Get<JwtOptions>()!;
@@ -65,6 +69,18 @@ public static class DependencyInjection
 
         services.AddAuthorization(o =>
         {
+            // Default — svaki endpoint traži autentifikaciju
+            o.FallbackPolicy = new AuthorizationPolicyBuilder()
+                .RequireAuthenticatedUser()
+                .Build();
+
+            // Role-based policy: admin, manager ili public user
+            o.AddPolicy("AuthenticatedUser", policy =>
+                policy.RequireAuthenticatedUser()
+                      .RequireAssertion(ctx =>
+                          ctx.User.HasClaim("is_admin", "true") ||
+                          ctx.User.HasClaim("is_manager", "true") ||
+                          ctx.User.HasClaim("is_public_user", "true")));
             o.FallbackPolicy = new AuthorizationPolicyBuilder()
                 .RequireAuthenticatedUser()
                 .Build();

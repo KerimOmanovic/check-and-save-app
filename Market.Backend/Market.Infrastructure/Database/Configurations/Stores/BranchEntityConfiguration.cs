@@ -26,6 +26,12 @@ public sealed class BranchEntityConfiguration : IEntityTypeConfiguration<BranchE
             .IsRequired()
             .HasDefaultValue(true);
 
+        b.Property(x => x.Latitude)
+            .HasColumnType("float");
+
+        b.Property(x => x.Longitude)
+            .HasColumnType("float");
+
         b.HasOne(x => x.StoreEntity)
             .WithMany(s => s.Branches)
             .HasForeignKey(x => x.StoreEntityId)

@@ -1,3 +1,93 @@
+<div class="auth-inner">
+  <div class="head">
+    <h1 class="title">{{ 'AUTH.LOGIN.TITLE' | translate }}</h1>
+    <p class="sub">Unesite vaše podatke za pristup</p>
+  </div>
+
+  <div *ngIf="errorMessage" class="error-message">
+    <mat-icon>error_outline</mat-icon>
+    <span>{{ errorMessage }}</span>
+  </div>
+
+  <div *ngIf="successMessage" class="success-message">
+    <mat-icon>check_circle</mat-icon>
+    <span>{{ successMessage }}</span>
+  </div>
+
+  <form [formGroup]="form" (ngSubmit)="onSubmit()">
+    <mat-form-field appearance="outline" class="full-width">
+      <mat-label>{{ 'AUTH.LOGIN.EMAIL_LABEL' | translate }}</mat-label>
+      <input
+        matInput
+        formControlName="email"
+        type="email"
+        placeholder="vasa.email@primjer.com"
+        autocomplete="email"
+      />
+      <mat-icon matPrefix>person</mat-icon>
+      <mat-error *ngIf="form.get('email')?.hasError('required')"> Email je obavezan </mat-error>
+      <mat-error *ngIf="form.get('email')?.hasError('email')"> Unesite validan email </mat-error>
+    </mat-form-field>
+
+    <mat-form-field appearance="outline" class="full-width">
+      <mat-label>{{ 'AUTH.LOGIN.PASSWORD_LABEL' | translate }}</mat-label>
+      <input
+        matInput
+        formControlName="password"
+        [type]="hidePassword ? 'password' : 'text'"
+        placeholder="••••••••"
+        autocomplete="current-password"
+      />
+      <mat-icon matPrefix>lock</mat-icon>
+      <button
+        mat-icon-button
+        matSuffix
+        type="button"
+        (click)="hidePassword = !hidePassword"
+        [attr.aria-label]="'Hide password'"
+      >
+        <mat-icon>{{ hidePassword ? 'visibility_off' : 'visibility' }}</mat-icon>
+      </button>
+      <mat-error *ngIf="form.get('password')?.hasError('required')">
+        Lozinka je obavezna
+      </mat-error>
+    </mat-form-field>
+
+    <div class="form-row">
+      <mat-checkbox formControlName="rememberMe" color="primary">
+        {{ 'AUTH.LOGIN.REMEMBER_ME' | translate }}
+      </mat-checkbox>
+      <a href="#" class="forgot-link">Zaboravili ste lozinku?</a>
+    </div>
+
+    <button
+      mat-raised-button
+      color="primary"
+      type="submit"
+      class="submit-button"
+      [disabled]="form.invalid || isLoading"
+    >
+      <ng-container *ngIf="!isLoading; else loadingTpl">
+        <mat-icon>login</mat-icon>
+        {{ 'AUTH.LOGIN.BUTTON' | translate }}
+      </ng-container>
+      <ng-template #loadingTpl>
+        <mat-progress-spinner
+          mode="indeterminate"
+          diameter="18"
+          strokeWidth="3"
+        ></mat-progress-spinner>
+        <span>Prijava u toku...</span>
+      </ng-template>
+    </button>
+
+    <div class="divider"><span>ili</span></div>
+
+    <div class="register-prompt">
+      <span>Nemate nalog?</span>
+      <a routerLink="/auth/register" class="register-link">Registrujte se</a>
+    </div>
+  </form>
 <!-- src/app/pages/auth/login/login.component.html -->
 <div class="auth-container">
   <div class="auth-background">

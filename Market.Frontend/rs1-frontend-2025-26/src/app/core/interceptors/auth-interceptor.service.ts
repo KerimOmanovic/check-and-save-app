@@ -54,6 +54,7 @@ export const authInterceptor: HttpInterceptorFn = (req, next) => {
  * Check if URL is an auth endpoint that should not be intercepted.
  */
 function isAuthEndpoint(url: string): boolean {
+  return url.toLowerCase().includes('/auth/');
     return url.includes('/Auth/');
 }
 

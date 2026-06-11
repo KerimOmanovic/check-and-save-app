@@ -7,6 +7,8 @@ import {
   LoginCommandDto,
   RefreshTokenCommand,
   RefreshTokenCommandDto,
+  LogoutCommand,
+  RegisterCommand
   LogoutCommand
 } from './auth-api.model';
 
@@ -14,6 +16,9 @@ import {
   providedIn: 'root'
 })
 export class AuthApiService {
+  private readonly baseUrl = `${environment.apiUrl}/api/auth`;
+  private http = inject(HttpClient);
+
   private readonly baseUrl = `${environment.apiUrl}/api/Auth`;
   private http = inject(HttpClient);
 
@@ -23,6 +28,10 @@ export class AuthApiService {
    */
   login(payload: LoginCommand): Observable<LoginCommandDto> {
     return this.http.post<LoginCommandDto>(`${this.baseUrl}/login`, payload);
+  }
+
+  register(payload: RegisterCommand): Observable<{ id: number }> {
+    return this.http.post<{ id: number }>(`${this.baseUrl}/register`, payload);
   }
 
   /**

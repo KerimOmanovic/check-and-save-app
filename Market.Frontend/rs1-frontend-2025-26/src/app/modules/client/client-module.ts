@@ -1,3 +1,7 @@
+import { NgModule } from '@angular/core';
+
+import { ClientRoutingModule } from './client-routing-module';
+import { SharedModule } from '../shared/shared-module';
 import {NgModule} from '@angular/core';
 
 import {ClientRoutingModule} from './client-routing-module';
@@ -11,4 +15,5 @@ import {SharedModule} from '../shared/shared-module';
     ClientRoutingModule
   ]
 })
+export class ClientModule {}
 export class ClientModule { }

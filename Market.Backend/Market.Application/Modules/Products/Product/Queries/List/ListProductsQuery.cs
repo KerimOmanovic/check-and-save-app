@@ -6,6 +6,9 @@
         public int? BranchEntityId { get; set; }
         public int? CategoryEntityId { get; set; }
         public int? BrandEntityId { get; set; }
+        public int? StoreEntityId { get; set; }
+    }
+}
         public PageRequest Page { get; internal set; }
     }
 }

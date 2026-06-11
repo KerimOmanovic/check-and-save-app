@@ -3,6 +3,7 @@
     public sealed class ListFavoritesQuery : BasePagedQuery<ListFavoritesQueryDto>
     {
         public int? PublicUserEntityId { get; set; }
+       
         public PageRequest Page { get; internal set; }
     }
 }

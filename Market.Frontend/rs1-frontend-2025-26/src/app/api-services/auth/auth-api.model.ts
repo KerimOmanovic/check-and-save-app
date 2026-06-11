@@ -1,3 +1,4 @@
+
 // === COMMANDS (WRITE) ===
 
 /**
@@ -9,6 +10,19 @@ export interface LoginCommand {
   password: string;
   fingerprint?: string | null;
 }
+
+
+export interface LoginCommandDto {
+  accessToken: string;
+  refreshToken: string;
+
+  expiresAtUtc: string;
+
+  accessTokenExpiresAtUtc: string;
+
+  refreshTokenExpiresAtUtc?: string;
+}
+
 
 /**
  * Response for POST /Auth/login
@@ -33,6 +47,27 @@ export interface RefreshTokenCommand {
   fingerprint?: string | null;
 }
 
+
+export interface RefreshTokenCommandDto {
+  accessToken: string;
+  refreshToken: string;
+
+  accessTokenExpiresAtUtc: string;
+
+  refreshTokenExpiresAtUtc: string;
+}
+
+
+export interface LogoutCommand {
+  refreshToken: string;
+}
+export interface RegisterCommand {
+  firstName: string;
+  lastName: string;
+  email: string;
+  password: string;
+  gender: 'male' | 'female';
+}
 /**
  * Response for POST /Auth/refresh
  * Corresponds to: RefreshTokenCommandDto.cs

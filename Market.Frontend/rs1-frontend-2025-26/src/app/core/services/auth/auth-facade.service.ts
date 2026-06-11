@@ -1,3 +1,7 @@
+
+import { Injectable, inject, signal, computed } from '@angular/core';
+import { Router } from '@angular/router';
+import { Observable, of, tap, catchError, map, finalize } from 'rxjs';
 // src/app/core/services/auth/auth-facade.service.ts
 import { Injectable, inject, signal, computed } from '@angular/core';
 import { Router } from '@angular/router';
@@ -16,6 +20,7 @@ import {
 import { AuthStorageService } from './auth-storage.service';
 import { CurrentUserDto } from './current-user.dto';
 import { JwtPayloadDto } from './jwt-payload.dto';
+
 
 /**
  * Glavni auth servis (façade).
@@ -38,6 +43,10 @@ export class AuthFacadeService {
 
   private _currentUser = signal<CurrentUserDto | null>(null);
 
+
+  currentUser = this._currentUser.asReadonly();
+
+
   /** readonly signal za UI – čita se kao auth.currentUser() */
   currentUser = this._currentUser.asReadonly();
 
@@ -48,6 +57,7 @@ export class AuthFacadeService {
   isPublicUser = computed(() => this._currentUser()?.isPublicUser ?? false);
 
   constructor() {
+
     // pokušaj inicijalizacije iz postojećeg access tokena
     this.initializeFromToken();
   }
@@ -56,6 +66,25 @@ export class AuthFacadeService {
   // PUBLIC API
   // =========================================================
 
+
+  login(payload: LoginCommand): Observable<void> {
+    return this.api.login(payload).pipe(
+      tap((response: LoginCommandDto) => {
+        this.applyAuthBundle(response);
+      }),
+      map(() => void 0),
+    );
+  }
+
+
+  logout(): Observable<void> {
+    const refreshToken = this.storage.getRefreshToken();
+
+
+    this.clearUserState();
+
+    if (!refreshToken) {
+      this.clearUserState();
   /**
    * Login korisnika (email + password).
    * Snima tokene u storage, dekodira JWT i popunjava current user state.
@@ -87,6 +116,37 @@ export class AuthFacadeService {
     }
 
     const payload: LogoutCommand = { refreshToken };
+
+
+    return this.api.logout(payload).pipe(
+      catchError(() => of(void 0)),
+      finalize(() => this.clearUserState()),
+      map(() => void 0),
+    );
+  }
+
+
+  refresh(payload: RefreshTokenCommand): Observable<RefreshTokenCommandDto> {
+    return this.api.refresh(payload).pipe(
+      tap((response: RefreshTokenCommandDto) => {
+        this.applyAuthBundle(response);
+      }),
+    );
+  }
+
+  applyAuthBundle(response: LoginCommandDto | RefreshTokenCommandDto): void {
+
+
+    this.storage.saveLogin(response);
+    this.decodeAndSetUser(response.accessToken);
+  }
+
+
+  redirectToLogin(): void {
+    this.clearUserState();
+    this.router.navigate(['/auth/login']);
+  }
+
 
     // 3) pokušaj server-side logout, ignoriši greške
     return this.api.logout(payload).pipe(catchError(() => of(void 0)));
@@ -124,12 +184,16 @@ export class AuthFacadeService {
     return this.storage.getAccessToken();
   }
 
+
   /**
    * Refresh token za refresh poziv.
    */
   getRefreshToken(): string | null {
     return this.storage.getRefreshToken();
   }
+
+
+
 
   // =========================================================
   // PRIVATE HELPERS
@@ -152,6 +216,12 @@ export class AuthFacadeService {
     try {
       const payload = jwtDecode<JwtPayloadDto>(token);
 
+      if (this.isTokenExpired(payload)) {
+        this.clearUserState();
+        return;
+      }
+
+
       const user: CurrentUserDto = {
         userId: Number(payload.sub),
         email: payload.email,
@@ -167,6 +237,17 @@ export class AuthFacadeService {
       this._currentUser.set(null);
     }
   }
+  private isTokenExpired(payload: JwtPayloadDto): boolean {
+    if (!payload.exp) {
+      return true;
+    }
+
+    const currentUnixTime = Math.floor(Date.now() / 1000);
+
+    return payload.exp <= currentUnixTime;
+  }
+
+
 
   /**
    * Očisti user state + sve tokene iz storage-a.

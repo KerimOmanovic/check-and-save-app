@@ -3,6 +3,8 @@ import { RouterModule, Routes } from '@angular/router';
 
 import { PublicLayoutComponent } from './public-layout/public-layout.component';
 import { SearchProductsComponent } from './search-products/search-products.component';
+import { ProductDetailComponent } from './public-detail/product-detail.component';
+import { ProductComparisonComponent } from './product-comparison/product-comparison.component';
 
 const routes: Routes = [
   {
@@ -13,6 +15,9 @@ const routes: Routes = [
         path: '',
         component: SearchProductsComponent
       },
+      { path: 'product/:id', component: ProductDetailComponent },
+      { path: 'compare', component: ProductComparisonComponent },
+      { path: 'compare/:leftId/:rightId', component: ProductComparisonComponent },
       // kasnije može i ovako:
       // { path: 'about', component: AboutComponent },
       // { path: 'contact', component: ContactComponent },

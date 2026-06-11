@@ -1,3 +1,6 @@
+@use '@angular/material' as mat;
+
+
 // Include theming for Angular Material with `mat.theme()`.
 @use '@angular/material' as mat;
 
@@ -12,6 +15,8 @@ $custom-green-palette: (
   25: #004621,
   30: #00522a,
   35: #005f33,
+  40: #0f3d2e,
+  50: #1f5a45,
   40: #0f3d2e,  // Tvoja glavna zelena
   50: #1f5a45,  // Svjetlija verzija
   60: #2d7159,
@@ -35,6 +40,7 @@ $custom-secondary-palette: (
   50: #807665,
   60: #9a8f7d,
   70: #b5aa97,
+  80: #cdbb9a,
   80: #cdbb9a,  // Tvoja secondary boja
   90: #d9c9ad,
   95: #ebe0cc,
@@ -58,6 +64,69 @@ html {
     density: 0,
   ));
 }
+:root {
+  --app-bg-color: #f6f3ec;
+  --app-page-bg-color: #f3efe6;
+  --app-surface-color: #ffffff;
+  --app-primary-color: #0f3d2e;
+  --app-header-bg-color: #0f3d2e;
+  --app-header-text-color: #ffffff;
+  --app-primary-hover-color: #1f5a45;
+  --app-primary-dark-color: #0b2e23;
+  --app-on-primary-color: #ffffff;
+  --app-primary-tint-color: rgba(15, 61, 46, 0.08);
+  --app-image-surface-color: #f7efe2;
+  --app-success-bg-color: #edf7f1;
+  --app-secondary-color: #cdbb9a;
+  --app-text-color: #143126;
+  --app-body-text-color: #1f2a24;
+  --app-muted-text-color: #5b6b63;
+  --app-border-color: rgba(205, 187, 154, 0.55);
+  --app-card-shadow: rgba(15, 61, 46, 0.12);
+  --app-strong-shadow: rgba(15, 61, 46, 0.22);
+  color-scheme: light;
+}
+
+:root.dark-theme {
+  --app-bg-color: #101814;
+  --app-page-bg-color: #0b1410;
+  --app-surface-color: #17231d;
+  --app-primary-color: #a5d6c0;
+  --app-header-bg-color: #07110d;
+  --app-header-text-color: #ffffff;
+  --app-primary-hover-color: #c9e8d8;
+  --app-primary-dark-color: #4ea07a;
+  --app-on-primary-color: #062016;
+  --app-primary-tint-color: rgba(165, 214, 192, 0.12);
+  --app-image-surface-color: #203229;
+  --app-success-bg-color: rgba(165, 214, 192, 0.12);
+  --app-secondary-color: #d9c9ad;
+  --app-text-color: #edf7f1;
+  --app-body-text-color: #edf7f1;
+  --app-muted-text-color: #b7c8bf;
+  --app-border-color: rgba(165, 214, 192, 0.26);
+  --app-card-shadow: rgba(0, 0, 0, 0.32);
+  --app-strong-shadow: rgba(0, 0, 0, 0.45);
+  color-scheme: dark;
+}
+
+html {
+  height: 100%;
+  overflow-y: scroll;
+  overflow-x: hidden;
+}
+
+body {
+  min-height: 100%;
+  margin: 0;
+  font-family: Roboto, "Helvetica Neue", sans-serif;
+  color-scheme: inherit;
+  background-color: var(--app-bg-color);
+  color: var(--app-body-text-color);
+  font: var(--mat-sys-body-medium);
+}
+
+
 
 // ============================================
 // BODY & HTML BASE STYLES
@@ -88,6 +157,7 @@ $primary-color: #0f3d2e;
 $primary-light: #1f5a45;
 $primary-dark: #0b2e23;
 $secondary-color: #cdbb9a;
+
 
 // ============================================
 // TOASTER / SNACKBAR STYLES
@@ -144,6 +214,7 @@ $secondary-color: #cdbb9a;
     color: $secondary-color !important;
   }
 }
+
 
 // ============================================
 // GLOBALNI PAGINATOR STYLING - ZELENA BOJA
@@ -218,6 +289,7 @@ app-fit-paginator-bar {
   }
 }
 
+
 // ============================================
 // GLOBALNI BUTTON STYLING - ZELENA BOJA
 // ============================================
@@ -239,6 +311,7 @@ app-fit-paginator-bar {
 .mat-mdc-icon-button.mat-primary {
   color: $primary-color !important;
 }
+
 
 // ============================================
 // FORM FIELDS - ZELENA BOJA ZA FOCUS
@@ -262,6 +335,7 @@ app-fit-paginator-bar {
   }
 }
 
+
 // ============================================
 // CHECKBOXES & RADIO BUTTONS
 // ============================================
@@ -279,6 +353,7 @@ app-fit-paginator-bar {
   --mdc-radio-selected-focus-icon-color: #{$primary-color};
   --mdc-radio-selected-pressed-icon-color: #{$primary-dark};
 }
+
 
 // ============================================
 // SLIDERS & PROGRESS BARS
@@ -300,6 +375,7 @@ app-fit-paginator-bar {
   --mdc-circular-progress-active-indicator-color: #{$primary-color};
 }
 
+
 // ============================================
 // TABS
 // ============================================
@@ -310,6 +386,7 @@ app-fit-paginator-bar {
   --mat-tab-header-active-focus-label-text-color: #{$primary-dark};
   --mat-tab-header-active-hover-label-text-color: #{$primary-dark};
 }
+
 
 // ============================================
 // LINKS
@@ -322,5 +399,309 @@ a {
   &:hover {
     color: $primary-dark;
     text-decoration: underline;
+  }
+}
+
+
+
+:root {
+  --admin-font-display: var(--mat-sys-headline-medium);
+  --admin-font-title: var(--mat-sys-title-large);
+  --admin-font-subtitle: var(--mat-sys-title-medium);
+  --admin-font-body-strong: var(--mat-sys-body-large);
+  --admin-font-body: var(--mat-sys-body-medium);
+  --admin-font-label: var(--mat-sys-label-large);
+  --admin-font-label-strong: var(--mat-sys-label-large);
+
+  --admin-btn-height: 52px;
+  --admin-btn-radius: 14px;
+  --admin-btn-padding: 0 24px;
+  --admin-btn-transition: all 0.2s ease;
+  --admin-btn-shadow-hover: 0 4px 12px rgba(15, 23, 42, 0.15);
+  --admin-btn-add-bg: #cdbb9a;
+  --admin-btn-add-bg-hover: #d4c5a8;
+  --admin-btn-add-fg: #0f3d2e;
+}
+
+.admin-page {
+  .logo-text {
+    font: var(--admin-font-title);
+    font-weight: 800;
+    letter-spacing: -0.5px;
+  }
+
+  .link,
+  .search-field input,
+  .loading-state p,
+  .error-state p,
+  .mat-mdc-paginator-page-size-label,
+  .mat-mdc-paginator-range-label,
+  .mat-mdc-cell {
+    font: var(--admin-font-body);
+  }
+
+  .btn-add,
+  .btn-reset,
+  .form-actions button {
+    height: var(--admin-btn-height) !important;
+    padding: var(--admin-btn-padding) !important;
+    border-radius: var(--admin-btn-radius) !important;
+    font: var(--admin-font-label) !important;
+    font-weight: 700 !important;
+    transition: var(--admin-btn-transition) !important;
+  }
+
+  .btn-add {
+    background: var(--admin-btn-add-bg) !important;
+    color: var(--admin-btn-add-fg) !important;
+  }
+
+  .btn-add:hover {
+    background: var(--admin-btn-add-bg-hover) !important;
+    transform: translateY(-1px);
+    box-shadow: var(--admin-btn-shadow-hover);
+  }
+
+  .form-actions button[mat-raised-button] {
+    font-weight: 700 !important;
+  }
+
+  .form-actions button[mat-stroked-button] {
+    font-weight: 600 !important;
+  }
+
+  .mat-mdc-header-cell,
+  th {
+    font: var(--admin-font-label-strong);
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+  }
+}
+
+
+.admin-page {
+  .topbar-inner {
+    align-items: flex-end;
+    gap: 20px;
+  }
+
+  .topbar-left {
+    gap: 24px;
+    min-width: 0;
+    flex-shrink: 0;
+  }
+
+  .topbar-links {
+    gap: 2px;
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    padding-bottom: 2px;
+    scrollbar-width: none;
+
+    &::-webkit-scrollbar {
+      display: none;
+    }
+  }
+
+  .link {
+    padding: 7px 10px;
+    font-size: 13px;
+    line-height: 1.15;
+    white-space: nowrap;
+  }
+
+  .topbar-right {
+    background: rgba(8, 41, 31, 0.45);
+    border: 1px solid rgba(205, 187, 154, 0.35);
+    border-radius: 14px;
+    padding: 10px 14px;
+    display: flex;
+    flex-wrap: nowrap;
+    align-items: flex-end;
+    gap: 10px;
+    flex: 1;
+    min-width: 0;
+  }
+}
+
+.admin-page .topbar-right {
+  .field-wrapper {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    flex: 1 1 0;
+    min-width: 0;
+  }
+
+  .btn-wrapper {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 8px;
+    flex: 0 0 auto;
+  }
+
+  .topbar-label {
+    color: #ffffff;
+    font-weight: 700;
+    font-size: 11px;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+    padding-left: 4px;
+    line-height: 1;
+    white-space: nowrap;
+  }
+
+  .mat-mdc-form-field {
+    width: 100%;
+
+    .mat-mdc-form-field-subscript-wrapper {
+      display: none !important;
+    }
+
+    .mdc-floating-label,
+    .mat-mdc-floating-label,
+    .mdc-floating-label--float-above {
+      display: none !important;
+    }
+
+    .mat-mdc-text-field-wrapper {
+      background: #f3efe6 !important;
+      border-radius: 10px !important;
+      height: 42px !important;
+      padding: 0 10px !important;
+    }
+
+    .mat-mdc-form-field-infix {
+      min-height: 42px !important;
+      padding-top: 0 !important;
+      padding-bottom: 0 !important;
+      display: flex;
+      align-items: center;
+    }
+
+    input,
+    .mat-mdc-select-value,
+    .mat-mdc-select-value-text {
+      color: #0f172a !important;
+      font-weight: 600 !important;
+      font-size: 14px !important;
+    }
+
+    .mat-mdc-select-arrow,
+    .mat-mdc-form-field-icon-suffix {
+      color: #6b7280 !important;
+    }
+  }
+
+  input::placeholder {
+    color: #94a3b8 !important;
+    opacity: 1 !important;
+    font-weight: 400 !important;
+    font-size: 13px !important;
+  }
+
+  .mat-mdc-select-placeholder {
+    color: #94a3b8 !important;
+    font-weight: 400 !important;
+    font-size: 13px !important;
+  }
+}
+
+@media (max-width: 1280px) {
+  .admin-page .topbar-right {
+    flex-wrap: wrap;
+  }
+}
+
+@media (max-width: 900px) {
+  .admin-page {
+    .topbar-inner {
+      padding: 16px 20px !important;
+      gap: 12px;
+      flex-direction: column;
+      align-items: stretch;
+    }
+
+    .topbar-right {
+      width: 100%;
+      flex-wrap: wrap;
+      padding: 12px;
+    }
+
+    .topbar-right .field-wrapper {
+      flex: 1 1 calc(50% - 10px);
+      min-width: 140px;
+    }
+
+    .topbar-right .btn-wrapper {
+      flex: 1 1 100%;
+      justify-content: flex-start;
+    }
+
+    .content {
+      padding: 20px !important;
+    }
+  }
+}
+app-root > div,
+router-outlet + * {
+  background: var(--app-bg-color);
+  color: var(--app-body-text-color);
+}
+
+.mat-mdc-card,
+.mat-mdc-menu-panel,
+.mat-mdc-dialog-surface,
+.mat-mdc-table,
+.mat-mdc-paginator {
+  background-color: var(--app-surface-color) !important;
+  color: var(--app-body-text-color) !important;
+}
+
+.mat-mdc-header-cell,
+.mat-mdc-cell,
+.mat-mdc-row,
+.mat-mdc-paginator-container,
+.mat-mdc-select-value,
+.mat-mdc-input-element {
+  color: var(--app-body-text-color) !important;
+}
+
+:root.dark-theme {
+  .admin-page,
+  .admin-page .content,
+  .admin-page .table-container,
+  .admin-page .filter-section,
+  .admin-page .empty-state,
+  .admin-page .loading-state,
+  .admin-page .error-state,
+  .admin-page .mat-mdc-table,
+  .admin-page .mat-mdc-paginator {
+    background: var(--app-page-bg-color) !important;
+    color: var(--app-body-text-color) !important;
+  }
+
+  .admin-page .card,
+  .admin-page .mat-mdc-row,
+  .admin-page .mat-mdc-header-row,
+  .admin-page .form-card,
+  .admin-page .details-card {
+    background: var(--app-surface-color) !important;
+    border-color: var(--app-border-color) !important;
+    color: var(--app-body-text-color) !important;
+  }
+
+  .admin-page h1,
+  .admin-page h2,
+  .admin-page h3,
+  .admin-page p,
+  .admin-page label,
+  .admin-page .mat-mdc-cell,
+  .admin-page .mat-mdc-header-cell,
+  .admin-page .mat-mdc-paginator-range-label,
+  .admin-page .mat-mdc-paginator-page-size-label {
+    color: var(--app-body-text-color) !important;
   }
 }

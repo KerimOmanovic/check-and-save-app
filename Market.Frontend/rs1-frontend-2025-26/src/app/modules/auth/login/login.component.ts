@@ -1,5 +1,6 @@
 import { Component, inject } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
+import { ActivatedRoute, Router } from '@angular/router';
 import { Router } from '@angular/router';
 import { BaseComponent } from '../../../core/components/base-classes/base-component';
 import { AuthFacadeService } from '../../../core/services/auth/auth-facade.service';
@@ -16,6 +17,18 @@ export class LoginComponent extends BaseComponent {
   private fb = inject(FormBuilder);
   private auth = inject(AuthFacadeService);
   private router = inject(Router);
+  private route = inject(ActivatedRoute);
+  private currentUser = inject(CurrentUserService);
+  hidePassword = true;
+  successMessage =
+    this.route.snapshot.queryParamMap.get('registered') === 'true'
+      ? 'Registracija uspješna. Prijavite se da biste nastavili.'
+      : null;
+
+
+  form = this.fb.group({
+    email: ['', [Validators.required, Validators.email]],
+    password: ['', [Validators.required]],
   private currentUser = inject(CurrentUserService);
   hidePassword = true;
 
@@ -39,6 +52,9 @@ export class LoginComponent extends BaseComponent {
     this.auth.login(payload).subscribe({
       next: () => {
         this.stopLoading();
+        const returnUrl = this.getSafeReturnUrl();
+        const target = returnUrl ?? this.currentUser.getDefaultRoute();
+        this.router.navigateByUrl(target);
         const target = this.currentUser.getDefaultRoute();
         this.router.navigate([target]);
       },
@@ -47,5 +63,14 @@ export class LoginComponent extends BaseComponent {
         console.error('Login error:', err);
       },
     });
+  }
+  private getSafeReturnUrl(): string | null {
+    const returnUrl = this.route.snapshot.queryParamMap.get('returnUrl');
+
+    if (!returnUrl || !returnUrl.startsWith('/') || returnUrl.startsWith('//')) {
+      return null;
+    }
+
+    return returnUrl;
   }
 }

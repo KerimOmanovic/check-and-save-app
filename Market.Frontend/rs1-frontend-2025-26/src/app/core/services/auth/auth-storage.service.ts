@@ -17,6 +17,16 @@ export class AuthStorageService {
   private readonly ACCESS_EXPIRES_KEY = 'accessTokenExpiresAtUtc';
   private readonly REFRESH_EXPIRES_KEY = 'refreshTokenExpiresAtUtc';
 
+  saveLogin(response: LoginCommandDto | RefreshTokenCommandDto): void {
+    localStorage.setItem(this.ACCESS_TOKEN_KEY, response.accessToken);
+    localStorage.setItem(this.REFRESH_TOKEN_KEY, response.refreshToken);
+    localStorage.setItem(this.ACCESS_EXPIRES_KEY, response.accessTokenExpiresAtUtc);
+
+    if (response.refreshTokenExpiresAtUtc) {
+      localStorage.setItem(this.REFRESH_EXPIRES_KEY, response.refreshTokenExpiresAtUtc);
+    }
+  }
+
   /**
    * Save login response to localStorage.
    */

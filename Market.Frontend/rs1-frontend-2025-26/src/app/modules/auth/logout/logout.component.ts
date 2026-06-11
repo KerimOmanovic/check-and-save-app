@@ -1,3 +1,8 @@
+import { Component, OnDestroy, OnInit, inject } from '@angular/core';
+import { Router } from '@angular/router';
+import { trigger, transition, style, animate } from '@angular/animations';
+import { Subscription } from 'rxjs';
+
 import { Component, OnInit, inject } from '@angular/core';
 import { Router } from '@angular/router';
 import { trigger, transition, style, animate } from '@angular/animations';
@@ -17,6 +22,11 @@ import { AuthFacadeService } from '../../../core/services/auth/auth-facade.servi
     ])
   ]
 })
+export class LogoutComponent implements OnInit, OnDestroy {
+  private router = inject(Router);
+  private auth = inject(AuthFacadeService);
+  private logoutSubscription?: Subscription;
+  private countdownIntervalId?: ReturnType<typeof setInterval>;
 export class LogoutComponent implements OnInit {
   private router = inject(Router);
   private auth = inject(AuthFacadeService);
@@ -24,6 +34,33 @@ export class LogoutComponent implements OnInit {
   countdownSeconds = 2;
 
   ngOnInit(): void {
+    this.logoutSubscription = this.auth.logout().subscribe({
+      next: () => this.startCountdown(),
+      error: () => this.startCountdown()
+    });
+  }
+  ngOnDestroy(): void {
+    this.logoutSubscription?.unsubscribe();
+
+    if (this.countdownIntervalId) {
+      clearInterval(this.countdownIntervalId);
+      this.countdownIntervalId = undefined;
+    }
+  }
+
+  private startCountdown(): void {
+      if (this.countdownIntervalId) {
+        return;
+      }
+
+      this.countdownIntervalId = setInterval(() => {
+        this.countdownSeconds--;
+
+
+        if (this.countdownSeconds <= 0 && this.countdownIntervalId) {
+          clearInterval(this.countdownIntervalId);
+          this.countdownIntervalId = undefined;
+          this.router.navigate(['/auth/login'], { replaceUrl: true });
     // Call logout (handles API call + clears state)
     this.auth.logout().subscribe({
       next: () => this.startCountdown(),

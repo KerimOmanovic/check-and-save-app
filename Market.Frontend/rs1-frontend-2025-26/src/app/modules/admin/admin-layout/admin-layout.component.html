@@ -4,6 +4,17 @@
 
     <div class="sidebar-header">
 
+      <!-- Brand Logo — identičan kao client home (bež pozadina, zelena ikona) -->
+      <div class="brand-lockup">
+        <div class="brand-mark">
+          <mat-icon>storefront</mat-icon>
+        </div>
+        <div class="brand-text">
+          <div class="brand-name">Check<span class="brand-amp">&</span>Save</div>
+          <div class="brand-sub">Admin panel</div>
+        </div>
+      </div>
+
       <div class="user-info">
         <div class="user-avatar">
           <mat-icon>account_circle</mat-icon>
@@ -73,6 +84,11 @@
       <a mat-list-item routerLink="/admin/stores" routerLinkActive="active">
         <mat-icon matListItemIcon>storefront</mat-icon>
         <span matListItemTitle>{{ 'Prodavnice' | translate }}</span>
+      </a>
+
+      <a mat-list-item routerLink="/admin/branches" routerLinkActive="active">
+        <mat-icon matListItemIcon>location_on</mat-icon>
+        <span matListItemTitle>{{ 'Poslovnice' | translate }}</span>
       </a>
 
       <a mat-list-item routerLink="/admin/cities" routerLinkActive="active">

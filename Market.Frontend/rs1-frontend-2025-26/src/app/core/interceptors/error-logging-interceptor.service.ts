@@ -64,6 +64,9 @@ export const errorLoggingInterceptor: HttpInterceptorFn = (req, next) => {
 export function getErrorMessage(error: HttpErrorResponse): string {
   // Check if error has a custom message from backend
   if (error.error?.message) {
+    if (isDuplicateEmailMessage(error.error.message)) {
+      return 'Email already exists. Please use a different email.';
+    }
     return error.error.message;
   }
 
@@ -77,6 +80,18 @@ export function getErrorMessage(error: HttpErrorResponse): string {
 
   // Check for title (ProblemDetails format)
   if (error.error?.title) {
+    if (isDuplicateEmailMessage(error.error.title)) {
+      return 'Email already exists. Please use a different email.';
+    }
+
+    return error.error.title;
+  }
+
+  if (error.status >= 500) {
+    return 'Server error. Please try again later.';
+  }
+
+
     return error.error.title;
   }
 
@@ -101,4 +116,7 @@ export function getErrorMessage(error: HttpErrorResponse): string {
     default:
       return `An error occurred: ${error.statusText || 'Unknown error'}`;
   }
+}
+function isDuplicateEmailMessage(message: string): boolean {
+  return /email\s+already\s+exists/i.test(message);
 }
