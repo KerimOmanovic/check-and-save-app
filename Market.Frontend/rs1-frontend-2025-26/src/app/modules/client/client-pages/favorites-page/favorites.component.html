@@ -5,6 +5,7 @@
         Omiljeni proizvodi
         <span class="count" *ngIf="favorites.length > 0">{{ favorites.length }}</span>
       </h1>
+      <p>Kartice proizvoda sa slikom, nazivom i cijenom.</p>
       <p>Kompaktan pregled proizvoda koje ste sačuvali za kasnije upoređivanje.</p>
     </div>
 
@@ -18,6 +19,18 @@
 
   <section class="favorites-grid" *ngIf="favorites.length > 0; else emptyState">
     <article class="favorite-card" *ngFor="let item of favorites; trackBy: trackById">
+      <div class="image-wrap">
+        <img [src]="item.imageUrl || 'assets/cart-icon.png'" [alt]="item.name" />
+      </div>
+
+      <div class="favorite-info">
+        <h3 class="favorite-title">{{ item.name }}</h3>
+        <p class="favorite-price">
+          {{ item.price !== null ? (item.price | number: '1.2-2') + ' KM' : 'Cijena nije dostupna' }}
+        </p>
+      </div>
+
+      <button class="remove" type="button" (click)="confirmRemove(item)">Ukloni</button>
       <div class="card-top">
         <div class="card-media">
           <img [src]="item.imageUrl || 'assets/cart-icon.png'" [alt]="item.name" />

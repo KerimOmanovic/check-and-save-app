@@ -1,5 +1,9 @@
 import { Component, OnInit, computed, inject, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { RouterLink } from '@angular/router';
+import { UsersApiService } from '../../../../api-services/users/users-api.services';
+import { UserProfileDto } from '../../../../api-services/users/users-api.model';
+import { CurrentUserService } from '../../../../core/services/auth/current-user.service';
 import { Router, RouterLink } from '@angular/router';
 import { MatSlideToggleChange, MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { UsersApiService } from '../../../../api-services/users/users-api.services';
@@ -11,6 +15,7 @@ import { AuthFacadeService } from '../../../../core/services/auth/auth-facade.se
 @Component({
   selector: 'app-client-profile',
   standalone: true,
+  imports: [CommonModule, RouterLink],
   imports: [CommonModule, RouterLink, MatSlideToggleModule],
   templateUrl: './profile.component.html',
   styleUrls: ['./profile.component.scss'],

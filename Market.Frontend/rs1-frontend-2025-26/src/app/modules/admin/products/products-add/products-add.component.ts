@@ -1,6 +1,7 @@
 import { Component, inject, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { BaseFormComponent } from '../../../../core/components/base-classes/base-form-component';
+import { CreateProductCommand } from '../../../../api-services/products/products-api.models';
 import {
   CreateProductCommand
 } from '../../../../api-services/products/products-api.models';
@@ -24,6 +25,7 @@ import { allItemsPaging } from '../../../../core/models/paging/paging-utils';
   styleUrl: './products-add.component.scss',
   providers: [ProductFormService]
 })
+export class ProductsAddComponent extends BaseFormComponent<any> implements OnInit {
 export class ProductsAddComponent
   extends BaseFormComponent<any>
   implements OnInit {
@@ -49,6 +51,10 @@ export class ProductsAddComponent
     this.setupBranchFiltering();
   }
 
+  protected loadData(): void {}
+
+  protected save(): void {
+    if (this.form.invalid) {
   protected loadData(): void {
     // add mode only - no data to load
   }
@@ -61,6 +67,10 @@ export class ProductsAddComponent
         this.form.get(key)?.markAsTouched();
       });
       this.toaster.warning('Molimo popunite sva obavezna polja');
+      return;
+    }
+
+    if (this.isLoading) return;
       console.warn('Form is invalid:', this.getFormValidationErrors());
       return;
     }
@@ -73,6 +83,9 @@ export class ProductsAddComponent
 
     const formValue = this.form.getRawValue();
 
+    const command: CreateProductCommand = {
+      ...formValue,
+      imageURL: 'placeholder',
     // Konvertuj datum u ISO string format ako je Date objekat
     const command: CreateProductCommand = {
       ...formValue,
@@ -81,6 +94,19 @@ export class ProductsAddComponent
         : formValue.dateAdded
     };
 
+    this.api.create(command).subscribe({
+      next: (response) => {
+        this.stopLoading();
+        this.toaster.success('Proizvod dodan! Sada dodajte sliku.');
+        // Redirect na edit gdje se uploaduje slika
+        this.router.navigate(['/admin/products', response.id, 'edit']);
+      },
+      error: (err) => {
+        this.stopLoading();
+
+        let errorMsg = 'Greška pri dodavanju proizvoda';
+
+        if (err.status === 400 && err.error?.errors) {
     console.log('📤 Sending product create command:', command);
 
     this.api.create(command).subscribe({
@@ -113,6 +139,10 @@ export class ProductsAddComponent
           errorMsg = validationErrors || errorMsg;
         } else if (err.error?.message) {
           errorMsg = err.error.message;
+        } else if (err.status === 0) {
+          errorMsg = 'Greška u konekciji sa serverom.';
+        } else if (err.status === 401) {
+          errorMsg = 'Nemate autorizaciju za ovu akciju';
         } else if (err.error?.title) {
           errorMsg = err.error.title;
         } else if (err.status === 0) {
@@ -147,6 +177,19 @@ export class ProductsAddComponent
   }
 
   private loadFilters(): void {
+    this.categoriesApi.list({ paging: allItemsPaging }).subscribe({
+      next: (response) => { this.categories = response.items; },
+      error: () => { this.toaster.error('Greška pri učitavanju kategorija'); }
+    });
+
+    this.brandsApi.list({ paging: allItemsPaging }).subscribe({
+      next: (response) => { this.brands = response.items; },
+      error: () => { this.toaster.error('Greška pri učitavanju brendova'); }
+    });
+
+    this.storesApi.list({ paging: allItemsPaging, onlyActive: true }).subscribe({
+      next: (response) => { this.stores = response.items; },
+      error: () => { this.toaster.error('Greška pri učitavanju prodavnica'); }
     // Učitaj kategorije
     this.categoriesApi.list({ paging: allItemsPaging }).subscribe({
       next: (response) => {
@@ -185,6 +228,7 @@ export class ProductsAddComponent
   }
 
   private setupBranchFiltering(): void {
+    this.form.get('storeEntityId')?.valueChanges.subscribe((storeId) => {
     // Osluškuj promjene u polju prodavnice
     this.form.get('storeEntityId')?.valueChanges.subscribe((storeId) => {
       console.log('Store changed to:', storeId);
@@ -197,6 +241,22 @@ export class ProductsAddComponent
       this.branches = [];
       this.filteredBranches = [];
       this.form.get('branchEntityId')?.setValue(null);
+      return;
+    }
+
+    this.branchesApi.list({ paging: allItemsPaging, onlyActive: true, storeEntityId: storeId }).subscribe({
+      next: (response) => {
+        this.branches = response.items;
+        this.filteredBranches = response.items;
+
+        const selectedBranchId = this.form.get('branchEntityId')?.value;
+        if (selectedBranchId) {
+          const stillValid = this.filteredBranches.some(b => b.id === selectedBranchId);
+          if (!stillValid) this.form.get('branchEntityId')?.setValue(null);
+        }
+      },
+      error: () => { this.toaster.error('Greška pri učitavanju poslovnica'); }
+    });
       console.log('No store selected, branches cleared');
       return;
     }

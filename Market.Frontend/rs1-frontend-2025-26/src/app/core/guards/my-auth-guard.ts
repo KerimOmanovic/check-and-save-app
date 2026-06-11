@@ -37,24 +37,39 @@ import { inject } from '@angular/core';
 import { CanActivateFn, ActivatedRouteSnapshot, Router } from '@angular/router';
 import { CurrentUserService } from '../services/auth/current-user.service';
 
-export const myAuthGuard: CanActivateFn = (route: ActivatedRouteSnapshot) => {
+import { inject } from '@angular/core';
+import {
+  CanActivateFn,
+  ActivatedRouteSnapshot,
+  Router,
+  RouterStateSnapshot,
+} from '@angular/router';
+import { CurrentUserService } from '../services/auth/current-user.service';
+import { ToasterService } from '../services/toaster.service';
+
+export const myAuthGuard: CanActivateFn = (
+  route: ActivatedRouteSnapshot,
+  state: RouterStateSnapshot,
+) => {
   const currentUser = inject(CurrentUserService);
   const router = inject(Router);
+  const toaster = inject(ToasterService);
 
-  const requireAuth = route.data['requireAuth'] === true;
-  const requireAdmin = route.data['requireAdmin'] === true;
-  const requireManager = route.data['requireManager'] === true;
-  const requirePublicUser = route.data['requirePublicUser'] === true;
+  const authData = (route.data?.['auth'] ?? route.data) as MyAuthRouteData | undefined;
+  const requireAuth = authData?.requireAuth === true;
+  const requireAdmin = authData?.requireAdmin === true;
+  const requireManager = authData?.requireManager === true;
+  const requirePublicUser = authData?.requirePublicUser === true;
 
   const isAuth = currentUser.isAuthenticated();
 
-  // 1) ako ruta traži auth, a user nije logiran → login
+
   if (requireAuth && !isAuth) {
-    router.navigate(['/auth/login']);
-    return false;
+    toaster.warning('Prijavite se da biste pristupili ovoj stranici.');
+    return router.createUrlTree(['/auth/login'], { queryParams: { returnUrl: state.url } });
   }
 
-  // Ako ne traži auth → pusti (javne rute)
+
   if (!requireAuth) {
     return true;
   }
@@ -71,11 +86,12 @@ export const myAuthGuard: CanActivateFn = (route: ActivatedRouteSnapshot) => {
   // 2) role check – admin > manager > public user
   const user = currentUser.snapshot;
   if (!user) {
-    router.navigate(['/auth/login']);
-    return false;
+    toaster.warning('Prijavite se da biste nastavili.');
+    return router.createUrlTree(['/auth/login'], { queryParams: { returnUrl: state.url } });
   }
 
   if (requireAdmin && !user.isAdmin) {
+    toaster.error('Nemate dozvolu za pristup administratorskom dijelu.');
     router.navigate([currentUser.getDefaultRoute()]);
     return false;
   }

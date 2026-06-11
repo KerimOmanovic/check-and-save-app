@@ -5,6 +5,9 @@
       <p>Pregled profila i brz pristup omiljenim stranicama.</p>
     </div>
 
+    <button class="btn outline" type="button" routerLink="/client/home">
+      Nazad na početnu
+    </button>
     <div class="header-actions">
       <div class="theme-switcher" aria-label="Odabir teme aplikacije">
         <span>{{ themeLabel() }}</span>
@@ -26,6 +29,9 @@
   </section>
 
   <section class="profile-card" *ngIf="!isLoading() && !loadError()">
+    <button class="edit-btn" type="button" routerLink="/client/profile/edit">
+      Uredi profil
+    </button>
     <div class="profile-actions">
       <button class="edit-btn" type="button" routerLink="/client/profile/edit">Uredi profil</button>
       <button

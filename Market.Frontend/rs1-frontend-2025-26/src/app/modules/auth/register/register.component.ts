@@ -18,6 +18,9 @@ import { RegisterCommand } from '../../../api-services/auth/auth-api.model';
 // register.component.ts
 import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { Router } from '@angular/router';
+import { AuthApiService } from '../../../api-services/auth/auth-api.service';
+import { RegisterCommand } from '../../../api-services/auth/auth-api.model';
 
 @Component({
   selector: 'app-register',
@@ -49,7 +52,7 @@ export class RegisterComponent {
       },
       { validators: [this.passwordsMatchValidator] },
       },
-      { validators: [this.passwordsMatchValidator] }
+      { validators: [this.passwordsMatchValidator] },
     );
   }
 

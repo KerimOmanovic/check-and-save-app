@@ -9,7 +9,7 @@
       <p>Učitavanje podataka...</p>
     </div>
 
-    <form [formGroup]="form" (ngSubmit)="onSubmit()" *ngIf="!isLoading || form">
+    <form [formGroup]="form" (ngSubmit)="onSubmit()" *ngIf="form">
       <div *ngIf="errorMessage" class="error-banner">
         <mat-icon>error</mat-icon>
         <span>{{ errorMessage }}</span>

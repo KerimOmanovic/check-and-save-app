@@ -30,3 +30,4 @@ namespace Market.Domain.Entities.ProductEntities
         public const int DescriptionMaxLength = 1000;
     }
 }
+

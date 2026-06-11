@@ -1,5 +1,18 @@
 :host { display: block; }
 
+$primary: #0f3d2e;
+$primary-dark: #0b2e23;
+$primary-light: #1f5a45;
+
+$beige: #f6f3ec;
+$beige-accent: #cdbb9a;
+$card: #ffffff;
+
+$text: #1f2a24;
+$text-muted: #4e5d55;
+
+$border: rgba(205, 187, 154, 0.55);
+$shadow: rgba(15, 61, 46, 0.12);
 $primary: var(--app-primary-color);
 $header-bg: var(--app-header-bg-color);
 $primary-dark: var(--app-primary-dark-color);
@@ -22,6 +35,7 @@ $shadow: var(--app-card-shadow);
 }
 
 .topbar {
+  background: $primary;
   background: $header-bg;
   border-bottom: 3px solid rgba(205, 187, 154, 0.65);
   position: sticky;
@@ -113,6 +127,7 @@ $shadow: var(--app-card-shadow);
   content: "";
   position: absolute;
   inset: 5px;
+  border: 2px solid $primary;
   border: 2px solid $header-bg;
   border-radius: 50%;
 }
@@ -122,6 +137,7 @@ $shadow: var(--app-card-shadow);
   position: absolute;
   width: 10px;
   height: 2px;
+  background: $primary;
   background: $header-bg;
   right: -2px;
   bottom: 4px;
@@ -292,6 +308,7 @@ $shadow: var(--app-card-shadow);
   border-radius: 12px;
 }
 
+.link-btn:hover { background: rgba(15, 61, 46, 0.06); }
 .link-btn:hover { background: var(--app-primary-tint-color); }
 
 .grid {
@@ -301,6 +318,11 @@ $shadow: var(--app-card-shadow);
   gap: 14px;
 }
 
+// ── Compare panel ────────────────────────────────────────────
+.compare-panel {
+  grid-column: 1 / -1;
+  border: 1px solid rgba(15, 61, 46, 0.2);
+  background: rgba(246, 243, 236, 0.75);
 
 .compare-panel {
   grid-column: 1 / -1;
@@ -331,6 +353,8 @@ $shadow: var(--app-card-shadow);
 }
 
 .compare-item {
+  background: #fff;
+  border: 1px solid rgba(15, 61, 46, 0.14);
   background: $card;
   border: 1px solid $border;
   border-radius: 16px;
@@ -391,6 +415,12 @@ $shadow: var(--app-card-shadow);
 
 .compare-reset { margin-top: 10px; }
 
+// ── Product card ─────────────────────────────────────────────
+.card {
+  border: 1px solid rgba(15, 61, 46, 0.14);
+  border-radius: 18px;
+  overflow: hidden;
+  background: #fff;
 
 .card {
   border: 1px solid $border;
@@ -402,12 +432,15 @@ $shadow: var(--app-card-shadow);
 
 .card:hover {
   transform: translateY(-2px);
+  box-shadow: 0 16px 30px rgba(15, 61, 46, 0.14);
   box-shadow: 0 16px 30px var(--app-strong-shadow);
 }
 
 .card-top {
   position: relative;
   padding: 14px;
+  background: rgba(246, 243, 236, 0.65);
+  border-bottom: 1px solid rgba(15, 61, 46, 0.10);
   background: var(--app-image-surface-color);
   border-bottom: 1px solid $border;
 }
@@ -420,6 +453,8 @@ $shadow: var(--app-card-shadow);
 .thumb {
   height: 150px;
   border-radius: 16px;
+  background: linear-gradient(135deg, rgba(15, 61, 46, 0.10), rgba(205, 187, 154, 0.35));
+  border: 1px solid rgba(15, 61, 46, 0.12);
   background: linear-gradient(135deg, var(--app-primary-tint-color), var(--app-image-surface-color));
   border: 1px solid $border;
 }
@@ -431,6 +466,8 @@ $shadow: var(--app-card-shadow);
   width: 36px;
   height: 36px;
   border-radius: 12px;
+  border: 1px solid rgba(15, 61, 46, 0.18);
+  background: rgba(255, 255, 255, 0.95);
   border: 1px solid $border;
   background: $card;
   cursor: pointer;
@@ -485,6 +522,14 @@ $shadow: var(--app-card-shadow);
 .btn.outline {
   background: transparent;
   color: $primary;
+  border-color: rgba(15, 61, 46, 0.24);
+}
+
+.btn.outline:hover { background: rgba(15, 61, 46, 0.06); }
+
+.btn.outline.active {
+  background: rgba(15, 61, 46, 0.12);
+  border-color: rgba(15, 61, 46, 0.45);
   border-color: $border;
 }
 
@@ -505,6 +550,8 @@ $shadow: var(--app-card-shadow);
 }
 
 .store-card {
+  border: 1px solid rgba(15, 61, 46, 0.14);
+  background: rgba(246, 243, 236, 0.55);
   border: 1px solid $border;
   background: var(--app-primary-tint-color);
   border-radius: 16px;
@@ -544,6 +591,7 @@ $shadow: var(--app-card-shadow);
   cursor: pointer;
 }
 
+.f-link:hover { background: rgba(15, 61, 46, 0.06); }
 .f-link:hover { background: var(--app-primary-tint-color); }
 
 @media (max-width: 1050px) {

@@ -3,6 +3,7 @@
   width: 100%;
   overflow: hidden;
   border-radius: 16px;
+  background: #f3efe6;
   background: var(--app-image-surface-color);
 
   &__track {
@@ -67,6 +68,7 @@
     transition: background 0.2s ease, transform 0.2s ease;
 
     &--active {
+      background: #fff;
       background: var(--app-surface-color);
       transform: scale(1.3);
     }

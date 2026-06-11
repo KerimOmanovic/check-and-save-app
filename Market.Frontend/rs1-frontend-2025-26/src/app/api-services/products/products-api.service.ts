@@ -9,6 +9,8 @@ import {
   GetProductByIdQueryDto,
   ListProductsQuery,
   ListProductsResponse,
+  UpdateProductCommand,
+  UploadProductImageDto,
   UpdateProductCommand
 } from './products-api.models';
 
@@ -16,6 +18,10 @@ import {
 export class ProductsApiService {
   private http = inject(HttpClient);
   private baseUrl = `${environment.apiUrl}/Product`;
+
+  /** GET /Product */
+  list(query: ListProductsQuery): Observable<ListProductsResponse> {
+    let params = new HttpParams();
 
   /**
    * GET /Product
@@ -53,6 +59,9 @@ export class ProductsApiService {
       params = params.set('branchEntityId', query.branchEntityId.toString());
     }
 
+    return this.http.get<ListProductsResponse>(this.baseUrl, { params });
+  }
+
     const fullUrl = `${this.baseUrl}?${params.toString()}`;
     console.log('🌐 Products API - GET request:', {
       baseUrl: this.baseUrl,
@@ -69,6 +78,11 @@ export class ProductsApiService {
       .filter((id) => id.length > 0);
 
     const params = new HttpParams().set('ids', publicIds.join(','));
+    return this.http.get<CompareProductsQueryDto>(`${environment.apiUrl}/api/products/compare`, { params });
+  }
+
+  /** GET /Product/{id} */
+  getById(id: number): Observable<GetProductByIdQueryDto> {
 
     console.log('🌐 Products API - GET compare:', publicIds);
     return this.http.get<CompareProductsQueryDto>(`${environment.apiUrl}/api/products/compare`, { params });
@@ -93,6 +107,22 @@ export class ProductsApiService {
 
   /** DELETE /Product/{id} */
   delete(id: number): Observable<void> {
+    return this.http.delete<void>(`${this.baseUrl}/${id}`);
+  }
+
+  /**
+   * POST /Product/{id}/images
+   * Uploads, compresses and stores image in Supabase Storage.
+   * Returns public URL.
+   */
+  uploadImage(productId: number, file: File): Observable<UploadProductImageDto> {
+    const formData = new FormData();
+    formData.append('image', file);
+    return this.http.post<UploadProductImageDto>(
+      `${this.baseUrl}/${productId}/images`,
+      formData
+    );
+  }
     console.log('🌐 Products API - DELETE:', id);
     return this.http.delete<void>(`${this.baseUrl}/${id}`);
   }

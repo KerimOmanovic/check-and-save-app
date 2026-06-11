@@ -28,6 +28,10 @@ export interface ListProductsQueryDto {
   storeEntityId: number;
   storeLabel?: string | null;
   lowestPrice?: number | null;
+  imageUrl?: string | null;
+  dateAdded: string;
+}
+
   dateAdded: string;
 }
 
@@ -46,6 +50,8 @@ export interface GetProductByIdQueryDto {
   imageURL: string;
   dateAdded: string;
 }
+
+export type ListProductsResponse = PageResult<ListProductsQueryDto>;
 
 /**
  * Paged response for GET /Product
@@ -113,4 +119,10 @@ export interface UpdateProductCommand {
   name: string;
   description: string;
   imageURL: string;
+}
+
+// === IMAGE UPLOAD ===
+
+export interface UploadProductImageDto {
+  imageUrl: string;
 }

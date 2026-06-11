@@ -8,6 +8,8 @@ import { CurrentUserService } from '../../../../core/services/auth/current-user.
 import { UsersApiService } from '../../../../api-services/users/users-api.services';
 import { UserProfileDto } from '../../../../api-services/users/users-api.model';
 import { ProductImageCarouselComponent } from '../../../public/product-image-carousel/product-image-carousel.component';
+import { ProductsApiService } from '../../../../api-services/products/products-api.service';
+import { ListProductsQuery } from '../../../../api-services/products/products-api.models';
 
 type CategoryKey =
   | 'popularno'
@@ -22,6 +24,7 @@ type Product = {
   name: string;
   bestStore: string;
   price: number;
+  category: string;
   category: 'namirnice' | 'elektronika' | 'drogerija' | 'akcije';
   images: string[];
 };
@@ -49,6 +52,7 @@ export class HomeComponent implements OnInit {
   private favoritesService = inject(FavoritesService);
   private currentUser = inject(CurrentUserService);
   private usersApi = inject(UsersApiService);
+  private productsApi = inject(ProductsApiService);
 
   activeCategory: CategoryKey = 'popularno';
   private readonly storageKey = 'client-home-active-category';
@@ -58,6 +62,12 @@ export class HomeComponent implements OnInit {
   visibleStores: Store[] = [];
   compareSelection: Product[] = [];
   comparePair: { left: Product; right: Product } | null = null;
+  isLoadingProducts = false;
+
+  userProfile: UserProfileDto | null = null;
+
+  private productCache: Map<string, Product[]> = new Map();
+
 
   userProfile: UserProfileDto | null = null;
 
@@ -179,6 +189,10 @@ export class HomeComponent implements OnInit {
   get userLabel(): string {
     const firstName = this.userProfile?.firstName?.trim() ?? '';
     const lastName = this.userProfile?.lastName?.trim() ?? '';
+    const fullName = `${firstName} ${lastName}`.trim();
+    if (fullName) return fullName;
+    const email = this.currentUser.snapshot?.email;
+    if (!email) return 'Gost';
 
     const fullName = `${firstName} ${lastName}`.trim();
     if (fullName) return fullName;
@@ -192,6 +206,55 @@ export class HomeComponent implements OnInit {
   get userInitials(): string {
     const firstInitial = this.userProfile?.firstName?.trim().charAt(0) ?? '';
     const lastInitial = this.userProfile?.lastName?.trim().charAt(0) ?? '';
+    const initials = `${firstInitial}${lastInitial}`.trim().toUpperCase();
+    if (initials) return initials;
+    return this.userLabel.charAt(0).toUpperCase();
+  }
+
+  ngOnInit(): void {
+    const storedCategory = localStorage.getItem(this.storageKey);
+    if (storedCategory && this.isCategoryKey(storedCategory)) {
+      this.activeCategory = storedCategory;
+    }
+
+    if (this.currentUser.isAuthenticated()) {
+      this.usersApi.getMe().subscribe({
+        next: (profile) => { this.userProfile = profile; },
+        error: () => { this.userProfile = null; },
+      });
+    }
+
+    this.loadProductsFromApi();
+  }
+
+  private loadProductsFromApi(): void {
+    this.isLoadingProducts = true;
+
+    const query = new ListProductsQuery();
+    query.paging = { page: 1, pageSize: 50 };
+
+    this.productsApi.list(query).subscribe({
+      next: (response) => {
+        const mapped: Product[] = response.items.map((p: any) => ({
+          id: p.id,
+          name: p.name,
+          bestStore: p.storeLabel ?? 'Nepoznato',
+          price: p.lowestPrice ?? 0,
+          category: 'popularno',
+          images: p.imageURL ? [p.imageURL] : [],
+        }));
+
+        this.productCache.set('popularno', mapped);
+        this.isLoadingProducts = false;
+        this.updateActiveContent();
+      },
+      error: () => {
+        this.isLoadingProducts = false;
+        this.updateActiveContent();
+      }
+    });
+  }
+
 
     const initials = `${firstInitial}${lastInitial}`.trim().toUpperCase();
     if (initials) return initials;
@@ -272,6 +335,7 @@ export class HomeComponent implements OnInit {
 
   private updateActiveContent(): void {
     const normalizedSearchTerm = this.searchTerm.trim().toLowerCase();
+    const allProducts = this.productCache.get('popularno') ?? [];
 
     const searchFilter = (product: Product): boolean =>
       !normalizedSearchTerm ||
@@ -304,6 +368,9 @@ export class HomeComponent implements OnInit {
         this.visibleStores = this.stores;
         break;
       default:
+        this.visibleProducts = allProducts.filter(searchFilter);
+        this.visibleStores = [];
+        break;
         this.visibleProducts = this.popularProducts;
         this.visibleStores = [];
     }

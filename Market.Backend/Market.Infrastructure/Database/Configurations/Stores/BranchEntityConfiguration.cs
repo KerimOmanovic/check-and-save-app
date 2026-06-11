@@ -1,6 +1,4 @@
 ﻿using Market.Domain.Entities.StoreEntities;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace Market.Infrastructure.Database.Configurations.Stores;
 
@@ -9,7 +7,6 @@ public sealed class BranchEntityConfiguration : IEntityTypeConfiguration<BranchE
     public void Configure(EntityTypeBuilder<BranchEntity> b)
     {
         b.ToTable("Branch");
-
         b.HasKey(x => x.Id);
 
         b.Property(x => x.Address)

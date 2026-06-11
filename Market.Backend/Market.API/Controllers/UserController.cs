@@ -100,6 +100,29 @@ public class UserController(ISender sender) : ControllerBase
         return Ok(new EmailAvailabilityDto { IsAvailable = !exists });
     }
 
+        var user = await sender.Send(new GetMarketUserByIdQuery { Id = currentUser.UserId.Value }, ct);
+
+        return Ok(new UserProfileDto
+        {
+            Id = user.Id,
+            FirstName = user.Firstname,
+            LastName = user.Lastname,
+            Email = user.Email,
+            IsAdmin = user.IsAdmin,
+            IsManager = user.IsManager,
+            IsPublicUser = user.IsPublicUser,
+            AvatarLevel = user.AvatarLevel
+        });
+    }
+    [HttpGet("check-email")]
+    [AllowAnonymous]
+    public async Task<ActionResult<EmailAvailabilityDto>> CheckEmailAvailability([FromQuery] string email, CancellationToken ct)
+    {
+        var normalizedEmail = email.Trim().ToLowerInvariant();
+        var exists = await ctx.Users.AnyAsync(x => x.Email.ToLower() == normalizedEmail, ct);
+
+        return Ok(new EmailAvailabilityDto { IsAvailable = !exists });
+    }
     [HttpGet("{id:int}")]
     public async Task<GetMarketUserByIdQueryDto> GetById(int id, CancellationToken ct)
     {

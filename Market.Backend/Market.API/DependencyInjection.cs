@@ -53,7 +53,6 @@ public static class DependencyInjection
         .AddJwtBearer((o) =>
         {
             var jwt = configuration.GetSection(JwtOptions.SectionName).Get<JwtOptions>()!;
-
             o.TokenValidationParameters = new()
             {
                 ValidateIssuer = true,
@@ -84,6 +83,14 @@ public static class DependencyInjection
             o.FallbackPolicy = new AuthorizationPolicyBuilder()
                 .RequireAuthenticatedUser()
                 .Build();
+
+            // Role-based policy: admin, manager ili public user
+            o.AddPolicy("AuthenticatedUser", policy =>
+                policy.RequireAuthenticatedUser()
+                      .RequireAssertion(ctx =>
+                          ctx.User.HasClaim("is_admin", "true") ||
+                          ctx.User.HasClaim("is_manager", "true") ||
+                          ctx.User.HasClaim("is_public_user", "true")));
         });
 
         // Swagger with Bearer auth

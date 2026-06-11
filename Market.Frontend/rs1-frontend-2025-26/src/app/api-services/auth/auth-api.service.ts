@@ -22,10 +22,6 @@ export class AuthApiService {
   private readonly baseUrl = `${environment.apiUrl}/api/Auth`;
   private http = inject(HttpClient);
 
-  /**
-   * POST /Auth/login
-   * Authenticate user and get access/refresh tokens.
-   */
   login(payload: LoginCommand): Observable<LoginCommandDto> {
     return this.http.post<LoginCommandDto>(`${this.baseUrl}/login`, payload);
   }
@@ -42,10 +38,6 @@ export class AuthApiService {
     return this.http.post<RefreshTokenCommandDto>(`${this.baseUrl}/refresh`, payload);
   }
 
-  /**
-   * POST /Auth/logout
-   * Invalidate refresh token and logout user.
-   */
   logout(payload: LogoutCommand): Observable<void> {
     return this.http.post<void>(`${this.baseUrl}/logout`, payload);
   }
