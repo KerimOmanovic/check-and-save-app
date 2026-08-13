@@ -22,11 +22,3 @@ namespace Market.Domain.Entities.ProductEntities
         }
     }
 }
-
-    }
-    public static class Constraints
-    {
-        public const int NameMaxLength = 200;
-        public const int DescriptionMaxLength = 1000;
-    }
-}

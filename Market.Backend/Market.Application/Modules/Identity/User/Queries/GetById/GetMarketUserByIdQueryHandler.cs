@@ -1,6 +1,6 @@
 ﻿namespace Market.Application.Modules.Identity.User.Queries.GetById
 {
-    public sealed class GetMarketUserByIdQueryHandler(IAppDbContext ctx): IRequestHandler<GetMarketUserByIdQuery, GetMarketUserByIdQueryDto>
+    public sealed class GetMarketUserByIdQueryHandler(IAppDbContext ctx) : IRequestHandler<GetMarketUserByIdQuery, GetMarketUserByIdQueryDto>
     {
         public async Task<GetMarketUserByIdQueryDto> Handle(GetMarketUserByIdQuery request, CancellationToken ct)
         {
@@ -9,7 +9,7 @@
                 .Select(x => new GetMarketUserByIdQueryDto
                 {
                     Id = x.Id,
-             
+
                     Firstname = x.Firstname,
                     Lastname = x.Lastname,
                     Email = x.Email,
@@ -19,8 +19,7 @@
                     IsPublicUser = x.IsPublicUser,
                     IsEnabled = x.IsEnabled,
                     TokenVersion = x.TokenVersion,
-                    AvatarLevel = x.PublicUserEntity != null ? x.PublicUserEntity.AvatarLevel : 1
-                    TokenVersion = x.TokenVersion
+                    AvatarLevel = x.PublicUserEntity != null ? x.PublicUserEntity.AvatarLevel : 1,
                 })
                 .FirstOrDefaultAsync(ct);
 
