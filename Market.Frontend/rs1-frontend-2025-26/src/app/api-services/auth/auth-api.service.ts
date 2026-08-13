@@ -9,7 +9,6 @@ import {
   RefreshTokenCommandDto,
   LogoutCommand,
   RegisterCommand
-  LogoutCommand
 } from './auth-api.model';
 
 @Injectable({
@@ -19,13 +18,6 @@ export class AuthApiService {
   private readonly baseUrl = `${environment.apiUrl}/api/auth`;
   private http = inject(HttpClient);
 
-  private readonly baseUrl = `${environment.apiUrl}/api/Auth`;
-  private http = inject(HttpClient);
-
-  /**
-   * POST /Auth/login
-   * Authenticate user and get access/refresh tokens.
-   */
   login(payload: LoginCommand): Observable<LoginCommandDto> {
     return this.http.post<LoginCommandDto>(`${this.baseUrl}/login`, payload);
   }
@@ -34,18 +26,10 @@ export class AuthApiService {
     return this.http.post<{ id: number }>(`${this.baseUrl}/register`, payload);
   }
 
-  /**
-   * POST /Auth/refresh
-   * Refresh access token using refresh token.
-   */
   refresh(payload: RefreshTokenCommand): Observable<RefreshTokenCommandDto> {
     return this.http.post<RefreshTokenCommandDto>(`${this.baseUrl}/refresh`, payload);
   }
 
-  /**
-   * POST /Auth/logout
-   * Invalidate refresh token and logout user.
-   */
   logout(payload: LogoutCommand): Observable<void> {
     return this.http.post<void>(`${this.baseUrl}/logout`, payload);
   }

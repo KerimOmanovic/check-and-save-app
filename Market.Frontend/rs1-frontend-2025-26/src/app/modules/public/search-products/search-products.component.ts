@@ -36,7 +36,6 @@ interface ProductCard {
   imageBg: string;
   images: string[];
 }
-import { Component } from '@angular/core';
 
 @Component({
   selector: 'app-search-products',
@@ -256,6 +255,4 @@ export class SearchProductsComponent implements OnInit, OnDestroy {
     ];
     return gradients[index % gradients.length];
   }
-export class SearchProductsComponent {
-
 }

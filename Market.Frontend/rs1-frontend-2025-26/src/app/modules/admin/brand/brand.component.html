@@ -38,58 +38,11 @@
             <mat-icon>add</mat-icon> Novi brend
           </button>
         </div>
-  <!-- Top navigation bar -->
-  <header class="topbar">
-    <div class="topbar-inner">
-
-      <!-- Left side: logo + navigation links -->
-      <div class="topbar-left">
-        <div class="logo">
-          <span class="logo-mark">CS</span>
-          <span class="logo-text">Check&Save</span>
-        </div>
-
-        <div class="topbar-links">
-          <span class="link" routerLink="/admin/categories">Kategorije Proizvoda</span>
-          <span class="link is-active">Brendovi</span>
-          <span class="link" routerLink="/admin/products">Proizvodi</span>
-          <span class="link" routerLink="/admin/cities">Gradovi</span>
-          <span class="link" routerLink="/admin/stores">Prodavnice</span>
-        </div>
-      </div>
-
-      <!-- Right side: search + add button -->
-      <div class="topbar-right">
-        <mat-form-field class="search-field" appearance="outline">
-          <mat-label>Pretraži brendove</mat-label>
-          <input
-            matInput
-            placeholder="Unesite naziv brenda..."
-            (keyup.enter)="onSearch()"
-            [(ngModel)]="request.search"
-          />
-          <button
-            mat-icon-button
-            matSuffix
-            type="button"
-            *ngIf="request.search"
-            (click)="clearSearch()"
-            aria-label="Clear search"
-          >
-            <mat-icon>close</mat-icon>
-          </button>
-        </mat-form-field>
-
-        <button mat-raised-button class="btn-add" type="button" (click)="onCreate()">
-          <mat-icon>add</mat-icon>
-          Novi brend
-        </button>
       </div>
 
     </div>
   </header>
 
-  <!-- Main content -->
   <div class="content">
     <div *ngIf="isLoading" class="loading-state">
       <mat-spinner diameter="50"></mat-spinner>
@@ -114,9 +67,6 @@
         <ng-container matColumnDef="description">
           <th mat-header-cell *matHeaderCellDef>Opis</th>
           <td mat-cell *matCellDef="let brand">{{ brand.description || '-' }}</td>
-          <td mat-cell *matCellDef="let brand">
-            {{ brand.description || '-' }}
-          </td>
         </ng-container>
 
         <ng-container matColumnDef="actions">
@@ -127,20 +77,6 @@
                 <mat-icon>edit</mat-icon>
               </button>
               <button mat-icon-button class="btn-delete" (click)="onDelete(brand)" matTooltip="Obriši brend">
-              <button
-                mat-icon-button
-                class="btn-edit"
-                (click)="onEdit(brand)"
-                matTooltip="Uredi brend"
-              >
-                <mat-icon>edit</mat-icon>
-              </button>
-              <button
-                mat-icon-button
-                class="btn-delete"
-                (click)="onDelete(brand)"
-                matTooltip="Obriši brend"
-              >
                 <mat-icon>delete</mat-icon>
               </button>
             </div>
@@ -158,16 +94,10 @@
                 Nema rezultata za uneseni pojam.
               </ng-container>
               <ng-template #noDataDefault>Nema pronađenih brendova.</ng-template>
-                Nema rezultata za traženi pojam.
-              </ng-container>
-              <ng-template #noDataDefault>
-                Nema dodanih brendova.
-              </ng-template>
             </div>
           </td>
         </tr>
       </table>
-
       <app-fit-paginator-bar [vm]="this" />
     </div>
   </div>

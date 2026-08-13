@@ -3,9 +3,6 @@ import { Router } from '@angular/router';
 import { trigger, transition, style, animate } from '@angular/animations';
 import { Subscription } from 'rxjs';
 
-import { Component, OnInit, inject } from '@angular/core';
-import { Router } from '@angular/router';
-import { trigger, transition, style, animate } from '@angular/animations';
 import { AuthFacadeService } from '../../../core/services/auth/auth-facade.service';
 
 @Component({
@@ -27,9 +24,6 @@ export class LogoutComponent implements OnInit, OnDestroy {
   private auth = inject(AuthFacadeService);
   private logoutSubscription?: Subscription;
   private countdownIntervalId?: ReturnType<typeof setInterval>;
-export class LogoutComponent implements OnInit {
-  private router = inject(Router);
-  private auth = inject(AuthFacadeService);
 
   countdownSeconds = 2;
 
@@ -61,20 +55,6 @@ export class LogoutComponent implements OnInit {
           clearInterval(this.countdownIntervalId);
           this.countdownIntervalId = undefined;
           this.router.navigate(['/auth/login'], { replaceUrl: true });
-    // Call logout (handles API call + clears state)
-    this.auth.logout().subscribe({
-      next: () => this.startCountdown(),
-      error: () => this.startCountdown() // Even if API fails, clear local state
-    });
-  }
-
-  private startCountdown(): void {
-    const intervalId = setInterval(() => {
-      this.countdownSeconds--;
-
-      if (this.countdownSeconds <= 0) {
-        clearInterval(intervalId);
-        this.router.navigate(['/login']);
       }
     }, 1000);
   }

@@ -1,6 +1,5 @@
 ﻿using Market.Application.Abstractions;
 using Market.Application.Modules.Identity.User.Commands.Create;
-﻿using Market.Application.Modules.Identity.User.Commands.Create;
 using Market.Application.Modules.Identity.User.Commands.Delete;
 using Market.Application.Modules.Identity.User.Commands.Status.Disable;
 using Market.Application.Modules.Identity.User.Commands.Status.Enable;
@@ -14,8 +13,6 @@ namespace Market.API.Controllers;
 [ApiController]
 [Route("api/users")]
 public class UserController(ISender sender, IAppCurrentUser currentUser, IAppDbContext ctx) : ControllerBase
-[Route("[controller]")]
-public class UserController(ISender sender) : ControllerBase
 {
     [HttpPost]
     public async Task<ActionResult<int>> Create(
@@ -99,7 +96,6 @@ public class UserController(ISender sender) : ControllerBase
 
         return Ok(new EmailAvailabilityDto { IsAvailable = !exists });
     }
-
     [HttpGet("{id:int}")]
     public async Task<GetMarketUserByIdQueryDto> GetById(int id, CancellationToken ct)
     {

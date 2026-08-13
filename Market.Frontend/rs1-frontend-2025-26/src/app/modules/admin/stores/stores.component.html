@@ -38,58 +38,11 @@
             <mat-icon>add</mat-icon> Nova prodavnica
           </button>
         </div>
-  <!-- Top navigation bar -->
-  <header class="topbar">
-    <div class="topbar-inner">
-
-      <!-- Lijeva strana: logo + navigacijski linkovi -->
-      <div class="topbar-left">
-        <div class="logo">
-          <span class="logo-mark">CS</span>
-          <span class="logo-text">Check&Save</span>
-        </div>
-
-        <div class="topbar-links">
-          <span class="link" routerLink="/admin/categories">Kategorije Proizvoda</span>
-          <span class="link" routerLink="/admin/brands">Brendovi</span>
-          <span class="link" routerLink="/admin/products">Proizvodi</span>
-          <span class="link" routerLink="/admin/cities">Gradovi</span>
-          <span class="link is-active">Prodavnice</span>
-        </div>
-      </div>
-
-      <!-- Desna strana: pretraga + dugme za dodavanje -->
-      <div class="topbar-right">
-        <mat-form-field class="search-field" appearance="outline">
-          <mat-label>Pretraži prodavnice</mat-label>
-          <input
-            matInput
-            placeholder="Unesite naziv prodavnice..."
-            (keyup.enter)="onSearch()"
-            [(ngModel)]="request.search"
-          />
-          <button
-            mat-icon-button
-            matSuffix
-            type="button"
-            *ngIf="request.search"
-            (click)="clearSearch()"
-            aria-label="Clear search"
-          >
-            <mat-icon>close</mat-icon>
-          </button>
-        </mat-form-field>
-
-        <button mat-raised-button class="btn-add" type="button" (click)="onCreate()">
-          <mat-icon>add</mat-icon>
-          Nova prodavnica
-        </button>
       </div>
 
     </div>
   </header>
 
-  <!-- Glavni sadržaj -->
   <div class="content">
     <div *ngIf="isLoading" class="loading-state">
       <mat-spinner diameter="50"></mat-spinner>
@@ -114,25 +67,16 @@
         <ng-container matColumnDef="contact">
           <th mat-header-cell *matHeaderCellDef>Kontakt</th>
           <td mat-cell *matCellDef="let store">{{ store.contact }}</td>
-          <td mat-cell *matCellDef="let store">
-            {{ store.contact }}
-          </td>
         </ng-container>
 
         <ng-container matColumnDef="email">
           <th mat-header-cell *matHeaderCellDef>Email</th>
           <td mat-cell *matCellDef="let store">{{ store.email }}</td>
-          <td mat-cell *matCellDef="let store">
-            {{ store.email }}
-          </td>
         </ng-container>
 
         <ng-container matColumnDef="city">
           <th mat-header-cell *matHeaderCellDef>Grad</th>
           <td mat-cell *matCellDef="let store">{{ getCityName(store.cityEntityId) }}</td>
-          <td mat-cell *matCellDef="let store">
-            {{ getCityName(store.cityEntityId) }}
-          </td>
         </ng-container>
 
         <ng-container matColumnDef="isActive">
@@ -152,20 +96,6 @@
                 <mat-icon>edit</mat-icon>
               </button>
               <button mat-icon-button class="btn-delete" (click)="onDelete(store)" matTooltip="Obriši prodavnicu">
-              <button
-                mat-icon-button
-                class="btn-edit"
-                (click)="onEdit(store)"
-                matTooltip="Uredi prodavnicu"
-              >
-                <mat-icon>edit</mat-icon>
-              </button>
-              <button
-                mat-icon-button
-                class="btn-delete"
-                (click)="onDelete(store)"
-                matTooltip="Obriši prodavnicu"
-              >
                 <mat-icon>delete</mat-icon>
               </button>
             </div>
@@ -183,18 +113,11 @@
                 Nema rezultata za uneseni pojam.
               </ng-container>
               <ng-template #noDataDefault>Nema pronađenih prodavnica.</ng-template>
-                Nema rezultata za traženi pojam.
-              </ng-container>
-              <ng-template #noDataDefault>
-                Nema dodanih prodavnica.
-              </ng-template>
             </div>
           </td>
         </tr>
       </table>
       <app-fit-paginator-bar [vm]="this"></app-fit-paginator-bar>
-
-      <app-fit-paginator-bar [vm]="this" />
     </div>
   </div>
 </section>

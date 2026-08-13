@@ -18,7 +18,6 @@
       "TITLE": "Logout",
       "MESSAGE": "Logging you out of the system...",
       "REDIRECT_IN": "Redirecting to login in {{seconds}}s"
-      "REDIRECT_IN": "Redirecting in {{seconds}}s"
     }
   },
   "ADMIN_PANEL": {

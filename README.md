@@ -69,7 +69,6 @@ ng build             # Build za produkciju
 
 ---
 
-
 ## 📸 Screenshotovi
 
 ### Prijava

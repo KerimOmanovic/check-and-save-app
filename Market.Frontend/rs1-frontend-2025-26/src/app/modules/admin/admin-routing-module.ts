@@ -108,12 +108,6 @@ const routes: Routes = [
       {
         path: '',
         redirectTo: 'products',
-
-
-      // default admin route → /admin/products
-      {
-        path: '',
-        redirectTo: 'categories',
         pathMatch: 'full',
       },
     ],

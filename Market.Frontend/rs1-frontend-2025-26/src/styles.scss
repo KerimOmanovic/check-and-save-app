@@ -1,12 +1,6 @@
 @use '@angular/material' as mat;
 
 
-// Include theming for Angular Material with `mat.theme()`.
-@use '@angular/material' as mat;
-
-// ============================================
-// CUSTOM GREEN COLOR PALETTE
-// ============================================
 
 $custom-green-palette: (
   0: #000000,
@@ -17,8 +11,6 @@ $custom-green-palette: (
   35: #005f33,
   40: #0f3d2e,
   50: #1f5a45,
-  40: #0f3d2e,  // Tvoja glavna zelena
-  50: #1f5a45,  // Svjetlija verzija
   60: #2d7159,
   70: #3d8869,
   80: #4ea07a,
@@ -41,7 +33,6 @@ $custom-secondary-palette: (
   60: #9a8f7d,
   70: #b5aa97,
   80: #cdbb9a,
-  80: #cdbb9a,  // Tvoja secondary boja
   90: #d9c9ad,
   95: #ebe0cc,
   98: #f6f3ec,
@@ -49,9 +40,6 @@ $custom-secondary-palette: (
   100: #ffffff,
 );
 
-// ============================================
-// APPLY MATERIAL THEME
-// ============================================
 
 html {
   @include mat.theme((
@@ -128,40 +116,12 @@ body {
 
 
 
-// ============================================
-// BODY & HTML BASE STYLES
-// ============================================
-
-body {
-  color-scheme: light;
-  background-color: #f6f3ec;
-  color: #1f2a24;
-  font: var(--mat-sys-body-medium);
-  margin: 0;
-}
-
-html, body {
-  height: 100%;
-}
-
-body {
-  margin: 0;
-  font-family: Roboto, "Helvetica Neue", sans-serif;
-}
-
-// ============================================
-// COLOR VARIABLES
-// ============================================
-
 $primary-color: #0f3d2e;
 $primary-light: #1f5a45;
 $primary-dark: #0b2e23;
 $secondary-color: #cdbb9a;
 
 
-// ============================================
-// TOASTER / SNACKBAR STYLES
-// ============================================
 
 .snackbar-success {
   background-color: $primary-color !important;
@@ -216,11 +176,6 @@ $secondary-color: #cdbb9a;
 }
 
 
-// ============================================
-// GLOBALNI PAGINATOR STYLING - ZELENA BOJA
-// ============================================
-
-// Custom paginator - page-indicator klasa
 .paginator-bar .paginator-actions .nav-buttons .page-indicator {
   background: linear-gradient(135deg, $primary-color 0%, $primary-light 100%) !important;
   box-shadow: 0 2px 8px rgba(15, 61, 46, 0.3) !important;
@@ -231,7 +186,6 @@ $secondary-color: #cdbb9a;
   }
 }
 
-// Material paginator buttons
 .mat-mdc-paginator {
   .mat-mdc-icon-button {
     color: $primary-color !important;
@@ -254,7 +208,6 @@ $secondary-color: #cdbb9a;
   }
 }
 
-// App-fit-paginator-bar komponenta
 app-fit-paginator-bar {
   .page-indicator {
     background: linear-gradient(135deg, $primary-color 0%, $primary-light 100%) !important;
@@ -275,7 +228,6 @@ app-fit-paginator-bar {
   }
 }
 
-// Fallback za sve paginatore
 [class*="paginator"] {
   .page-indicator,
   [class*="page-indicator"] {
@@ -290,9 +242,6 @@ app-fit-paginator-bar {
 }
 
 
-// ============================================
-// GLOBALNI BUTTON STYLING - ZELENA BOJA
-// ============================================
 
 .mat-mdc-raised-button.mat-primary {
   background: linear-gradient(135deg, $primary-color 0%, $primary-light 100%) !important;
@@ -313,9 +262,6 @@ app-fit-paginator-bar {
 }
 
 
-// ============================================
-// FORM FIELDS - ZELENA BOJA ZA FOCUS
-// ============================================
 
 .mat-mdc-form-field.mat-focused {
   .mdc-notched-outline__leading,
@@ -336,9 +282,6 @@ app-fit-paginator-bar {
 }
 
 
-// ============================================
-// CHECKBOXES & RADIO BUTTONS
-// ============================================
 
 .mat-mdc-checkbox.mat-primary {
   --mdc-checkbox-selected-icon-color: #{$primary-color};
@@ -355,9 +298,6 @@ app-fit-paginator-bar {
 }
 
 
-// ============================================
-// SLIDERS & PROGRESS BARS
-// ============================================
 
 .mat-mdc-slider.mat-primary {
   --mdc-slider-handle-color: #{$primary-color};
@@ -376,9 +316,6 @@ app-fit-paginator-bar {
 }
 
 
-// ============================================
-// TABS
-// ============================================
 
 .mat-mdc-tab-group.mat-primary {
   --mat-tab-header-active-label-text-color: #{$primary-color};
@@ -388,9 +325,6 @@ app-fit-paginator-bar {
 }
 
 
-// ============================================
-// LINKS
-// ============================================
 
 a {
   color: $primary-color;

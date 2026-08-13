@@ -24,14 +24,6 @@ export class AppComponent implements OnInit {
     this.translate.setDefaultLang('bs');
 
 
-  constructor(private translate: TranslateService) {
-    console.log('AppComponent constructor - initializing TranslateService');
-
-    // Inicijalizacija translate servisa
-    this.translate.addLangs(['en', 'bs']);
-    this.translate.setDefaultLang('bs');
-
-    // Učitaj jezik iz localStorage ili koristi default
     const savedLang = localStorage.getItem('language') || 'bs';
     this.currentLang = savedLang;
 
@@ -49,7 +41,6 @@ export class AppComponent implements OnInit {
 
   ngOnInit(): void {
 
-    // Test translation
     this.translate.get('PRODUCTS.TITLE').subscribe((res: string) => {
       console.log('Translation for PRODUCTS.TITLE:', res);
       if (res === 'PRODUCTS.TITLE') {

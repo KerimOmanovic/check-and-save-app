@@ -38,10 +38,3 @@ const routes: Routes = [
   exports: [RouterModule],
 })
 export class ClientRoutingModule {}
-const routes: Routes = [];
-
-@NgModule({
-  imports: [RouterModule.forChild(routes)],
-  exports: [RouterModule]
-})
-export class ClientRoutingModule { }

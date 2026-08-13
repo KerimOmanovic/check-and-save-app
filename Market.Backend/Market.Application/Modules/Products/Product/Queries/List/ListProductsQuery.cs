@@ -9,6 +9,3 @@
         public int? StoreEntityId { get; set; }
     }
 }
-        public PageRequest Page { get; internal set; }
-    }
-}

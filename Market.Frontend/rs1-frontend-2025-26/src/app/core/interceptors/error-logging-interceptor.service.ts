@@ -92,9 +92,6 @@ export function getErrorMessage(error: HttpErrorResponse): string {
   }
 
 
-    return error.error.title;
-  }
-
   // Fallback to generic messages based on status code
   switch (error.status) {
     case 0:
@@ -109,8 +106,6 @@ export function getErrorMessage(error: HttpErrorResponse): string {
       return 'The requested resource was not found.';
     case 409:
       return 'Conflict. The operation cannot be completed.';
-    case 500:
-      return 'Server error. Please try again later.';
     case 503:
       return 'Service temporarily unavailable. Please try again later.';
     default:

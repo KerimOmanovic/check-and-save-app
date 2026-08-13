@@ -4,6 +4,5 @@
     {
         public int? PublicUserEntityId { get; set; }
        
-        public PageRequest Page { get; internal set; }
     }
 }

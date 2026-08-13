@@ -2,11 +2,6 @@ import { NgModule } from '@angular/core';
 
 import { ClientRoutingModule } from './client-routing-module';
 import { SharedModule } from '../shared/shared-module';
-import {NgModule} from '@angular/core';
-
-import {ClientRoutingModule} from './client-routing-module';
-import {SharedModule} from '../shared/shared-module';
-
 
 @NgModule({
   declarations: [],
@@ -16,4 +11,3 @@ import {SharedModule} from '../shared/shared-module';
   ]
 })
 export class ClientModule {}
-export class ClientModule { }

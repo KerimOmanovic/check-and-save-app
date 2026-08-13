@@ -10,7 +10,6 @@ namespace Market.API.Controllers;
 [Route("api/favourites")]
 [Route("[controller]")]
 [Authorize]
-[Route("[controller]")]
 public class FavoritesController(ISender sender) : ControllerBase
 {
     [HttpPost]
@@ -37,10 +36,6 @@ public class FavoritesController(ISender sender) : ControllerBase
 
         await sender.Send(new DeleteFavoriteCommand { Id = id }, ct);
         return NoContent();
-    [HttpDelete("{id:int}")]
-    public async Task Delete(int id, CancellationToken ct)
-    {
-        await sender.Send(new DeleteFavoriteCommand { Id = id }, ct);
     }
 
     [HttpGet("{id:int}")]

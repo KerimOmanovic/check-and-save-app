@@ -47,7 +47,6 @@ import {CategoryEditComponent} from './category/category-edit/category-edit.comp
     BranchesComponent,
     BranchesAddComponent,
     BranchesEditComponent
-    BrandEditComponent
   ],
   imports: [
     AdminRoutingModule,

@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router, NavigationEnd } from '@angular/router';
 import { filter } from 'rxjs/operators';
-import { Component } from '@angular/core';
 
 @Component({
   selector: 'app-public-layout',
@@ -22,7 +21,4 @@ export class PublicLayoutComponent implements OnInit {
         window.scrollTo({ top: 0, behavior: 'instant' });
       });
   }
-export class PublicLayoutComponent {
-  currentYear: string = "2025";
-
 }

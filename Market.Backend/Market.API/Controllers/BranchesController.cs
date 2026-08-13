@@ -1,6 +1,4 @@
 ﻿using Market.Application.Modules.Stores.Branches.Commands.Create;
-﻿
-using Market.Application.Modules.Stores.Branches.Commands.Create;
 using Market.Application.Modules.Stores.Branches.Commands.Delete;
 using Market.Application.Modules.Stores.Branches.Commands.Update;
 using Market.Application.Modules.Stores.Branches.Queries.GetById;
@@ -54,5 +52,4 @@ public class BranchesController(ISender sender) : ControllerBase
     {
         return await sender.Send(new GetBranchesMapQuery(), ct);
     }
-}
 }

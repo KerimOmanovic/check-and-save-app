@@ -42,7 +42,6 @@
         </div>
       </div>
 
-
       <div class="language-selector">
         <button mat-icon-button [matMenuTriggerFor]="langMenu" class="lang-button">
           <span class="flag-icon">{{ getCurrentLanguage()?.flag }}</span>
@@ -63,7 +62,6 @@
         </mat-menu>
       </div>
     </div>
-
 
     <mat-nav-list>
 
@@ -103,7 +101,6 @@
 
       <mat-divider></mat-divider>
 
-
       <div class="nav-section-title">
         {{ 'ADMIN_PANEL.MENU.ORDERS_SECTION' | translate }}
       </div>
@@ -115,7 +112,6 @@
 
       <mat-divider></mat-divider>
 
-
       <div class="nav-section-title">
         {{ 'ADMIN_PANEL.MENU.SYSTEM' | translate }}
       </div>
@@ -125,14 +121,12 @@
         <span matListItemTitle>{{ 'ADMIN_PANEL.MENU.SETTINGS' | translate }}</span>
       </a>
 
-
       <a mat-list-item routerLink="/auth/logout" routerLinkActive="active" class="logout-item">
         <mat-icon matListItemIcon>logout</mat-icon>
         <span matListItemTitle>{{ 'ADMIN_PANEL.MENU.LOGOUT' | translate }}</span>
       </a>
     </mat-nav-list>
   </mat-sidenav>
-
 
   <mat-sidenav-content class="main-content">
     <router-outlet></router-outlet>

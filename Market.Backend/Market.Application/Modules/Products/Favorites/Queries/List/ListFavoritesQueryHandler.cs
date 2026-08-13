@@ -27,13 +27,6 @@
 
             return await PageResult<ListFavoritesQueryDto>
                 .FromQueryableAsync(pq, request.Paging, ct);
-                PublicUserEntityId = x.PublicUserEntityId,
-                ProductEntityId = x.ProductEntityId,
-                DateAdded = x.DateAdded
-            });
-
-            return await PageResult<ListFavoritesQueryDto>
-                .FromQueryableAsync(pq, request.Page, ct);
         }
     }
 }

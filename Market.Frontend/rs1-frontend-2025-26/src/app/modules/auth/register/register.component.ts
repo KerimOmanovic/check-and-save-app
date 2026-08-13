@@ -4,20 +4,6 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { AuthApiService } from '../../../api-services/auth/auth-api.service';
 import { RegisterCommand } from '../../../api-services/auth/auth-api.model';
-// import { Component } from '@angular/core';
-//
-// @Component({
-//   selector: 'app-register',
-//   standalone: false,
-//   templateUrl: './register.component.html',
-//   styleUrl: './register.component.scss',
-// })
-// export class RegisterComponent {
-//
-// }
-// register.component.ts
-import { Component } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
 @Component({
   selector: 'app-register',
@@ -48,8 +34,6 @@ export class RegisterComponent {
         gender: ['female', [Validators.required]],
       },
       { validators: [this.passwordsMatchValidator] },
-      },
-      { validators: [this.passwordsMatchValidator] }
     );
   }
 
@@ -64,7 +48,6 @@ export class RegisterComponent {
     this.successMessage = '';
 
     if (this.form.invalid || this.isLoading)  {
-    if (this.form.invalid) {
       this.form.markAllAsTouched();
       return;
     }
@@ -95,12 +78,5 @@ export class RegisterComponent {
           err?.error?.message || err?.error?.title || 'Registracija nije uspjela. Pokušaj ponovo.';
       },
     });
-    setTimeout(() => {
-      this.isLoading = false;
-      this.successMessage = 'Registracija uspješna. Sada se možeš prijaviti.';
-      this.form.reset();
-      this.hidePassword = true;
-      this.hideConfirmPassword = true;
-    }, 900);
   }
 }

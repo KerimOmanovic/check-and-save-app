@@ -41,10 +41,3 @@
         }
     }
 }
-                DateAdded = x.DateAdded
-            });
-
-            return await PageResult<ListProductsQueryDto>.FromQueryableAsync(pq, request.Page, ct);
-        }
-    }
-}

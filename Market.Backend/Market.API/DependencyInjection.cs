@@ -41,7 +41,6 @@ public static class DependencyInjection
             .ValidateOnStart();
 
         // JWT auth
-        // JWT auth (reads from IOptions<JwtOptions>)
         services.AddAuthentication(o =>
         {
             o.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
@@ -50,10 +49,6 @@ public static class DependencyInjection
         .AddJwtBearer(o =>
         {
             var jwt = configuration.GetSection(JwtOptions.SectionName).Get<JwtOptions>()!;
-        .AddJwtBearer((o) =>
-        {
-            var jwt = configuration.GetSection(JwtOptions.SectionName).Get<JwtOptions>()!;
-
             o.TokenValidationParameters = new()
             {
                 ValidateIssuer = true,
@@ -81,9 +76,6 @@ public static class DependencyInjection
                           ctx.User.HasClaim("is_admin", "true") ||
                           ctx.User.HasClaim("is_manager", "true") ||
                           ctx.User.HasClaim("is_public_user", "true")));
-            o.FallbackPolicy = new AuthorizationPolicyBuilder()
-                .RequireAuthenticatedUser()
-                .Build();
         });
 
         // Swagger with Bearer auth

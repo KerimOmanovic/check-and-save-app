@@ -1,7 +1,6 @@
 import { Component, inject } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
-import { Router } from '@angular/router';
 import { BaseComponent } from '../../../core/components/base-classes/base-component';
 import { AuthFacadeService } from '../../../core/services/auth/auth-facade.service';
 import { LoginCommand } from '../../../api-services/auth/auth-api.model';
@@ -29,12 +28,6 @@ export class LoginComponent extends BaseComponent {
   form = this.fb.group({
     email: ['', [Validators.required, Validators.email]],
     password: ['', [Validators.required]],
-  private currentUser = inject(CurrentUserService);
-  hidePassword = true;
-
-  form = this.fb.group({
-    email: ['admin@market.local', [Validators.required, Validators.email]],
-    password: ['Admin123!', [Validators.required]],
     rememberMe: [false],
   });
 
@@ -55,8 +48,6 @@ export class LoginComponent extends BaseComponent {
         const returnUrl = this.getSafeReturnUrl();
         const target = returnUrl ?? this.currentUser.getDefaultRoute();
         this.router.navigateByUrl(target);
-        const target = this.currentUser.getDefaultRoute();
-        this.router.navigate([target]);
       },
       error: (err) => {
         this.stopLoading('Invalid credentials. Please try again.');

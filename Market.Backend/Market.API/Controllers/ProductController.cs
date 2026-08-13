@@ -43,8 +43,6 @@ public class ProductController(ISender sender) : ControllerBase
 
     [HttpGet("{id:int}")]
     [AllowAnonymous]
-
-    [HttpGet("{id:int}")]
     public async Task<GetProductByIdQueryDto> GetById(int id, CancellationToken ct)
     {
         return await sender.Send(new GetProductByIdQuery { Id = id }, ct);
