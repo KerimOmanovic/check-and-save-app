@@ -2,18 +2,6 @@
   display: block;
 }
 
-$primary: #0f3d2e;
-$primary-dark: #0b2e23;
-$primary-light: #1f5a45;
-
-$beige: #f6f3ec;
-$card: #ffffff;
-
-$text: #1f2a24;
-$text-muted: #4e5d55;
-
-$border: rgba(205, 187, 154, 0.5);
-$shadow: rgba(15, 61, 46, 0.12);
 $primary: var(--app-primary-color);
 $primary-dark: var(--app-primary-dark-color);
 $primary-light: var(--app-primary-hover-color);
@@ -101,14 +89,12 @@ $shadow: var(--app-card-shadow);
 }
 
 .search-bar input::placeholder {
-  color: rgba(15, 61, 46, 0.55);
   color: $text-muted;
 }
 
 .search-submit {
   border: none;
   background: $primary;
-  color: #fff;
   color: var(--app-on-primary-color);
   font-weight: 700;
   padding: 12px 18px;
@@ -154,7 +140,6 @@ $shadow: var(--app-card-shadow);
 }
 
 .results-count {
-  background: rgba(15, 61, 46, 0.08);
   background: var(--app-primary-tint-color);
   color: $primary;
   padding: 6px 12px;
@@ -172,9 +157,6 @@ $shadow: var(--app-card-shadow);
 .empty-state {
   grid-column: 1 / -1;
   border-radius: 18px;
-  border: 1px dashed rgba(15, 61, 46, 0.22);
-  background: rgba(15, 61, 46, 0.04);
-  box-shadow: 0 12px 30px rgba(15, 61, 46, 0.06);
   border: 1px dashed $border;
   background: var(--app-primary-tint-color);
   box-shadow: 0 12px 30px var(--app-primary-tint-color);
@@ -209,15 +191,12 @@ $shadow: var(--app-card-shadow);
 
 .result-card {
   border-radius: 20px;
-  border: 1px solid rgba(15, 61, 46, 0.12);
-  background: #fff;
   border: 1px solid var(--app-primary-tint-color);
   background: $card;
   padding: 16px;
   display: grid;
   gap: 14px;
   position: relative;
-  box-shadow: 0 12px 30px rgba(15, 61, 46, 0.08);
   box-shadow: 0 12px 30px var(--app-primary-tint-color);
   transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
   cursor: pointer;
@@ -226,8 +205,6 @@ $shadow: var(--app-card-shadow);
 .result-card:hover,
 .result-card:focus-visible {
   transform: translateY(-4px);
-  border-color: rgba(15, 61, 46, 0.28);
-  box-shadow: 0 18px 38px rgba(15, 61, 46, 0.16);
   border-color: $border;
   box-shadow: 0 18px 38px var(--app-strong-shadow);
   outline: none;
@@ -235,7 +212,6 @@ $shadow: var(--app-card-shadow);
 
 .card-badge {
   align-self: flex-start;
-  background: rgba(15, 61, 46, 0.12);
   background: var(--app-primary-tint-color);
   color: $primary;
   font-size: 11px;
@@ -257,8 +233,6 @@ $shadow: var(--app-card-shadow);
   display: grid;
   place-items: center;
   color: $primary;
-  background: rgba(15, 61, 46, 0.06);
-  box-shadow: inset 0 0 0 1px rgba(15, 61, 46, 0.1);
   background: var(--app-primary-tint-color);
   box-shadow: inset 0 0 0 1px var(--app-primary-tint-color);
 }
@@ -315,14 +289,11 @@ $shadow: var(--app-card-shadow);
 
 .price-old {
   font-size: 12px;
-  color: rgba(15, 61, 46, 0.45);
   color: $text-muted;
   text-decoration: line-through;
 }
 
 .card-btn {
-  border: 1px solid rgba(15, 61, 46, 0.2);
-  background: rgba(15, 61, 46, 0.06);
   border: 1px solid $border;
   background: var(--app-primary-tint-color);
   color: $primary;
@@ -337,7 +308,6 @@ $shadow: var(--app-card-shadow);
 .card-btn:hover,
 .card-btn:focus-visible {
   background: $primary;
-  color: #fff;
   color: var(--app-on-primary-color);
   border-color: $primary;
   outline: none;
@@ -346,8 +316,6 @@ $shadow: var(--app-card-shadow);
 .tag {
   border-radius: 999px;
   padding: 8px 14px;
-  border: 1px solid rgba(15, 61, 46, 0.18);
-  background: rgba(15, 61, 46, 0.05);
   border: 1px solid $border;
   background: var(--app-primary-tint-color);
   color: $primary;
@@ -360,7 +328,6 @@ $shadow: var(--app-card-shadow);
 .tag.active,
 .tag:hover {
   background: $primary;
-  color: #fff;
   color: var(--app-on-primary-color);
   border-color: $primary;
 }
@@ -396,10 +363,6 @@ $shadow: var(--app-card-shadow);
   grid-template-columns: 44px 1fr;
   gap: 14px;
   align-items: center;
-  border: 1px solid rgba(15, 61, 46, 0.12);
-  border-radius: 16px;
-  padding: 14px 16px;
-  background: rgba(15, 61, 46, 0.04);
   border: 1px solid var(--app-primary-tint-color);
   border-radius: 16px;
   padding: 14px 16px;
@@ -410,8 +373,6 @@ $shadow: var(--app-card-shadow);
 }
 
 .action-card:hover {
-  background: rgba(15, 61, 46, 0.1);
-  border-color: rgba(15, 61, 46, 0.2);
   background: var(--app-primary-tint-color);
   border-color: $border;
 }
@@ -420,7 +381,6 @@ $shadow: var(--app-card-shadow);
   width: 44px;
   height: 44px;
   border-radius: 14px;
-  background: rgba(15, 61, 46, 0.12);
   background: var(--app-primary-tint-color);
   display: grid;
   place-items: center;
@@ -460,19 +420,16 @@ $shadow: var(--app-card-shadow);
 
 .ghost-btn {
   background: transparent;
-  border-color: rgba(15, 61, 46, 0.2);
   border-color: $border;
   color: $primary;
 }
 
 .ghost-btn:hover {
-  background: rgba(15, 61, 46, 0.08);
   background: var(--app-primary-tint-color);
 }
 
 .primary-btn {
   background: $primary;
-  color: #fff;
   color: var(--app-on-primary-color);
   border-color: $primary;
 }

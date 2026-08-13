@@ -27,7 +27,6 @@
   }
 
   p {
-    color: #596673;
     color: var(--app-muted-text-color);
   }
 }
@@ -36,8 +35,6 @@
   display: inline-block;
   padding: 0.15rem 0.5rem;
   border-radius: 999px;
-  background: #dfeeff;
-  color: #194466;
   background: var(--app-primary-tint-color);
   color: var(--app-primary-dark-color);
 }
@@ -50,6 +47,5 @@
   margin-top: 1rem;
   font-size: 1.35rem;
   font-weight: 700;
-  color: #1f6d2f;
   color: var(--app-primary-color);
 }

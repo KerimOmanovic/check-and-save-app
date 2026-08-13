@@ -31,15 +31,10 @@ export class LoginComponent extends BaseComponent {
     password: ['', [Validators.required]],
   private currentUser = inject(CurrentUserService);
   hidePassword = true;
-  successMessage =
-    this.route.snapshot.queryParamMap.get('registered') === 'true'
-      ? 'Registracija uspješna. Prijavite se da biste nastavili.'
-      : null;
-
 
   form = this.fb.group({
-    email: ['', [Validators.required, Validators.email]],
-    password: ['', [Validators.required]],
+    email: ['admin@market.local', [Validators.required, Validators.email]],
+    password: ['Admin123!', [Validators.required]],
     rememberMe: [false],
   });
 

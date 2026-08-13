@@ -128,20 +128,25 @@ body {
 
 
 
-html {
-  height: 100%;
-  overflow-y: scroll;
-  overflow-x: hidden;
-}
+// ============================================
+// BODY & HTML BASE STYLES
+// ============================================
 
 body {
-  min-height: 100%;
-  margin: 0;
-  font-family: Roboto, "Helvetica Neue", sans-serif;
   color-scheme: light;
   background-color: #f6f3ec;
   color: #1f2a24;
   font: var(--mat-sys-body-medium);
+  margin: 0;
+}
+
+html, body {
+  height: 100%;
+}
+
+body {
+  margin: 0;
+  font-family: Roboto, "Helvetica Neue", sans-serif;
 }
 
 // ============================================
@@ -212,9 +217,10 @@ $secondary-color: #cdbb9a;
 
 
 // ============================================
-// GLOBALNI PAGINATOR STYLING
+// GLOBALNI PAGINATOR STYLING - ZELENA BOJA
 // ============================================
 
+// Custom paginator - page-indicator klasa
 .paginator-bar .paginator-actions .nav-buttons .page-indicator {
   background: linear-gradient(135deg, $primary-color 0%, $primary-light 100%) !important;
   box-shadow: 0 2px 8px rgba(15, 61, 46, 0.3) !important;
@@ -225,6 +231,7 @@ $secondary-color: #cdbb9a;
   }
 }
 
+// Material paginator buttons
 .mat-mdc-paginator {
   .mat-mdc-icon-button {
     color: $primary-color !important;
@@ -247,6 +254,7 @@ $secondary-color: #cdbb9a;
   }
 }
 
+// App-fit-paginator-bar komponenta
 app-fit-paginator-bar {
   .page-indicator {
     background: linear-gradient(135deg, $primary-color 0%, $primary-light 100%) !important;
@@ -267,6 +275,7 @@ app-fit-paginator-bar {
   }
 }
 
+// Fallback za sve paginatore
 [class*="paginator"] {
   .page-indicator,
   [class*="page-indicator"] {
@@ -282,7 +291,7 @@ app-fit-paginator-bar {
 
 
 // ============================================
-// GLOBALNI BUTTON STYLING
+// GLOBALNI BUTTON STYLING - ZELENA BOJA
 // ============================================
 
 .mat-mdc-raised-button.mat-primary {
@@ -305,7 +314,7 @@ app-fit-paginator-bar {
 
 
 // ============================================
-// FORM FIELDS - FOCUS
+// FORM FIELDS - ZELENA BOJA ZA FOCUS
 // ============================================
 
 .mat-mdc-form-field.mat-focused {
@@ -393,9 +402,6 @@ a {
   }
 }
 
-// ============================================
-// ADMIN DESIGN TOKENS
-// ============================================
 
 
 :root {
@@ -473,9 +479,6 @@ a {
   }
 }
 
-// ============================================
-// ADMIN LIST PAGES - TOPBAR/FILTER STYLING
-// ============================================
 
 .admin-page {
   .topbar-inner {
@@ -642,15 +645,6 @@ a {
     }
   }
 }
-
-.mat-datepicker-content {
-  background: #ffffff !important;
-  border-radius: 12px !important;
-  box-shadow: 0 8px 24px rgba(15, 61, 46, 0.15) !important;
-}
-
-.mat-calendar {
-  background: #ffffff !important;
 app-root > div,
 router-outlet + * {
   background: var(--app-bg-color);

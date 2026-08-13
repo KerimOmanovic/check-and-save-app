@@ -3,7 +3,6 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { BaseFormComponent } from '../../../../core/components/base-classes/base-form-component';
 import {
   GetProductByIdQueryDto,
-  UpdateProductCommand,
   UpdateProductCommand
 } from '../../../../api-services/products/products-api.models';
 import { ProductsApiService } from '../../../../api-services/products/products-api.service';
@@ -26,7 +25,6 @@ import { allItemsPaging } from '../../../../core/models/paging/paging-utils';
   styleUrl: './products-edit.component.scss',
   providers: [ProductFormService]
 })
-export class ProductsEditComponent extends BaseFormComponent<GetProductByIdQueryDto> implements OnInit {
 export class ProductsEditComponent
   extends BaseFormComponent<GetProductByIdQueryDto>
   implements OnInit {
@@ -42,7 +40,6 @@ export class ProductsEditComponent
   private toaster = inject(ToasterService);
 
   productId!: number;
-  dateAddedLabel: string | null = null;
   dateAddedLabel = '';
 
   categories: ListCategoriesQueryDto[] = [];
@@ -51,14 +48,6 @@ export class ProductsEditComponent
   branches: ListBranchesQueryDto[] = [];
   filteredBranches: ListBranchesQueryDto[] = [];
 
-  // Image upload
-  currentImageUrl: string | null = null;
-  isUploading = false;
-  selectedFile: File | null = null;
-  previewUrl: string | null = null;
-
-  ngOnInit(): void {
-    this.productId = Number(this.route.snapshot.params['id']);
   ngOnInit(): void {
     const id = this.route.snapshot.params['id'];
     this.productId = Number(id);
@@ -76,26 +65,6 @@ export class ProductsEditComponent
 
   protected loadData(): void {
     this.startLoading();
-    this.api.getById(this.productId).subscribe({
-      next: (product: GetProductByIdQueryDto) => {
-        this.model = product;
-        this.form = this.formService.createProductForm(product);
-        this.currentImageUrl = product.imageURL || null;
-        this.dateAddedLabel = product.dateAdded;
-        this.stopLoading();
-
-        // Setup branch filtering after form is ready
-        this.setupBranchFiltering();
-
-        // Load branches for the selected store
-        if (product.storeEntityId) {
-          this.loadBranches(product.storeEntityId);
-        }
-      },
-      error: (err: any) => {
-        this.stopLoading('Greška pri učitavanju proizvoda');
-        this.toaster.error('Proizvod nije pronađen');
-        console.error('Load product error:', err);
     console.log('Loading product data for ID:', this.productId);
 
     this.api.getById(this.productId).subscribe({
@@ -133,7 +102,6 @@ export class ProductsEditComponent
   }
 
   protected save(): void {
-    if (this.form.invalid) {
     // Provjeri validnost forme
     if (this.form.invalid) {
       // Markiraj sva polja kao touched da se prikažu validacione greške
@@ -141,10 +109,6 @@ export class ProductsEditComponent
         this.form.get(key)?.markAsTouched();
       });
       this.toaster.warning('Molimo popunite sva obavezna polja');
-      return;
-    }
-
-    if (this.isLoading) return;
       console.warn('Form is invalid:', this.getFormValidationErrors());
       return;
     }
@@ -157,8 +121,6 @@ export class ProductsEditComponent
 
     const command: UpdateProductCommand = this.form.getRawValue() as UpdateProductCommand;
 
-    this.api.update(this.productId, command).subscribe({
-      next: () => {
     console.log('📤 Sending product update command:', command);
 
     this.api.update(this.productId, command).subscribe({
@@ -168,45 +130,6 @@ export class ProductsEditComponent
         this.toaster.success('Proizvod je uspješno ažuriran');
         this.router.navigate(['/admin/products']);
       },
-      error: (err: any) => {
-        this.stopLoading('Greška pri ažuriranju proizvoda');
-        console.error('Update product error:', err);
-      }
-    });
-  }
-
-  // === IMAGE UPLOAD ===
-
-  onFileSelected(event: Event): void {
-    const input = event.target as HTMLInputElement;
-    if (!input.files?.length) return;
-
-    this.selectedFile = input.files[0];
-
-    const reader = new FileReader();
-    reader.onload = (e) => {
-      this.previewUrl = e.target?.result as string;
-    };
-    reader.readAsDataURL(this.selectedFile);
-  }
-
-  onUploadImage(): void {
-    if (!this.selectedFile || this.isUploading) return;
-
-    this.isUploading = true;
-    this.api.uploadImage(this.productId, this.selectedFile).subscribe({
-      next: (result) => {
-        this.currentImageUrl = result.imageUrl;
-        this.form.patchValue({ imageURL: result.imageUrl });
-        this.previewUrl = null;
-        this.selectedFile = null;
-        this.isUploading = false;
-        this.toaster.success('Slika je uspješno uploadovana');
-      },
-      error: (err: any) => {
-        this.isUploading = false;
-        this.toaster.error('Greška pri uploadu slike');
-        console.error('Upload image error:', err);
       error: (err) => {
         console.error('❌ Update product failed:', err);
         console.error('Error details:', {
@@ -259,19 +182,6 @@ export class ProductsEditComponent
   }
 
   private loadFilters(): void {
-    this.categoriesApi.list({ paging: allItemsPaging }).subscribe({
-      next: (response) => { this.categories = response.items; },
-      error: (err) => { console.error('Load categories error:', err); }
-    });
-
-    this.brandsApi.list({ paging: allItemsPaging }).subscribe({
-      next: (response) => { this.brands = response.items; },
-      error: (err) => { console.error('Load brands error:', err); }
-    });
-
-    this.storesApi.list({ paging: allItemsPaging, onlyActive: true }).subscribe({
-      next: (response) => { this.stores = response.items; },
-      error: (err) => { console.error('Load stores error:', err); }
     // Učitaj kategorije
     this.categoriesApi.list({ paging: allItemsPaging }).subscribe({
       next: (response) => {
@@ -310,7 +220,6 @@ export class ProductsEditComponent
   }
 
   private setupBranchFiltering(): void {
-    this.form.get('storeEntityId')?.valueChanges.subscribe((storeId) => {
     // Osluškuj promjene u polju prodavnice
     this.form.get('storeEntityId')?.valueChanges.subscribe((storeId) => {
       console.log('Store changed to:', storeId);
@@ -320,11 +229,6 @@ export class ProductsEditComponent
 
   private loadBranches(storeId: number | null): void {
     if (!storeId) {
-      this.filteredBranches = [];
-      this.form.get('branchEntityId')?.setValue(null);
-      return;
-    }
-
       this.branches = [];
       this.filteredBranches = [];
       this.form.get('branchEntityId')?.setValue(null);
@@ -340,10 +244,6 @@ export class ProductsEditComponent
         next: (response) => {
           this.branches = response.items;
           this.filteredBranches = response.items;
-        },
-        error: (err) => { console.error('Load branches error:', err); }
-      });
-  }
           console.log('✅ Branches loaded:', this.filteredBranches.length);
 
           // Provjeri da li je trenutno odabrana poslovnica još uvijek validna

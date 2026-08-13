@@ -74,7 +74,7 @@ export class LogoutComponent implements OnInit {
 
       if (this.countdownSeconds <= 0) {
         clearInterval(intervalId);
-        this.router.navigate(['/']);
+        this.router.navigate(['/login']);
       }
     }, 1000);
   }

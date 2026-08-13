@@ -20,4 +20,11 @@
     <ProjectReference Include="..\Market.Shared\Market.Shared.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Modules\Notifications\NotificationType\Commands\Delete\" />
+    <Folder Include="Modules\Notifications\NotificationType\Commands\Update\" />
+    <Folder Include="Modules\Notifications\NotificationType\Queries\GetById\" />
+    <Folder Include="Modules\Notifications\NotificationType\Queries\List\" />
+  </ItemGroup>
+
 </Project>

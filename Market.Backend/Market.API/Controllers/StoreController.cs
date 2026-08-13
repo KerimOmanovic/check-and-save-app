@@ -6,7 +6,6 @@ using Market.Application.Modules.Store.Stores.Queries.Map;
 using Market.Application.Modules.Store.Stores.Commands.Delete;
 using Market.Application.Modules.Store.Stores.Queries.GetById;
 using Market.Application.Modules.Store.Stores.Queries.List;
-using Market.Application.Modules.Store.Stores.Queries.Map;
 using Market.Application.Modules.Stores.Store.Commands.Create;
 using Market.Application.Modules.Stores.Store.Commands.Update;
 
@@ -59,6 +58,5 @@ public class StoreController(ISender sender) : ControllerBase
     {
         return await sender.Send(new GetStoresMapQuery(), ct);
     }
-}
 }
 }

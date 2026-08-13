@@ -42,47 +42,54 @@
   <header class="topbar">
     <div class="topbar-inner">
 
+      <!-- Lijeva strana: logo + navigacijski linkovi -->
       <div class="topbar-left">
         <div class="logo">
-          <div class="logo-mark">
-            <mat-icon>storefront</mat-icon>
-          </div>
-          <span class="logo-text">Check<span class="logo-amp">&</span>Save</span>
+          <span class="logo-mark">CS</span>
+          <span class="logo-text">Check&Save</span>
         </div>
+
         <div class="topbar-links">
-          <span class="link" routerLink="/admin/categories">Kategorije</span>
+          <span class="link" routerLink="/admin/categories">Kategorije Proizvoda</span>
           <span class="link" routerLink="/admin/brands">Brendovi</span>
-          <span class="link is-active">Prodavnice</span>
-          <span class="link" routerLink="/admin/branches">Poslovnice</span>
-          <span class="link" routerLink="/admin/cities">Gradovi</span>
           <span class="link" routerLink="/admin/products">Proizvodi</span>
+          <span class="link" routerLink="/admin/cities">Gradovi</span>
+          <span class="link is-active">Prodavnice</span>
         </div>
       </div>
 
+      <!-- Desna strana: pretraga + dugme za dodavanje -->
       <div class="topbar-right">
-        <div class="field-wrapper">
-          <label class="topbar-label">Pretraga prodavnica</label>
-          <mat-form-field class="search-field" appearance="outline">
-            <input matInput placeholder="Naziv prodavnice..."
-                   (keyup.enter)="onSearch()" [(ngModel)]="request.search" />
-            <button mat-icon-button matSuffix type="button"
-                    *ngIf="request.search" (click)="clearSearch()" aria-label="Očisti pretragu">
-              <mat-icon>close</mat-icon>
-            </button>
-          </mat-form-field>
-        </div>
-
-        <div class="btn-wrapper">
-          <div class="btn-spacer"></div>
-          <button mat-raised-button class="btn-add" type="button" (click)="onCreate()">
-            <mat-icon>add</mat-icon> Nova prodavnica
+        <mat-form-field class="search-field" appearance="outline">
+          <mat-label>Pretraži prodavnice</mat-label>
+          <input
+            matInput
+            placeholder="Unesite naziv prodavnice..."
+            (keyup.enter)="onSearch()"
+            [(ngModel)]="request.search"
+          />
+          <button
+            mat-icon-button
+            matSuffix
+            type="button"
+            *ngIf="request.search"
+            (click)="clearSearch()"
+            aria-label="Clear search"
+          >
+            <mat-icon>close</mat-icon>
           </button>
-        </div>
+        </mat-form-field>
+
+        <button mat-raised-button class="btn-add" type="button" (click)="onCreate()">
+          <mat-icon>add</mat-icon>
+          Nova prodavnica
+        </button>
       </div>
 
     </div>
   </header>
 
+  <!-- Glavni sadržaj -->
   <div class="content">
     <div *ngIf="isLoading" class="loading-state">
       <mat-spinner diameter="50"></mat-spinner>
@@ -153,7 +160,12 @@
               >
                 <mat-icon>edit</mat-icon>
               </button>
-              <button mat-icon-button class="btn-delete" (click)="onDelete(store)" matTooltip="Obriši prodavnicu">
+              <button
+                mat-icon-button
+                class="btn-delete"
+                (click)="onDelete(store)"
+                matTooltip="Obriši prodavnicu"
+              >
                 <mat-icon>delete</mat-icon>
               </button>
             </div>
@@ -173,7 +185,9 @@
               <ng-template #noDataDefault>Nema pronađenih prodavnica.</ng-template>
                 Nema rezultata za traženi pojam.
               </ng-container>
-              <ng-template #noDataDefault>Nema pronađenih prodavnica.</ng-template>
+              <ng-template #noDataDefault>
+                Nema dodanih prodavnica.
+              </ng-template>
             </div>
           </td>
         </tr>

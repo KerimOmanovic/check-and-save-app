@@ -34,8 +34,6 @@
                 Name = x.Name,
                 StoreLabel = x.StoreEntity != null ? x.StoreEntity.Name : string.Empty,
                 LowestPrice = x.Prices.Select(p => (int?)p.Amount).Min(),
-                DateAdded = x.DateAdded,
-                ImageURL = x.ImageURL
                 DateAdded = x.DateAdded
             });
 
@@ -46,7 +44,7 @@
                 DateAdded = x.DateAdded
             });
 
-            return await PageResult<ListProductsQueryDto>.FromQueryableAsync(pq, request.Paging, ct);
+            return await PageResult<ListProductsQueryDto>.FromQueryableAsync(pq, request.Page, ct);
         }
     }
 }

@@ -11,7 +11,6 @@ namespace Market.API.Controllers;
 [Route("[controller]")]
 [Authorize]
 [Route("[controller]")]
-[Authorize]
 public class FavoritesController(ISender sender) : ControllerBase
 {
     [HttpPost]
@@ -41,13 +40,7 @@ public class FavoritesController(ISender sender) : ControllerBase
     [HttpDelete("{id:int}")]
     public async Task Delete(int id, CancellationToken ct)
     {
-        if (!int.TryParse(publicId, out var id))
-        {
-            return BadRequest("Favorite publicId nije validan.");
-        }
-
         await sender.Send(new DeleteFavoriteCommand { Id = id }, ct);
-        return NoContent();
     }
 
     [HttpGet("{id:int}")]

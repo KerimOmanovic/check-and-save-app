@@ -44,7 +44,7 @@ public class NotificationTypesController(ISender sender) : ControllerBase
         var type = await sender.Send(new GetNotifTypeByIdQry { Id = id }, ct);
     public async Task<GetNotificationTypeByIdQueryDto> GetById(int id, CancellationToken ct)
     {
-        var type = await sender.Send(new GetNotifTypeByIdQry { Id = id }, ct);
+        var type = await sender.Send(new GetNotificationTypeByIdQuery { Id = id }, ct);
         return type; 
     }
 

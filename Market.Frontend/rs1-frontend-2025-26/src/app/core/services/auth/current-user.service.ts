@@ -28,9 +28,9 @@ export class CurrentUserService {
   /** Pravilo: admin > ostali → client */
   getDefaultRoute(): string {
     const user = this.snapshot;
-    if (!user) return '/auth/login';
+    if (!user) return '/login';
 
-
+    // Napraviti u ovisnosti od uloge
     if (user.isAdmin) return '/admin';
     return '/client';
   }
